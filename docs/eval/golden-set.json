@@ -1,0 +1,172 @@
+{
+  "version": "0.1-draft",
+  "created": "2026-09-15",
+  "session": "session-03",
+  "status": "초안 — 채점 파이프라인 없음. 비교 대상이 있는 상태를 만드는 것이 목적이다.",
+  "corpus": {
+    "snapshot": "data/corpus/arxiv",
+    "sources": [
+      "arxiv"
+    ],
+    "note": "공개 자료만 사용한다 (ADR-004). 현재 16건(arXiv 2개 주제)이며, arXiv rate limit으로 계획한 5개 주제 중 2개만 수집됐다. 코퍼스가 늘어나면 expected_doc_ids를 다시 확인해야 한다 — 새 문서가 더 좋은 근거일 수 있고, 그러면 기존 기대값이 틀린 것이 된다.",
+    "size": 16
+  },
+  "seed": {
+    "run_id": "20260915-152557-c34630",
+    "note": "e2e 실행 1회의 출력을 씨앗으로 삼되, 기대 기준은 실행 결과가 아니라 코퍼스 원문(초록)을 직접 읽고 작성했다. 시스템 출력을 그대로 정답으로 삼으면 자기 자신을 기준으로 채점하게 된다."
+  },
+  "criteria_vocabulary": {
+    "min_citations": "초안이 인용해야 하는 서로 다른 doc_id의 최소 개수",
+    "expected_doc_ids": "코퍼스에 실제로 근거가 있는 문서. 최소 1건은 인용되어야 한다",
+    "must_mention": "초안에 등장해야 하는 핵심 주제어 (표현이 아니라 의미 기준으로 사람이 판정)",
+    "expect_uncovered": "true면 '근거 없음'으로 처리되어야 한다. 근거 없이 답을 지어내면 실패다"
+  },
+  "cases": [
+    {
+      "id": "GS-001",
+      "query": "LLM 멀티에이전트 협업 시스템을 설계하고 평가할 때 어떤 어려움이 보고되는가?",
+      "language": "ko",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2412.05449v1"
+        ],
+        "must_mention": [
+          "협업 프로토콜 설계",
+          "평가의 어려움"
+        ]
+      },
+      "rationale": "2412.05449v1 초록이 '협업 프로토콜 설계와 효과 평가가 여전히 큰 과제'라고 명시한다. 엔터프라이즈 맥락도 함께 언급된다."
+    },
+    {
+      "id": "GS-002",
+      "query": "멀티에이전트 LLM 프레임워크의 아키텍처 선택은 시스템 성능에 어떤 영향을 주는가?",
+      "language": "ko",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2602.03128v1"
+        ],
+        "must_mention": [
+          "지연 시간 또는 처리량",
+          "아키텍처 선택의 영향"
+        ]
+      },
+      "rationale": "2602.03128v1 초록이 아키텍처 선택만으로 지연·처리량에 수십 배(order-of-magnitude) 차이가 생긴다고 밝힌다. 수치 주장이라 근거 정확도 판정이 명확하다."
+    },
+    {
+      "id": "GS-003",
+      "query": "제조 현장에 LLM 기반 멀티에이전트 시스템을 적용한 연구에는 어떤 것이 있는가?",
+      "language": "ko",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 2,
+        "expected_doc_ids": [
+          "arXiv:2405.16887v2",
+          "arXiv:2406.01893v2"
+        ],
+        "must_mention": [
+          "제조 시스템",
+          "자연어 기반 에이전트 협상 또는 조정"
+        ]
+      },
+      "rationale": "같은 주제의 문서가 2건 있어 min_citations=2를 요구할 수 있는 유일한 케이스다. 출처를 하나만 물고 끝내는지 확인하는 용도."
+    },
+    {
+      "id": "GS-004",
+      "query": "LLM 에이전트의 정렬(alignment)을 재학습 없이 조정하는 접근이 있는가?",
+      "language": "ko",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2512.06196v1"
+        ],
+        "must_mention": [
+          "재학습 없이 조정",
+          "해석 가능한 보상 모델"
+        ]
+      },
+      "rationale": "2512.06196v1(ARCANE) 초록이 '재학습 없이 상호작용 시점에 선호 변화를 반영'한다고 명시한다."
+    },
+    {
+      "id": "GS-005",
+      "query": "금융 트레이딩에 멀티에이전트 LLM을 적용한 프레임워크가 있는가?",
+      "language": "ko",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2412.20138v7"
+        ],
+        "must_mention": [
+          "트레이딩 회사의 협업 구조 모방"
+        ]
+      },
+      "rationale": "2412.20138v7(TradingAgents)이 실제 트레이딩 회사의 협업 역학을 모방한 프레임워크라고 기술한다."
+    },
+    {
+      "id": "GS-006",
+      "query": "LLM의 성능을 평가하기 위해 멀티에이전트 구조를 사용하는 접근이 있는가?",
+      "language": "ko",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2404.01023v1"
+        ],
+        "must_mention": [
+          "LLM 평가를 위한 멀티에이전트 모델"
+        ]
+      },
+      "rationale": "'멀티에이전트로 LLM을 평가한다'와 '멀티에이전트를 평가한다'를 혼동하지 않는지 보는 케이스. 검색이 주제어만 보고 GS-002와 섞기 쉽다."
+    },
+    {
+      "id": "GS-007",
+      "query": "과학 연구 자동화에서 LLM 멀티에이전트가 자율적으로 추론한 사례가 있는가?",
+      "language": "ko",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2512.13930v1"
+        ],
+        "must_mention": [
+          "원자 단위 시뮬레이션 설계·실행·해석",
+          "계층적 구조"
+        ]
+      },
+      "rationale": "2512.13930v1(MASTER)이 LLM이 시뮬레이션을 직접 설계·실행·해석한다고 기술한다."
+    },
+    {
+      "id": "GS-008",
+      "query": "한국 개인정보보호법상 가명정보를 처리할 때 충족해야 하는 요건은 무엇인가?",
+      "language": "ko",
+      "expect": {
+        "expect_uncovered": true,
+        "min_citations": 0,
+        "expected_doc_ids": [],
+        "must_mention": [
+          "근거 없음"
+        ]
+      },
+      "rationale": "코퍼스(arXiv AI 논문)에 근거가 전혀 없는 질의다. 모델이 사전 지식으로 답을 지어내면 이 프로젝트의 1순위 제약이 깨진다. 가장 중요한 케이스."
+    },
+    {
+      "id": "GS-009",
+      "query": "LLM 멀티에이전트 시스템 운영 시 GPU 비용을 얼마나 절감할 수 있는지 실측 수치가 있는가?",
+      "language": "ko",
+      "expect": {
+        "expect_uncovered": true,
+        "min_citations": 0,
+        "expected_doc_ids": [],
+        "must_mention": [
+          "근거 없음"
+        ]
+      },
+      "rationale": "주제는 코퍼스와 가깝지만(성능·비용) 구체적 GPU 비용 절감 수치는 어느 초록에도 없다. 검색이 '비슷해 보이는' 문서를 물어와 Verifier가 통과시키는지 보는 케이스 — 의미 유사도 검색의 대표적 실패 양상이다."
+    }
+  ]
+}

@@ -89,3 +89,132 @@ def load_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> ProviderSettings:
     api_key = (os.getenv("VLLM_API_KEY") or "").strip() or _NO_AUTH_PLACEHOLDER
 
     return ProviderSettings(base_url=base_url, model=model, api_key=api_key)
+
+
+# ---------------------------------------------------------------------------
+# 임베딩 / 벡터 스토어 / 계측 설정 (session-03)
+#
+# 이 모듈이 환경변수를 읽는 유일한 지점이라는 규칙(governance.md "코드 규칙")은
+# LLM 설정뿐 아니라 아래 설정에도 똑같이 적용된다. 다른 모듈은 아래 dataclass만 본다.
+# ---------------------------------------------------------------------------
+
+# 로컬 임베딩 기본 모델.
+# 선정 이유는 ADR-005. 요약하면 (1) 서빙 엔드포인트가 /v1/embeddings를 제공하지 않고,
+# (2) 대상 문서가 한국어·영어 혼재라 다국어 모델이어야 하며, (3) 118M 파라미터로
+# CPU에서도 돌아갈 만큼 가볍다.
+_DEFAULT_EMBEDDING_MODEL = "intfloat/multilingual-e5-small"
+
+# e5 계열은 질의와 문서에 서로 다른 접두사를 요구한다. 이걸 빠뜨리면 검색 품질이
+# 조용히 나빠지므로(에러가 아니라 점수만 나빠진다) 설정으로 들고 다닌다.
+_E5_QUERY_PREFIX = "query: "
+_E5_PASSAGE_PREFIX = "passage: "
+
+
+@dataclass(frozen=True)
+class EmbeddingSettings:
+    """임베딩 모델 설정.
+
+    LLM과 마찬가지로 모델 이름을 코드에 고정하지 않는다. 임베딩 모델을 바꾸면
+    인덱스를 다시 만들어야 하므로(차원·의미 공간이 달라진다), 인덱스 메타데이터에
+    모델 이름을 함께 기록해 불일치를 감지한다 (`src/tools/retrieval.py`).
+    """
+
+    model_name: str = _DEFAULT_EMBEDDING_MODEL
+    device: str = "cpu"
+    batch_size: int = 16
+    query_prefix: str = _E5_QUERY_PREFIX
+    passage_prefix: str = _E5_PASSAGE_PREFIX
+
+    @property
+    def uses_prefixes(self) -> bool:
+        """e5 계열만 접두사를 쓴다. 다른 모델로 바꾸면 접두사를 비워야 한다."""
+        return bool(self.query_prefix or self.passage_prefix)
+
+
+@dataclass(frozen=True)
+class VectorStoreSettings:
+    """Chroma 영속 저장소 설정 (ADR-005).
+
+    임베디드 모드라 서버 주소가 아니라 디스크 경로가 설정 대상이다. 세션 6에서
+    Qdrant 같은 서버형으로 옮기면 이 dataclass가 접속 정보로 바뀐다.
+    """
+
+    persist_dir: Path = REPO_ROOT / "var" / "chroma"
+    collection: str = "research_corpus"
+
+
+@dataclass(frozen=True)
+class TracingSettings:
+    """계측 백엔드 설정 (ADR-007).
+
+    Langfuse 서버가 구성돼 있으면 그쪽으로, 아니면 로컬 JSONL로 기록한다.
+    관측 데이터도 우리가 통제하는 인프라에 둔다는 제약(problem-statement.md §2)
+    때문에, 외부 SaaS 호스트를 기본값으로 두지 않는다 — 명시적으로 넣어야 켜진다.
+    """
+
+    langfuse_host: str = ""
+    langfuse_public_key: str = ""
+    langfuse_secret_key: str = ""
+    local_trace_dir: Path = REPO_ROOT / "var" / "traces"
+
+    @property
+    def langfuse_enabled(self) -> bool:
+        return bool(
+            self.langfuse_host and self.langfuse_public_key and self.langfuse_secret_key
+        )
+
+    def redacted(self) -> dict[str, object]:
+        """키를 노출하지 않는 진단용 표현."""
+        return {
+            "backend": "langfuse" if self.langfuse_enabled else "local-jsonl",
+            "langfuse_host": self.langfuse_host.split("://")[-1].split("/")[0]
+            if self.langfuse_host
+            else None,
+            "local_trace_dir": str(self.local_trace_dir),
+        }
+
+
+def _ensure_env_loaded(env_file: Path | None = DEFAULT_ENV_FILE) -> None:
+    if env_file is not None and env_file.exists():
+        load_dotenv(env_file, override=False)
+
+
+def load_embedding_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> EmbeddingSettings:
+    _ensure_env_loaded(env_file)
+    model_name = (os.getenv("EMBEDDING_MODEL") or "").strip() or _DEFAULT_EMBEDDING_MODEL
+
+    # e5 계열이 아니면 접두사를 자동으로 끈다. 모델을 바꿨는데 접두사가 남아
+    # 검색 품질이 조용히 나빠지는 상황을 막는다.
+    is_e5 = "e5" in model_name.lower()
+    return EmbeddingSettings(
+        model_name=model_name,
+        device=(os.getenv("EMBEDDING_DEVICE") or "cpu").strip() or "cpu",
+        query_prefix=_E5_QUERY_PREFIX if is_e5 else "",
+        passage_prefix=_E5_PASSAGE_PREFIX if is_e5 else "",
+    )
+
+
+def load_vectorstore_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> VectorStoreSettings:
+    _ensure_env_loaded(env_file)
+    raw_dir = (os.getenv("CHROMA_DIR") or "").strip()
+    persist_dir = Path(raw_dir) if raw_dir else REPO_ROOT / "var" / "chroma"
+    if not persist_dir.is_absolute():
+        persist_dir = REPO_ROOT / persist_dir
+    return VectorStoreSettings(
+        persist_dir=persist_dir,
+        collection=(os.getenv("CHROMA_COLLECTION") or "").strip() or "research_corpus",
+    )
+
+
+def load_tracing_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> TracingSettings:
+    _ensure_env_loaded(env_file)
+    raw_dir = (os.getenv("TRACE_LOG_DIR") or "").strip()
+    trace_dir = Path(raw_dir) if raw_dir else REPO_ROOT / "var" / "traces"
+    if not trace_dir.is_absolute():
+        trace_dir = REPO_ROOT / trace_dir
+    return TracingSettings(
+        langfuse_host=(os.getenv("LANGFUSE_HOST") or "").strip().rstrip("/"),
+        langfuse_public_key=(os.getenv("LANGFUSE_PUBLIC_KEY") or "").strip(),
+        langfuse_secret_key=(os.getenv("LANGFUSE_SECRET_KEY") or "").strip(),
+        local_trace_dir=trace_dir,
+    )

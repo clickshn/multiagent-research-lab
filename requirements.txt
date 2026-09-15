@@ -13,3 +13,14 @@ litellm==1.101.0
 
 # .env 로딩 (엔드포인트·모델을 코드에 고정하지 않기 위함)
 python-dotenv==1.1.1
+
+# 벡터 DB — 임베디드 모드, 별도 서버 불필요 (ADR-005)
+chromadb==1.5.5
+
+# 로컬 임베딩 — 서빙 엔드포인트가 /v1/embeddings를 제공하지 않아 임베딩만 로컬로
+# 내린다 (ADR-005). torch를 전이 의존성으로 끌고 오며, 검증 환경은 torch 2.9.0이다.
+sentence-transformers==5.1.1
+
+# 계측 — Langfuse 서버가 .env에 구성된 경우에만 실제로 전송한다. 구성되지 않으면
+# 로컬 JSONL 기록만 동작한다 (ADR-007).
+langfuse==4.15.2

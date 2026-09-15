@@ -1,0 +1,79 @@
+{
+  "source": "arxiv",
+  "query": "all:\"multi-agent\" AND all:\"large language model\"",
+  "license_note": "arXiv 메타데이터·초록은 공개 자료다. 본 프로젝트는 arXiv API로 수집한 메타데이터와 초록만 저장하며 논문 전문(PDF)은 보관하지 않는다.",
+  "documents": [
+    {
+      "doc_id": "arXiv:2512.06196v1",
+      "title": "ARCANE: A Multi-Agent Framework for Interpretable and Configurable Alignment",
+      "text": "As agents based on large language models are increasingly deployed to long-horizon tasks, maintaining their alignment with stakeholder preferences becomes critical. Effective alignment in such settings requires reward models that are interpretable so that stakeholders can understand and audit model objectives. Moreover, reward models must be capable of steering agents at interaction time, allowing preference shifts to be incorporated without retraining. We introduce ARCANE, a framework that frames alignment as a multi-agent collaboration problem that dynamically represents stakeholder preferences as natural-language rubrics: weighted sets of verifiable criteria that can be generated on-the-fly from task context. Inspired by utility theory, we formulate rubric learning as a reconstruction problem and apply a regularized Group-Sequence Policy Optimization (GSPO) procedure that balances interpretability, faithfulness, and computational efficiency. Using a corpus of 219 labeled rubrics derived from the GDPVal benchmark, we evaluate ARCANE on challenging tasks requiring multi-step reasoning and tool use. The learned rubrics produce compact, legible evaluations and enable configurable trade-offs (e.g., correctness vs. conciseness) without retraining. Our results show that rubric-based reward models offer a promising path toward interpretable, test-time adaptive alignment for complex, long-horizon AI systems.",
+      "locator": "abstract",
+      "url": "http://arxiv.org/abs/2512.06196v1",
+      "published": "2025-12-05",
+      "authors": "Charlie Masters, Marta Grześkiewicz, Stefano V. Albrecht"
+    },
+    {
+      "doc_id": "arXiv:2512.13930v1",
+      "title": "Hierarchical Multi-agent Large Language Model Reasoning for Autonomous Functional Materials Discovery",
+      "text": "Artificial intelligence is reshaping scientific exploration, but most methods automate procedural tasks without engaging in scientific reasoning, limiting autonomy in discovery. We introduce Materials Agents for Simulation and Theory in Electronic-structure Reasoning (MASTER), an active learning framework where large language models autonomously design, execute, and interpret atomistic simulations. In MASTER, a multimodal system translates natural language into density functional theory workflows, while higher-level reasoning agents guide discovery through a hierarchy of strategies, including a single agent baseline and three multi-agent approaches: peer review, triage-ranking, and triage-forms. Across two chemical applications, CO adsorption on Cu-surface transition metal (M) adatoms and on M-N-C catalysts, reasoning-driven exploration reduces required atomistic simulations by up to 90% relative to trial-and-error selection. Reasoning trajectories reveal chemically grounded decisions that cannot be explained by stochastic sampling or semantic bias. Altogether, multi-agent collaboration accelerates materials discovery and marks a new paradigm for autonomous scientific exploration.",
+      "locator": "abstract",
+      "url": "http://arxiv.org/abs/2512.13930v1",
+      "published": "2025-12-15",
+      "authors": "Samuel Rothfarb, Megan C. Davis, Ivana Matanovic, Baikun Li, Edward F. Holby, Wilton J. M. Kort-Kamp"
+    },
+    {
+      "doc_id": "arXiv:2405.16887v2",
+      "title": "A Large Language Model-based multi-agent manufacturing system for intelligent shopfloor",
+      "text": "As customer demand for multi-variety and small-batch production increases, dynamic disturbances place greater demands on manufacturing systems. To address such challenges, researchers proposed the multi-agent manufacturing system. However, conventional agent negotiation typically relies on pre-defined and fixed heuristic rules, which are ill-suited to managing complex and fluctuating disturbances. In current implementations, mainstream approaches based on reinforcement learning require the development of simulators and training models specific to a given shopfloor, necessitating substantial computational resources and lacking scalability. To overcome this limitation, the present study proposes a Large Language Model-based (LLM-based) multi-agent manufacturing system for intelligent shopfloor management. By defining the diverse modules of agents and their collaborative methods, this system facilitates the processing of all workpieces with minimal human intervention. The agents in this system consist of the Machine Server Module (MSM), Bid Inviter Module (BIM), Bidder Module (BM), Thinking Module (TM), and Decision Module (DM). By harnessing the reasoning capabilities of LLMs, these modules enable agents to dynamically analyze shopfloor information and select appropriate processing machines. The LLM-based modules, predefined by system prompts, provide dynamic functionality for the system without the need for pre-training. Extensive experiments were conducted in physical shopfloor settings. The results demonstrate that the proposed system exhibits strong adaptability, and achieves superior performance (makespan) and stability (as measured by sample standard deviation) compared to other approaches without requiring pre-training.",
+      "locator": "abstract",
+      "url": "http://arxiv.org/abs/2405.16887v2",
+      "published": "2024-05-27",
+      "authors": "Zhen Zhao, Dunbing Tang, Changchun Liu, Liping Wang, Zequn Zhang, Haihua Zhu, Kai Chen, Qingwei Nie, Yuchen Ji"
+    },
+    {
+      "doc_id": "arXiv:2412.05449v1",
+      "title": "Towards Effective GenAI Multi-Agent Collaboration: Design and Evaluation for Enterprise Applications",
+      "text": "AI agents powered by large language models (LLMs) have shown strong capabilities in problem solving. Through combining many intelligent agents, multi-agent collaboration has emerged as a promising approach to tackle complex, multi-faceted problems that exceed the capabilities of single AI agents. However, designing the collaboration protocols and evaluating the effectiveness of these systems remains a significant challenge, especially for enterprise applications. This report addresses these challenges by presenting a comprehensive evaluation of coordination and routing capabilities in a novel multi-agent collaboration framework. We evaluate two key operational modes: (1) a coordination mode enabling complex task completion through parallel communication and payload referencing, and (2) a routing mode for efficient message forwarding between agents. We benchmark on a set of handcrafted scenarios from three enterprise domains, which are publicly released with the report. For coordination capabilities, we demonstrate the effectiveness of inter-agent communication and payload referencing mechanisms, achieving end-to-end goal success rates of 90%. Our analysis yields several key findings: multi-agent collaboration enhances goal success rates by up to 70% compared to single-agent approaches in our benchmarks; payload referencing improves performance on code-intensive tasks by 23%; latency can be substantially reduced with a routing mechanism that selectively bypasses agent orchestration. These findings offer valuable guidance for enterprise deployments of multi-agent systems and advance the development of scalable, efficient multi-agent collaboration frameworks.",
+      "locator": "abstract",
+      "url": "http://arxiv.org/abs/2412.05449v1",
+      "published": "2024-12-06",
+      "authors": "Raphael Shu, Nilaksh Das, Michelle Yuan, Monica Sunkara, Yi Zhang"
+    },
+    {
+      "doc_id": "arXiv:2404.01023v1",
+      "title": "Large Language Model Evaluation Via Multi AI Agents: Preliminary results",
+      "text": "As Large Language Models (LLMs) have become integral to both research and daily operations, rigorous evaluation is crucial. This assessment is important not only for individual tasks but also for understanding their societal impact and potential risks. Despite extensive efforts to examine LLMs from various perspectives, there is a noticeable lack of multi-agent AI models specifically designed to evaluate the performance of different LLMs. To address this gap, we introduce a novel multi-agent AI model that aims to assess and compare the performance of various LLMs. Our model consists of eight distinct AI agents, each responsible for retrieving code based on a common description from different advanced language models, including GPT-3.5, GPT-3.5 Turbo, GPT-4, GPT-4 Turbo, Google Bard, LLAMA, and Hugging Face. Our developed model utilizes the API of each language model to retrieve code for a given high-level description. Additionally, we developed a verification agent, tasked with the critical role of evaluating the code generated by its counterparts. We integrate the HumanEval benchmark into our verification agent to assess the generated code's performance, providing insights into their respective capabilities and efficiencies. Our initial results indicate that the GPT-3.5 Turbo model's performance is comparatively better than the other models. This preliminary analysis serves as a benchmark, comparing their performances side by side. Our future goal is to enhance the evaluation process by incorporating the Massively Multitask Benchmark for Python (MBPP) benchmark, which is expected to further refine our assessment. Additionally, we plan to share our developed model with twenty practitioners from various backgrounds to test our model and collect their feedback for further improvement.",
+      "locator": "abstract",
+      "url": "http://arxiv.org/abs/2404.01023v1",
+      "published": "2024-04-01",
+      "authors": "Zeeshan Rasheed, Muhammad Waseem, Kari Systä, Pekka Abrahamsson"
+    },
+    {
+      "doc_id": "arXiv:2412.20138v7",
+      "title": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+      "text": "Significant progress has been made in automated problem-solving using societies of agents powered by large language models (LLMs). In finance, efforts have largely focused on single-agent systems handling specific tasks or multi-agent frameworks independently gathering data. However, the multi-agent systems' potential to replicate real-world trading firms' collaborative dynamics remains underexplored. TradingAgents proposes a novel stock trading framework inspired by trading firms, featuring LLM-powered agents in specialized roles such as fundamental analysts, sentiment analysts, technical analysts, and traders with varied risk profiles. The framework includes Bull and Bear researcher agents assessing market conditions, a risk management team monitoring exposure, and traders synthesizing insights from debates and historical data to make informed decisions. By simulating a dynamic, collaborative trading environment, this framework aims to improve trading performance. Detailed architecture and extensive experiments reveal its superiority over baseline models, with notable improvements in cumulative returns, Sharpe ratio, and maximum drawdown, highlighting the potential of multi-agent LLM frameworks in financial trading. TradingAgents is available at https://github.com/TauricResearch/TradingAgents.",
+      "locator": "abstract",
+      "url": "http://arxiv.org/abs/2412.20138v7",
+      "published": "2024-12-28",
+      "authors": "Yijia Xiao, Edward Sun, Di Luo, Wei Wang"
+    },
+    {
+      "doc_id": "arXiv:2602.03128v1",
+      "title": "Understanding Multi-Agent LLM Frameworks: A Unified Benchmark and Experimental Analysis",
+      "text": "Multi-agent LLM frameworks are widely used to accelerate the development of agent systems powered by large language models (LLMs). These frameworks impose distinct architectural structures that govern how agents interact, store information, and coordinate tasks. However, their impact on system performance remains poorly understood. This gap is critical, as architectural choices alone can induce order-of-magnitude differences in latency and throughput, as well as substantial variation in accuracy and scalability. Addressing this challenge requires (i) jointly evaluating multiple capabilities, such as orchestration overhead, memory behavior, planning, specialization, and coordination, and (ii) conducting these evaluations under controlled, framework-level conditions to isolate architectural effects. Existing benchmarks focus on individual capabilities and lack standardized framework-level evaluation. We address these limitations by (i) introducing an architectural taxonomy for systematically comparing multi-agent LLM frameworks along fundamental dimensions, and (ii) developing MAFBench, a unified evaluation suite that integrates existing benchmarks under a standardized execution pipeline. Using MAFBench, we conduct a controlled empirical study across several widely used frameworks. Our results show that framework-level design choices alone can increase latency by over 100x, reduce planning accuracy by up to 30%, and lower coordination success from above 90% to below 30%. Finally, we translate our findings into concrete architectural design principles and framework selection guidance, and outline promising future research directions.",
+      "locator": "abstract",
+      "url": "http://arxiv.org/abs/2602.03128v1",
+      "published": "2026-02-03",
+      "authors": "Abdelghny Orogat, Ana Rostam, Essam Mansour"
+    },
+    {
+      "doc_id": "arXiv:2406.01893v2",
+      "title": "Large Language Model-Enabled Multi-Agent Manufacturing Systems",
+      "text": "Traditional manufacturing faces challenges adapting to dynamic environments and quickly responding to manufacturing changes. The use of multi-agent systems has improved adaptability and coordination but requires further advancements in rapid human instruction comprehension, operational adaptability, and coordination through natural language integration. Large language models like GPT-3.5 and GPT-4 enhance multi-agent manufacturing systems by enabling agents to communicate in natural language and interpret human instructions for decision-making. This research introduces a novel framework where large language models enhance the capabilities of agents in manufacturing, making them more adaptable, and capable of processing context-specific instructions. A case study demonstrates the practical application of this framework, showing how agents can effectively communicate, understand tasks, and execute manufacturing processes, including precise G-code allocation among agents. The findings highlight the importance of continuous large language model integration into multi-agent manufacturing systems and the development of sophisticated agent communication protocols for a more flexible manufacturing system.",
+      "locator": "abstract",
+      "url": "http://arxiv.org/abs/2406.01893v2",
+      "published": "2024-06-04",
+      "authors": "Jonghan Lim, Birgit Vogel-Heuser, Ilya Kovalenko"
+    }
+  ]
+}
