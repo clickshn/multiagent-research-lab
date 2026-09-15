@@ -45,9 +45,25 @@ class LLMResponse:
     latency_s: float
     raw: Any = field(default=None, repr=False, compare=False)
 
+    # 캐시 적중으로 돌려준 응답인지 (ADR-008). 적중이면 `latency_s`는 0에 가깝고
+    # 실제 청구 토큰도 0이다 — 비용·지연 집계가 이 플래그로 둘을 구분한다.
+    cached: bool = False
+    # 캐시에 저장될 당시 이 호출이 실제로 걸렸던 지연. 적중일 때만 의미가 있으며
+    # "캐시가 없었다면 걸렸을 시간"을 재는 데 쓴다.
+    origin_latency_s: float = 0.0
+
     @property
     def total_tokens(self) -> int:
         return self.prompt_tokens + self.completion_tokens
+
+    @property
+    def billed_tokens(self) -> int:
+        """실제로 엔드포인트에 청구된 토큰. 캐시 적중이면 0이다.
+
+        `total_tokens`와 나누는 이유: 캐시 효과를 재려면 "요청이 요구한 토큰"과
+        "실제로 모델이 처리한 토큰"이 서로 다른 수라는 것을 타입이 드러내야 한다.
+        """
+        return 0 if self.cached else self.total_tokens
 
     @property
     def truncated(self) -> bool:
@@ -157,6 +173,24 @@ def get_provider(
     settings: ProviderSettings | None = None,
     *,
     observer: CallObserver | None = None,
+    cache: bool | None = None,
 ) -> LLMProvider:
-    """기본 프로바이더를 만든다. 노드는 이 함수만 알면 된다."""
-    return LiteLLMProvider(settings, observer=observer)
+    """기본 프로바이더를 만든다. 노드는 이 함수만 알면 된다.
+
+    `cache`가 None이면 `.env`의 `LLM_CACHE`를 따른다 (기본 꺼짐 — ADR-008).
+    캐시는 `LLMProvider`를 감싸는 데코레이터라, 켜고 꺼도 노드가 보는 인터페이스는
+    똑같다. 측정 스크립트가 `cache=True/False`로 같은 파이프라인을 두 조건에서
+    돌릴 수 있는 이유다.
+    """
+    base = LiteLLMProvider(settings, observer=observer)
+
+    from .config import load_cache_settings
+
+    cache_settings = load_cache_settings()
+    use_cache = cache_settings.enabled if cache is None else cache
+    if not use_cache:
+        return base
+
+    from .cache import CachingLLMProvider
+
+    return CachingLLMProvider(base, cache_settings)

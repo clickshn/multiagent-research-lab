@@ -4,7 +4,14 @@
 모델 호출은 전부 이 패키지를 거친다. 바깥에서는 아래 이름만 임포트한다.
 """
 
-from .config import ConfigError, ProviderSettings, load_settings
+from .cache import CacheStats, CachingLLMProvider, clear_cache
+from .config import (
+    CacheSettings,
+    ConfigError,
+    ProviderSettings,
+    load_cache_settings,
+    load_settings,
+)
 from .llm import (
     ChatMessage,
     LiteLLMProvider,
@@ -15,7 +22,12 @@ from .llm import (
 )
 
 __all__ = [
+    "CacheSettings",
+    "CacheStats",
+    "CachingLLMProvider",
     "ChatMessage",
+    "clear_cache",
+    "load_cache_settings",
     "ConfigError",
     "get_provider",
     "LiteLLMProvider",

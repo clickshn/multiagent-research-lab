@@ -34,6 +34,11 @@ class Finding:
 
     topic: str
     citations: tuple[Citation, ...] = ()
+    # 이 근거를 만든 재검색 회차 (0 = 최초 조사). 재검색 루프가 **새 근거를
+    # 실제로 찾았는지**를 사후에 판정하려면, 근거마다 언제 들어왔는지가 남아야
+    # 한다. session-03에서 "재검색 2회를 돌았지만 새 근거 0건"이라는 관찰이
+    # 나왔는데, 그때는 이 값이 없어 로그를 손으로 대조해야 했다.
+    revision: int = 0
 
     @property
     def coverage(self) -> Coverage:
@@ -54,6 +59,9 @@ class LLMCallRecord:
     completion_tokens: int
     latency_s: float
     revision: int
+    # 캐시 적중으로 돌려받은 호출인지 (ADR-008). 적중 호출은 엔드포인트에
+    # 토큰이 청구되지 않으므로, 비용 집계가 이 플래그로 둘을 나눠 센다.
+    cached: bool = False
 
 
 class ResearchState(TypedDict, total=False):

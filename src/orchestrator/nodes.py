@@ -93,6 +93,7 @@ def _record(node: str, response: LLMResponse, revision: int) -> LLMCallRecord:
         completion_tokens=response.completion_tokens,
         latency_s=round(response.latency_s, 4),
         revision=revision,
+        cached=response.cached,
     )
 
 
@@ -146,6 +147,8 @@ def _call(
                 "latency_s": round(response.latency_s, 4),
                 "finish_reason": response.finish_reason,
                 "truncated": response.truncated,
+                "cached": response.cached,
+                "billed_tokens": response.billed_tokens,
                 "prompt_version": prompts.PROMPT_VERSION,
                 **(span_metadata or {}),
             },
@@ -282,7 +285,7 @@ def make_researcher_node(
                 retriever, topic, query=query, top_k=top_k, sources=sources, trace=trace
             )
             if not chunks:
-                findings.append(Finding(topic=topic, citations=()))
+                findings.append(Finding(topic=topic, citations=(), revision=revision))
                 continue
 
             user = prompts.RESEARCHER_USER.format(
@@ -301,12 +304,16 @@ def make_researcher_node(
                 span_metadata={"topic": topic, "candidates": len(chunks), "retry": is_retry},
             )
             if response is None:
-                findings.append(Finding(topic=topic, citations=()))
+                findings.append(Finding(topic=topic, citations=(), revision=revision))
                 continue
 
             records.append(_record("researcher", response, revision))
             findings.append(
-                Finding(topic=topic, citations=_select_citations(response.text, chunks))
+                Finding(
+                    topic=topic,
+                    citations=_select_citations(response.text, chunks),
+                    revision=revision,
+                )
             )
 
         return ResearchState(

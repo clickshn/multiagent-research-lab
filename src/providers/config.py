@@ -218,3 +218,32 @@ def load_tracing_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> TracingSe
         langfuse_secret_key=(os.getenv("LANGFUSE_SECRET_KEY") or "").strip(),
         local_trace_dir=trace_dir,
     )
+
+
+@dataclass(frozen=True)
+class CacheSettings:
+    """LLM 응답 캐시 설정 (ADR-008).
+
+    기본값이 **꺼짐**인 이유: 캐시는 측정을 왜곡한다. 캐시가 기본으로 켜져 있으면
+    "이 하네스 변경이 지연을 줄였다"와 "두 번째 실행이라 캐시를 탔다"를 구분할 수
+    없게 된다. 이 프로젝트가 재려는 것이 정확히 하네스의 효과이므로(ADR-002),
+    캐시는 명시적으로 켠다.
+    """
+
+    enabled: bool = False
+    cache_dir: Path = REPO_ROOT / "var" / "llm_cache"
+
+    def redacted(self) -> dict[str, object]:
+        return {"enabled": self.enabled, "cache_dir": str(self.cache_dir)}
+
+
+def load_cache_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> CacheSettings:
+    _ensure_env_loaded(env_file)
+    raw_dir = (os.getenv("LLM_CACHE_DIR") or "").strip()
+    cache_dir = Path(raw_dir) if raw_dir else REPO_ROOT / "var" / "llm_cache"
+    if not cache_dir.is_absolute():
+        cache_dir = REPO_ROOT / cache_dir
+    return CacheSettings(
+        enabled=(os.getenv("LLM_CACHE") or "").strip().lower() in {"1", "true", "yes", "on"},
+        cache_dir=cache_dir,
+    )
