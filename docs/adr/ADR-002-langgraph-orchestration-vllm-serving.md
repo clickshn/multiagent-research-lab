@@ -5,8 +5,27 @@
 - **Decision:** 에이전트 오케스트레이션 프레임워크로 LangGraph를, 로컬 모델 서빙 계층으로 vLLM을 채택한다.
 - **Scope:** multiagent-research-lab (오케스트레이터 + 모델 서빙 계층)
 - **Decision Source:** Human
+- **Amended:** 2026-09-15 (session-02) — 서빙 형태가 "로컬 vLLM 기동"에서 "이미 배포된
+  원격 vLLM 엔드포인트 호출"로 확정됨. Review Trigger 해소 및 관련 항목 갱신. 상세는 ADR-003.
 
 ---
+
+## Amendment — 2026-09-15 (session-02)
+
+본 ADR이 작성될 당시에는 vLLM을 **사내 GPU에서 직접 기동**하는 것을 전제했다. 이후
+서빙 형태가 확정되어, vLLM을 새로 기동하지 않고 **KT Cloud AI Nexus에 이미 배포된
+vLLM 엔드포인트를 OpenAI 호환 API로 호출만** 하게 되었다 (ADR-003).
+
+그 결과:
+
+- **선택 자체는 유지된다.** 오케스트레이션은 LangGraph, 서빙 계층은 vLLM — 둘 다 그대로다.
+  바뀐 것은 vLLM 인스턴스를 *누가 기동하는가*뿐이다.
+- **"로컬 기동 시 GPU 메모리 선점" 재검토 조건은 전제 자체가 사라져 해소됐다.** 우리가
+  프로세스를 기동하지 않으므로 `gpu_memory_utilization`으로 인한 운영 충돌이 우리 쪽에서
+  발생하지 않는다. 아래 Alternatives의 Recheck if, Risks, Review Trigger에 반영했다.
+- **Negative에 적힌 "vLLM 오프라인 설치의 까다로움"도 현재 경로에서는 해당되지 않는다.**
+  다만 2026년 말 자원 만료 후 자체 기동으로 돌아갈 경우 다시 유효해지므로 삭제하지 않고
+  조건부로 남긴다.
 
 ## Context
 
@@ -73,7 +92,11 @@ Outliner / Researcher / Writer 골격을 작성할 수 있다. 두 계층 모두
 - **Pros:** 폐쇄망 설치가 훨씬 쉽고, GGUF 양자화로 적은 자원에서도 동작한다.
 - **Cons:** 동시 요청 처리량이 낮다.
 - **Rejected because:** 질의 1건당 호출이 여러 번인 멀티에이전트 워크로드에는 처리량이 부족하다.
-- **Recheck if:** GPU가 다른 워크로드와 공유 자원으로 확정되어, vLLM의 GPU 메모리 선점(`gpu_memory_utilization`)이 운영 충돌을 일으키는 경우.
+- **Recheck if:** ~~GPU가 다른 워크로드와 공유 자원으로 확정되어, vLLM의 GPU 메모리 선점(`gpu_memory_utilization`)이 운영 충돌을 일으키는 경우.~~
+  → **해소됨 (2026-09-15, session-02).** 원격 엔드포인트 재사용으로 전환했고 로컬 GPU 기동이
+  없으므로, 이 재검토 조건의 전제(우리가 vLLM 프로세스를 기동한다)가 성립하지 않는다.
+  Ollama / llama.cpp 재검토 사유로서는 종료한다. 서빙 재검토는 이제 ADR-003의
+  Review Trigger(2026년 말 자원 만료)가 담당한다.
 
 ### TGI (Text Generation Inference)
 
@@ -92,12 +115,18 @@ Outliner / Researcher / Writer 골격을 작성할 수 있다. 두 계층 모두
 ### Negative
 
 - LangChain 계열 전이 의존성 전부가 폐쇄망 반입 절차 대상이 된다. 반입 목록 관리 비용이 생긴다.
-- vLLM은 CUDA/torch 버전을 강하게 고정해 오프라인 설치가 까다롭다. 환경 구성 작업이 선행되어야 한다.
+- ~~vLLM은 CUDA/torch 버전을 강하게 고정해 오프라인 설치가 까다롭다. 환경 구성 작업이 선행되어야 한다.~~
+  → **현재 경로에서는 해당 없음 (session-02).** 이미 배포된 엔드포인트를 호출만 하므로 vLLM
+  런타임을 우리가 설치하지 않는다. 단 2026년 말 자원 만료 후 자체 기동으로 전환하면 다시 유효해진다.
 
 ### Risks
 
-- vLLM은 기동 시 GPU 메모리를 선점하므로 GPU 공유 환경과 충돌한다. GPU 전용 여부가 확정되지
-  않은 상태라, 공유로 확정되면 서빙 선택을 재검토해야 한다 (Review Trigger 참조).
+- ~~vLLM은 기동 시 GPU 메모리를 선점하므로 GPU 공유 환경과 충돌한다. GPU 전용 여부가 확정되지
+  않은 상태라, 공유로 확정되면 서빙 선택을 재검토해야 한다 (Review Trigger 참조).~~
+  → **해소됨 (2026-09-15, session-02).** 원격 엔드포인트 재사용으로 전환, 로컬 GPU 기동 없음.
+  GPU 전용/공유 여부는 더 이상 우리 쪽 서빙 선택을 좌우하지 않는다.
+- **(신규)** 서빙 인프라를 우리가 운영하지 않으므로 가용성·성능 특성이 외부 통제 하에 있다.
+  엔드포인트 장애 시 우리 쪽에 복구 수단이 없다. 상세는 ADR-003 Risks.
 - 프레임워크 API 변경이 잦으면 폐쇄망에서 버전을 올리는 비용이 커진다. 버전을 고정하고
   올릴 때만 반입 절차를 태우는 방식으로 완화한다.
 
@@ -105,7 +134,8 @@ Outliner / Researcher / Writer 골격을 작성할 수 있다. 두 계층 모두
 
 - [ ] LangGraph State 스키마 정의 (TypedDict + Annotated reducer)
 - [ ] Outliner / Researcher / Writer 노드 골격과 검증 루프 조건부 엣지 구성
-- [ ] vLLM OpenAI 호환 서버 기동 스크립트 + 엔드포인트 설정 주입 경로
+- [x] ~~vLLM OpenAI 호환 서버 기동 스크립트~~ → 불필요 (원격 엔드포인트 재사용, ADR-003) +
+      엔드포인트 설정 주입 경로 완료 (`.env` → `src/providers/`, session-02)
 - [ ] 폐쇄망 반입 대상 의존성 목록 작성 (버전 고정)
 - [ ] 체크포인터 백엔드 선택 및 중단·재개 테스트
 - [ ] Langfuse 계측 연동으로 노드별 지연·토큰 사용량 기록
@@ -119,9 +149,17 @@ Outliner / Researcher / Writer 골격을 작성할 수 있다. 두 계층 모두
 
 ## Review Trigger
 
-- GPU가 다른 워크로드와 공유 자원으로 확정되어, vLLM의 GPU 메모리 선점(`gpu_memory_utilization`)이 운영 충돌을 일으키는 경우 — Ollama / llama.cpp 재검토.
+- ~~GPU가 다른 워크로드와 공유 자원으로 확정되어, vLLM의 GPU 메모리 선점(`gpu_memory_utilization`)이 운영 충돌을 일으키는 경우 — Ollama / llama.cpp 재검토.~~
+
+  **상태: 해소됨 (2026-09-15, session-02)** — 원격 엔드포인트 재사용으로 전환, 로컬 GPU 기동 없음.
+  이 트리거는 "우리가 vLLM을 기동한다"를 전제로 했으나 그 전제가 사라졌다. 발동 조건이
+  성립할 수 없으므로 종료 처리한다.
+
+- **현재 유효한 서빙 재검토 트리거는 ADR-003으로 이관됐다** — 2026년 말 정부지원 GPU 자원
+  할당 만료 전 대체 엔드포인트 검토. 그 시점에 자체 기동을 선택하면 위 GPU 선점 이슈가
+  다시 살아나므로, ADR-003 재검토 시 본 ADR의 Amendment를 함께 참조할 것.
 
 ## References
 
-- **Related ADR:** ADR-001 (결정 기록 위치·형식)
+- **Related ADR:** ADR-001 (결정 기록 위치·형식), ADR-003 (모델 선택 및 서빙 구성 — 본 ADR의 서빙 전제를 갱신)
 - **Documentation:** `docs/problem-statement.md` (제약·성공 기준), `docs/architecture.md` (v1 개념도), `.claude/rules/orchestrator.md` (State/노드 컨벤션)
