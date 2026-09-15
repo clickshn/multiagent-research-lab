@@ -1,0 +1,127 @@
+# ADR-002: 오케스트레이션은 LangGraph, 로컬 서빙은 vLLM
+
+- **Status:** Proposed
+- **Date:** 2026-09-15
+- **Decision:** 에이전트 오케스트레이션 프레임워크로 LangGraph를, 로컬 모델 서빙 계층으로 vLLM을 채택한다.
+- **Scope:** multiagent-research-lab (오케스트레이터 + 모델 서빙 계층)
+- **Decision Source:** Human
+
+---
+
+## Context
+
+### Problem
+
+폐쇄망 멀티에이전트 리서치 시스템의 두 기반 계층 — 에이전트 실행을 조율하는
+오케스트레이션 프레임워크와 모델을 사내 GPU에서 서빙하는 계층 — 을 먼저 정해야
+Outliner / Researcher / Writer 골격을 작성할 수 있다. 두 계층 모두 이후 코드 전반이
+의존하므로 나중에 바꾸는 비용이 크다.
+
+특히 이 시스템은 "근거를 찾지 못하면 재검색한다"는 검증 루프를 핵심 요구로 갖는다.
+이 루프는 순환 구조라 단방향 DAG로 표현되지 않으며, 프레임워크가 사이클을 일급으로
+지원하지 않으면 제어 흐름을 프레임워크 바깥에서 따로 관리하게 된다.
+
+### Constraints
+
+- 폐쇄망이라 외부 LLM API를 쓸 수 없고, 모델은 사내 GPU에서 직접 서빙해야 한다.
+- GPU 자원이 제한적이며 다른 워크로드와 공유될 가능성이 있다. 질의 1건당 LLM 호출이
+  여러 번 발생하는 멀티에이전트 워크로드라 GPU당 처리량이 곧 시스템 처리량이다.
+- 모든 의존성이 폐쇄망 반입 절차 대상이다. 의존성 트리가 넓을수록 반입·유지 비용이 커진다.
+- 배치성 리서치 요청이므로 장시간 실행 중 중단·재개가 가능해야 한다.
+
+## Decision
+
+### Selected
+
+- **Technology:** LangGraph (오케스트레이션), vLLM (로컬 모델 서빙)
+- **Architecture:** 오케스트레이터는 LangGraph의 State 그래프로 구성하고, 검증 루프는 그래프의 조건부 엣지(사이클)로 표현한다. 에이전트는 vLLM이 제공하는 OpenAI 호환 엔드포인트를 통해서만 모델을 호출하며, 서빙 백엔드에 직접 의존하지 않는다.
+- **Implementation:** State 스키마는 TypedDict + Annotated reducer로 정의하고 노드는 순수 함수로 유지한다 (`.claude/rules/orchestrator.md`). vLLM은 OpenAI 호환 서버 모드로 기동하며, 엔드포인트 주소와 모델 이름은 설정으로 주입해 코드에 고정하지 않는다. 구체 모델 선택과 GPU 예산은 별도 ADR로 다룬다.
+
+## Rationale
+
+1. **모델은 고정하고, 오케스트레이션 구조·검증 루프·컨텍스트 관리 방식을 하네스로 분리해서
+   설계한다 — 이후 성능 변화가 모델 때문인지 하네스 때문인지 구분하기 위함이다.**
+   LangGraph의 State 그래프는 하네스를 선언적 코드로 만들어 버전 관리·diff 대상이 되게 하고,
+   vLLM의 OpenAI 호환 API는 오케스트레이션 코드를 서빙 백엔드와 분리한다. 두 계층이 분리돼야
+   한쪽을 고정한 채 다른 쪽만 바꿔가며 측정할 수 있다.
+2. 검증 루프가 순환 구조라 DAG로 표현할 수 없다. LangGraph는 사이클과 조건부 엣지를 일급으로
+   지원하므로, 루프 제어가 프레임워크 바깥으로 새지 않고 그래프 정의 안에 남는다.
+3. LangGraph의 체크포인팅으로 장시간 배치 작업의 중단·재개가 가능하다. 이를 직접 구현하면
+   상태 병합·재시도까지 우리가 유지보수해야 한다.
+4. vLLM의 continuous batching은 질의 1건당 LLM 호출이 여러 번인 멀티에이전트 워크로드에서
+   GPU당 처리량을 좌우한다. GPU가 제한 자원이라는 제약에 직접 대응한다.
+5. 두 선택 모두 OpenAI 호환 API 위에 서므로, 개발 단계에서는 설치가 쉬운 Ollama로 시작하고
+   운영에서 vLLM으로 교체해도 오케스트레이션 코드는 바뀌지 않는다. 하네스 분리가 실제로
+   제공하는 이점이며, 동시에 서빙 선택의 리스크 헤지 수단이다.
+
+## Alternatives
+
+### 순수 Python (함수 + 루프)으로 직접 오케스트레이션
+
+- **Pros:** 의존성이 최소이고 제어가 최대다. 폐쇄망 반입 부담이 가장 작다.
+- **Cons:** 체크포인팅·상태 병합·재시도를 직접 구현해야 한다.
+- **Rejected because:** 그 구현까지 폐쇄망에서 우리가 유지보수해야 하는 부담이 크다.
+
+### CrewAI / AutoGen
+
+- **Pros:** 역할 기반 고수준 추상화라 초기 구성이 빠르다.
+- **Cons:** State와 루프에 대한 명시적 제어가 약하다.
+- **Rejected because:** 하네스 변경의 영향을 격리해서 측정하기 어렵다 — 본 ADR의 핵심 원칙과 정면으로 충돌한다.
+
+### Ollama / llama.cpp (서빙 대안)
+
+- **Pros:** 폐쇄망 설치가 훨씬 쉽고, GGUF 양자화로 적은 자원에서도 동작한다.
+- **Cons:** 동시 요청 처리량이 낮다.
+- **Rejected because:** 질의 1건당 호출이 여러 번인 멀티에이전트 워크로드에는 처리량이 부족하다.
+- **Recheck if:** GPU가 다른 워크로드와 공유 자원으로 확정되어, vLLM의 GPU 메모리 선점(`gpu_memory_utilization`)이 운영 충돌을 일으키는 경우.
+
+### TGI (Text Generation Inference)
+
+- **Pros:** 성능 특성이 vLLM과 유사하다.
+- **Cons:** 폐쇄망 반입·운영 측면에서 vLLM 대비 추가 이점이 없다.
+- **Rejected because:** vLLM 대비 이 환경에서의 이점이 없어 선택 근거가 서지 않는다.
+
+## Consequences
+
+### Positive
+
+- 검증 루프를 그래프 정의 안에서 표현할 수 있어, 제어 흐름이 한 곳에 모인다.
+- 하네스와 모델 계층이 분리돼 성능 변화의 원인을 두 계층으로 나눠 측정할 수 있다.
+- OpenAI 호환 API 덕분에 개발 환경과 운영 환경에서 서빙 백엔드를 다르게 가져갈 수 있다.
+
+### Negative
+
+- LangChain 계열 전이 의존성 전부가 폐쇄망 반입 절차 대상이 된다. 반입 목록 관리 비용이 생긴다.
+- vLLM은 CUDA/torch 버전을 강하게 고정해 오프라인 설치가 까다롭다. 환경 구성 작업이 선행되어야 한다.
+
+### Risks
+
+- vLLM은 기동 시 GPU 메모리를 선점하므로 GPU 공유 환경과 충돌한다. GPU 전용 여부가 확정되지
+  않은 상태라, 공유로 확정되면 서빙 선택을 재검토해야 한다 (Review Trigger 참조).
+- 프레임워크 API 변경이 잦으면 폐쇄망에서 버전을 올리는 비용이 커진다. 버전을 고정하고
+  올릴 때만 반입 절차를 태우는 방식으로 완화한다.
+
+## Implementation
+
+- [ ] LangGraph State 스키마 정의 (TypedDict + Annotated reducer)
+- [ ] Outliner / Researcher / Writer 노드 골격과 검증 루프 조건부 엣지 구성
+- [ ] vLLM OpenAI 호환 서버 기동 스크립트 + 엔드포인트 설정 주입 경로
+- [ ] 폐쇄망 반입 대상 의존성 목록 작성 (버전 고정)
+- [ ] 체크포인터 백엔드 선택 및 중단·재개 테스트
+- [ ] Langfuse 계측 연동으로 노드별 지연·토큰 사용량 기록
+- [ ] 개발용 Ollama 백엔드로 동일 코드가 동작하는지 확인 (헤지 경로 검증)
+
+## Reversibility
+
+- **Reversible:** Yes
+- **Rollback:** 서빙 계층은 OpenAI 호환 API 뒤에 있어 엔드포인트 교체만으로 되돌릴 수 있다(비용 낮음). 오케스트레이션 계층은 State 그래프 정의와 노드 구성을 다시 써야 해 비용이 더 크다. 아직 코드가 작성되기 전이라 현재 시점의 되돌림 비용은 사실상 0이다.
+- **Migration Cost:** Medium
+
+## Review Trigger
+
+- GPU가 다른 워크로드와 공유 자원으로 확정되어, vLLM의 GPU 메모리 선점(`gpu_memory_utilization`)이 운영 충돌을 일으키는 경우 — Ollama / llama.cpp 재검토.
+
+## References
+
+- **Related ADR:** ADR-001 (결정 기록 위치·형식)
+- **Documentation:** `docs/problem-statement.md` (제약·성공 기준), `docs/architecture.md` (v1 개념도), `.claude/rules/orchestrator.md` (State/노드 컨벤션)
