@@ -8,3 +8,20 @@
 # log_retention_days       = 14
 # ecr_untagged_expire_days = 7
 # ecr_keep_last_images     = 5
+
+# --- session-07 추가 ---
+
+# ⚠️ 필수. 기본값이 없어서 이 값을 넣지 않으면 apply가 실패한다 (의도적).
+#    기본값을 두면 "비용 알람이 조용히 안 만들어진 상태"가 기본값이 된다.
+# budget_alert_email = "you@example.com"
+
+# monthly_budget_usd   = "5"
+# vpc_cidr             = "10.20.0.0/16"
+# task_cpu             = 2048
+# task_memory          = 4096
+# image_tag            = "dev"
+# vllm_model           = "gemma-4-31B-it"
+
+# SSM 파라미터 **이름**이다 (값이 아니다). 값은 Terraform이 다루지 않는다 —
+# infra/terraform/README.md "사전 준비 2" 참조.
+# vllm_base_param_name = "/multiagent-research-lab/vllm_base"

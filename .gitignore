@@ -76,8 +76,11 @@ var/chroma/
 *.tfstate
 *.tfstate.*
 .terraform/
-.terraform.lock.hcl
 terraform.tfvars
+# ⚠️ .terraform.lock.hcl은 **커밋한다** (session-07). Terraform이 커밋하도록 설계한
+# 파일이다 — 프로바이더의 sha256을 고정해 다른 머신·CI에서 같은 바이너리를 받게 한다.
+# versions.tf의 `~> 5.60`은 범위일 뿐이라 잠금 파일이 없으면 다음 init에서 다른 버전이 온다.
+# owasp-notes §3.1의 "의존성 해시 미고정" 중 Terraform 프로바이더 조각이 이걸로 닫힌다.
 crash.log
 
 # --- 고정 리비전으로 내려받은 모델 가중치 (ADR-011) ---
