@@ -151,15 +151,27 @@ case "${1:-help}" in
                               --query 'AttachedPolicies[].PolicyArn' --output text \
                               | tr -d '\r' | tr '\t' '\n')
     KEEP_RE="policy/${PREFIX}-(core|app)$"
-    TO_DETACH=()
-    echo "[INFO] 분리 대상:"
+
+    # ⚠️ **IAM 권한을 주는 정책은 마지막에 뗀다.**
+    # `IAMFullAccess`를 중간에 떼면 **그 시점 이후의 `iam:DetachUserPolicy`가 사라져
+    # 루프가 멈춘다.** session-08에서 뒤의 3개가 성공한 것은 IAM 전파 지연 덕분이지
+    # 설계가 옳아서가 아니다 — 전파가 빨랐으면 중간에 끊겼을 것이다.
+    #
+    # ⚠️ 이것은 **휴리스틱이다.** 어떤 관리형 정책이 `iam:DetachUserPolicy`를 주는지
+    # 확실히 알려면 정책 문서를 읽어야 하는데, 최소 권한 정책에는 `iam:GetPolicyVersion`이
+    # 없다(일부러 뺐다). 이름으로 거른다 — 새로운 이름 패턴은 여기에 추가해야 한다.
+    IAM_GRANTING_RE="(IAM|Admin|ActionsWithAWSResourceControl)"
+    NORMAL=() LAST=()
     for arn in "${ATTACHED[@]}"; do
       [ -z "${arn}" ] && continue
       [[ "${arn}" =~ ${KEEP_RE} ]] && continue
-      TO_DETACH+=("${arn}")
-      echo "  ${arn}"
+      if [[ "${arn##*/}" =~ ${IAM_GRANTING_RE} ]]; then LAST+=("${arn}"); else NORMAL+=("${arn}"); fi
     done
+    TO_DETACH=("${NORMAL[@]}" "${LAST[@]}")
     if [ ${#TO_DETACH[@]} -eq 0 ]; then echo "[INFO] 뗄 것이 없다."; exit 0; fi
+    echo "[INFO] 분리 대상 (IAM 권한을 주는 것은 마지막으로 미룬다):"
+    for arn in "${NORMAL[@]}"; do [ -n "${arn}" ] && echo "  ${arn}"; done
+    for arn in "${LAST[@]}"; do [ -n "${arn}" ] && echo "  ${arn}   <- 마지막 (IAM 권한)"; done
     LOG="${RENDER_DIR}/detached-$(date +%Y%m%d-%H%M%S).txt"
     printf '%s\n' "${TO_DETACH[@]}" > "${LOG}"
     echo "[INFO] 롤백용 목록: ${LOG}"

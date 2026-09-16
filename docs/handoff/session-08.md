@@ -231,11 +231,14 @@ cd infra/terraform && ./apply.sh plan     # ← 최소 권한만으로 도는지
 | `./apply.sh plan` (분리 직후) | ⚠️ **No changes — 그러나 이것은 검증이 아니었다**(아래 5) |
 | `detach` (재시도) | ❌ **`AccessDenied: iam:DetachUserPolicy`** |
 | **`./apply.sh plan` (시간 경과 후)** | ❌ **`AccessDenied: budgets:ListTagsForResource`** |
+| 루트 콘솔에서 `deploy-core`에 budgets 태깅 3종 적용 | ✅ |
+| **`./apply.sh plan` (보정 후)** | ✅ **No changes — 이번 통과는 신뢰할 수 있다**(아래 7) |
 
-**최종 상태: `deploy-core` + `deploy-app` + `AWSBudgetsActionsWithAWSResourceControlAccess` 1개.
-그리고 `plan`은 현재 실패한다** — 아래 (5)(6) 참조. 마무리에 루트 콘솔이 필요하다.
+**최종 상태: `deploy-core`(budgets 태깅 포함) + `deploy-app` +
+`AWSBudgetsActionsWithAWSResourceControlAccess` 1개. `./apply.sh plan`은 통과한다.**
+남은 것은 그 관리형 정책 1개 분리뿐이며 루트 콘솔이 필요하다.
 
-### 여기서 드러난 것 여섯 가지 — **전부 설계에서 놓친 것이다**
+### 여기서 드러난 것 일곱 가지 — **전부 설계에서 놓친 것이다**
 
 **(1) `PoliciesPerUser`는 10개다.** 이미 10개가 붙어 있으면 **"붙이고 나서 뗀다"는 순서가
 성립하지 않는다.** ADR-017이 안전 속성으로 내세운 순서 자체가 실행 불가였다.
@@ -279,6 +282,18 @@ Budgets Actions 정책이라 **예산 알람 1개를 위해 필요 이상으로 
 여기서 현실화됐다. **사용자 결정: 그래도 넣지 않는다** — 넣으면 자기 정책에 관리자 상당을
 써 넣을 수 있어 ADR-017의 전제가 무너진다. 정책 수정은 리소스를 새로 추가할 때뿐이라
 빈도가 낮다고 보고, **루트 콘솔 절차를 `infra/iam/README.md`에 문서화**하는 쪽을 택했다.
+
+**(7) 전파 지연은 방향에 따라 위험이 다르다 — (5)를 겪고 나서야 정리됐다.**
+
+| 변경 방향 | 전파 전에 관측되는 것 | 위험 |
+| --- | --- | --- |
+| 권한을 **뺀다** | 아직 되는 것처럼 보인다 | ⚠️ **거짓 통과** — (5)가 이 경우다. 검증으로 쓸 수 없다 |
+| 권한을 **더한다** | 아직 안 되는 것처럼 보인다 | 거짓 실패 — 해롭지 않다. 기다렸다 다시 돌리면 된다 |
+
+그래서 **루트 콘솔 보정 후의 `No changes`는 신뢰할 수 있다** — 권한을 더한 뒤이므로
+전파가 덜 됐다면 실패했을 것이고, 통과했다는 것은 실제로 반영됐다는 뜻이다.
+**"전파 지연이 있으니 기다린다"가 아니라 "어느 방향의 변경인지 보고 판단한다"가
+맞는 규칙이다.**
 
 ### ⚠️ 이 목록이 완전하다는 보장은 없다
 
@@ -435,9 +450,8 @@ ADR-006 Review Trigger를 그 조건으로 갱신했다.
 
 | 항목 | 상태 |
 | --- | --- |
-| **`budgets` 태깅 3종 적용** | 정책 파일은 고쳤으나 **루트 콘솔이 필요하다** — `iam:CreatePolicyVersion`을 일부러 뺐다. 적용 후 **몇 분 기다렸다가** `./apply.sh plan`으로 확인. 절차는 `infra/iam/README.md` |
-| **관리형 정책 1개 잔존** | `AWSBudgetsActionsWithAWSResourceControlAccess`. 역시 **루트 콘솔** — 배포자에게 `iam:DetachUserPolicy`가 없다. 예산 알람 1개를 위해 필요 이상으로 넓다 |
-| **`detach` 순서 미정렬** | IAM 관련 정책을 **마지막에** 떼도록 고쳐야 한다. 이번엔 전파 지연 덕에 통과했다 — 재현 보장이 없다 |
+| **관리형 정책 1개 잔존** | `AWSBudgetsActionsWithAWSResourceControlAccess`. **루트 콘솔에서 떼야 한다** — 배포자에게 `iam:DetachUserPolicy`가 없다(자기제한이 의도대로 작동한 결과). 예산 알람 1개를 위해 필요 이상으로 넓고, 정책을 적용하는 권한을 포함하므로 남겨두면 `IAMFullAccess`를 뗀 의미가 일부 상쇄된다 |
+| **`apply`/`destroy` 경로 권한 미검증** | `plan`은 읽기만 한다. 부족한 액션이 또 드러날 수 있고, **그때도 수정에는 루트 콘솔이 필요하다** |
 
 ### (라) 비용 대비 이득이 작아 우선순위를 내린 것
 

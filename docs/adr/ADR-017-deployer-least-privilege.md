@@ -164,12 +164,15 @@ IAMFullAccess                         AWSBudgetsActionsWithAWSResourceControlAcc
 - [x] `infra/iam/.rendered/`를 `.gitignore`에 추가
 - [x] **`attach` 실행 후 `./apply.sh plan` 확인** — ✅ No changes (2026-09-16)
 - [x] `detach` 실행 (8개 중 7개) — ⚠️ 직후의 `plan` "No changes"는 **검증이 아니었다**(아래 5)
-- [ ] **`budgets:ListTagsForResource` / `TagResource` / `UntagResource` 추가** —
-      정책 파일은 고쳤으나 **적용에 루트 콘솔이 필요하다**(`iam:CreatePolicyVersion` 없음)
-- [ ] 위 적용 후 **몇 분 기다렸다가** `./apply.sh plan` 재확인 — 이것이 진짜 검증이다
+- [x] **`budgets:ListTagsForResource` / `TagResource` / `UntagResource` 추가** —
+      정책 파일 수정 + **루트 콘솔에서 새 정책 버전 적용** (2026-09-16)
+- [x] **위 적용 후 `./apply.sh plan` 재확인 — ✅ No changes.**
+      **이번 통과는 신뢰할 수 있다**: 권한을 *더한* 뒤라 전파가 덜 됐다면 실패했을 것이다.
+      (권한을 *뺄* 때만 전파 지연이 거짓 통과를 만든다 — 아래 5가 그 경우였다.)
+- [x] `detach` 루프가 **IAM 권한을 주는 정책을 마지막에** 떼도록 정렬
+      (이름 기반 휴리스틱 — `iam:GetPolicyVersion`이 없어 정책 문서를 읽을 수 없다)
 - [ ] 남은 `AWSBudgetsActionsWithAWSResourceControlAccess` 1개 분리 — **루트 콘솔 필요**
       (배포자는 `iam:DetachUserPolicy`가 없다. 자기제한이 의도대로 작동한 결과다)
-- [ ] `detach` 루프가 **IAM 관련 정책을 마지막에** 떼도록 정렬 (아래 Risks 참조)
 - [ ] `apply`/`destroy` 경로 권한은 다음 배포·철거 때 드러난다 (위 Risks)
 
 ### 실행에서 드러난 것 (2026-09-16)

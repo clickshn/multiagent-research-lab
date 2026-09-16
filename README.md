@@ -29,7 +29,7 @@
 | **품질** | 골든셋 **8 pass / 1 fail** — 음성 케이스 **2/2**(지어내지 않음) | [§4.4](#44-골든셋-채점-n9) |
 | **보안** | 인젝션 10건 방어 전/후 실측 — 구조적 성립 **4 → 0**, 모델 의존 **1 → 0** | [§7](#7-보안--운영) |
 | **테스트** | **114건** (보안 42건 포함) — 컨테이너 안에서도 전부 통과 | `python -m pytest tests/ -q` |
-| **배포** | ECS Fargate 온디맨드, **27/27**, drift 0, 유휴 **~$0.14/월**, EFS 영속화 실측 확인 | [§6.2](#62-배포-아키텍처) |
+| **배포** | ECS Fargate 온디맨드, **27/27**, drift 0, 유휴 **~$0.14/월**, EFS 영속화·배포자 최소 권한 실측 확인 | [§6.2](#62-배포-아키텍처) |
 | **결정 기록** | **ADR 17건** (+ Amendment 7건) — [adr-skill](https://github.com/clickshn/adr-skill)로 작성 | [§8.1](#81-adr-목록) |
 | **하네스** | `CLAUDE.md` / `docs/governance.md` / `.claude/rules/` / SessionStart 훅 | [§9](#9-하네스--컨텍스트-엔지니어링) |
 
@@ -472,11 +472,13 @@ session-06에서 `docker compose --profile langfuse`로 self-host 서버를 띄�
 - **골든셋 자동 채점의 의미 판정 부분**(`must_mention`)은 사람이 봐야 한다.
 - **`min_citations=1` / `max_revisions=2` / `top_k=4`는 여전히 근거 없이 정한 출발점이다.**
   session-08에서 `max_revisions`만 대조 측정했고(§5.1) 나머지 둘은 안 했다.
-- **배포자 최소 권한 교체가 루트 콘솔 작업 2건을 남겼다** (ADR-017) —
-  (1) `budgets` 태깅 3종을 정책에 적용해야 현재 `./apply.sh plan`이 통과한다,
-  (2) `AWSBudgetsActionsWithAWSResourceControlAccess` 1개가 분리되지 않았다.
-  둘 다 **배포자에게 `iam:CreatePolicyVersion` / `iam:DetachUserPolicy`가 없어서**
-  (자기제한이 의도대로 작동한 결과) 루트 콘솔이 필요하다. 절차는 `infra/iam/README.md`.
+- **배포자 권한에 관리형 정책 1개가 남아 있다** (ADR-017) —
+  `AWSBudgetsActionsWithAWSResourceControlAccess`. **배포자에게 `iam:DetachUserPolicy`가
+  없어서**(자기제한이 의도대로 작동한 결과) **루트 콘솔에서 떼야 한다.** 정책을 적용하는
+  권한을 포함하므로 남겨두면 `IAMFullAccess`를 뗀 의미가 일부 상쇄된다.
+  절차는 `infra/iam/README.md`.
+- **`apply`/`destroy` 경로의 배포자 권한은 미검증이다** — `plan`은 읽기만 한다.
+  부족한 액션이 또 드러날 수 있고, **그때도 수정에는 루트 콘솔이 필요하다.**
 - **`detach` 순서에 잠재 위험이 남아 있다** — IAM 관련 정책을 중간에 떼면 그 시점 이후의
   분리 권한이 사라진다. 이번엔 IAM 전파 지연 덕에 통과했다 — **설계가 옳아서가 아니다.**
 
@@ -717,13 +719,21 @@ bash infra/run_task.sh research "질의"       # 리서치 1회
 - `IAMFullAccess`를 중간에 떼는 순서는 **IAM 전파 지연 덕에 통과했지 옳아서가 아니다.**
 - ⚠️ **가장 중요한 것: 분리 직후의 `plan` "No changes"는 검증이 아니었다.** 나중에 다시
   돌리니 `AccessDenied: budgets:ListTagsForResource`로 실패했다 — 처음 통과는 아직 살아
-  있던 옛 권한으로 돈 결과다. **상태가 수렴한 뒤에 한 번 더 돌린 결과만 믿는다.**
+  있던 옛 권한으로 돈 결과다.
+
+**전파 지연은 변경 방향에 따라 위험이 다르다.** 이게 규칙이다.
+
+| 변경 방향 | 전파 전에 관측되는 것 | 위험 |
+| --- | --- | --- |
+| 권한을 **뺀다** | 아직 되는 것처럼 보인다 | ⚠️ **거짓 통과 — 검증으로 쓸 수 없다** |
+| 권한을 **더한다** | 아직 안 되는 것처럼 보인다 | 거짓 실패 — 해롭지 않다, 다시 돌리면 된다 |
 
 빠진 액션은 Budgets 태깅 3종이었다 (`default_tags`가 모든 리소스에 붙는데
 `budgets:ListTagsForResource`를 빠뜨렸다 — 다른 서비스는 태깅 3종이 들어 있었고
-전수 대조로 이 하나만 빠진 것을 확인했다). 정책 파일은 고쳤지만
-**`iam:CreatePolicyVersion`을 일부러 뺐기 때문에 적용에 루트 콘솔이 필요하다.**
-자기제한의 본질적 비용이며, 우회하면 이 ADR의 목적 자체가 사라진다.
+전수 대조로 이 하나만 빠진 것을 확인했다). **`iam:CreatePolicyVersion`을 일부러 뺐기
+때문에 적용에 루트 콘솔이 필요했고**, 보정 후 `./apply.sh plan`이 **`No changes`로
+통과한다** — 권한을 더한 뒤의 통과이므로 이 결과는 신뢰할 수 있다.
+루트 콘솔 의존은 자기제한의 본질적 비용이며, 우회하면 이 ADR의 목적 자체가 사라진다.
 
 ---
 
