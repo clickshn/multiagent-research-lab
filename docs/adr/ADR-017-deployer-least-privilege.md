@@ -162,9 +162,28 @@ IAMFullAccess                         AWSBudgetsActionsWithAWSResourceControlAcc
 - [x] `infra/iam/deploy-core.json` / `deploy-app.json` 작성 (계정 ID 자리표시자)
 - [x] `infra/iam/apply_least_privilege.sh` (show/attach/detach/rollback, 순서 강제)
 - [x] `infra/iam/.rendered/`를 `.gitignore`에 추가
-- [ ] **`attach` 실행 후 `./apply.sh plan` 확인** — 사람이 실행한다 (`aws`는 deny 대상)
-- [ ] **`detach` 실행 후 `./apply.sh plan` 재확인** — 이것이 실제 검증이다
+- [x] **`attach` 실행 후 `./apply.sh plan` 확인** — ✅ No changes (2026-09-16)
+- [x] **`detach` 실행 후 `./apply.sh plan` 재확인** — ✅ **No changes.** 최소 권한만으로 돈다
+- [ ] 남은 `AWSBudgetsActionsWithAWSResourceControlAccess` 1개 분리 — **루트 콘솔 필요**
+      (배포자는 `iam:DetachUserPolicy`가 없다. 자기제한이 의도대로 작동한 결과다)
+- [ ] `detach` 루프가 **IAM 관련 정책을 마지막에** 떼도록 정렬 (아래 Risks 참조)
 - [ ] `apply`/`destroy` 경로 권한은 다음 배포·철거 때 드러난다 (위 Risks)
+
+### 실행에서 드러난 것 (2026-09-16)
+
+1. ⚠️ **`PoliciesPerUser` 한도가 10개다.** 이미 10개가 붙어 있어 **"붙이고 나서 뗀다"는
+   순서 자체가 실행 불가였다** — 이 ADR이 안전 속성으로 내세운 순서가 첫 시도에서 깨졌다.
+   해결: 함께 붙어 있던 FullAccess의 **부분집합인 중복 정책 2개**(ECR PowerUser,
+   Logs ReadOnly)를 먼저 떼어 **유효 권한 손실 없이** 슬롯을 비웠다(`free-slots`).
+   **중복이 없는 계정에서는 이 우회가 불가능하다.**
+2. ⚠️ **`aws --output text`가 Windows에서 `\r\n`으로 끝난다.** `tr '\t' '\n'`만 하면
+   **마지막 ARN에만 `\r`가 붙어** 그 하나가 `ARN ... is not valid`로 거부된다.
+   8개 중 7개 성공이라는 패턴이 원인을 가리켰다 — **권한 문제로 오인하기 쉽다.**
+3. ⚠️ **분리 순서에 잠재 위험이 있다.** `IAMFullAccess`를 중간에 떼면 **그 시점 이후의
+   `DetachUserPolicy` 권한이 사라진다.** 이번에 뒤의 3개가 성공한 것은 **IAM 전파 지연
+   덕분이지 설계가 옳아서가 아니다.** IAM 관련 정책을 마지막에 떼도록 정렬해야 한다.
+4. **자기제한이 실증됐다.** 남은 1개를 떼려는 재시도가 `AccessDenied: iam:DetachUserPolicy`로
+   끝났다. 의도대로다 — 다만 그래서 **루트 콘솔 없이는 마무리할 수 없다.**
 
 ## Reversibility
 

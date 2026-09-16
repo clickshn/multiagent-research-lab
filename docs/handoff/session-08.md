@@ -139,12 +139,12 @@
 | --- | --- |
 | `infra/iam/deploy-core.json` | 네트워크(EC2/VPC) · EFS · Budgets — `aws:RequestedRegion`으로 서울에 가둠 |
 | `infra/iam/deploy-app.json` | ECR · ECS · Logs · SSM · IAM 역할 — 대부분 프로젝트 접두사 ARN으로 가둠 |
-| `infra/iam/apply_least_privilege.sh` | `show` / `attach` / `detach` / `rollback` |
+| `infra/iam/apply_least_privilege.sh` | `show` / `free-slots` / `attach` / `detach` / `rollback` |
 
 ### 설계에서 걸린 것 세 가지
 
 1. **인라인 정책으로는 불가능하다.** IAM 사용자 인라인 정책은 **2,048자** 제한인데,
-   필요한 액션 목록은 공백 제거 기준 **core 2,287자 / app 3,469자**다. 고객 관리형 정책
+   필요한 액션 목록은 공백 제거 기준 **core 2,287자 / app 3,600자**다. 고객 관리형 정책
    (6,144자)으로 간 것은 취향이 아니라 제약이다.
 2. **`iam:AttachRolePolicy`를 그냥 열면 권한 상승 경로가 된다.** 프로젝트 역할에
    `AdministratorAccess`를 붙인 뒤 태스크로 실행하면 된다. `iam:PolicyARN` 조건으로
@@ -157,13 +157,13 @@
 ### 순서를 스크립트가 강제한다 — **붙이고 → 확인하고 → 뗀다**
 
 ```
-show → attach → ./apply.sh plan → detach → ./apply.sh plan   ← 마지막이 진짜 검증
+show → free-slots → attach → ./apply.sh plan → detach → ./apply.sh plan   ← 마지막이 진짜 검증
 ```
 
 반대로 하면 중간에 권한이 하나도 없는 구간이 생기고, 거기서 실패하면 되돌릴 권한조차 없다.
 `detach`는 분리한 정책 ARN 목록을 `infra/iam/.rendered/detached-*.txt`에 남긴다(롤백 근거).
 
-### 현재 상태 — **관리형 정책 10개** (세션 7 기록보다 5개 많다)
+### 교체 전 상태 — **관리형 정책 10개** (세션 7 기록보다 5개 많다)
 
 ```
 AmazonEC2ContainerRegistryFullAccess      AmazonSSMFullAccess
@@ -194,9 +194,11 @@ IAM 정책을 적용하거나 리소스를 정지시킬 수 있는 권한을 포
 ### 적용 절차 (사람이 실행 — `aws`는 `deny` 대상)
 
 ```bash
+bash infra/iam/apply_least_privilege.sh show
+bash infra/iam/apply_least_privilege.sh free-slots   # 한도 10개 — 중복부터 뗀다
 bash infra/iam/apply_least_privilege.sh attach
 cd infra/terraform && ./apply.sh plan     # 기존 정책이 아직 붙어 있는 상태에서 확인
-bash infra/iam/apply_least_privilege.sh detach
+CONFIRM=yes bash infra/iam/apply_least_privilege.sh detach
 cd infra/terraform && ./apply.sh plan     # ← 최소 권한만으로 도는지, 이것이 진짜 검증
 ```
 
@@ -216,6 +218,45 @@ cd infra/terraform && ./apply.sh plan     # ← 최소 권한만으로 도는지
 별도 statement를 뒀다. 나머지 `logs:*`는 `/ecs/multiagent-research-lab/*`에 묶여 있다.
 
 **정책 크기:** core 2,287자 / app 3,600자 (공백 제거, 관리형 한도 6,144자).
+
+### 실행 결과 — **적용됨. `plan`이 최소 권한만으로 통과했다.**
+
+| 단계 | 결과 |
+| --- | --- |
+| `attach` (1차) | ❌ **`LimitExceeded: PoliciesPerUser: 10`** — 이미 10개가 붙어 있었다 |
+| `free-slots` | 중복 2개 분리 (ECR PowerUser, Logs ReadOnly) — **유효 권한 손실 0** |
+| `attach` (2차) | ✅ 정책 2개 부착 |
+| `./apply.sh plan` (기존 정책 병존) | ✅ **No changes** |
+| `detach` | ⚠️ 8개 중 **7개 성공, 1개 실패** (아래) |
+| **`./apply.sh plan` (최소 권한)** | ✅ **No changes — 이것이 진짜 검증이다** |
+| `detach` (재시도) | ❌ **`AccessDenied: iam:DetachUserPolicy`** |
+
+**최종 상태: `deploy-core` + `deploy-app` + `AWSBudgetsActionsWithAWSResourceControlAccess` 1개.**
+
+### 여기서 드러난 것 네 가지 — **전부 설계에서 놓친 것이다**
+
+**(1) `PoliciesPerUser`는 10개다.** 이미 10개가 붙어 있으면 **"붙이고 나서 뗀다"는 순서가
+성립하지 않는다.** ADR-017이 안전 속성으로 내세운 순서 자체가 실행 불가였다.
+해법은 **유효 권한을 하나도 잃지 않는 중복 정책부터 떼는 것**이었다 —
+ECR PowerUser ⊂ ECR FullAccess, Logs ReadOnly ⊂ Logs FullAccess. 둘 다 함께 붙어 있던
+FullAccess의 부분집합이라 떼어도 할 수 있는 일이 줄지 않는다. `free-slots`로 스크립트에
+넣었다. **중복이 없었다면 이 방법도 없었다** — 그때는 순서를 깨거나 루트를 써야 한다.
+
+**(2) `--output text`의 `\r`가 마지막 원소 하나만 망가뜨렸다.** 8개 중 7개가 성공하고
+마지막 하나가 `ARN ... is not valid`로 실패했다. Windows CLI 출력이 `\r\n`으로 끝나는데
+`tr '\t' '\n'`만 하면 **마지막 원소에만 `\r`가 붙는다.** `tr -d '\r'`를 추가해 고쳤다.
+⚠️ **이 증상은 권한 문제로 오인하기 쉽다** — 실제로 그렇게 오인했다. 7/8이라는 패턴이
+원인을 가리켰다.
+
+**(3) 분리 순서에 잠재 위험이 있었다.** 루프가 `IAMFullAccess`를 4번째로 떼는데,
+**그 순간 이후의 `DetachUserPolicy` 권한이 사라진다.** 뒤의 3개가 성공한 것은
+**IAM 전파 지연 덕분이지 설계가 옳아서가 아니다.** 전파가 빨랐으면 중간에 멈췄을 것이다.
+→ **IAM 관련 정책을 마지막에 떼도록 정렬해야 한다** (미수정, 아래 남은 것 참조).
+
+**(4) 남은 1개는 루트 콘솔이 필요하다.** 재시도가 `AccessDenied: iam:DetachUserPolicy`로
+끝났다 — **자기제한이 설계대로 작동한다는 실증**이기도 하다. 다만 하필 남은 것이
+Budgets Actions 정책이라 **예산 알람 1개를 위해 필요 이상으로 넓은 정책이 남았다.**
+루트 콘솔에서 떼는 것을 남은 작업으로 기록한다.
 
 ### ⚠️ 이 목록이 완전하다는 보장은 없다
 
@@ -368,11 +409,12 @@ ADR-006 Review Trigger를 그 조건으로 갱신했다.
 | **`min_citations` / `top_k`** | 여전히 근거 없이 정한 출발점이다. `max_revisions`는 §4.1에서 대조 측정했지만 나머지 둘은 안 했다. 골든셋이 있으니 같은 방식으로 잴 수 있다. |
 | **체크포인터 백엔드 미선택** | ADR-002부터 미완. 중단·재개 테스트 미실시. 현재 워크로드(배치 1회 실행)에서는 아프지 않아 계속 밀렸다. |
 
-### (다-2) 이번 세션이 준비만 하고 실행을 남긴 것 — **하나뿐**
+### (다-2) 적용은 됐지만 마무리가 남은 것
 
 | 항목 | 상태 |
 | --- | --- |
-| **배포자 IAM 최소 권한 적용** | 정책 2개 + 교체 스크립트 + ADR-017 **완료**. 실제 `attach` → `plan` → `detach` → `plan`은 **사람이 실행한다**(`aws`가 `deny` 대상). §3에 절차와 롤백 경로를 적어 뒀다. ⚠️ **`detach` 후에는 루트 콘솔 없이 되돌릴 수 없다** — 그래서 이 세션에서 임의로 실행하지 않았다 |
+| **관리형 정책 1개 잔존** | `AWSBudgetsActionsWithAWSResourceControlAccess`. **루트 콘솔에서 떼야 한다** — 배포자에게 `iam:DetachUserPolicy`가 없다(자기제한이 의도대로 작동한 결과). 예산 알람 1개를 위해 필요 이상으로 넓다 |
+| **`detach` 순서 미정렬** | IAM 관련 정책을 **마지막에** 떼도록 고쳐야 한다. 이번엔 전파 지연 덕에 통과했다 — 재현 보장이 없다 |
 
 ### (라) 비용 대비 이득이 작아 우선순위를 내린 것
 

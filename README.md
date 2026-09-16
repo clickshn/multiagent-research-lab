@@ -29,7 +29,7 @@
 | **품질** | 골든셋 **8 pass / 1 fail** — 음성 케이스 **2/2**(지어내지 않음) | [§4.4](#44-골든셋-채점-n9) |
 | **보안** | 인젝션 10건 방어 전/후 실측 — 구조적 성립 **4 → 0**, 모델 의존 **1 → 0** | [§7](#7-보안--운영) |
 | **테스트** | **114건** (보안 42건 포함) — 컨테이너 안에서도 전부 통과 | `python -m pytest tests/ -q` |
-| **배포** | ECS Fargate 온디맨드, 리소스 **27/27**, drift 0, 유휴 **~$0.14/월**, EFS 영속화 실측 확인 | [§6.2](#62-배포-아키텍처) |
+| **배포** | ECS Fargate 온디맨드, **27/27**, drift 0, 유휴 **~$0.14/월**, EFS 영속화·배포자 최소 권한 실측 확인 | [§6.2](#62-배포-아키텍처) |
 | **결정 기록** | **ADR 17건** (+ Amendment 7건) — [adr-skill](https://github.com/clickshn/adr-skill)로 작성 | [§8.1](#81-adr-목록) |
 | **하네스** | `CLAUDE.md` / `docs/governance.md` / `.claude/rules/` / SessionStart 훅 | [§9](#9-하네스--컨텍스트-엔지니어링) |
 
@@ -472,8 +472,12 @@ session-06에서 `docker compose --profile langfuse`로 self-host 서버를 띄�
 - **골든셋 자동 채점의 의미 판정 부분**(`must_mention`)은 사람이 봐야 한다.
 - **`min_citations=1` / `max_revisions=2` / `top_k=4`는 여전히 근거 없이 정한 출발점이다.**
   session-08에서 `max_revisions`만 대조 측정했고(§5.1) 나머지 둘은 안 했다.
-- **배포자 IAM 최소 권한이 아직 적용되지 않았다** — 정책과 교체 스크립트는 있고(ADR-017,
-  `infra/iam/`), `attach`/`detach` 실행과 그 뒤의 `./apply.sh plan` 확인이 남았다.
+- **배포자 권한에 관리형 정책 1개가 남아 있다** — 최소 권한 교체는 적용됐고
+  `./apply.sh plan`이 통과하지만(ADR-017), `AWSBudgetsActionsWithAWSResourceControlAccess`
+  하나가 분리되지 않았다. **배포자에게 `iam:DetachUserPolicy`가 없어서**(자기제한이
+  의도대로 작동한 결과) **루트 콘솔에서 떼야 한다.**
+- **`detach` 순서에 잠재 위험이 남아 있다** — IAM 관련 정책을 중간에 떼면 그 시점 이후의
+  분리 권한이 사라진다. 이번엔 IAM 전파 지연 덕에 통과했다 — **설계가 옳아서가 아니다.**
 
 
 ---
@@ -697,10 +701,16 @@ bash infra/run_task.sh research "질의"       # 리서치 1회
 `aws_ssm_parameter`를 쓰지 않는 것은 값이 `terraform.tfstate`에 평문으로 들어가기
 때문이다. 절차와 삭제 절차 모두 `infra/terraform/README.md`에 있다.
 
-**배포자 권한은 최소 권한으로 좁히는 중이다** (ADR-017). session-07은 apply를 통과시키려고
-AWS 관리형 정책을 실패할 때마다 하나씩 붙였고, 그 결과 **태스크 역할은 최소 권한인데
-배포자는 계정 전반을 만질 수 있는** 불일치가 남았다. `infra/iam/`에 실제로 쓴 액션만 담은
-고객 관리형 정책 2개와 교체 스크립트가 있다 (`show` → `attach` → `plan` → `detach` → `plan`).
+**배포자 권한도 최소 권한으로 좁혔다** (ADR-017). session-07은 apply를 통과시키려고
+관리형 정책을 실패할 때마다 하나씩 붙였고, 그 결과 **태스크 역할은 최소 권한인데
+배포자는 계정 전반을 만질 수 있는** 불일치가 남아 있었다(관리형 정책 10개, `IAMFullAccess`
+포함). `infra/iam/`의 고객 관리형 정책 2개로 교체하고 **`./apply.sh plan`이 최소 권한만으로
+"No changes"를 내는 것을 확인했다.**
+
+실행에서 세 가지가 드러났고 전부 설계에서 놓친 것이다 — **`PoliciesPerUser` 한도가 10이라
+"붙이고 나서 뗀다"는 순서가 처음부터 실행 불가였고**(중복 정책을 먼저 떼어 우회),
+`aws --output text`의 ``가 마지막 ARN 하나만 망가뜨렸고(권한 문제로 오인하기 쉽다),
+**`IAMFullAccess`를 중간에 떼는 순서는 IAM 전파 지연 덕에 통과했지 옳아서가 아니다.**
 
 ---
 
