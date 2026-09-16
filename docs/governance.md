@@ -52,6 +52,18 @@
   URL 조각을 검사 명령에 직접 적지 않는다 — 그 자체가 평문 노출이다.
   `.env`의 실제 값을 읽어서 대조한다.
 
+- **로컬 산출물은 위 명령으로 검사되지 않는다.** `git diff --cached`는 **커밋되는 것**만
+  본다. `var/traces/`·`var/llm_cache/`는 `.gitignore` 대상이라 이 검사를 영원히 통과한다.
+  그쪽은 별도로 검사한다:
+
+  ```bash
+  python scripts/scan_local_secrets.py            # 검사 (0 = 깨끗함)
+  python scripts/scan_local_secrets.py --redact   # 발견 시 var/ 산출물을 마스킹 치환
+  ```
+
+  이 스크립트는 **양성 대조를 먼저 돈다** — "0건 검출"은 검사기가 고장 나도 똑같이
+  나오는 결과이기 때문이다. 대조가 실패하면 스캔 결과를 버리고 종료 코드 2로 끝낸다.
+
 상세 배경과 대응 원칙은 `README.md`의 "보안 / 운영"을 참조한다.
 
 ## 로컬 산출물 취급 — `var/traces/`, `var/llm_cache/`
