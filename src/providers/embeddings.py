@@ -62,13 +62,21 @@ class SentenceTransformerEmbeddings:
                     "sentence-transformers가 설치되어 있지 않습니다. "
                     "`pip install -r requirements.txt`를 실행하세요."
                 ) from exc
+            # 리비전 고정 (ADR-011). `revision`을 넘기지 않으면 HuggingFace `main`의
+            # **현재** 내용을 받는다 — 같은 이름으로 다른 가중치가 재배포돼도 모른다.
+            # 로컬 경로(`local_path`)를 쓸 때는 이미 그 리비전으로 내려받아 sha256까지
+            # 검증한 디렉터리이므로 revision 인자를 넘기지 않는다 (경로에는 리비전 개념이 없다).
+            kwargs: dict[str, object] = {"device": self.settings.device}
+            if self.settings.revision and not self.settings.local_path:
+                kwargs["revision"] = self.settings.revision
+
             try:
-                self._model = SentenceTransformer(
-                    self.settings.model_name, device=self.settings.device
-                )
+                self._model = SentenceTransformer(self.settings.load_target, **kwargs)
             except Exception as exc:  # noqa: BLE001 - 벤더 예외를 경계에서 덮는다
                 raise EmbeddingError(
-                    f"임베딩 모델 로딩 실패 ({self.settings.model_name}): {exc}"
+                    f"임베딩 모델 로딩 실패 "
+                    f"({self.settings.load_target}"
+                    f"{'@' + self.settings.revision[:12] if kwargs.get('revision') else ''}): {exc}"
                 ) from exc
         return self._model
 

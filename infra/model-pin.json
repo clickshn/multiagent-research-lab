@@ -1,0 +1,41 @@
+{
+  "_comment": [
+    "임베딩 가중치 공급망 고정 (ADR-011).",
+    "런타임에 HuggingFace 'latest'를 받으면 재현성과 공급망 무결성이 둘 다 깨진다.",
+    "revision은 git 커밋 해시이고, files의 sha256은 그 리비전의 파일 내용 해시다.",
+    "둘 다 필요하다: revision은 '무엇을 받을지'를, sha256은 '받은 것이 맞는지'를 고정한다.",
+    "이 값을 바꾸면 벡터 공간이 달라질 수 있으므로 `python scripts/build_index.py --reset` 필요."
+  ],
+  "repo_id": "intfloat/multilingual-e5-small",
+  "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+  "revision_recorded_at": "2026-09-16",
+  "revision_source": "https://huggingface.co/api/models/intfloat/multilingual-e5-small (sha)",
+  "note_revision_equals_index": "이 리비전은 session-03에서 var/chroma/ 인덱스를 만든 바로 그 리비전이다(로컬 HF 캐시 refs/main 대조 확인). 따라서 고정은 기존 측정치를 바꾸지 않는다.",
+  "allow_patterns": [
+    "config.json",
+    "model.safetensors",
+    "modules.json",
+    "sentence_bert_config.json",
+    "special_tokens_map.json",
+    "tokenizer.json",
+    "tokenizer_config.json",
+    "sentencepiece.bpe.model",
+    "1_Pooling/config.json"
+  ],
+  "_allow_patterns_comment": "pytorch_model.bin(470MB, safetensors와 중복) / onnx / openvino / .eval_results / README.md는 받지 않는다. 안 쓰는 470MB를 이미지에 넣을 이유가 없다.",
+  "files": {
+    "model.safetensors": {
+      "size": 470641600,
+      "sha256": "1a55775f53449dac10a2bcbc312469fac40b96d53198c407081a831f81c98477"
+    },
+    "tokenizer.json": {
+      "size": 17082730,
+      "sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39"
+    },
+    "sentencepiece.bpe.model": {
+      "size": 5069051,
+      "sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865"
+    }
+  },
+  "_files_comment": "HF API가 sha256을 주는 것은 LFS 파일뿐이다. 작은 JSON 설정 파일들은 revision 고정으로만 보증된다 — 이 한계는 ADR-011 Risks에 적어 뒀다."
+}

@@ -1,0 +1,10 @@
+# terraform.tfvars.example — 값을 바꾸고 싶을 때만 terraform.tfvars로 복사한다.
+# 전부 기본값이 있으므로 이 파일 없이도 apply 된다.
+#
+# ⚠️ terraform.tfvars는 커밋하지 않는다 (.gitignore).
+
+# aws_region               = "ap-northeast-2"
+# project_name             = "multiagent-research-lab"
+# log_retention_days       = 14
+# ecr_untagged_expire_days = 7
+# ecr_keep_last_images     = 5

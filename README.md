@@ -136,7 +136,12 @@ docs/               문제 정의 · 아키텍처 · 거버넌스 · ADR · 평�
 
 - **얻은 것:** 서버 없이 붙는다. 인덱스 메타데이터에 임베딩 모델 이름을 남겨
   **모델 불일치를 조용한 품질 저하가 아니라 예외로** 잡는다.
-- **포기한 것:** 확장성·동시성. 세션 6에서 Qdrant 이전 여부를 재검토한다.
+- **포기한 것:** 확장성·동시성.
+- **세션 6 재검토 결과: 유지 (ADR-012).** 판단 기준은 컨테이너화/운영 편의성뿐이었다 —
+  코퍼스 16건·동시성 0이라 스케일 이점이 값을 하지 않고, 영속성은 볼륨 하나로 해결되며,
+  인덱스 재생성이 **10.5초**라 백업 대상 자체가 아니다.
+  ⚠️ **저장소를 바꿔도 §5.2의 검색 문제는 안 풀린다** — 두 저장소 모두 우리가 계산한
+  같은 벡터를 같은 코사인 거리로 정렬한다. 그건 임베딩 모델/표현 문제다.
 
 ### 3.5 계측을 파사드 뒤에 둔다 (ADR-007)
 
@@ -332,12 +337,30 @@ KT Cloud AI Nexus에서 접근 가능한 모델이 `gemma-4-31B-it` 하나다(`G
 "쉬운 단계는 작은 모델, 어려운 단계는 큰 모델" 같은 단계별 라우팅은 **비교 대상 자체가
 없어** 수행할 수 없다. 상세는 ADR-003 Amendment (session-04).
 
-### 5.5 Langfuse 경로가 실제 서버로 검증되지 않았다
+### 5.5 ~~Langfuse 경로가 실제 서버로 검증되지 않았다~~ → **해소 (session-06)**
 
-이 문서의 모든 수치는 **로컬 JSONL 트레이스**에서 나왔다. `.env`에 Langfuse 자격증명이
-없어 `LangfuseTracer`가 활성화되지 않는다. 파사드(ADR-007) 덕분에 같은 데이터가 같은
-구조로 남아 있고 서버를 붙이면 코드 변경 없이 전송되지만, **그 경로는 아직 실제 서버로
-검증되지 않았다.**
+> v1.0 시점의 한계였다. 아래 원문을 남겨 둔다.
+>
+> > 이 문서의 모든 수치는 **로컬 JSONL 트레이스**에서 나왔다. `.env`에 Langfuse 자격증명이
+> > 없어 `LangfuseTracer`가 활성화되지 않는다. 파사드(ADR-007) 덕분에 같은 데이터가 같은
+> > 구조로 남아 있고 서버를 붙이면 코드 변경 없이 전송되지만, **그 경로는 아직 실제 서버로
+> > 검증되지 않았다.**
+
+session-06에서 `docker compose --profile langfuse`로 self-host 서버를 띄우고 **실제
+전송을 확인했다** (ADR-010 Evidence).
+
+| 항목 | 결과 |
+| --- | --- |
+| 서버 | `langfuse/langfuse:3` → `{"status":"OK","version":"3.225.7"}` |
+| 수신된 trace | `research_run` 1건 / observation **19개** |
+| 내역 | GENERATION 13 (outliner 1 · researcher 5 · verifier 6 · writer 1) + SPAN 6 |
+| 토큰·지연 보존 | `usage={input:1131, output:247, total:1378}`, `latency=4.462` |
+| 터미널 요약과 대조 | 13콜 / 12875+881 토큰 — **일치** |
+
+**남은 것:** 실행 중 Langfuse SDK가 `Context error: No active span in current context`를
+출력한다. 데이터는 전부 도착했지만 스팬 중첩이 SDK v4의 기대와 완전히 맞지는 않는다.
+표시 문제로 보이나 **확인되지 않았다.** 그리고 **§4의 수치 자체는 여전히 로컬 JSONL
+기준이다** — 재측정한 것이 아니라 전송 경로를 검증한 것이다.
 
 ### 5.6 파라미터가 근거 없이 정해진 출발점이다
 
@@ -368,7 +391,7 @@ KT Cloud AI Nexus에서 접근 가능한 모델이 `gemma-4-31B-it` 하나다(`G
 cp .env.example .env      # VLLM_BASE / VLLM_MODEL 값을 채운다
 pip install -r requirements-dev.txt
 python scripts/healthcheck.py     # 엔드포인트 + 프로바이더 계층 동작 확인
-python -m pytest tests/ -q        # 78개
+python -m pytest tests/ -q        # 114개
 ```
 
 리서치를 실제로 돌리려면 코퍼스와 인덱스가 필요하다:
@@ -394,6 +417,56 @@ python scripts/bench_golden.py --label cached --cache           # 캐시 조건
 임베딩 모델을 바꾸면 `python scripts/build_index.py --reset`이 필요하다. 안 하면 검색 시
 불일치 예외가 난다 (조용히 틀린 결과를 내지 않도록 일부러 그렇게 했다).
 
+### 6.1 컨테이너로 돌리기 (ADR-010)
+
+오케스트레이터는 **데몬이 아니라 작업 컨테이너**다. `up`으로 띄워두는 물건이 아니라
+`run --rm`으로 한 번 돌린다.
+
+```bash
+docker compose build
+docker compose run --rm orchestrator                              # 헬스체크
+docker compose run --rm orchestrator python -m pytest tests/ -q   # 스모크 (네트워크 불필요)
+docker compose run --rm orchestrator python scripts/build_index.py
+docker compose run --rm orchestrator python scripts/run_research.py "리서치 질의"
+```
+
+**서빙은 이 스택에 없다.** 추론 엔드포인트는 KT Cloud AI Nexus의 관리형 vLLM이고 우리가
+운영하지 않는다 (ADR-003). 컨테이너로 올릴 수 있는 것은 오케스트레이터와 관측 백엔드뿐이며,
+서빙 레그가 살아 있는지는 헬스체크가 확인한다.
+
+Langfuse self-host(선택, 컨테이너 6개):
+
+```bash
+docker compose --profile langfuse up -d
+# .env에 LANGFUSE_HOST=http://langfuse:3000 / PUBLIC=pk-lf-local-dev / SECRET=sk-lf-local-dev
+docker compose --profile langfuse down -v    # 볼륨까지 정리
+```
+
+**컨테이너에서 지켜지는 두 가지** (검사 결과는 ADR-010 Evidence):
+
+| 성질 | 어떻게 | 확인 |
+| --- | --- | --- |
+| `VLLM_BASE`가 이미지에 없다 | `.dockerignore`로 `.env` 제외, compose `env_file`로 런타임 주입 | `ENV`·`docker history`·파일시스템 전수 검색 모두 미검출 |
+| `var/` 평문이 이미지에 없다 | `.dockerignore`로 `var/` 제외, named volume 마운트 | 컨테이너 내 `/app/var/*` 비어 있음 (마운트 지점만) |
+
+임베딩 가중치는 **빌드 시점에 고정 리비전 + sha256 검증**을 거쳐 이미지에 굽는다
+(ADR-011). 런타임에는 HuggingFace를 호출하지 않는다 (`HF_HUB_OFFLINE=1`).
+
+### 6.2 배포 (준비만 됨)
+
+배포 대상은 **ECS Fargate 온디맨드 태스크**다 (ADR-013). 판단 기준은 안 쓸 때의 고정비였다 —
+EKS는 컨트롤플레인만으로 월 ~$73인데, 이 워크로드는 월 100회를 돌려도 실행 비용이 ~$1.7이다.
+
+```bash
+cd infra/terraform
+./apply.sh plan       # 게이트 없음 (상태를 바꾸지 않는다)
+./apply.sh apply      # .claude/deploy-approved 없으면 차단
+```
+
+**아직 `apply`하지 않았다.** 리소스 생성은 사용자 승인 + `.claude/deploy-approved` 파일이
+**둘 다** 있어야 한다 (`docs/governance.md` "승인 게이트", `.claude/rules/iac.md`).
+삭제 절차는 `infra/terraform/README.md`에 있다.
+
 ---
 
 ## 7. 보안 / 운영
@@ -410,7 +483,7 @@ API 키가 없을 뿐, 사실상 URL이 자격증명 역할을 한다.
 | 원칙 | 구체적으로 |
 | --- | --- |
 | **`.env`에만 둔다** | 코드·문서·커밋 메시지·이슈·테스트 픽스처 어디에도 평문으로 쓰지 않는다. `.env`는 `.gitignore` 대상이며, 공유는 `.env.example`의 플레이스홀더로만 한다. |
-| **출력할 때 마스킹한다** | 로그·에러 메시지·스크린샷·터미널 출력을 공유하기 전에 가린다. 진단 출력에는 `ProviderSettings.redacted()`를 쓴다 — 호스트까지만 남기고 경로를 버린다. |
+| **출력할 때 마스킹한다** | 로그·에러 메시지·스크린샷·터미널 출력을 공유하기 전에 가린다. 진단 출력에는 `ProviderSettings.redacted()`를 쓴다 — **호스트를 가리고**(`***.ktcloud.com`) `endpoint_fp`(URL의 sha256 앞 12자리)만 남긴다. |
 | **유출 시** | URL 자체가 접근 권한이므로 회수할 방법이 없다. 엔드포인트 소유 조직에 재발급을 요청하는 것 외에 우리 쪽 대응 수단은 없다. 그래서 예방이 유일한 통제다. |
 
 커밋 전 확인 — 출력이 비어 있어야 한다:
@@ -421,6 +494,18 @@ git diff --cached | grep -F "$(sed -n 's/^VLLM_BASE=//p' .env)"
 
 URL 조각을 검사 명령에 직접 적지 않는다. 그 자체가 평문 노출이기 때문에,
 `.env`의 실제 값을 읽어서 대조한다.
+
+**`redacted()`가 실제로는 가리지 않고 있었다 (session-06에 수정).** 이전 구현은
+경로를 버리고 호스트를 남겼다 — "URL 전체를 싣지 않는다"는 의도였다. 그런데 실제
+엔드포인트의 경로는 `/v1`뿐이라 **가려지는 정보가 없었고**, 인증이 없으므로 호스트를
+아는 것만으로 접근이 된다. 즉 비밀은 경로가 아니라 **호스트의 앞쪽 라벨**이었다.
+지금은 공개 등록 도메인만 남기고(`***.ktcloud.com`) 나머지를 가리며, 대신
+`endpoint_fp`(URL의 sha256 앞 12자리)를 함께 낸다 — **되돌릴 수는 없지만 비교는 된다.**
+"지난 측정과 같은 엔드포인트인가"(모델·엔드포인트가 바뀌면 캐시를 비워야 한다, ADR-008)를
+URL을 드러내지 않고 답하기 위한 것이다.
+
+> 규칙이 있어도 **그 규칙을 집행하는 코드가 규칙을 만족하는지는 따로 확인해야 한다.**
+> 이건 실제 값을 넣어 출력을 눈으로 보기 전까지 드러나지 않았다.
 
 **별도 접근 통제(IP 화이트리스트, API 키 발급 등)를 추가할 수 있는지는 이 프로젝트
 범위 밖이다 — 우리는 엔드포인트 소유자가 아니라 이용자다.** 통제를 걸 수 있는 지점은

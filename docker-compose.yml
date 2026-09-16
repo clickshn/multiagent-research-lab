@@ -1,0 +1,240 @@
+# docker-compose.yml — 로컬 스택 (ADR-010)
+#
+# **서빙은 이 스택에 없다.** 추론 엔드포인트는 KT Cloud AI Nexus의 관리형 vLLM이고
+# 우리가 운영하지 않는다 (ADR-003). 컨테이너로 올릴 수 있는 것은 오케스트레이터와
+# 관측 백엔드뿐이며, 서빙 레그가 살아 있는지는 `scripts/healthcheck.py`가 확인한다.
+#
+# 시크릿 취급: `VLLM_BASE`는 **런타임에만** 주입한다. 이미지에는 들어가지 않는다
+# (Dockerfile 주석 참조). env_file은 이미지 레이어가 아니라 컨테이너 환경이다.
+#
+# 사용:
+#   docker compose build
+#   docker compose run --rm orchestrator                                  # 헬스체크
+#   docker compose run --rm orchestrator python -m pytest tests/ -q       # 스모크
+#   docker compose run --rm orchestrator python scripts/build_index.py
+#   docker compose run --rm orchestrator python scripts/run_research.py "질의"
+#   docker compose --profile langfuse up -d                               # 관측 백엔드
+#   docker compose --profile langfuse down -v                             # 정리(볼륨까지)
+
+name: multiagent-research-lab
+
+# ---------------------------------------------------------------------------
+# 볼륨 — 평문이 쌓이는 경로는 전부 여기로 뺀다
+#
+# 이미지에 굽지 않는 이유는 용량이 아니라 **내용**이다. traces에는 프롬프트가,
+# llm_cache에는 모델 응답 본문이, chroma에는 인덱싱된 문서 본문이 평문으로 남는다
+# (ADR-007 / ADR-008 / ADR-005). 이미지에 들어가면 이미지를 받는 사람이 전부 읽는다.
+#
+# 보존·접근 기준은 docs/governance.md "로컬 산출물 취급"을 따른다.
+# ---------------------------------------------------------------------------
+volumes:
+  traces:
+  llm_cache:
+  chroma:
+  langfuse_postgres:
+  langfuse_clickhouse_data:
+  langfuse_clickhouse_logs:
+  langfuse_minio:
+
+services:
+  # =========================================================================
+  # orchestrator — 작업 컨테이너 (데몬 아님)
+  # =========================================================================
+  orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: multiagent-research-lab/orchestrator:dev
+    # 작업 컨테이너다. `up`으로 띄워두는 물건이 아니라 `run --rm`으로 한 번 돌린다.
+    restart: "no"
+
+    # --- 시크릿 주입: 런타임에만 ------------------------------------------
+    # .env는 이미지에 COPY되지 않는다(.dockerignore). 여기서 컨테이너 환경으로만 들어간다.
+    # `required: false` — .env 없이도 스택이 뜨고, 없으면 healthcheck가 ConfigError로
+    # 명확히 실패한다. 조용히 기본값으로 도는 것보다 낫다.
+    env_file:
+      - path: .env
+        required: false
+
+    environment:
+      # 컨테이너 안의 경로로 덮어쓴다. `.env`의 호스트 경로(있다면)가 새어 들어오면
+      # 볼륨이 아닌 엉뚱한 곳에 쓰게 된다.
+      TRACE_LOG_DIR: /app/var/traces
+      LLM_CACHE_DIR: /app/var/llm_cache
+      CHROMA_DIR: /app/var/chroma
+      # 측정 왜곡 방지 — 캐시는 명시적으로 켠다 (governance "측정 방법론", ADR-008).
+      LLM_CACHE: "${LLM_CACHE:-}"
+      # Langfuse 프로파일을 같이 띄웠을 때만 값이 채워진다. 비어 있으면 로컬 JSONL만.
+      LANGFUSE_HOST: "${LANGFUSE_HOST:-}"
+      LANGFUSE_PUBLIC_KEY: "${LANGFUSE_PUBLIC_KEY:-}"
+      LANGFUSE_SECRET_KEY: "${LANGFUSE_SECRET_KEY:-}"
+
+    volumes:
+      - traces:/app/var/traces
+      - llm_cache:/app/var/llm_cache
+      - chroma:/app/var/chroma
+
+    # 컨테이너 간 이름 해석. Langfuse를 안 띄워도 네트워크는 존재한다.
+    networks:
+      - lab
+
+  # =========================================================================
+  # Langfuse self-host (선택) — `--profile langfuse`
+  #
+  # ADR-007은 Langfuse를 **옵션**으로 뒀고, v1.0 시점에는 자격증명이 없어
+  # local-jsonl fallback 경로만 검증됐다. 이 프로파일은 그 한계를 해소하기 위한 것이다.
+  #
+  # 관측 데이터를 외부 SaaS로 내보내지 않는다는 제약(problem-statement §2) 때문에
+  # Cloud가 아니라 self-host다. Langfuse v3는 web/worker + postgres + clickhouse +
+  # redis + minio를 요구한다 — 컨테이너 6개다. 기본 프로파일에 넣지 않은 이유다.
+  # =========================================================================
+  langfuse-postgres:
+    image: postgres:17-alpine
+    profiles: ["langfuse"]
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      # 로컬 개발 전용 자격증명이다. 배포 시에는 반드시 교체한다 (ADR-010 Risks).
+      POSTGRES_PASSWORD: "${LANGFUSE_DB_PASSWORD:-postgres}"
+      POSTGRES_DB: langfuse
+    volumes:
+      - langfuse_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d langfuse"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - lab
+
+  langfuse-clickhouse:
+    image: clickhouse/clickhouse-server:24.3
+    profiles: ["langfuse"]
+    restart: unless-stopped
+    environment:
+      CLICKHOUSE_DB: default
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_PASSWORD: "${LANGFUSE_CLICKHOUSE_PASSWORD:-clickhouse}"
+    volumes:
+      - langfuse_clickhouse_data:/var/lib/clickhouse
+      - langfuse_clickhouse_logs:/var/log/clickhouse-server
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    networks:
+      - lab
+
+  langfuse-redis:
+    image: redis:7-alpine
+    profiles: ["langfuse"]
+    restart: unless-stopped
+    command: ["redis-server", "--requirepass", "${LANGFUSE_REDIS_PASSWORD:-redis}"]
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a ${LANGFUSE_REDIS_PASSWORD:-redis} ping | grep -q PONG"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - lab
+
+  langfuse-minio:
+    # MinIO는 Docker Hub에서 내려갔다 — quay.io가 공식 배포처다 (2026-09-16 실측:
+    # `docker manifest inspect minio/minio:latest` 실패, quay.io 성공).
+    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
+    profiles: ["langfuse"]
+    restart: unless-stopped
+    entrypoint: sh
+    command: -c 'mkdir -p /data/langfuse && exec minio server /data --address ":9000" --console-address ":9001"'
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: "${LANGFUSE_MINIO_PASSWORD:-miniosecret}"
+    volumes:
+      - langfuse_minio:/data
+    healthcheck:
+      test: ["CMD-SHELL", "mc ready local || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    networks:
+      - lab
+
+  langfuse-worker:
+    image: langfuse/langfuse-worker:3
+    profiles: ["langfuse"]
+    restart: unless-stopped
+    depends_on:
+      langfuse-postgres:
+        condition: service_healthy
+      langfuse-clickhouse:
+        condition: service_healthy
+      langfuse-minio:
+        condition: service_healthy
+    environment: &langfuse_env
+      DATABASE_URL: "postgresql://postgres:${LANGFUSE_DB_PASSWORD:-postgres}@langfuse-postgres:5432/langfuse"
+      SALT: "${LANGFUSE_SALT:-local-dev-salt-change-me}"
+      ENCRYPTION_KEY: "${LANGFUSE_ENCRYPTION_KEY:-0000000000000000000000000000000000000000000000000000000000000000}"
+      NEXTAUTH_SECRET: "${LANGFUSE_NEXTAUTH_SECRET:-local-dev-secret-change-me}"
+      NEXTAUTH_URL: "http://localhost:3000"
+      TELEMETRY_ENABLED: "false"
+      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: "false"
+      CLICKHOUSE_MIGRATION_URL: "clickhouse://langfuse-clickhouse:9000"
+      CLICKHOUSE_URL: "http://langfuse-clickhouse:8123"
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_PASSWORD: "${LANGFUSE_CLICKHOUSE_PASSWORD:-clickhouse}"
+      CLICKHOUSE_CLUSTER_ENABLED: "false"
+      REDIS_CONNECTION_STRING: "redis://:${LANGFUSE_REDIS_PASSWORD:-redis}@langfuse-redis:6379"
+      LANGFUSE_S3_EVENT_UPLOAD_BUCKET: langfuse
+      LANGFUSE_S3_EVENT_UPLOAD_REGION: auto
+      LANGFUSE_S3_EVENT_UPLOAD_ACCESS_KEY_ID: minio
+      LANGFUSE_S3_EVENT_UPLOAD_SECRET_ACCESS_KEY: "${LANGFUSE_MINIO_PASSWORD:-miniosecret}"
+      LANGFUSE_S3_EVENT_UPLOAD_ENDPOINT: "http://langfuse-minio:9000"
+      LANGFUSE_S3_EVENT_UPLOAD_FORCE_PATH_STYLE: "true"
+      LANGFUSE_S3_EVENT_UPLOAD_PREFIX: "events/"
+    networks:
+      - lab
+
+  langfuse:
+    image: langfuse/langfuse:3
+    profiles: ["langfuse"]
+    restart: unless-stopped
+    depends_on:
+      langfuse-worker:
+        condition: service_started
+      langfuse-postgres:
+        condition: service_healthy
+      langfuse-clickhouse:
+        condition: service_healthy
+      langfuse-minio:
+        condition: service_healthy
+    ports:
+      # 호스트에서 UI를 열기 위한 것. 오케스트레이터는 컨테이너 네트워크로 붙으므로
+      # 이 포트 노출이 필수는 아니다.
+      - "3000:3000"
+    environment:
+      <<: *langfuse_env
+      # 로컬 개발 편의: 최초 조직/프로젝트/API 키를 자동 생성한다. 이 값이 있어야
+      # `.env`에 넣을 public/secret key를 미리 알 수 있다 — UI를 거치지 않아도 된다.
+      LANGFUSE_INIT_ORG_ID: "lab"
+      LANGFUSE_INIT_ORG_NAME: "multiagent-research-lab"
+      LANGFUSE_INIT_PROJECT_ID: "research"
+      LANGFUSE_INIT_PROJECT_NAME: "research"
+      LANGFUSE_INIT_PROJECT_PUBLIC_KEY: "${LANGFUSE_PUBLIC_KEY:-pk-lf-local-dev}"
+      LANGFUSE_INIT_PROJECT_SECRET_KEY: "${LANGFUSE_SECRET_KEY:-sk-lf-local-dev}"
+      # `dev@localhost`는 통하지 않는다 — Langfuse의 zod 검증이 TLD를 요구하고,
+      # 실패하면 마이그레이션까지 끝난 뒤 web이 기동하지 않는다 (2026-09-16 실측:
+      # `❌ Invalid environment variables: { LANGFUSE_INIT_USER_EMAIL: [ 'Invalid input' ] }`).
+      LANGFUSE_INIT_USER_EMAIL: "dev@example.com"
+      LANGFUSE_INIT_USER_NAME: "dev"
+      LANGFUSE_INIT_USER_PASSWORD: "${LANGFUSE_INIT_USER_PASSWORD:-local-dev-password}"
+    networks:
+      - lab
+
+networks:
+  lab:
+    driver: bridge
