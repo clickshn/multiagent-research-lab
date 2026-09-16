@@ -163,7 +163,10 @@ IAMFullAccess                         AWSBudgetsActionsWithAWSResourceControlAcc
 - [x] `infra/iam/apply_least_privilege.sh` (show/attach/detach/rollback, 순서 강제)
 - [x] `infra/iam/.rendered/`를 `.gitignore`에 추가
 - [x] **`attach` 실행 후 `./apply.sh plan` 확인** — ✅ No changes (2026-09-16)
-- [x] **`detach` 실행 후 `./apply.sh plan` 재확인** — ✅ **No changes.** 최소 권한만으로 돈다
+- [x] `detach` 실행 (8개 중 7개) — ⚠️ 직후의 `plan` "No changes"는 **검증이 아니었다**(아래 5)
+- [ ] **`budgets:ListTagsForResource` / `TagResource` / `UntagResource` 추가** —
+      정책 파일은 고쳤으나 **적용에 루트 콘솔이 필요하다**(`iam:CreatePolicyVersion` 없음)
+- [ ] 위 적용 후 **몇 분 기다렸다가** `./apply.sh plan` 재확인 — 이것이 진짜 검증이다
 - [ ] 남은 `AWSBudgetsActionsWithAWSResourceControlAccess` 1개 분리 — **루트 콘솔 필요**
       (배포자는 `iam:DetachUserPolicy`가 없다. 자기제한이 의도대로 작동한 결과다)
 - [ ] `detach` 루프가 **IAM 관련 정책을 마지막에** 떼도록 정렬 (아래 Risks 참조)
@@ -184,6 +187,20 @@ IAMFullAccess                         AWSBudgetsActionsWithAWSResourceControlAcc
    덕분이지 설계가 옳아서가 아니다.** IAM 관련 정책을 마지막에 떼도록 정렬해야 한다.
 4. **자기제한이 실증됐다.** 남은 1개를 떼려는 재시도가 `AccessDenied: iam:DetachUserPolicy`로
    끝났다. 의도대로다 — 다만 그래서 **루트 콘솔 없이는 마무리할 수 없다.**
+5. ⚠️ **가장 중요한 것 — IAM 전파 지연에 속았다.** `detach` 직후의 `./apply.sh plan`이
+   `No changes`로 통과해 "최소 권한만으로 동작 확인"으로 기록했는데, **같은 명령을 나중에
+   다시 돌리니 `AccessDeniedException: budgets:ListTagsForResource`로 실패했다.**
+   처음 통과는 **아직 살아 있던 옛 권한으로 돈 결과**였다.
+   → **분리 직후의 성공은 검증이 아니다.** 이 ADR의 Implementation 체크는 그렇게 정정했다.
+   이 프로젝트가 반복해 온 "코드를 읽는 것과 돌려 보는 것이 다르다"의 한 변종이다 —
+   **한 번 돌려 본 것과 상태가 수렴한 뒤에 돌려 본 것도 다르다.**
+6. **빠진 액션은 Budgets 태깅 3종이었다.** `default_tags`가 모든 리소스에 붙는데
+   `budgets:ListTagsForResource`를 넣지 않았다. 나머지 서비스(ECR/ECS/Logs/EFS/IAM/EC2)는
+   태깅 3종이 들어 있었으므로 **Budgets 하나만 빠진 것이 전수 대조로 확인됐다.**
+   ⚠️ **그런데 이것을 고칠 권한이 배포자에게 없다** — `iam:CreatePolicyVersion`을 뺀 대가가
+   여기서 현실화됐다. **사용자 결정: 그래도 넣지 않는다.** 넣으면 자기 정책에 관리자 상당을
+   써 넣을 수 있어 이 ADR의 전제가 무너진다. 정책 수정은 리소스를 새로 추가할 때뿐이라
+   빈도가 낮고, 루트 콘솔 절차를 `infra/iam/README.md`에 문서화하는 쪽을 택했다.
 
 ## Reversibility
 

@@ -228,12 +228,14 @@ cd infra/terraform && ./apply.sh plan     # ← 최소 권한만으로 도는지
 | `attach` (2차) | ✅ 정책 2개 부착 |
 | `./apply.sh plan` (기존 정책 병존) | ✅ **No changes** |
 | `detach` | ⚠️ 8개 중 **7개 성공, 1개 실패** (아래) |
-| **`./apply.sh plan` (최소 권한)** | ✅ **No changes — 이것이 진짜 검증이다** |
+| `./apply.sh plan` (분리 직후) | ⚠️ **No changes — 그러나 이것은 검증이 아니었다**(아래 5) |
 | `detach` (재시도) | ❌ **`AccessDenied: iam:DetachUserPolicy`** |
+| **`./apply.sh plan` (시간 경과 후)** | ❌ **`AccessDenied: budgets:ListTagsForResource`** |
 
-**최종 상태: `deploy-core` + `deploy-app` + `AWSBudgetsActionsWithAWSResourceControlAccess` 1개.**
+**최종 상태: `deploy-core` + `deploy-app` + `AWSBudgetsActionsWithAWSResourceControlAccess` 1개.
+그리고 `plan`은 현재 실패한다** — 아래 (5)(6) 참조. 마무리에 루트 콘솔이 필요하다.
 
-### 여기서 드러난 것 네 가지 — **전부 설계에서 놓친 것이다**
+### 여기서 드러난 것 여섯 가지 — **전부 설계에서 놓친 것이다**
 
 **(1) `PoliciesPerUser`는 10개다.** 이미 10개가 붙어 있으면 **"붙이고 나서 뗀다"는 순서가
 성립하지 않는다.** ADR-017이 안전 속성으로 내세운 순서 자체가 실행 불가였다.
@@ -257,6 +259,26 @@ FullAccess의 부분집합이라 떼어도 할 수 있는 일이 줄지 않는�
 끝났다 — **자기제한이 설계대로 작동한다는 실증**이기도 하다. 다만 하필 남은 것이
 Budgets Actions 정책이라 **예산 알람 1개를 위해 필요 이상으로 넓은 정책이 남았다.**
 루트 콘솔에서 떼는 것을 남은 작업으로 기록한다.
+
+**(5) ⚠️ IAM 전파 지연에 속았다 — 이번 세션에서 가장 중요한 것.**
+`detach` 직후의 `./apply.sh plan`이 `No changes`로 통과했고 **나는 그것을 "최소 권한만으로
+동작 확인"으로 보고했다.** 같은 명령을 나중에 다시 돌리니
+`AccessDeniedException: budgets:ListTagsForResource`로 **실패했다.**
+처음 통과는 **아직 살아 있던 옛 권한으로 돈 결과**였다.
+
+> **분리 직후의 성공은 검증이 아니다.** 상태가 수렴한 뒤에 한 번 더 돌린 결과만 믿는다.
+> 세션 6·7의 "코드를 읽는 것과 돌려 보는 것이 다르다"의 변종이다 —
+> **한 번 돌려 본 것과 수렴 후에 돌려 본 것도 다르다.**
+
+**(6) 빠진 액션은 Budgets 태깅 3종이었다.** `default_tags`가 모든 리소스에 붙는데
+`budgets:ListTagsForResource`를 넣지 않았다. 하나씩 발견하는 대신 **태그 조회 경로를
+전수 대조**했고(ECR/ECS/Logs/EFS/IAM/EC2는 태깅 3종이 이미 들어 있었다), **Budgets 하나만
+빠진 것**을 확인했다. `deploy-core.json`에 3종을 추가했다(2,287 → 2,363자).
+
+⚠️ **그런데 이것을 적용할 권한이 배포자에게 없다.** `iam:CreatePolicyVersion`을 뺀 대가가
+여기서 현실화됐다. **사용자 결정: 그래도 넣지 않는다** — 넣으면 자기 정책에 관리자 상당을
+써 넣을 수 있어 ADR-017의 전제가 무너진다. 정책 수정은 리소스를 새로 추가할 때뿐이라
+빈도가 낮다고 보고, **루트 콘솔 절차를 `infra/iam/README.md`에 문서화**하는 쪽을 택했다.
 
 ### ⚠️ 이 목록이 완전하다는 보장은 없다
 
@@ -413,7 +435,8 @@ ADR-006 Review Trigger를 그 조건으로 갱신했다.
 
 | 항목 | 상태 |
 | --- | --- |
-| **관리형 정책 1개 잔존** | `AWSBudgetsActionsWithAWSResourceControlAccess`. **루트 콘솔에서 떼야 한다** — 배포자에게 `iam:DetachUserPolicy`가 없다(자기제한이 의도대로 작동한 결과). 예산 알람 1개를 위해 필요 이상으로 넓다 |
+| **`budgets` 태깅 3종 적용** | 정책 파일은 고쳤으나 **루트 콘솔이 필요하다** — `iam:CreatePolicyVersion`을 일부러 뺐다. 적용 후 **몇 분 기다렸다가** `./apply.sh plan`으로 확인. 절차는 `infra/iam/README.md` |
+| **관리형 정책 1개 잔존** | `AWSBudgetsActionsWithAWSResourceControlAccess`. 역시 **루트 콘솔** — 배포자에게 `iam:DetachUserPolicy`가 없다. 예산 알람 1개를 위해 필요 이상으로 넓다 |
 | **`detach` 순서 미정렬** | IAM 관련 정책을 **마지막에** 떼도록 고쳐야 한다. 이번엔 전파 지연 덕에 통과했다 — 재현 보장이 없다 |
 
 ### (라) 비용 대비 이득이 작아 우선순위를 내린 것

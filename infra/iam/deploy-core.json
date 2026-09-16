@@ -87,7 +87,10 @@
         "budgets:CreateBudget",
         "budgets:DescribeBudget",
         "budgets:UpdateBudget",
-        "budgets:DeleteBudget"
+        "budgets:DeleteBudget",
+        "budgets:ListTagsForResource",
+        "budgets:TagResource",
+        "budgets:UntagResource"
       ],
       "Resource": "arn:aws:budgets::ACCOUNT_ID:budget/multiagent-research-lab-monthly"
     },

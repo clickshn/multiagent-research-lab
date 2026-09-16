@@ -29,7 +29,7 @@
 | **품질** | 골든셋 **8 pass / 1 fail** — 음성 케이스 **2/2**(지어내지 않음) | [§4.4](#44-골든셋-채점-n9) |
 | **보안** | 인젝션 10건 방어 전/후 실측 — 구조적 성립 **4 → 0**, 모델 의존 **1 → 0** | [§7](#7-보안--운영) |
 | **테스트** | **114건** (보안 42건 포함) — 컨테이너 안에서도 전부 통과 | `python -m pytest tests/ -q` |
-| **배포** | ECS Fargate 온디맨드, **27/27**, drift 0, 유휴 **~$0.14/월**, EFS 영속화·배포자 최소 권한 실측 확인 | [§6.2](#62-배포-아키텍처) |
+| **배포** | ECS Fargate 온디맨드, **27/27**, drift 0, 유휴 **~$0.14/월**, EFS 영속화 실측 확인 | [§6.2](#62-배포-아키텍처) |
 | **결정 기록** | **ADR 17건** (+ Amendment 7건) — [adr-skill](https://github.com/clickshn/adr-skill)로 작성 | [§8.1](#81-adr-목록) |
 | **하네스** | `CLAUDE.md` / `docs/governance.md` / `.claude/rules/` / SessionStart 훅 | [§9](#9-하네스--컨텍스트-엔지니어링) |
 
@@ -472,10 +472,11 @@ session-06에서 `docker compose --profile langfuse`로 self-host 서버를 띄�
 - **골든셋 자동 채점의 의미 판정 부분**(`must_mention`)은 사람이 봐야 한다.
 - **`min_citations=1` / `max_revisions=2` / `top_k=4`는 여전히 근거 없이 정한 출발점이다.**
   session-08에서 `max_revisions`만 대조 측정했고(§5.1) 나머지 둘은 안 했다.
-- **배포자 권한에 관리형 정책 1개가 남아 있다** — 최소 권한 교체는 적용됐고
-  `./apply.sh plan`이 통과하지만(ADR-017), `AWSBudgetsActionsWithAWSResourceControlAccess`
-  하나가 분리되지 않았다. **배포자에게 `iam:DetachUserPolicy`가 없어서**(자기제한이
-  의도대로 작동한 결과) **루트 콘솔에서 떼야 한다.**
+- **배포자 최소 권한 교체가 루트 콘솔 작업 2건을 남겼다** (ADR-017) —
+  (1) `budgets` 태깅 3종을 정책에 적용해야 현재 `./apply.sh plan`이 통과한다,
+  (2) `AWSBudgetsActionsWithAWSResourceControlAccess` 1개가 분리되지 않았다.
+  둘 다 **배포자에게 `iam:CreatePolicyVersion` / `iam:DetachUserPolicy`가 없어서**
+  (자기제한이 의도대로 작동한 결과) 루트 콘솔이 필요하다. 절차는 `infra/iam/README.md`.
 - **`detach` 순서에 잠재 위험이 남아 있다** — IAM 관련 정책을 중간에 떼면 그 시점 이후의
   분리 권한이 사라진다. 이번엔 IAM 전파 지연 덕에 통과했다 — **설계가 옳아서가 아니다.**
 
@@ -704,13 +705,25 @@ bash infra/run_task.sh research "질의"       # 리서치 1회
 **배포자 권한도 최소 권한으로 좁혔다** (ADR-017). session-07은 apply를 통과시키려고
 관리형 정책을 실패할 때마다 하나씩 붙였고, 그 결과 **태스크 역할은 최소 권한인데
 배포자는 계정 전반을 만질 수 있는** 불일치가 남아 있었다(관리형 정책 10개, `IAMFullAccess`
-포함). `infra/iam/`의 고객 관리형 정책 2개로 교체하고 **`./apply.sh plan`이 최소 권한만으로
-"No changes"를 내는 것을 확인했다.**
+포함). `infra/iam/`의 고객 관리형 정책 2개로 교체했다. 절차와 루트 콘솔 보정은
+`infra/iam/README.md`에 있다.
 
-실행에서 세 가지가 드러났고 전부 설계에서 놓친 것이다 — **`PoliciesPerUser` 한도가 10이라
-"붙이고 나서 뗀다"는 순서가 처음부터 실행 불가였고**(중복 정책을 먼저 떼어 우회),
-`aws --output text`의 ``가 마지막 ARN 하나만 망가뜨렸고(권한 문제로 오인하기 쉽다),
-**`IAMFullAccess`를 중간에 떼는 순서는 IAM 전파 지연 덕에 통과했지 옳아서가 아니다.**
+실행에서 네 가지가 드러났고 **전부 설계에서 놓친 것이다.**
+
+- **`PoliciesPerUser` 한도가 10이라 "붙이고 나서 뗀다"는 순서가 처음부터 실행 불가였다**
+  — 함께 붙어 있던 FullAccess의 부분집합인 중복 정책을 먼저 떼어 우회했다.
+- `aws --output text`가 Windows에서 `CR LF`로 끝나 **마지막 ARN 하나만** 망가뜨렸다
+  (8개 중 7개 성공 — 권한 문제로 오인하기 쉽다).
+- `IAMFullAccess`를 중간에 떼는 순서는 **IAM 전파 지연 덕에 통과했지 옳아서가 아니다.**
+- ⚠️ **가장 중요한 것: 분리 직후의 `plan` "No changes"는 검증이 아니었다.** 나중에 다시
+  돌리니 `AccessDenied: budgets:ListTagsForResource`로 실패했다 — 처음 통과는 아직 살아
+  있던 옛 권한으로 돈 결과다. **상태가 수렴한 뒤에 한 번 더 돌린 결과만 믿는다.**
+
+빠진 액션은 Budgets 태깅 3종이었다 (`default_tags`가 모든 리소스에 붙는데
+`budgets:ListTagsForResource`를 빠뜨렸다 — 다른 서비스는 태깅 3종이 들어 있었고
+전수 대조로 이 하나만 빠진 것을 확인했다). 정책 파일은 고쳤지만
+**`iam:CreatePolicyVersion`을 일부러 뺐기 때문에 적용에 루트 콘솔이 필요하다.**
+자기제한의 본질적 비용이며, 우회하면 이 ADR의 목적 자체가 사라진다.
 
 ---
 
@@ -906,7 +919,7 @@ JSON으로** 쌓인다 (ADR-008). `var/`는 `.gitignore` 대상이라 커밋되�
 | `docs/eval/run-log-session-08.md` | **현행 수치의 조건·해석 + 방어 전/후 비교** (`2026-09-16.1`) |
 | `docs/eval/bench-*.json` | 벤치마크 원자료 (케이스별 지연·토큰·채점) |
 | `docs/handoff/` | 세션별 핸드오프 (막힌 것·결정 대기 항목 포함) |
-| `infra/iam/` | 배포자 최소 권한 정책 + 교체 스크립트 (ADR-017) |
+| `infra/iam/README.md` | 배포자 최소 권한 정책·교체 절차·**루트 콘솔 보정 절차** (ADR-017) |
 
 ### 8.1 ADR 목록
 
