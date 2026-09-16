@@ -60,6 +60,16 @@ models/
 *.safetensors
 *.bin
 
+# --- 런타임 산출물 (의도적으로 커밋하지 않음) ---
+# 위 Python 블록의 `var/`가 이미 이걸 덮지만, 그건 distutils용 표준 템플릿 항목이라
+# "우리가 정해서 제외한다"는 의도가 남지 않는다. 명시적으로 다시 적는다.
+# var/llm_cache/ 에는 **LLM 응답 본문이 평문 JSON으로** 쌓인다 (ADR-008).
+# var/traces/ 에는 프롬프트를 포함한 감사 로그가 쌓인다 (ADR-007).
+# 둘 다 보존기간·접근권한 기준은 docs/governance.md "로컬 산출물 취급"을 따른다.
+var/llm_cache/
+var/traces/
+var/chroma/
+
 # --- Claude Code 로컬 전용 ---
 CLAUDE.md
 .claude/deploy-approved

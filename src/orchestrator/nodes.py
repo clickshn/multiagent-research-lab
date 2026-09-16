@@ -23,6 +23,7 @@ from collections.abc import Callable, Sequence
 from src.obs import RunTrace
 from src.providers import ChatMessage, LLMError, LLMProvider, LLMResponse
 from src.tools.retrieval import RetrievalError, RetrievedChunk, Retriever
+from src.tools.sanitize import wrap_untrusted
 
 from . import prompts
 from .state import Citation, Finding, LLMCallRecord, ResearchState
@@ -180,22 +181,38 @@ def _citations_by_topic(findings: Sequence[Finding]) -> dict[str, list[Citation]
 
 
 def _format_candidates(chunks: Sequence[RetrievedChunk]) -> str:
+    """후보 문서를 프롬프트에 실을 형태로 만든다.
+
+    본문은 **우리가 쓰지 않은 텍스트**다. 그대로 이어 붙이면 문서에 적힌 문장이
+    지시로 읽힐 수 있으므로(간접 인젝션) 신뢰 경계로 감싼다 (ADR-009).
+    제목도 감싼다 — 짧아서 안전해 보이지만 똑같이 외부 입력이다.
+    """
     lines = []
     for index, chunk in enumerate(chunks, start=1):
         body = chunk.text[:_SNIPPET_LIMIT]
+        title_block = wrap_untrusted(chunk.title, label=f"후보 {index} 제목")
+        body_block = wrap_untrusted(body, label=f"후보 {index} 본문")
         lines.append(
             f"[{index}] doc_id={chunk.doc_id} (유사도 {chunk.score:.3f})\n"
-            f"    제목: {chunk.title}\n"
-            f"    내용: {body}"
+            f"{title_block}\n"
+            f"{body_block}"
         )
     return "\n\n".join(lines) if lines else "(검색 결과 없음)"
 
 
 def _format_evidence(citations: Sequence[Citation]) -> str:
+    """근거를 Verifier·Writer 프롬프트에 실을 형태로 만든다.
+
+    snippet은 검색된 문서 본문이 그대로 들어온 것이다. Researcher를 통과했다는
+    사실이 내용을 신뢰할 근거가 되지는 않으므로 여기서도 경계로 감싼다 —
+    파이프라인 뒷단일수록 "이미 검증된 것"으로 착각하기 쉽다 (ADR-009).
+    """
     if not citations:
         return "(근거 없음)"
     return "\n\n".join(
-        f"[{c.doc_id} / {c.locator}]\n{c.snippet[:_SNIPPET_LIMIT]}" for c in citations
+        f"[{c.doc_id} / {c.locator}]\n"
+        + wrap_untrusted(c.snippet[:_SNIPPET_LIMIT], label=c.doc_id)
+        for c in citations
     )
 
 

@@ -17,6 +17,7 @@ from langgraph.graph import END, START, StateGraph
 from src.obs import RunTrace
 from src.providers import LLMProvider, get_provider
 from src.tools.retrieval import Retriever
+from src.tools.scope import ScopedRetriever, ToolScope
 
 from .nodes import (
     DEFAULT_MIN_CITATIONS,
@@ -43,6 +44,7 @@ def build_graph(
     top_k: int = DEFAULT_TOP_K,
     min_citations: int = DEFAULT_MIN_CITATIONS,
     sources: Sequence[str] | None = None,
+    scope: ToolScope | None = None,
 ) -> StateGraph:
     """그래프를 구성한다 (컴파일 전).
 
@@ -52,8 +54,20 @@ def build_graph(
 
     `retriever`가 None이면 검색 없이 동작한다 — 모든 항목이 "근거 없음"이 되므로
     구조 검증용이다. 실제 실행은 `scripts/run_research.py`가 검색 툴을 주입한다.
+
+    **툴 스코프는 여기서 강제된다 (ADR-009).** 주입된 검색 툴이 무엇이든
+    `ScopedRetriever`로 감싸므로, 호출자가 스코프를 빠뜨려서 넓은 권한이 새는
+    경로가 없다. 스코프를 노드나 스크립트에 맡기면 새 호출 지점이 생길 때마다
+    빠뜨릴 수 있다 — 그래서 그래프 배선이라는 **단일 길목**에 둔다.
     """
     llm = provider or get_provider()
+
+    effective_scope = scope or ToolScope()
+    if sources:
+        # 호출자가 출처를 지정하면 스코프를 그만큼 좁힌다. 넓히려 하면 예외다.
+        effective_scope = effective_scope.narrow(sources)
+    if retriever is not None and not isinstance(retriever, ScopedRetriever):
+        retriever = ScopedRetriever(retriever, effective_scope)
 
     graph = StateGraph(ResearchState)
 
@@ -93,6 +107,7 @@ def compile_graph(
     top_k: int = DEFAULT_TOP_K,
     min_citations: int = DEFAULT_MIN_CITATIONS,
     sources: Sequence[str] | None = None,
+    scope: ToolScope | None = None,
     checkpointer=None,
 ):
     """실행 가능한 그래프.
@@ -107,4 +122,5 @@ def compile_graph(
         top_k=top_k,
         min_citations=min_citations,
         sources=sources,
+        scope=scope,
     ).compile(checkpointer=checkpointer)
