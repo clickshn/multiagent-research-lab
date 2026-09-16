@@ -92,3 +92,6 @@ vendor/
 CLAUDE.md
 .claude/deploy-approved
 .claude/settings.local.json
+
+# session-08: IAM 최소 권한 정책의 렌더링 결과 — 계정 ID가 들어간다
+infra/iam/.rendered/

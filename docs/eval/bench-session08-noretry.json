@@ -1,0 +1,660 @@
+{
+  "label": "session08-noretry",
+  "generated_at": "2026-09-16T14:48:52+0900",
+  "n_cases": 9,
+  "cache_enabled": false,
+  "prompt_version": "2026-09-16.1",
+  "model": "gemma-4-31B-it",
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "corpus_docs": 16,
+  "max_revisions": 0,
+  "top_k": 4,
+  "embedding_warmup": {
+    "cold_load_s": 10.601,
+    "warm_encode_ms": 11.3,
+    "note": "콜드 로딩은 프로세스 기동 1회 비용이며 아래 지연 수치에 포함되지 않는다. 상주 프로세스에서는 발생하지 않는다."
+  },
+  "latency": {
+    "llm_mean_s": 11.598,
+    "llm_median_s": 12.672,
+    "llm_p95_s": 19.878,
+    "llm_max_s": 19.878,
+    "llm_per_call_mean_s": 1.389,
+    "retrieval_mean_s": 0.136,
+    "pipeline_mean_s": 12.74,
+    "pipeline_median_s": 12.858,
+    "pipeline_p95_s": 27.064,
+    "pipeline_max_s": 27.064,
+    "percentile_method": "nearest-rank (n이 작아 보간하지 않는다)"
+  },
+  "tokens": {
+    "prompt_total": 75551,
+    "completion_total": 5712,
+    "billed_total": 81263,
+    "mean_per_request": 9029.2,
+    "billed_mean_per_request": 9029.2
+  },
+  "calls": {
+    "total": 70,
+    "cache_hits": 0,
+    "mean_per_request": 7.78
+  },
+  "retry_loop": {
+    "runs_with_retry": 0,
+    "retry_citations_total": 0,
+    "new_citations_total": 0
+  },
+  "scoring": {
+    "passed": 8,
+    "failed": 1,
+    "unscored": 0
+  },
+  "bench_wall_clock_s": 114.81,
+  "rows": [
+    {
+      "case_id": "GS-001",
+      "query": "LLM 멀티에이전트 협업 시스템을 설계하고 평가할 때 어떤 어려움이 보고되는가?",
+      "run_id": "20260916-144657-e5e368",
+      "wall_clock_s": 27.064,
+      "llm_latency_s": 18.117,
+      "retrieval_latency_s": 0.123,
+      "other_latency_s": 8.824,
+      "llm_calls": 9,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 10223,
+      "completion_tokens": 980,
+      "billed_tokens": 11203,
+      "revisions": 1,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 281,
+          "completion": 79,
+          "latency_s": 1.8187,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 6117,
+          "completion": 215,
+          "latency_s": 4.0252,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 3,
+          "prompt": 2291,
+          "completion": 221,
+          "latency_s": 4.0137,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 1534,
+          "completion": 465,
+          "latency_s": 8.259,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 1,
+        "cited_doc_ids": [
+          "arXiv:2412.05449v1",
+          "arXiv:2602.03128v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2412.05449v1"
+        ],
+        "must_mention_manual": [
+          "협업 프로토콜 설계",
+          "평가의 어려움"
+        ]
+      },
+      "draft_chars": 893
+    },
+    {
+      "case_id": "GS-002",
+      "query": "멀티에이전트 LLM 프레임워크의 아키텍처 선택은 시스템 성능에 어떤 영향을 주는가?",
+      "run_id": "20260916-144724-53b1b6",
+      "wall_clock_s": 12.858,
+      "llm_latency_s": 12.672,
+      "retrieval_latency_s": 0.148,
+      "other_latency_s": 0.039,
+      "llm_calls": 9,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 9416,
+      "completion_tokens": 693,
+      "billed_tokens": 10109,
+      "revisions": 1,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 283,
+          "completion": 71,
+          "latency_s": 1.2932,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 6117,
+          "completion": 201,
+          "latency_s": 3.7943,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 3,
+          "prompt": 1885,
+          "completion": 174,
+          "latency_s": 3.1907,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 1131,
+          "completion": 247,
+          "latency_s": 4.3937,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 1,
+        "cited_doc_ids": [
+          "arXiv:2602.03128v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2602.03128v1"
+        ],
+        "must_mention_manual": [
+          "지연 시간 또는 처리량",
+          "아키텍처 선택의 영향"
+        ]
+      },
+      "draft_chars": 438
+    },
+    {
+      "case_id": "GS-003",
+      "query": "제조 현장에 LLM 기반 멀티에이전트 시스템을 적용한 연구에는 어떤 것이 있는가?",
+      "run_id": "20260916-144737-f5db05",
+      "wall_clock_s": 20.154,
+      "llm_latency_s": 19.878,
+      "retrieval_latency_s": 0.243,
+      "other_latency_s": 0.033,
+      "llm_calls": 10,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 10643,
+      "completion_tokens": 1102,
+      "billed_tokens": 11745,
+      "revisions": 1,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 279,
+          "completion": 80,
+          "latency_s": 1.4311,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 5940,
+          "completion": 289,
+          "latency_s": 5.3277,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 4,
+          "prompt": 3093,
+          "completion": 258,
+          "latency_s": 4.7139,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 1331,
+          "completion": 475,
+          "latency_s": 8.4058,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 2,
+        "cited_doc_ids": [
+          "arXiv:2405.16887v2",
+          "arXiv:2406.01893v2"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2405.16887v2",
+          "arXiv:2406.01893v2"
+        ],
+        "must_mention_manual": [
+          "제조 시스템",
+          "자연어 기반 에이전트 협상 또는 조정"
+        ]
+      },
+      "draft_chars": 884
+    },
+    {
+      "case_id": "GS-004",
+      "query": "LLM 에이전트의 정렬(alignment)을 재학습 없이 조정하는 접근이 있는가?",
+      "run_id": "20260916-144757-588b9c",
+      "wall_clock_s": 14.235,
+      "llm_latency_s": 14.079,
+      "retrieval_latency_s": 0.12,
+      "other_latency_s": 0.036,
+      "llm_calls": 9,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 9197,
+      "completion_tokens": 776,
+      "billed_tokens": 9973,
+      "revisions": 1,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 280,
+          "completion": 73,
+          "latency_s": 1.3063,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 6070,
+          "completion": 195,
+          "latency_s": 3.6892,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 3,
+          "prompt": 1895,
+          "completion": 201,
+          "latency_s": 3.654,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 952,
+          "completion": 307,
+          "latency_s": 5.4297,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 2,
+        "cited_doc_ids": [
+          "arXiv:2512.06196v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2512.06196v1"
+        ],
+        "must_mention_manual": [
+          "재학습 없이 조정",
+          "해석 가능한 보상 모델"
+        ]
+      },
+      "draft_chars": 564
+    },
+    {
+      "case_id": "GS-005",
+      "query": "금융 트레이딩에 멀티에이전트 LLM을 적용한 프레임워크가 있는가?",
+      "run_id": "20260916-144812-0800ed",
+      "wall_clock_s": 11.627,
+      "llm_latency_s": 11.528,
+      "retrieval_latency_s": 0.066,
+      "other_latency_s": 0.033,
+      "llm_calls": 7,
+      "cache_hits": 0,
+      "retrieval_calls": 3,
+      "prompt_tokens": 7043,
+      "completion_tokens": 636,
+      "billed_tokens": 7679,
+      "revisions": 1,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 280,
+          "completion": 63,
+          "latency_s": 1.1451,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 3,
+          "prompt": 4559,
+          "completion": 149,
+          "latency_s": 2.8156,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 2,
+          "prompt": 1274,
+          "completion": 146,
+          "latency_s": 2.6502,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 930,
+          "completion": 278,
+          "latency_s": 4.9168,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 1,
+        "cited_doc_ids": [
+          "arXiv:2412.20138v7"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2412.20138v7"
+        ],
+        "must_mention_manual": [
+          "트레이딩 회사의 협업 구조 모방"
+        ]
+      },
+      "draft_chars": 534
+    },
+    {
+      "case_id": "GS-006",
+      "query": "LLM의 성능을 평가하기 위해 멀티에이전트 구조를 사용하는 접근이 있는가?",
+      "run_id": "20260916-144823-91df10",
+      "wall_clock_s": 4.636,
+      "llm_latency_s": 4.509,
+      "retrieval_latency_s": 0.11,
+      "other_latency_s": 0.017,
+      "llm_calls": 6,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 6954,
+      "completion_tokens": 240,
+      "billed_tokens": 7194,
+      "revisions": 1,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 278,
+          "completion": 85,
+          "latency_s": 1.5182,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 6083,
+          "completion": 56,
+          "latency_s": 1.2192,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 593,
+          "completion": 99,
+          "latency_s": 1.7717,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": false,
+          "expected_doc_cited": false
+        },
+        "passed": false,
+        "topic_count": 4,
+        "uncovered_count": 4,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [
+          "arXiv:2404.01023v1"
+        ],
+        "must_mention_manual": [
+          "LLM 평가를 위한 멀티에이전트 모델"
+        ]
+      },
+      "draft_chars": 176
+    },
+    {
+      "case_id": "GS-007",
+      "query": "과학 연구 자동화에서 LLM 멀티에이전트가 자율적으로 추론한 사례가 있는가?",
+      "run_id": "20260916-144828-11b4fc",
+      "wall_clock_s": 16.827,
+      "llm_latency_s": 16.591,
+      "retrieval_latency_s": 0.213,
+      "other_latency_s": 0.022,
+      "llm_calls": 9,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 9351,
+      "completion_tokens": 919,
+      "billed_tokens": 10270,
+      "revisions": 1,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 281,
+          "completion": 89,
+          "latency_s": 1.5827,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 6160,
+          "completion": 220,
+          "latency_s": 4.1212,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 3,
+          "prompt": 1927,
+          "completion": 211,
+          "latency_s": 3.8375,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 983,
+          "completion": 399,
+          "latency_s": 7.0496,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 2,
+        "cited_doc_ids": [
+          "arXiv:2512.13930v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2512.13930v1"
+        ],
+        "must_mention_manual": [
+          "원자 단위 시뮬레이션 설계·실행·해석",
+          "계층적 구조"
+        ]
+      },
+      "draft_chars": 747
+    },
+    {
+      "case_id": "GS-008",
+      "query": "한국 개인정보보호법상 가명정보를 처리할 때 충족해야 하는 요건은 무엇인가?",
+      "run_id": "20260916-144845-d651c8",
+      "wall_clock_s": 3.719,
+      "llm_latency_s": 3.578,
+      "retrieval_latency_s": 0.122,
+      "other_latency_s": 0.018,
+      "llm_calls": 6,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 7176,
+      "completion_tokens": 185,
+      "billed_tokens": 7361,
+      "revisions": 1,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 280,
+          "completion": 57,
+          "latency_s": 1.0347,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 6328,
+          "completion": 56,
+          "latency_s": 1.2374,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 568,
+          "completion": 72,
+          "latency_s": 1.3062,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "negative_case_held": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 4,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [],
+        "must_mention_manual": [
+          "근거 없음"
+        ]
+      },
+      "draft_chars": 131
+    },
+    {
+      "case_id": "GS-009",
+      "query": "LLM 멀티에이전트 시스템 운영 시 GPU 비용을 얼마나 절감할 수 있는지 실측 수치가 있는가?",
+      "run_id": "20260916-144849-97f1b0",
+      "wall_clock_s": 3.538,
+      "llm_latency_s": 3.431,
+      "retrieval_latency_s": 0.08,
+      "other_latency_s": 0.027,
+      "llm_calls": 5,
+      "cache_hits": 0,
+      "retrieval_calls": 3,
+      "prompt_tokens": 5548,
+      "completion_tokens": 181,
+      "billed_tokens": 5729,
+      "revisions": 1,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 283,
+          "completion": 64,
+          "latency_s": 1.1552,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 3,
+          "prompt": 4705,
+          "completion": 42,
+          "latency_s": 0.9261,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 560,
+          "completion": 75,
+          "latency_s": 1.35,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "negative_case_held": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 3,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [],
+        "must_mention_manual": [
+          "근거 없음"
+        ]
+      },
+      "draft_chars": 135
+    }
+  ]
+}
