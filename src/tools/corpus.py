@@ -16,6 +16,10 @@ from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
 
+# Chroma 메타데이터가 받는 타입. 리스트·None은 여기 들어올 수 없다 —
+# 평탄화는 `contract_import.ontology_metadata()`가 한다.
+Metadata = dict[str, "str | int | float | bool"]
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CORPUS_DIR = REPO_ROOT / "data" / "corpus"
 
@@ -62,18 +66,33 @@ class CorpusDoc:
     locator: str = "abstract"
     url: str = ""
     published: str = ""
-    extra: dict[str, str] = field(default_factory=dict)
+    extra: Metadata = field(default_factory=dict)
 
-    def as_metadata(self) -> dict[str, str]:
-        """Chroma 메타데이터로 실을 형태 (스칼라만 허용된다)."""
-        return {
-            "doc_id": self.doc_id,
-            "source": self.source,
-            "title": self.title,
-            "locator": self.locator,
-            "url": self.url,
-            "published": self.published,
+    def as_metadata(self) -> Metadata:
+        """Chroma 메타데이터로 실을 형태 (스칼라만 허용된다).
+
+        **`extra`를 버리지 않는다.** session-09까지는 위 6키만 싣고 `extra`를 조용히
+        떨어뜨렸다 — 그래서 온톨로지 필드(계약 §3.2)를 실을 자리가 없었다. 지금은
+        `extra`의 스칼라를 그대로 얹는다.
+
+        인용에 필요한 6키는 **덮어쓸 수 없다.** `extra`가 `doc_id`나 `locator`를
+        바꿀 수 있으면 출처 표기가 문서마다 다른 규칙으로 만들어질 수 있고,
+        그것은 이 프로젝트의 1순위 목표(출처 제시)를 데이터 쪽에서 무너뜨린다.
+        """
+        metadata: Metadata = {
+            key: value for key, value in self.extra.items() if value is not None
         }
+        metadata.update(
+            {
+                "doc_id": self.doc_id,
+                "source": self.source,
+                "title": self.title,
+                "locator": self.locator,
+                "url": self.url,
+                "published": self.published,
+            }
+        )
+        return metadata
 
 
 def _iter_records(path: Path) -> Iterator[dict]:
@@ -85,8 +104,8 @@ def _iter_records(path: Path) -> Iterator[dict]:
     yield from payload
 
 
-def load_corpus(corpus_dir: Path | None = None) -> list[CorpusDoc]:
-    """`data/corpus/<source>/*.json`을 읽어 CorpusDoc 목록으로 만든다.
+def load_snapshot(corpus_dir: Path | None = None) -> list[CorpusDoc]:
+    """`data/corpus/<source>/*.json` — `ingest_corpus.py`가 만든 스냅샷만 읽는다.
 
     디렉터리 이름이 곧 출처이며, 화이트리스트에 없으면 예외를 던진다.
     """
@@ -113,6 +132,33 @@ def load_corpus(corpus_dir: Path | None = None) -> list[CorpusDoc]:
                         published=str(record.get("published", "")),
                     )
                 )
+    return docs
+
+
+def load_corpus_with_report(corpus_dir: Path | None = None):
+    """스냅샷(JSON) + 출력 계약 export(JSONL)를 합쳐 읽고, 반입 결과도 함께 돌려준다.
+
+    반환: `(docs, report)` — `report`는 `contract_import.ImportReport`.
+
+    `contract_import`를 함수 안에서 import하는 이유는 순환 참조 때문이다:
+    저쪽이 `CorpusDoc`을 쓰고 이쪽이 저쪽의 반입 규칙을 쓴다. 계약 검증 규칙을
+    이 파일에 섞지 않으려면(여기는 ADR-004의 반입 *정책*이 사는 자리다)
+    지연 import가 가장 정직한 분리다.
+    """
+    from .contract_import import merge_exports_into  # noqa: PLC0415 (순환 참조 회피)
+
+    root = corpus_dir or DEFAULT_CORPUS_DIR
+    snapshot = load_snapshot(root)
+    return merge_exports_into(snapshot, root)
+
+
+def load_corpus(corpus_dir: Path | None = None) -> list[CorpusDoc]:
+    """인덱싱 대상 문서 전체. 스냅샷과 export를 구분하지 않는다.
+
+    `build_index.py`가 부르는 함수다. 계약 export가 하나도 없으면 스냅샷만 돌려주므로
+    session-09 이전과 동작이 같다.
+    """
+    docs, _ = load_corpus_with_report(corpus_dir)
     return docs
 
 
