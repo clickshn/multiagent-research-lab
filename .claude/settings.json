@@ -19,7 +19,8 @@
       {
         "matcher": "Bash|PowerShell",
         "hooks": [
-          { "type": "command", "command": "\"${CLAUDE_PROJECT_DIR}\"/.claude/hooks/check-deploy-approval.sh" }
+          { "type": "command", "command": "\"${CLAUDE_PROJECT_DIR}\"/.claude/hooks/check-deploy-approval.sh" },
+          { "type": "command", "command": "\"${CLAUDE_PROJECT_DIR}\"/.claude/hooks/check-external-llm.sh" }
         ]
       }
     ]

@@ -12,6 +12,13 @@ from .config import (
     load_cache_settings,
     load_settings,
 )
+from .egress import (
+    EXTERNAL_LLM_HOST_SUBSTRINGS,
+    EXTERNAL_LLM_HOSTS,
+    ExternalEndpointError,
+    assert_internal_endpoint,
+    match_external_vendor,
+)
 from .llm import (
     ChatMessage,
     LiteLLMProvider,
@@ -22,11 +29,16 @@ from .llm import (
 )
 
 __all__ = [
+    "assert_internal_endpoint",
     "CacheSettings",
     "CacheStats",
     "CachingLLMProvider",
     "ChatMessage",
     "clear_cache",
+    "EXTERNAL_LLM_HOST_SUBSTRINGS",
+    "EXTERNAL_LLM_HOSTS",
+    "ExternalEndpointError",
+    "match_external_vendor",
     "load_cache_settings",
     "ConfigError",
     "get_provider",

@@ -15,6 +15,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+from .egress import assert_internal_endpoint
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_ENV_FILE = REPO_ROOT / ".env"
 
@@ -40,6 +42,15 @@ class ProviderSettings:
     api_key: str = _NO_AUTH_PLACEHOLDER
     timeout_s: float = 120.0
     max_retries: int = 2
+
+    def __post_init__(self) -> None:
+        """외부 LLM 벤더 엔드포인트면 **객체가 만들어지지 않는다** (ADR-021).
+
+        검사를 `load_settings()`가 아니라 여기에 두는 이유: `load_settings()`에만 두면
+        `ProviderSettings(base_url=...)`를 직접 만드는 경로가 검사를 비껴간다.
+        타입 자체가 불변식을 들고 있으면 **어느 경로로 만들어도** 같은 검사를 받는다.
+        """
+        assert_internal_endpoint(self.base_url)
 
     @property
     def litellm_model(self) -> str:

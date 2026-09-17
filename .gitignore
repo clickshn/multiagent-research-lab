@@ -91,6 +91,9 @@ vendor/
 # --- Claude Code 로컬 전용 ---
 CLAUDE.md
 .claude/deploy-approved
+# 외부 LLM 벤더 호출 1회 승인 파일 (ADR-021). 커밋되면 승인이 영구화된다 —
+# 게이트를 여는 파일은 그 세션의 로컬 상태로만 존재해야 한다.
+.claude/external-llm-approved
 .claude/settings.local.json
 
 # session-08: IAM 최소 권한 정책의 렌더링 결과 — 계정 ID가 들어간다
