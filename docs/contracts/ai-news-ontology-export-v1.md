@@ -47,9 +47,19 @@ RawItem ──▶ 관련성 게이트 ──▶ NewsOntology ──┬──▶ 
 
 ```
 data/corpus/news/<export_id>.jsonl          # 레코드 1건 = 1줄 (JSON object)
-data/corpus/news/<export_id>.manifest.json  # 실행 단위 메타 + 어휘 스냅샷
 data/corpus/arxiv/<export_id>.jsonl         # source=="arxiv"인 레코드는 여기로 (§4.3)
+data/corpus/<export_id>.manifest.json       # 실행 단위 메타 + 어휘 스냅샷 (export당 1개)
 ```
+
+> **manifest 위치 정정 (session-10).** 초안은 manifest를 `news/` 아래에 적었으나,
+> `counts`가 두 출처의 **합계**라 출처 디렉터리 하나에 두면 나머지 하나를 설명할 수 없다.
+> 생산자의 실제 출력도 `data/corpus/<export_id>.manifest.json` 하나다. MARA 로더는
+> 두 위치를 모두 찾아본다(`contract_import.load_manifest()`) — 이미 나간 산출물을
+> 깨뜨리지 않기 위해서다. 형식·필드는 그대로이므로 `contract_version`은 유지한다 (§9).
+>
+> **manifest는 JSONL보다 오래 남긴다** (ADR-019). v1은 전량 스냅샷이라 새 export가 오면
+> 이전 JSONL을 교체해야 하는데(§10, 두 개를 같이 두면 §7-2 `doc_id` 중복으로 실패),
+> 그때 manifest까지 지우면 **어휘 삭제·개명 검사(§5)의 근거가 사라진다.**
 
 - `<export_id>` = `ontology-YYYYMMDD-HHMMSS` (생산자의 export 실행 시각, KST).
 - **JSONL인 이유:** 한 줄이 한 레코드라 부분 실패가 파일 전체를 버리게 하지 않고,
@@ -452,3 +462,5 @@ LLM을 다시 부르게 된다.
 | 2026-09-17 | 1.0 (Draft) | session-09 최초 작성. ADR-018 |
 | 2026-09-17 | 1.0 (Draft) | §6.1 본문 길이 상한을 규범 규칙으로 승격, §8.1 측정 확정 절차·§8.2 배선 범위 경계 추가, §12 적합성 검증 체크리스트 추가 |
 | 2026-09-17 | 1.0 (버전 유지) | §4.3에 ADR-018 Amendment 참조 추가 — 동기 문장만 정정, 규칙 서술·형식 변경 없음 (§9의 "문구·설명 수정") |
+| 2026-09-17 | 1.0 (버전 유지) | session-10: §2 manifest 위치 정정(생산자 실제 출력에 맞춤, 로더는 두 위치 모두 탐색) + manifest 보존 규칙 명시. 형식·필드·`doc_id` 규칙 변경 없음 (§9의 "문구·설명 수정") |
+| 2026-09-17 | — | session-10: §12.2 판정을 **MARA 로더로** 다시 내렸다 — **12 PASS / 0 FAIL / 1 PENDING**(3번 `prompt_sha256` 실측은 생산자 레포에서만 가능). 계약 문서 자체는 바뀌지 않았다 |
