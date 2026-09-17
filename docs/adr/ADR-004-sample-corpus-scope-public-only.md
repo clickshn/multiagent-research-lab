@@ -5,6 +5,54 @@
 - **Decision:** 이 프로젝트의 VectorDB에는 공개 자료(arXiv 논문 초록, 공개 AI/기술 뉴스)만 넣고, 실제 사내 기밀 문서는 넣지 않는다.
 - **Scope:** multiagent-research-lab (데이터 반입 범위 / 코퍼스)
 - **Decision Source:** Human
+- **Verified:** 2026-09-17 (session-10) — arXiv 스냅샷 16건이 실물 arXiv 문서인지
+  독립 경로로 확인했다. 결정은 그대로이고 전제가 확인됐다 (아래 Verification 참조).
+
+---
+
+## Verification — 2026-09-17 (session-10): arXiv 스냅샷 16건은 **실물이다**
+
+### 왜 확인했나
+
+생산자 레포가 MARA의 `data/corpus/arxiv/*.json` 16건을 arXiv API `id_list`로 조회했을 때
+**16/16 전부 0건**을 돌려받았다(생산자 session-01 §6). 같은 엔드포인트에서 다른 실존
+논문은 정상 조회됐으므로, "코퍼스가 실물 arXiv 응답이 아닐 가능성"이 배제되지 않았다.
+
+이것은 사소한 의문이 아니었다. 실물이 아니었다면 (1) v1.0 baseline이 "공개 arXiv 초록
+위에서 잰 값"이 아니게 되고, (2) **ADR-004의 "공개 자료만 넣는다"가 그 코퍼스에 대해
+성립하는지 다시 봐야 하며**, (3) Session 1의 baseline 재측정이 가짜 대 진짜 비교가 되고,
+(4) Session 3의 필터 효과 판정까지 근거가 흔들린다. 그래서 **Session 1 진입 차단 조건**으로
+올라와 있었다.
+
+### 어떻게 확인했나 — `id_list`가 아닌 경로로
+
+`id_list`는 단독 근거가 될 수 없었다. 생산자가 **같은 피드가 몇 초 전에 돌려준 논문**
+하나를 `id_list`로 조회했을 때 0건이 나왔다(false negative). 그래서 **API를 쓰지 않고
+`https://arxiv.org/abs/<id>` 페이지를 직접 받아** `citation_title` / `citation_abstract`
+메타 태그를 스냅샷과 대조했다.
+
+| 대조 항목 | 결과 |
+|---|---|
+| HTTP 응답 | **16/16 = 200** (404·오류 0건) |
+| `citation_title` vs 스냅샷 `title` | **16/16 일치** (문자열 유사도 1.00) |
+| `citation_abstract` vs 스냅샷 `text` | **16/16 일치** (유사도 1.00, 길이도 동일) |
+
+초록이 **바이트 단위로 같다.** 제목만 맞는 것과는 다른 강도의 증거다 — 스냅샷의
+`text`(= 실제로 색인되고 인용되는 값)가 arXiv가 지금 서빙하는 초록과 같다는 뜻이다.
+
+### 결론
+
+- **코퍼스는 실물이다.** 16건 전부 실존 arXiv 논문이고 저장된 초록이 원문과 같다.
+- **`id_list` 결과는 코퍼스가 아니라 그 조회 경로의 문제였다.** 생산자 session-01 §6의
+  가설 중 "엔드포인트가 부분 스냅샷이라 과거 수집분을 서빙하지 않는다" 쪽이 남는다.
+  ⚠️ **원인 자체를 규명하지는 않았다** — 규명할 필요가 없어졌을 뿐이다. arXiv API의
+  `id_list` 경로를 **실존 판정에 쓰지 않는다**는 것만 기록해 둔다.
+- **ADR-004의 결정과 전제는 그대로 유효하다.** 공개 arXiv 초록만 들어 있다.
+  골든셋 `expected_doc_ids` 개정도 이 사유로는 필요 없다.
+- **Session 1 진입 차단 조건은 해소됐다.**
+
+재현: `https://arxiv.org/abs/<arxiv_id>` 16건 GET 후 `citation_title`·`citation_abstract`
+메타 태그 대조 (session-10 핸드오프 §5).
 
 ---
 
@@ -119,7 +167,8 @@ IP 화이트리스트나 API 키를 추가할 수 없고, 통제 수단은 URL�
 - [x] arXiv 수집 스크립트 (`scripts/ingest_corpus.py`) — 공개 API, 재개 가능
 - [x] `docs/problem-statement.md` §1에 범위 주의 문단 추가
 - [x] 화이트리스트 위반 테스트 (`tests/security/test_corpus_scope.py`)
-- [ ] `news` 출처 수집 — 공개 AI/기술 뉴스 (다음 세션)
+- [x] `news` 출처 수집 — 공개 AI/기술 뉴스 (session-10, 계약 v1 export 30건 중 색인 13건).
+      생산자 `ai-news-ontology`의 공개 RSS/Atom 피드 수집분을 출력 계약으로 받는다 (ADR-018, ADR-019)
 
 ## Reversibility
 
@@ -130,6 +179,12 @@ IP 화이트리스트나 API 키를 추가할 수 없고, 통제 수단은 URL�
 ## Review Trigger
 
 - 사내 보안 정책상 현 무인증 엔드포인트로 사내 문서를 질의하는 것이 허용되는지 확인되고, 허용된다는 답을 받는 경우 — 사내 문서 인덱싱 재검토.
+- **[session-10 추가]** `news` 출처가 채워졌다 (계약 v1 export 30건, 공개 RSS/Atom 피드).
+  Implementation의 `[ ] news 출처 수집`이 여기서 닫힌다. 다음 재검토 지점은 생산자의
+  **D-013(원문 페이지 직접 fetch)** 실행 — 피드 발췌가 아니라 기사 전문이 반입되므로
+  저작권·반입 범위 판단이 다시 필요하다 (계약 §10). 계약 형식은 바뀌지 않지만 이 ADR은 바뀐다.
+- **[session-10 추가]** 코퍼스 스냅샷을 **커밋**하기로 했다 (ADR-019). 공개 자료가 아닌
+  데이터가 들어오면 노출 경로가 로컬 디스크가 아니라 **git 이력**이 된다 — 되돌리기가 더 어렵다.
 
 ## References
 
