@@ -751,7 +751,9 @@
         "query_narrowed_for_truncation": false,
         "indexed_chars": 154,
         "truncation_tail": "광고주는",
-        "note": "text_truncated=false지만 본문이 '광고주는'에서 문장이 끝나지 않는다 — 수집 단계에서 잘린 흔적이나 메타데이터는 절단으로 표시하지 않는다. 질의는 온전히 담긴 첫 두 문장만으로 답할 수 있게 썼다. **메타데이터의 text_truncated와 실제 문장 완결성이 일치하지 않는 사례**이므로 계약 쪽에서 확인이 필요하다."
+        "note": "⚠️ text_truncated=false지만 본문이 '광고주는'에서 문장이 끝나지 않는다 — **실제로는 절단돼 있다.** session-13 전수 대조 결과 같은 상태가 2건(news:0252e9379cd9f923, 이 문서)이고, 실제 절단 news는 10/13건인데 플래그는 8건만 표시한다. 플래그는 본문 완결성이 아니라 '...'의 존재를 재는 것으로 보인다 — **이 필드로 완결성을 판단하면 안 된다.** 질의는 온전히 담긴 첫 두 문장만으로 답할 수 있게 썼다. 생산자 레포 확인 항목으로 등록(session-13 §6.4).",
+        "actually_truncated": true,
+        "flag_disagrees_with_text": true
       }
     },
     {
