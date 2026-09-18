@@ -1,0 +1,209 @@
+{
+  "measured_at": "2026-09-18T14:12:57+0900",
+  "corpus_size": 37,
+  "llm_calls": 0,
+  "group_sizes": {
+    "v1.0-long": 16,
+    "new-en-long": 8,
+    "new-en-short": 3,
+    "new-ko": 10
+  },
+  "length_by_group": {
+    "v1.0-long": {
+      "min": 1192,
+      "median": 1404,
+      "max": 1887
+    },
+    "new-en-long": {
+      "min": 1364,
+      "median": 1721,
+      "max": 1983
+    },
+    "new-en-short": {
+      "min": 188,
+      "median": 195,
+      "max": 203
+    },
+    "new-ko": {
+      "min": 166,
+      "median": 206,
+      "max": 228
+    }
+  },
+  "vector_norm": {
+    "min": 1.0,
+    "max": 1.0
+  },
+  "korean_long_docs": 0,
+  "v10_short_docs": 0,
+  "by_query_lang": {
+    "ko": {
+      "per_group": {
+        "v1.0-long": {
+          "n_docs": 16,
+          "mean_rank": 14.56,
+          "mean_score": 0.8011,
+          "max_score": 0.8482,
+          "displacements": 16
+        },
+        "new-en-long": {
+          "n_docs": 8,
+          "mean_rank": 26.75,
+          "mean_score": 0.7746,
+          "max_score": 0.8405,
+          "displacements": 1
+        },
+        "new-en-short": {
+          "n_docs": 3,
+          "mean_rank": 35.41,
+          "mean_score": 0.7416,
+          "max_score": 0.7892,
+          "displacements": 0
+        },
+        "new-ko": {
+          "n_docs": 10,
+          "mean_rank": 14.98,
+          "mean_score": 0.8,
+          "max_score": 0.8505,
+          "displacements": 11
+        }
+      },
+      "pearson_chars_vs_score_all": 0.068,
+      "pearson_chars_vs_score_english_only": 0.563,
+      "new_en_short_ranks_by_case": {
+        "GS-001": [
+          34,
+          36,
+          37
+        ],
+        "GS-002": [
+          35,
+          36,
+          37
+        ],
+        "GS-003": [
+          34,
+          36,
+          37
+        ],
+        "GS-004": [
+          31,
+          36,
+          37
+        ],
+        "GS-005": [
+          31,
+          34,
+          36
+        ],
+        "GS-006": [
+          35,
+          36,
+          37
+        ],
+        "GS-007": [
+          35,
+          36,
+          37
+        ],
+        "GS-008": [
+          32,
+          36,
+          37
+        ],
+        "GS-009": [
+          35,
+          36,
+          37
+        ]
+      },
+      "length_controlled_contrast": {
+        "note": "new-ko(166~228자) vs new-en-short(188~203자) — 길이대가 겹친다",
+        "new_ko_mean_score": 0.8,
+        "new_en_short_mean_score": 0.7416,
+        "delta_attributable_to_language": 0.0584
+      }
+    },
+    "en": {
+      "per_group": {
+        "v1.0-long": {
+          "n_docs": 16,
+          "mean_rank": 9.81,
+          "mean_score": 0.8295,
+          "max_score": 0.9088,
+          "displacements": 10
+        },
+        "new-en-long": {
+          "n_docs": 8,
+          "mean_rank": 18.75,
+          "mean_score": 0.8011,
+          "max_score": 0.8577,
+          "displacements": 1
+        },
+        "new-en-short": {
+          "n_docs": 3,
+          "mean_rank": 26.04,
+          "mean_score": 0.7789,
+          "max_score": 0.8249,
+          "displacements": 0
+        },
+        "new-ko": {
+          "n_docs": 10,
+          "mean_rank": 31.79,
+          "mean_score": 0.7534,
+          "max_score": 0.7973,
+          "displacements": 0
+        }
+      },
+      "pearson_chars_vs_score_all": 0.64,
+      "pearson_chars_vs_score_english_only": 0.344,
+      "new_en_short_ranks_by_case": {
+        "GS-001": [
+          25,
+          31,
+          33
+        ],
+        "GS-002": [
+          24,
+          28,
+          32
+        ],
+        "GS-003": [
+          20,
+          22,
+          25
+        ],
+        "GS-004": [
+          19,
+          26,
+          29
+        ],
+        "GS-005": [
+          18,
+          24,
+          26
+        ],
+        "GS-006": [
+          22,
+          24,
+          27
+        ],
+        "GS-007": [
+          25,
+          26,
+          27
+        ],
+        "GS-008": [
+          25,
+          31,
+          37
+        ],
+        "GS-009": [
+          24,
+          25,
+          28
+        ]
+      }
+    }
+  }
+}
