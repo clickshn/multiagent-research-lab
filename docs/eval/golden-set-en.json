@@ -1,11 +1,13 @@
 {
-  "version": "0.1",
+  "version": "2.0",
   "created": "2026-09-18",
-  "session": "session-12",
-  "purpose": "크로스링구얼 대조군. 골든셋(`golden-set.json`)의 한국어 질의를 영어로 옮긴 것이며, 검색 프로브(`scripts/probe_retrieval.py`)에서만 쓴다. 파이프라인은 이 파일을 읽지 않는다.",
+  "session": "session-13",
+  "supersedes": "0.1 (session-12, 9건)",
+  "purpose": "크로스링구얼 대조군. 골든셋(`golden-set.json` v2.0)의 한국어 질의 30건을 영어로 옮긴 것이며, 검색 프로브(`scripts/probe_retrieval.py`)에서만 쓴다. 파이프라인은 이 파일을 읽지 않는다.",
   "provenance": {
-    "note": "⚠️ session-05(ADR-005 Amendment)에서 쓴 번역본은 **저장되지 않았다.** 아래는 session-12에서 같은 원칙으로 다시 작성한 것이다 — 의미만 옮기고 초록의 표현을 베끼지 않는다. 따라서 **영어 질의 수치는 session-05의 85.7%와 엄밀히 같은 조건이 아니다** (번역이 교란 변수로 남는다). 한국어 질의 수치만이 session-05와 동일 조건의 재현이다.",
-    "principle": "질의의 의미만 옮긴다. 기대 문서 초록의 어휘를 그대로 쓰면 어휘 일치로 유리해져 측정이 무의미해진다 (ADR-005 Amendment §2)."
+    "note": "⚠️ session-05(ADR-005 Amendment)에서 쓴 번역본은 **저장되지 않았다.** GS-001~009는 session-12에서 다시 작성한 것이며 이번 세션에서 **한 글자도 바꾸지 않았다** — 바꾸면 session-12와의 비교가 다시 깨진다. GS-010~030은 이번 세션에서 신규 작성했다.",
+    "principle": "질의의 의미만 옮긴다. 기대 문서 초록의 어휘를 그대로 쓰면 어휘 일치로 유리해져 측정이 무의미해진다 (ADR-005 Amendment §2). 예: GS-020은 초록의 'asynchronous'를 피하지 않되 'long-horizon asynchronous scenarios'라는 구절 자체를 베끼지 않았고, GS-025는 'infeasible in single-turn settings'를 'impossible in one request'로 바꿔 썼다.",
+    "comparability": "**GS-001~009 구간만이 session-12와 동일 조건의 재현이다.** GS-010~030은 이번 회차가 최초 측정이므로 비교 대상이 없다."
   },
   "queries": {
     "GS-001": "What difficulties are reported when designing and evaluating LLM multi-agent collaboration systems?",
@@ -16,6 +18,27 @@
     "GS-006": "Is there an approach that uses a multi-agent structure to evaluate the performance of an LLM?",
     "GS-007": "Are there cases where LLM multi-agents reasoned autonomously in automating scientific research?",
     "GS-008": "What requirements must be met when processing pseudonymized data under Korea's Personal Information Protection Act?",
-    "GS-009": "Are there measured numbers for how much GPU cost can be saved when operating an LLM multi-agent system?"
+    "GS-009": "Are there measured numbers for how much GPU cost can be saved when operating an LLM multi-agent system?",
+    "GS-010": "Is there a study measuring how well two language models can narrow down candidates by exchanging questions and answers?",
+    "GS-011": "Is there research on spotting a model's reward-cheating behaviour from its internal representations?",
+    "GS-012": "For tokenisers, which matters more for language model performance -- what is optimised, or how it is searched?",
+    "GS-013": "Is there a benchmark that evaluates vision-language models on understanding artworks in an educational setting?",
+    "GS-014": "Is there an account of AI hardware shifting its focus from large-scale training toward meeting inference demand?",
+    "GS-015": "Has anyone surveyed how much agent benchmark papers reveal about the conditions their evaluations were run under?",
+    "GS-016": "Is there an approach that converts scientific code repositories into runnable environments an agent can learn from?",
+    "GS-017": "Is there a way to align a model using only comparisons, without computing gradients, when preference pairs differ only slightly?",
+    "GS-018": "Is there research showing that scores for radiology report generation models shift with how the reference reports were written?",
+    "GS-019": "Is there a study that splits a small model into planning, calling and summarising roles to improve tool use?",
+    "GS-020": "Is there a benchmark measuring how well agents plan long tasks asynchronously when steps run in parallel or get interrupted?",
+    "GS-021": "Is there research on linking each phrase of an image caption to pixel-level masks?",
+    "GS-022": "Is there a framework that improves a coding agent's search strategy by trying it against records of past attempts?",
+    "GS-023": "Has anyone laid out an operating scheme for tracking, investigating and disclosing cases of model misalignment?",
+    "GS-024": "Is a feature being tested where clicking an ad opens a conversation with a company-sponsored agent?",
+    "GS-025": "Is there a benchmark measuring vulnerability to attacks that reach goals impossible in one request by exchanging many turns with an agent?",
+    "GS-026": "Are there performance numbers from a Korean company fine-tuning a Korean-language LLM on its own internal documents?",
+    "GS-027": "Have safety incidents been reported from attaching LLM agents to real factory equipment?",
+    "GS-028": "Is there an experiment that varies inference server settings such as batch size or KV cache and measures throughput?",
+    "GS-029": "Are there results showing an LLM agent beating specialist physicians' diagnostic accuracy in a clinical trial?",
+    "GS-030": "Is there research measuring the power consumption or carbon emissions of running a multi-agent system?"
   }
 }

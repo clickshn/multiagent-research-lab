@@ -1,31 +1,59 @@
 {
-  "version": "0.1-draft",
-  "created": "2026-09-15",
-  "session": "session-03",
-  "status": "초안 — 채점 파이프라인 없음. 비교 대상이 있는 상태를 만드는 것이 목적이다.",
+  "version": "2.0",
+  "created": "2026-09-18",
+  "session": "session-13",
+  "supersedes": "0.1-draft (session-03, 9건)",
+  "status": "확대판. 9건 -> 30건. 채점 파이프라인은 여전히 없다 — 검색 프로브(scripts/probe_retrieval.py)의 입력으로 쓴다.",
   "corpus": {
-    "snapshot": "data/corpus/arxiv",
+    "snapshot": "var/chroma (collection: research_corpus)",
     "sources": [
-      "arxiv"
+      "arxiv",
+      "news"
     ],
-    "note": "공개 자료만 사용한다 (ADR-004). 현재 16건(arXiv 2개 주제)이며, arXiv rate limit으로 계획한 5개 주제 중 2개만 수집됐다. 코퍼스가 늘어나면 expected_doc_ids를 다시 확인해야 한다 — 새 문서가 더 좋은 근거일 수 있고, 그러면 기존 기대값이 틀린 것이 된다.",
-    "size": 16
+    "size": 37,
+    "note": "공개 자료만 사용한다 (ADR-004). arXiv 24 + news 13. 온톨로지 메타데이터 보유 23건 / 결측 14건(전원 스냅샷 arXiv). 코퍼스가 늘어나면 expected_doc_ids를 다시 확인해야 한다 — 새 문서가 더 좋은 근거일 수 있고, 그러면 기존 기대값이 틀린 것이 된다.",
+    "extraction_model_at_authoring": "claude-opus-5 (온톨로지 메타 보유 23건 전수). vLLM 이전이 끝나면 이 값이 바뀌므로 필터 판정 전에 재확인할 것 (session-12 §0)."
   },
   "seed": {
     "run_id": "20260915-152557-c34630",
-    "note": "e2e 실행 1회의 출력을 씨앗으로 삼되, 기대 기준은 실행 결과가 아니라 코퍼스 원문(초록)을 직접 읽고 작성했다. 시스템 출력을 그대로 정답으로 삼으면 자기 자신을 기준으로 채점하게 된다."
+    "note": "v1.0 9건은 e2e 실행 1회의 출력을 씨앗으로 삼되, 기대 기준은 실행 결과가 아니라 코퍼스 원문(초록)을 직접 읽고 작성했다. 시스템 출력을 그대로 정답으로 삼으면 자기 자신을 기준으로 채점하게 된다.",
+    "v2_note": "신규 21건(GS-010~GS-030)은 씨앗 실행 없이 코퍼스 37건의 원문(arXiv 초록 / GeekNews·OpenAI News 요약)을 직접 읽고 작성했다. **LLM 판정을 쓰지 않았다** — v1.0 방식 유지. 검색 결과를 보고 기대값을 정하지 않았다(그러면 검색을 검색으로 채점하게 된다)."
   },
   "criteria_vocabulary": {
     "min_citations": "초안이 인용해야 하는 서로 다른 doc_id의 최소 개수",
     "expected_doc_ids": "코퍼스에 실제로 근거가 있는 문서. 최소 1건은 인용되어야 한다",
     "must_mention": "초안에 등장해야 하는 핵심 주제어 (표현이 아니라 의미 기준으로 사람이 판정)",
-    "expect_uncovered": "true면 '근거 없음'으로 처리되어야 한다. 근거 없이 답을 지어내면 실패다"
+    "expect_uncovered": "true면 '근거 없음'으로 처리되어야 한다. 근거 없이 답을 지어내면 실패다",
+    "anchor_meta": "기대 문서의 온톨로지 메타데이터 보유 여부 (ADR-022). present=전건 보유 / missing=1건이라도 결측 / n-a=negative라 앵커 없음. **측정 전에 선언한다** — 측정 후 제외는 체리피킹이다",
+    "stratum": "집계 층 (ADR-022). A=positive이며 필터 적격 / B=positive이나 앵커 메타 결측이라 strict 필터에서 구조적으로 재현율 0 / C=negative. **A와 B를 합친 평균은 필터 판정에 쓰지 않는다**",
+    "case_type": "이 케이스가 겨냥하는 설계 축. v1.0 / tech_domain / language / release_type / negative",
+    "targets_ontology": "Session 3에서 이 케이스가 어떤 온톨로지 필드로 갈리는지. 필터 판정의 매핑 표다",
+    "evidence_quote": "기대 근거의 원문 발췌. 다음 세션이 코퍼스를 다시 읽지 않고도 기대값을 검증할 수 있게 남긴다",
+    "source_text_note": "인덱싱된 본문이 절단된 경우의 기록. 절단 때문에 질의를 좁혔다면 그 사실을 남긴다 — 나중에 원문 fetch가 열려 본문이 길어지면 왜 좁게 썼는지 알 수 없게 된다"
+  },
+  "strata_summary": {
+    "A": {
+      "n": 14,
+      "definition": "positive, anchor_meta=present — Session 3 필터 판정의 주 지표"
+    },
+    "B": {
+      "n": 9,
+      "definition": "positive, anchor_meta=missing — strict 필터에서 재현율 0이 정상. 별도 집계"
+    },
+    "C": {
+      "n": 7,
+      "definition": "negative — 점수 간격·오탐"
+    },
+    "note": "ADR-022. 층 A+B 합산 재현율은 필터 없음(baseline) 측정에서만 참고로 적고, 필터 적용 측정에서는 보고하지 않는다."
   },
   "cases": [
     {
       "id": "GS-001",
       "query": "LLM 멀티에이전트 협업 시스템을 설계하고 평가할 때 어떤 어려움이 보고되는가?",
       "language": "ko",
+      "case_type": "v1.0",
+      "stratum": "A",
+      "anchor_meta": "present",
       "expect": {
         "expect_uncovered": false,
         "min_citations": 1,
@@ -37,12 +65,21 @@
           "평가의 어려움"
         ]
       },
-      "rationale": "2412.05449v1 초록이 '협업 프로토콜 설계와 효과 평가가 여전히 큰 과제'라고 명시한다. 엔터프라이즈 맥락도 함께 언급된다."
+      "rationale": "2412.05449v1 초록이 '협업 프로토콜 설계와 효과 평가가 여전히 큰 과제'라고 명시한다. 엔터프라이즈 맥락도 함께 언급된다.",
+      "targets_ontology": {
+        "release_type": "Paper",
+        "tech_domains": "Agent|Eval/Governance|LLM",
+        "note": "v1.0 positive 7건 중 유일하게 필터 적격인 케이스다."
+      },
+      "evidence_quote": "However, designing the collaboration protocols and evaluating the effectiveness of these systems remains a significant challenge, especially for enterprise applications."
     },
     {
       "id": "GS-002",
       "query": "멀티에이전트 LLM 프레임워크의 아키텍처 선택은 시스템 성능에 어떤 영향을 주는가?",
       "language": "ko",
+      "case_type": "v1.0",
+      "stratum": "B",
+      "anchor_meta": "missing",
       "expect": {
         "expect_uncovered": false,
         "min_citations": 1,
@@ -54,12 +91,21 @@
           "아키텍처 선택의 영향"
         ]
       },
-      "rationale": "2602.03128v1 초록이 아키텍처 선택만으로 지연·처리량에 수십 배(order-of-magnitude) 차이가 생긴다고 밝힌다. 수치 주장이라 근거 정확도 판정이 명확하다."
+      "rationale": "2602.03128v1 초록이 아키텍처 선택만으로 지연·처리량에 수십 배(order-of-magnitude) 차이가 생긴다고 밝힌다. 수치 주장이라 근거 정확도 판정이 명확하다.",
+      "targets_ontology": {
+        "release_type": null,
+        "tech_domains": null,
+        "note": "스냅샷 arXiv — 온톨로지 메타 없음. strict 필터에서 탈락한다 (ADR-022 층 B)."
+      },
+      "evidence_quote": "architectural choices alone can induce order-of-magnitude differences in latency and throughput, as well as substantial variation in accuracy and scalability"
     },
     {
       "id": "GS-003",
       "query": "제조 현장에 LLM 기반 멀티에이전트 시스템을 적용한 연구에는 어떤 것이 있는가?",
       "language": "ko",
+      "case_type": "v1.0",
+      "stratum": "B",
+      "anchor_meta": "missing",
       "expect": {
         "expect_uncovered": false,
         "min_citations": 2,
@@ -72,12 +118,21 @@
           "자연어 기반 에이전트 협상 또는 조정"
         ]
       },
-      "rationale": "같은 주제의 문서가 2건 있어 min_citations=2를 요구할 수 있는 유일한 케이스다. 출처를 하나만 물고 끝내는지 확인하는 용도."
+      "rationale": "같은 주제의 문서가 2건 있어 min_citations=2를 요구할 수 있는 유일한 케이스다. 출처를 하나만 물고 끝내는지 확인하는 용도.",
+      "targets_ontology": {
+        "release_type": null,
+        "tech_domains": null,
+        "note": "기대 문서 2건 모두 메타 결측. 층 B."
+      },
+      "evidence_quote": "the present study proposes a Large Language Model-based (LLM-based) multi-agent manufacturing system for intelligent shopfloor management / Large language models like GPT-3.5 and GPT-4 enhance multi-agent manufacturing systems by enabling agents to communicate in natural language"
     },
     {
       "id": "GS-004",
       "query": "LLM 에이전트의 정렬(alignment)을 재학습 없이 조정하는 접근이 있는가?",
       "language": "ko",
+      "case_type": "v1.0",
+      "stratum": "B",
+      "anchor_meta": "missing",
       "expect": {
         "expect_uncovered": false,
         "min_citations": 1,
@@ -89,12 +144,21 @@
           "해석 가능한 보상 모델"
         ]
       },
-      "rationale": "2512.06196v1(ARCANE) 초록이 '재학습 없이 상호작용 시점에 선호 변화를 반영'한다고 명시한다."
+      "rationale": "2512.06196v1(ARCANE) 초록이 '재학습 없이 상호작용 시점에 선호 변화를 반영'한다고 명시한다. **GS-017(ComPO)과 서로 방해하도록 의도적으로 남겨둔 케이스다** — 변별 지점은 '재학습 없음(ARCANE)' vs '0차 최적화지만 학습은 한다(ComPO)'. 실패 시 어느 쪽으로 붙었는지 보면 혼동의 방향을 알 수 있다.",
+      "targets_ontology": {
+        "release_type": null,
+        "tech_domains": null,
+        "note": "스냅샷 arXiv — 메타 결측. 층 B."
+      },
+      "evidence_quote": "reward models must be capable of steering agents at interaction time, allowing preference shifts to be incorporated without retraining"
     },
     {
       "id": "GS-005",
       "query": "금융 트레이딩에 멀티에이전트 LLM을 적용한 프레임워크가 있는가?",
       "language": "ko",
+      "case_type": "v1.0",
+      "stratum": "B",
+      "anchor_meta": "missing",
       "expect": {
         "expect_uncovered": false,
         "min_citations": 1,
@@ -105,12 +169,21 @@
           "트레이딩 회사의 협업 구조 모방"
         ]
       },
-      "rationale": "2412.20138v7(TradingAgents)이 실제 트레이딩 회사의 협업 역학을 모방한 프레임워크라고 기술한다."
+      "rationale": "2412.20138v7(TradingAgents)이 실제 트레이딩 회사의 협업 역학을 모방한 프레임워크라고 기술한다. ADR-005 §4의 점수 간격 앵커 케이스이므로 **바꾸지 않는다** — 바꾸면 v1.0 수치와 비교가 성립하지 않는다.",
+      "targets_ontology": {
+        "release_type": null,
+        "tech_domains": null,
+        "note": "스냅샷 arXiv — 메타 결측. 층 B. ⚠️ 점수 간격 앵커가 층 B에 있다는 뜻이다 — 필터 적용 시 이 앵커는 쓸 수 없다."
+      },
+      "evidence_quote": "TradingAgents proposes a novel stock trading framework inspired by trading firms, featuring LLM-powered agents in specialized roles such as fundamental analysts, sentiment analysts, technical analysts, and traders with varied risk profiles."
     },
     {
       "id": "GS-006",
       "query": "LLM의 성능을 평가하기 위해 멀티에이전트 구조를 사용하는 접근이 있는가?",
       "language": "ko",
+      "case_type": "v1.0",
+      "stratum": "B",
+      "anchor_meta": "missing",
       "expect": {
         "expect_uncovered": false,
         "min_citations": 1,
@@ -121,12 +194,21 @@
           "LLM 평가를 위한 멀티에이전트 모델"
         ]
       },
-      "rationale": "'멀티에이전트로 LLM을 평가한다'와 '멀티에이전트를 평가한다'를 혼동하지 않는지 보는 케이스. 검색이 주제어만 보고 GS-002와 섞기 쉽다."
+      "rationale": "'멀티에이전트로 LLM을 평가한다'와 '멀티에이전트를 평가한다'를 혼동하지 않는지 보는 케이스. 검색이 주제어만 보고 GS-002와 섞기 쉽다. v1.0에서 9위, session-12에서 12위로 **한 번도 성공한 적이 없는 케이스다** — 개별 회귀 추적 대상.",
+      "targets_ontology": {
+        "release_type": null,
+        "tech_domains": null,
+        "note": "스냅샷 arXiv — 메타 결측. 층 B."
+      },
+      "evidence_quote": "we introduce a novel multi-agent AI model that aims to assess and compare the performance of various LLMs"
     },
     {
       "id": "GS-007",
       "query": "과학 연구 자동화에서 LLM 멀티에이전트가 자율적으로 추론한 사례가 있는가?",
       "language": "ko",
+      "case_type": "v1.0",
+      "stratum": "B",
+      "anchor_meta": "missing",
       "expect": {
         "expect_uncovered": false,
         "min_citations": 1,
@@ -138,12 +220,21 @@
           "계층적 구조"
         ]
       },
-      "rationale": "2512.13930v1(MASTER)이 LLM이 시뮬레이션을 직접 설계·실행·해석한다고 기술한다."
+      "rationale": "2512.13930v1(MASTER)이 LLM이 시뮬레이션을 직접 설계·실행·해석한다고 기술한다. **GS-016(ScienceIDE)과 주제가 인접하다** — 둘 다 '과학 + 에이전트'다. 변별 지점은 '시뮬레이션을 수행한다(MASTER)' vs '코드 저장소를 학습 환경으로 바꾼다(ScienceIDE)'.",
+      "targets_ontology": {
+        "release_type": null,
+        "tech_domains": null,
+        "note": "스냅샷 arXiv — 메타 결측. 층 B."
+      },
+      "evidence_quote": "an active learning framework where large language models autonomously design, execute, and interpret atomistic simulations"
     },
     {
       "id": "GS-008",
       "query": "한국 개인정보보호법상 가명정보를 처리할 때 충족해야 하는 요건은 무엇인가?",
       "language": "ko",
+      "case_type": "negative",
+      "stratum": "C",
+      "anchor_meta": "n-a",
       "expect": {
         "expect_uncovered": true,
         "min_citations": 0,
@@ -152,12 +243,18 @@
           "근거 없음"
         ]
       },
-      "rationale": "코퍼스(arXiv AI 논문)에 근거가 전혀 없는 질의다. 모델이 사전 지식으로 답을 지어내면 이 프로젝트의 1순위 제약이 깨진다. 가장 중요한 케이스."
+      "rationale": "코퍼스(arXiv AI 논문 + AI 뉴스)에 근거가 전혀 없는 질의다. 모델이 사전 지식으로 답을 지어내면 이 프로젝트의 1순위 제약이 깨진다. 가장 중요한 케이스. ADR-005 §4의 '완전 무관' 앵커이므로 **바꾸지 않는다**.",
+      "targets_ontology": {
+        "note": "negative. 필터와 무관하게 최고 점수 자체가 관측치다."
+      }
     },
     {
       "id": "GS-009",
       "query": "LLM 멀티에이전트 시스템 운영 시 GPU 비용을 얼마나 절감할 수 있는지 실측 수치가 있는가?",
       "language": "ko",
+      "case_type": "negative",
+      "stratum": "C",
+      "anchor_meta": "n-a",
       "expect": {
         "expect_uncovered": true,
         "min_citations": 0,
@@ -166,7 +263,638 @@
           "근거 없음"
         ]
       },
-      "rationale": "주제는 코퍼스와 가깝지만(성능·비용) 구체적 GPU 비용 절감 수치는 어느 초록에도 없다. 검색이 '비슷해 보이는' 문서를 물어와 Verifier가 통과시키는지 보는 케이스 — 의미 유사도 검색의 대표적 실패 양상이다."
+      "rationale": "주제는 코퍼스와 가깝지만(성능·비용) 구체적 GPU 비용 절감 수치는 어느 초록에도 없다. 검색이 '비슷해 보이는' 문서를 물어와 Verifier가 통과시키는지 보는 케이스 — 의미 유사도 검색의 대표적 실패 양상이다. ⚠️ 코퍼스 확대 후 2605.21404가 '에이전트 벤치마크 8편 전부 추론 비용을 공개하지 않는다'고 말하지만, 이는 '비용을 공개하지 않았다'는 서술이지 절감 수치가 아니다. 근거 없음 유지.",
+      "targets_ontology": {
+        "note": "negative."
+      }
+    },
+    {
+      "id": "GS-010",
+      "query": "두 언어모델이 서로 질문과 답을 주고받으며 후보를 좁혀가는 능력을 측정한 연구가 있는가?",
+      "language": "ko",
+      "case_type": "tech_domain",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2609.19113v1"
+        ],
+        "must_mention": [
+          "질문자와 답변자로 나뉜 2에이전트 게임",
+          "집합 크기에 따른 승률 변화"
+        ]
+      },
+      "rationale": "**(a) 유형의 주력 케이스다.** tech_domains=Reasoning은 23건 중 2건(8.7%)뿐이고, 필터를 통과해 남는 한국어 문서가 news:3dd7208e(Dream-RSI) 1건 — **session-12 §3이 지목한 상습 밀어내기 3건 중 하나**다. 즉 필터 적용 후에도 오염원이 남은 상태에서 기대 문서가 이겨야 하며, 개선이 나오면 그것은 '한국어 단문 일괄 제거'로 설명되지 않는다. 노리는 방해문서는 news:0252e9(세션 간 질의응답 브로커) — 어휘가 정면 충돌하지만 tech_domains=Agent|Application/Product라 Reasoning 필터에서 탈락한다.",
+      "targets_ontology": {
+        "release_type": "Paper",
+        "tech_domains": "Eval/Governance|Reasoning|LLM",
+        "filter_axis": "tech_domains=Reasoning",
+        "selectivity": "2/23 = 8.7%",
+        "ko_docs_surviving_filter": [
+          "news:3dd7208e3f2a1dde"
+        ],
+        "intended_distractor": [
+          "news:0252e9379cd9f923"
+        ]
+      },
+      "evidence_quote": "A questioner sees N Wikipedia lead paragraphs and must identify a secretly chosen target using exactly log_2 N yes/no questions. An answerer sees only the target and the question, and replies with one word."
+    },
+    {
+      "id": "GS-011",
+      "query": "모델이 보상을 속이는 행동을 내부 표현으로 탐지할 수 있다는 연구가 있는가?",
+      "language": "ko",
+      "case_type": "tech_domain",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2609.19101v1"
+        ],
+        "must_mention": [
+          "내부 표현 기반 탐지 (difference of means 벡터)",
+          "LLM 모니터 대비 비용"
+        ]
+      },
+      "rationale": "(a) 유형. tech_domains=Safety/Alignment(5/23)로 걸면 한국어 2건(1047cd, 509053)이 남는다. **특히 news:509053은 'DeepSeek 해킹 벤치마크'로 어휘('해킹')가 정면 충돌하는 방해문서인데 Safety/Alignment라 필터를 통과한다** — 필터가 오염을 걷어내서가 아니라 주제 축으로 갈라야 이기는 구조다.",
+      "targets_ontology": {
+        "release_type": "Paper",
+        "tech_domains": "Safety/Alignment|Eval/Governance|LLM",
+        "filter_axis": "tech_domains=Safety/Alignment",
+        "selectivity": "5/23 = 21.7%",
+        "ko_docs_surviving_filter": [
+          "news:1047cd7bf162d6e0",
+          "news:509053e1f8b378dd"
+        ],
+        "intended_distractor": [
+          "news:509053e1f8b378dd"
+        ]
+      },
+      "evidence_quote": "we find that simple difference of means vectors coherently represent reward hacking in Kimi K3, GLM 5.2, and Qwen 3.8 Max across a variety of behaviors in common evaluations ... we can use them to reliably detect reward hacking"
+    },
+    {
+      "id": "GS-012",
+      "query": "토크나이저의 최적화 목표와 탐색 절차 중 어느 쪽이 언어모델 성능을 좌우하는가?",
+      "language": "ko",
+      "case_type": "tech_domain",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2609.19145v1"
+        ],
+        "must_mention": [
+          "목표(압축 vs 로그우도)와 탐색(상향 병합 vs 하향 가지치기)의 분리",
+          "탐색 절차가 지배적"
+        ]
+      },
+      "rationale": "(a) 유형. tech_domains=Training/Finetuning(5/23)로 걸면 한국어 2건(587009 4B SQL 훈련, dfff96 Xiaomi 사후학습)이 남는다. 둘 다 '학습' 어휘를 공유하므로 필터 후에도 한국어 경쟁자가 유지된다.",
+      "targets_ontology": {
+        "release_type": "Paper",
+        "tech_domains": "LLM|Training/Finetuning|Eval/Governance",
+        "filter_axis": "tech_domains=Training/Finetuning",
+        "selectivity": "5/23 = 21.7%",
+        "ko_docs_surviving_filter": [
+          "news:587009bd5b1aa4ce",
+          "news:dfff960c99b416b4"
+        ],
+        "intended_distractor": [
+          "news:dfff960c99b416b4"
+        ]
+      },
+      "evidence_quote": "we find that the search procedure -- not the objective -- is the dominant factor: bottom-up tokenisers consistently achieve lower bits-per-byte in most settings"
+    },
+    {
+      "id": "GS-013",
+      "query": "시각-언어 모델을 교육 맥락의 예술 이미지 이해로 평가한 벤치마크가 있는가?",
+      "language": "ko",
+      "case_type": "tech_domain",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2609.19088v1"
+        ],
+        "must_mention": [
+          "예술 이미지 이해 벤치마크",
+          "정서적 해석·구성적 추론의 취약"
+        ]
+      },
+      "rationale": "(a) 유형의 **선택도 상한 arm**이다. tech_domains=Multimodal은 3/23(13.0%)으로 선택도가 높지만 **한국어 문서가 0건 남는다** — 즉 이 필터는 여기서 release_type 필터와 같은 '한국어 일괄 제거'로 퇴화한다. ⚠️ 그래서 이 케이스의 개선분은 '필터 효과'로 읽으면 안 된다. **어느 지점부터 tech_domain이 오염 제거로 퇴화하는지를 표시하기 위해 일부러 넣었다.**",
+      "targets_ontology": {
+        "release_type": "Paper",
+        "tech_domains": "Multimodal|Eval/Governance",
+        "filter_axis": "tech_domains=Multimodal",
+        "selectivity": "3/23 = 13.0%",
+        "ko_docs_surviving_filter": [],
+        "intended_distractor": [],
+        "warning": "잔존 ko 0건 — 이 arm의 개선은 필터 효과와 오염 제거가 구분되지 않는다. 대조용이다."
+      },
+      "evidence_quote": "we introduce MUSE, a benchmark for evaluating large vision-language models on artistic image understanding in situated educational applications"
+    },
+    {
+      "id": "GS-014",
+      "query": "AI 하드웨어의 초점이 대규모 학습에서 추론 수요 대응으로 옮겨가고 있다는 설명이 있는가?",
+      "language": "ko",
+      "case_type": "tech_domain",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "news:42f467857601213c"
+        ],
+        "must_mention": [
+          "학습에서 추론으로의 하드웨어 중심 이동"
+        ]
+      },
+      "rationale": "(a) 유형이지만 **방향이 반대인 케이스다** — 기대 문서가 한국어 단문이다. session-12 §3이 이 문서를 '질의가 무엇이든 상위에 나타나는' 상습 밀어내기 문서로 지목했는데, **여기서는 이 문서가 정답이다.** 한국어 단문이 언제나 오염원인 것은 아니라는 대조. tech_domains=Hardware/Chip·Inference/Serving은 각각 코퍼스 유일(1/23)이라 선택도가 최대다. ⚠️ release_type=Community/Discussion이므로 Paper 필터에서는 정답이 사라진다 — (d) 축과 겹친다.",
+      "targets_ontology": {
+        "release_type": "Community/Discussion",
+        "tech_domains": "Hardware/Chip|Inference/Serving|LLM",
+        "filter_axis": "tech_domains=Inference/Serving (또는 Hardware/Chip)",
+        "selectivity": "1/23 = 4.3%",
+        "ko_docs_surviving_filter": [
+          "news:42f467857601213c"
+        ],
+        "cross_axis_warning": "release_type=Paper 필터를 걸면 이 케이스의 정답이 제거된다. (d) 축과 교차하는 유일한 (a) 케이스."
+      },
+      "evidence_quote": "LLM 활용 증가에 추론형 모델과 AI 에이전트 가 더해지면서, AI 하드웨어의 중심이 대규모 학습에서 급증하는 추론 수요 대응으로 이동하고 있음",
+      "source_text_note": {
+        "text_truncated": true,
+        "query_narrowed_for_truncation": true,
+        "indexed_chars": 147,
+        "truncation_tail": "연산 능력보다 메...",
+        "note": "인덱싱된 본문이 '연산 능력보다 메...'에서 절단돼 있어 **'메모리 대역폭'이라는 결론어가 인덱스에 없다.** 원래 쓰려던 질의('추론 단계에서 연산 능력보다 메모리 대역폭이 병목이 되는 이유')를 **절단 이전 문장으로 좁혀** 첫 문장(학습->추론 중심 이동)만 묻도록 고쳤다. **원문 fetch가 열려 본문이 길어지면 이 질의는 불필요하게 좁다** — 그때 GS-014를 원래 의도(메모리 대역폭 병목)로 되돌릴 것."
+      }
+    },
+    {
+      "id": "GS-015",
+      "query": "LLM 에이전트 벤치마크 논문들이 평가 실행 조건을 얼마나 공개하는지 조사한 것이 있는가?",
+      "language": "ko",
+      "case_type": "tech_domain",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2605.21404v1"
+        ],
+        "must_mention": [
+          "공개 수준 감사 스키마",
+          "에이전트 논문과 고전 벤치마크의 점수 차"
+        ]
+      },
+      "rationale": "(a) 유형의 **선택도 바닥 arm**이다. tech_domains=Eval/Governance는 23건 중 13건(56.5%)으로 필터를 걸어도 절반 이상이 남는다. **선택도가 없는 축에서는 tech_domain 필터가 아무것도 하지 못한다**는 것을 보여주는 대조군 — Session 0의 '몰려 있어 선택도가 없다'는 예측이 Agent가 아니라 Eval/Governance에서 성립함을 측정한다.",
+      "targets_ontology": {
+        "release_type": "Paper",
+        "tech_domains": "Eval/Governance|Agent",
+        "filter_axis": "tech_domains=Eval/Governance",
+        "selectivity": "13/23 = 56.5%",
+        "ko_docs_surviving_filter": [
+          "news:509053e1f8b378dd",
+          "news:dfff960c99b416b4"
+        ],
+        "warning": "선택도 하한 arm. 개선이 없어도 필터가 나쁜 것이 아니라 축이 나쁜 것이다."
+      },
+      "evidence_quote": "We designed a small audit schema (five fields: benchmark identity, harness specification, inference settings, cost reporting, failure breakdown) ... The mean audit score across the eight agent-benchmark papers is 0.38 (out of 1.0), and across the four classical static benchmarks 0.66"
+    },
+    {
+      "id": "GS-016",
+      "query": "과학 코드 저장소를 에이전트가 학습할 수 있는 실행 환경으로 바꾸는 접근이 있는가?",
+      "language": "ko",
+      "case_type": "language",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2609.19134v1"
+        ],
+        "must_mention": [
+          "과학 코드 저장소를 실행 가능한 환경으로 전환",
+          "검증된 상호작용 궤적으로 학습"
+        ]
+      },
+      "rationale": "(b) 유형. 한국어 질의 + 영어 정답 문서이며, **어휘가 겹치는 한국어 단문이 코퍼스에 실재한다** — news:0252e9(레포·에이전트), news:c076df(프로그래밍 학습). session-12 §3.1이 확정한 언어 일치 효과(길이 통제 시 ko단문 0.8000 vs en단문 0.7416)가 실제로 정답을 밀어내는지 보는 자리. ⚠️ GS-007(MASTER)과 인접하다 — 변별 지점은 '시뮬레이션 수행(MASTER)' vs '코드 저장소를 학습 환경으로 전환(ScienceIDE)'.",
+      "targets_ontology": {
+        "release_type": "Paper",
+        "tech_domains": "Agent|Training/Finetuning|Infra/MLOps",
+        "filter_axis": "(b) 축 — 언어 효과. 필터 판정에는 부차적",
+        "intended_distractor": [
+          "news:0252e9379cd9f923",
+          "news:c076df17a63066ea"
+        ]
+      },
+      "evidence_quote": "We introduce ScienceIDE, infrastructure for turning the world's scientific code into programmable environments for scientific agents."
+    },
+    {
+      "id": "GS-017",
+      "query": "선호 쌍의 차이가 작을 때 기울기 계산 없이 비교만으로 모델을 정렬하는 방법이 있는가?",
+      "language": "ko",
+      "case_type": "language",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2609.19144v1"
+        ],
+        "must_mention": [
+          "비교 오라클 기반 0차(zeroth-order) 정렬",
+          "미분 가능한 선호 손실을 직접 최적화하지 않음"
+        ]
+      },
+      "rationale": "(b) 유형. ⚠️ **GS-004(ARCANE)와 서로 방해하도록 의도적으로 남긴 케이스다.** 두 질의 모두 '정렬'을 묻지만 변별 지점은 다음과 같다 — **ComPO(2609.19144) = 0차 최적화 방법이며 학습은 한다**(비교 오라클로 방향 정보를 뽑아 오프라인/온라인 스킴으로 수렴 보장을 세운다). **ARCANE(2512.06196) = 해석 가능한 루브릭 보상 모델이며 재학습 없이 상호작용 시점에 조정한다.** 즉 '재학습 없음'은 ARCANE 쪽에만 해당한다. **GS-017이 실패해 2512.06196을 물어오면 '학습 여부' 축을 무시한 것이고, GS-004가 실패해 2609.19144를 물어오면 '재학습 없음'을 무시한 것이다** — 실패 방향으로 혼동의 성격을 읽을 수 있다. 한국어 방해문서는 news:587009·dfff96('학습' 어휘).",
+      "targets_ontology": {
+        "release_type": "Paper",
+        "tech_domains": "Training/Finetuning|Safety/Alignment|LLM",
+        "filter_axis": "(b) 축 — 언어 효과 + GS-004와의 변별",
+        "discrimination_axis": "학습 여부. ComPO=0차 최적화(학습함) / ARCANE=해석 가능 루브릭(재학습 없음)",
+        "paired_case": "GS-004",
+        "intended_distractor": [
+          "arXiv:2512.06196v1",
+          "news:587009bd5b1aa4ce",
+          "news:dfff960c99b416b4"
+        ]
+      },
+      "evidence_quote": "we propose and analyze Comparison-based Preference Optimization (ComPO), a zeroth-order alignment method based on comparison oracles. ComPO extracts directional information from these pairs without directly optimizing a differentiable preference loss on them."
+    },
+    {
+      "id": "GS-018",
+      "query": "방사선 판독문 생성 모델의 평가 점수가 참조 보고서의 작성 방식에 따라 흔들린다는 연구가 있는가?",
+      "language": "ko",
+      "case_type": "language",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2609.19093v1"
+        ],
+        "must_mention": [
+          "참조 보고서 작성 관행에 대한 평가 지표의 민감도",
+          "모델 순위가 뒤바뀜"
+        ]
+      },
+      "rationale": "(b) 유형. 한국어 방해문서는 news:509053·dfff96('벤치마크·평가' 어휘). 코퍼스에서 유일한 의료 도메인 문서라 주제 변별은 쉬운 편이고, **순수하게 언어 효과만 관측되는 자리**로 설계했다.",
+      "targets_ontology": {
+        "release_type": "Paper",
+        "tech_domains": "Eval/Governance|Multimodal|Data/Synthetic",
+        "filter_axis": "(b) 축 — 언어 효과. Data/Synthetic은 코퍼스 유일(1/23)이라 보조 (a) arm으로도 쓸 수 있다",
+        "intended_distractor": [
+          "news:509053e1f8b378dd",
+          "news:dfff960c99b416b4"
+        ]
+      },
+      "evidence_quote": "we quantify the sensitivity of established evaluation metrics to variations in reporting practices, revealing impacts large enough to alter the rankings of models ... condensing the discussion of normal findings in the reference reports causes Libra to drop from first to second place while CheXOne rises from third to first"
+    },
+    {
+      "id": "GS-019",
+      "query": "작은 모델을 계획·호출·요약 역할로 나눠 도구 사용 성능을 끌어올린 연구가 있는가?",
+      "language": "ko",
+      "case_type": "language",
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2401.07324v3"
+        ],
+        "must_mention": [
+          "planner / caller / summarizer 분해",
+          "단일 LLM 대비 성능 향상"
+        ]
+      },
+      "rationale": "(b) 유형 중 **어휘 함정이 가장 강한 두 건 중 하나**다. news:587009('4B **소형 모델**을 학습시켜')와 '작은 모델' 어휘가 직접 겹치는데, 그쪽은 SQL 실행 계획 생성이라 주제가 전혀 다르다. **의도적으로 층 B에 배치했다** — 앵커 메타가 없어 필터 판정에는 못 쓰지만, 이 케이스가 재는 것은 필터가 아니라 언어 효과이므로 층 B가 오히려 맞는 자리다.",
+      "targets_ontology": {
+        "release_type": null,
+        "tech_domains": null,
+        "filter_axis": "(b) 축 — 언어 효과 전용. 메타 결측이라 strict 필터에서 탈락(층 B)",
+        "intended_distractor": [
+          "news:587009bd5b1aa4ce"
+        ]
+      },
+      "evidence_quote": "we propose a novel approach that decomposes the aforementioned capabilities into a planner, caller, and summarizer. Each component is implemented by a single LLM that focuses on a specific capability and collaborates with others to accomplish the task."
+    },
+    {
+      "id": "GS-020",
+      "query": "에이전트가 병렬로 진행되거나 중단되는 장기 과제를 비동기적으로 계획하는 능력을 측정한 벤치마크가 있는가?",
+      "language": "ko",
+      "case_type": "language",
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2502.05227v1"
+        ],
+        "must_mention": [
+          "비동기 계획 벤치마크",
+          "동기 과제 대비 비동기 과제의 성능 급락"
+        ]
+      },
+      "rationale": "(b) 유형 중 **어휘 함정이 가장 강한 케이스**다. news:3dd7208e(Dream-RSI)의 '어느 시도를 이어가고, **병렬로 실행하거나 중단**할지 정하는 전략'과 질의 어휘가 거의 그대로 겹치는데, Dream-RSI는 탐색 전략 개선이지 비동기 계획 벤치마크가 아니다. 게다가 Dream-RSI는 session-12가 지목한 상습 밀어내기 문서다 — **언어 효과와 어휘 함정이 같은 문서에 겹친 최악의 조건.** 층 B 배치 이유는 GS-019와 같다.",
+      "targets_ontology": {
+        "release_type": null,
+        "tech_domains": null,
+        "filter_axis": "(b) 축 — 언어 효과 전용. 메타 결측이라 strict 필터에서 탈락(층 B)",
+        "intended_distractor": [
+          "news:3dd7208e3f2a1dde"
+        ]
+      },
+      "evidence_quote": "We introduce Robotouille, a challenging benchmark environment designed to test LLM agents' ability to handle long-horizon asynchronous scenarios ... ReAct (gpt4-o) achieves 47% on synchronous tasks but only 11% on asynchronous tasks"
+    },
+    {
+      "id": "GS-021",
+      "query": "이미지 캡션의 각 구절을 픽셀 마스크에 연결하는 문제를 다룬 연구가 있는가?",
+      "language": "ko",
+      "case_type": "language",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2609.19143v1"
+        ],
+        "must_mention": [
+          "구절-마스크 연결(phrase grounding)",
+          "마스크 후보에서의 선택"
+        ]
+      },
+      "rationale": "(b) 유형이지만 한국어 방해문서가 약하다. 대신 **같은 tech_domains=Multimodal 안에서의 변별**을 본다 — GS-013(MUSE, 예술 이미지 교육 평가)과 같은 도메인이므로, Multimodal 필터를 걸어도 둘은 서로 남는다. **tech_domain 필터가 도메인 내부의 변별까지 해주지는 않는다**는 것을 보여주는 자리.",
+      "targets_ontology": {
+        "release_type": "Paper",
+        "tech_domains": "Multimodal|Eval/Governance",
+        "filter_axis": "(b) 축 + Multimodal 도메인 내부 변별 (vs GS-013)",
+        "paired_case": "GS-013",
+        "intended_distractor": [
+          "arXiv:2609.19088v1"
+        ]
+      },
+      "evidence_quote": "we formulate phrase grounding as selection from a phrase-conditioned pool of mask proposals and introduce PANORAMA, a VLM that conditions a pretrained segmenter on contextualized phrase representations to obtain candidate masks and learns to select those corresponding to each phrase."
+    },
+    {
+      "id": "GS-022",
+      "query": "코딩 에이전트의 탐색 전략을 과거 시도 기록 위에서 시험해 개선하는 프레임워크가 있는가?",
+      "language": "ko",
+      "case_type": "release_type",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "news:3dd7208e3f2a1dde"
+        ],
+        "must_mention": [
+          "과거 시도·결과 기록 위에서 전략을 시험",
+          "코드 재생성·재실행 비용 회피"
+        ]
+      },
+      "rationale": "(d) 유형의 핵심 케이스다. **source=news인데 release_type=Paper인 코퍼스 유일 문서**다 — 즉 **출처(arxiv/news)로 근거 등급을 대신하면 틀린다.** Paper 필터를 걸어도 이 문서는 남아야 하며, 만약 구현이 source로 대용하면 이 케이스가 깨진다. 동시에 이 문서는 session-12가 지목한 상습 밀어내기 3건 중 하나라 **오염원과 정답이 같은 문서인 두 번째 사례**다(GS-014에 이어).",
+      "targets_ontology": {
+        "release_type": "Paper",
+        "tech_domains": "Agent|Reasoning",
+        "filter_axis": "release_type=Paper",
+        "note": "source=news + release_type=Paper. 출처를 등급의 대용으로 쓰는 구현을 잡아내는 케이스."
+      },
+      "evidence_quote": "과거 시도와 결과를 저장해 다른 탐색 전략을 기록 위에서 시험 하므로, 전략을 평가할 때마다 코드를 새로 생성하고 실행하는 비용...",
+      "source_text_note": {
+        "text_truncated": true,
+        "query_narrowed_for_truncation": true,
+        "indexed_chars": 147,
+        "truncation_tail": "코드를 새로 생성하고 실행하는 비용...",
+        "note": "본문이 '...실행하는 비용...'에서 절단돼 **비용 절감의 결론 수치가 인덱스에 없다.** 질의를 절단 이전에 온전히 담긴 '과거 시도 기록 위에서 전략을 시험한다'로 좁혔다. 원문 fetch가 열리면 비용 효과를 묻는 질의로 확장 가능하다."
+      }
+    },
+    {
+      "id": "GS-023",
+      "query": "모델의 오정렬 사례를 추적·조사·공개하는 운영 체계를 제시한 곳이 있는가?",
+      "language": "ko",
+      "case_type": "release_type",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "news:f3899afd4d6a0a2d"
+        ],
+        "must_mention": [
+          "오정렬 추적·조사·공개 프레임워크",
+          "예상 밖 모델 행동 보고"
+        ]
+      },
+      "rationale": "(d) 유형. release_type=Benchmark/Report이므로 **Paper 필터를 걸면 정답이 사라진다** — 필터의 비용을 재는 자리. 동시에 이 문서는 **영어 단문(OpenAI News)**이고, session-12 §3.1에 따르면 영어 단문은 한국어 질의에서 평균 35.4위로 바닥에 깔린다. 즉 **무필터에서는 순위가 낮고, 한국어 단문이 걸러지면 순위가 올라갈 것으로 예상되는 유일한 케이스**다 — 필터가 정답을 '올려주는' 효과를 관측할 수 있다. ⚠️ arXiv:2609.19101(reward hacking 탐지)과 구분해야 한다: 이쪽은 **공개·보고 체계**이고 19101은 **탐지 방법**이다.",
+      "targets_ontology": {
+        "release_type": "Benchmark/Report",
+        "tech_domains": "Safety/Alignment|Eval/Governance",
+        "filter_axis": "release_type=Paper 적용 시 정답 소실 (비용 측정)",
+        "discrimination_axis": "공개·보고 체계(f3899af) vs 탐지 방법(2609.19101)",
+        "intended_distractor": [
+          "arXiv:2609.19101v1"
+        ],
+        "note": "영어 단문이라 무필터에서 순위가 낮을 것으로 예상. 한국어 단문 제거 시 상승이 관측되는지가 핵심."
+      },
+      "evidence_quote": "OpenAI shares a framework for tracking, investigating, and disclosing model misalignment, alongside six reports of unexpected or concerning model behavior.",
+      "source_text_note": {
+        "text_truncated": false,
+        "query_narrowed_for_truncation": false,
+        "indexed_chars": 155,
+        "note": "절단되지 않았다. 다만 본문이 155자로 짧아 인용 가능한 근거의 폭이 좁다 — news 앵커 4건의 공통 제약이다."
+      }
+    },
+    {
+      "id": "GS-024",
+      "query": "광고를 클릭하면 기업이 후원하는 에이전트와 대화하는 기능이 시험되고 있는가?",
+      "language": "ko",
+      "case_type": "release_type",
+      "stratum": "A",
+      "anchor_meta": "present",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "news:14d2c76967ca2b60"
+        ],
+        "must_mention": [
+          "후원 에이전트와의 대화 기능 시험",
+          "독립 답변과의 분리 표시"
+        ]
+      },
+      "rationale": "(d) 유형. release_type=ProductLaunch — **제품 발표는 근거급이 아니다.** Paper 필터에서 정당하게 빠지는 대조군이며, GS-022(news인데 Paper)와 짝을 이룬다. 두 케이스를 함께 보면 '필터가 source가 아니라 release_type으로 작동하는가'를 양방향으로 확인할 수 있다.",
+      "targets_ontology": {
+        "release_type": "ProductLaunch",
+        "tech_domains": "Application/Product|Agent",
+        "filter_axis": "release_type=Paper 적용 시 정당한 제거",
+        "paired_case": "GS-022"
+      },
+      "evidence_quote": "OpenAI가 ChatGPT 광고를 클릭하면 기업이 후원하는 에이전트와 대화할 수 있는 Sponsored Agents 를 미국 일부 광고주와 테스트 중임",
+      "source_text_note": {
+        "text_truncated": false,
+        "query_narrowed_for_truncation": false,
+        "indexed_chars": 154,
+        "truncation_tail": "광고주는",
+        "note": "text_truncated=false지만 본문이 '광고주는'에서 문장이 끝나지 않는다 — 수집 단계에서 잘린 흔적이나 메타데이터는 절단으로 표시하지 않는다. 질의는 온전히 담긴 첫 두 문장만으로 답할 수 있게 썼다. **메타데이터의 text_truncated와 실제 문장 완결성이 일치하지 않는 사례**이므로 계약 쪽에서 확인이 필요하다."
+      }
+    },
+    {
+      "id": "GS-025",
+      "query": "한 번의 요청으로는 불가능한 목표를, 에이전트와 여러 턴을 주고받으며 달성하는 공격에 대한 취약성을 측정한 벤치마크가 있는가?",
+      "language": "ko",
+      "case_type": "release_type",
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "expect": {
+        "expect_uncovered": false,
+        "min_citations": 1,
+        "expected_doc_ids": [
+          "arXiv:2602.16901v1"
+        ],
+        "must_mention": [
+          "다중 턴 상호작용을 악용하는 공격",
+          "단일 턴용 방어의 실패"
+        ]
+      },
+      "rationale": "(d) 유형이자 **ADR-022 층 B의 대표 케이스**다. arXiv 논문이 맞는데 **release_type이 공백**이라 Paper 필터에서 탈락한다 — 필터를 그냥 걸면 무엇을 잃는지의 직접 측정값. 변별 확인 결과(원문 대조): **AgentLAB=공격 자체가 다중 턴**('long-horizon attacks that exploit multi-turn user-agent-environment interactions to achieve objectives infeasible in single-turn settings'), **AgentHarm(2410.09024)=과제가 다단계이고 공격은 단발 jailbreak template**, **3CB(2410.09114)=에이전트가 공격자이지 표적이 아님**(다중 턴 언급 0건). 따라서 겹치는 축은 'multi-step'뿐이고 **공격의 다중 턴성은 AgentLAB에만 있다.** 질의를 공격 쪽 다중 턴에 실어 변별을 세웠다.",
+      "targets_ontology": {
+        "release_type": null,
+        "tech_domains": null,
+        "filter_axis": "release_type 공백 — strict 필터에서 탈락(층 B). 필터의 결측 비용을 재는 대표 케이스",
+        "discrimination_axis": "공격이 다중 턴인가(AgentLAB) vs 과제가 다단계인가(AgentHarm) vs 에이전트가 공격자인가(3CB)",
+        "intended_distractor": [
+          "arXiv:2410.09024v3",
+          "arXiv:2410.09114v2"
+        ]
+      },
+      "evidence_quote": "this expansion exposes them to long-horizon attacks that exploit multi-turn user-agent-environment interactions to achieve objectives infeasible in single-turn settings ... we present AgentLAB, the first benchmark dedicated to evaluating LLM agent susceptibility to adaptive, long-horizon attacks"
+    },
+    {
+      "id": "GS-026",
+      "query": "국내 기업이 사내 문서로 한국어 LLM을 파인튜닝해 얻은 성능 수치가 있는가?",
+      "language": "ko",
+      "case_type": "negative",
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "expect": {
+        "expect_uncovered": true,
+        "min_citations": 0,
+        "expected_doc_ids": [],
+        "must_mention": [
+          "근거 없음"
+        ]
+      },
+      "rationale": "근접 negative. **한국어 어휘 견인이 최대인 negative**로 설계했다 — '파인튜닝·성능·수치'가 한국어 단문 다수와 겹친다. 실제로는 news:dfff96이 Xiaomi(중국) 모델이고 news:587009는 4B SQL 모델이며, **한국어 LLM도 사내 문서 학습도 코퍼스에 없다.** session-12 §3.1의 언어 효과가 negative 쪽에서 오탐을 만드는지 보는 자리.",
+      "targets_ontology": {
+        "note": "negative. 언어 효과에 의한 오탐 측정."
+      }
+    },
+    {
+      "id": "GS-027",
+      "query": "LLM 에이전트를 실제 공장 설비에 붙였을 때 발생한 안전 사고가 보고돼 있는가?",
+      "language": "ko",
+      "case_type": "negative",
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "expect": {
+        "expect_uncovered": true,
+        "min_citations": 0,
+        "expected_doc_ids": [],
+        "must_mention": [
+          "근거 없음"
+        ]
+      },
+      "rationale": "근접 negative. arXiv:2405.16887(physical shopfloor 실험)과 2406.01893(G-code 할당)이 강하게 끌리지만 **두 논문 모두 적용과 성능(makespan·안정성)만 보고하며 안전 사고 기술이 없다.** GS-003의 기대 문서를 그대로 유인하는 구조라, '주제가 맞으면 물어오는가'를 직접 시험한다.",
+      "targets_ontology": {
+        "note": "negative. GS-003의 기대 문서를 유인한다."
+      }
+    },
+    {
+      "id": "GS-028",
+      "query": "배치 크기나 KV 캐시 같은 추론 서버 설정값을 바꿔가며 처리량을 측정한 실험이 있는가?",
+      "language": "ko",
+      "case_type": "negative",
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "expect": {
+        "expect_uncovered": true,
+        "min_citations": 0,
+        "expected_doc_ids": [],
+        "must_mention": [
+          "근거 없음"
+        ]
+      },
+      "rationale": "근접 negative. **session-12가 지목한 상습 밀어내기 문서(news:42f467)를 정조준한다** — 그 문서는 추론 하드웨어 경향을 서술할 뿐이고, 게다가 본문이 절단돼 설정값도 측정치도 없다. ⚠️ 판정이 갈릴 수 있는 지점을 좁혔다: arXiv:2602.03128은 지연·처리량을 보고하지만 **바꾸는 변수가 멀티에이전트 프레임워크(아키텍처)이지 추론 서버 설정값이 아니다.** 질의를 '배치 크기·KV 캐시 같은 추론 서버 설정값을 바꿔가며'로 좁혀 **설정 조작 실험의 유무**를 묻게 했으므로, 2602.03128은 근거가 되지 않는다. 코퍼스 어디에도 서빙 파라미터 스윕 실험은 없다.",
+      "targets_ontology": {
+        "note": "negative. 상습 밀어내기 문서(news:42f467) 정조준. GS-009(GPU 비용 절감 수치)와는 축이 다르다 — 이쪽은 설정 조작 실험의 유무다.",
+        "intended_distractor": [
+          "news:42f467857601213c",
+          "arXiv:2602.03128v1"
+        ]
+      }
+    },
+    {
+      "id": "GS-029",
+      "query": "LLM 에이전트가 임상시험에서 전문의의 진단 정확도를 넘었다는 결과가 있는가?",
+      "language": "ko",
+      "case_type": "negative",
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "expect": {
+        "expect_uncovered": true,
+        "min_citations": 0,
+        "expected_doc_ids": [],
+        "must_mention": [
+          "근거 없음"
+        ]
+      },
+      "rationale": "근접 negative. arXiv:2609.19093(흉부 X선)이 끌리지만 그 논문은 **판독문 생성 모델의 평가 지표가 참조 보고서 작성 관행에 얼마나 민감한가**를 다룰 뿐, 임상시험도 전문의 대비 진단 정확도 비교도 없다. GS-018의 기대 문서를 유인하는 구조다.",
+      "targets_ontology": {
+        "note": "negative. GS-018의 기대 문서를 유인한다.",
+        "intended_distractor": [
+          "arXiv:2609.19093v1"
+        ]
+      }
+    },
+    {
+      "id": "GS-030",
+      "query": "멀티에이전트 시스템 운영의 전력 소비량이나 탄소 배출량을 측정한 연구가 있는가?",
+      "language": "ko",
+      "case_type": "negative",
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "expect": {
+        "expect_uncovered": true,
+        "min_citations": 0,
+        "expected_doc_ids": [],
+        "must_mention": [
+          "근거 없음"
+        ]
+      },
+      "rationale": "근접 negative. news:42f467(하드웨어·추론 수요)과 arXiv:2602.03128(지연·처리량)이 근접하지만 **전력·탄소 수치는 코퍼스 어디에도 없다.** arXiv:2605.21404가 '에이전트 벤치마크 8편 전부 추론 비용을 공개하지 않는다'고 말하는데, 이는 비용 공개의 부재를 말하는 것이지 전력·탄소 측정이 아니다.",
+      "targets_ontology": {
+        "note": "negative.",
+        "intended_distractor": [
+          "news:42f467857601213c",
+          "arXiv:2602.03128v1"
+        ]
+      }
     }
   ]
 }
