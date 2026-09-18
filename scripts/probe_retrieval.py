@@ -9,8 +9,15 @@ session-05(ADR-005 Amendment)의 프로브는 스크립트로 남지 않아 재�
 이 파일이 그 자리를 메운다. **검색 코드는 건드리지 않는다** — `ChromaRetriever`를
 있는 그대로 호출할 뿐이다.
 
+**session-13에서 층화 집계를 추가했다 (ADR-022).** 골든셋이 9 -> 30건이 되면서
+기대 문서에 온톨로지 메타가 없는 케이스(층 B)가 9건 생겼다. 이들은 Session 3의
+strict 필터에서 **구조적으로 재현율 0**이 되므로, 합산 평균에 섞으면 "필터가 나쁘다"로
+잘못 읽힌다. 층은 **골든셋 파일이 선언한 값을 읽을 뿐 여기서 계산하지 않는다** —
+측정 시점에 층을 정하면 사후 제외와 구별되지 않는다.
+
 측정하는 것:
   - 기대 문서의 순위와 top-4 진입 여부 (positive 케이스)
+  - 층 A / 층 B / v1.0 부분집합(GS-001~007)별 재현율 — **합산은 필터 없음에서만 참고**
   - 코퍼스에 답이 없는 질의(negative)의 최고 점수
   - "완전 무관"과 "정답" 사이의 점수 간격 — ADR-005 §4의 핵심 지표
   - 1위와 4위의 점수 차 (변별력)
@@ -107,6 +114,11 @@ def main() -> int:
         entry: dict = {
             "id": case_id,
             "positive": positive,
+            # ADR-022: 층·앵커 메타 보유 여부는 **골든셋 파일이 선언한 값을 그대로 읽는다.**
+            # 여기서 계산하면 측정 시점에 층을 정하는 것이 되고, 그건 사후 제외와 같다.
+            "stratum": case.get("stratum"),
+            "anchor_meta": case.get("anchor_meta"),
+            "case_type": case.get("case_type"),
             "expected_doc_ids": expected,
             "by_lang": {},
         }
@@ -138,19 +150,35 @@ def main() -> int:
     positives = [r for r in results if r["positive"]]
     negatives = [r for r in results if not r["positive"]]
 
-    def _recall(lang: str) -> dict:
-        hits = sum(1 for r in positives if r["by_lang"][lang]["in_top_k"])
+    def _recall(lang: str, subset: list[dict] | None = None) -> dict:
+        rows = positives if subset is None else subset
+        if not rows:
+            return {"hits": 0, "n": 0, "recall": None, "mean_expected_rank": None}
+        hits = sum(1 for r in rows if r["by_lang"][lang]["in_top_k"])
         return {
             "hits": hits,
-            "n": len(positives),
-            "recall": round(hits / len(positives), 4) if positives else None,
+            "n": len(rows),
+            "recall": round(hits / len(rows), 4),
             "mean_expected_rank": round(
-                statistics.fmean(r["by_lang"][lang]["best_expected_rank"] for r in positives), 4
+                statistics.fmean(r["by_lang"][lang]["best_expected_rank"] for r in rows), 4
             ),
+            "case_ids": [r["id"] for r in rows],
+            "misses": [r["id"] for r in rows if not r["by_lang"][lang]["in_top_k"]],
         }
 
     def _by_id(case_id: str) -> dict:
         return next(r for r in results if r["id"] == case_id)
+
+    # --- ADR-022 층화 -------------------------------------------------------
+    # 층 A = positive & 앵커 메타 보유 (필터 적격, Session 3의 주 지표)
+    # 층 B = positive & 앵커 메타 결측 (strict 필터에서 구조적으로 재현율 0)
+    # 층 C = negative
+    # **A+B 합산은 필터 없음(baseline)에서만 참고로 낸다.** 필터 적용 시에는 내지 않는다.
+    stratum_a = [r for r in positives if r["stratum"] == "A"]
+    stratum_b = [r for r in positives if r["stratum"] == "B"]
+    # v1.0(GS-001~009)만 뽑은 부분집합. 골든셋이 30건으로 바뀌어 합산 수치는
+    # session-12와 직접 비교할 수 없다 — 연속 비교는 이 부분집합으로만 성립한다.
+    v1_positives = [r for r in positives if r["id"] <= "GS-007"]
 
     # ADR-005 §4가 고른 두 앵커를 그대로 다시 잰다 —
     # "코퍼스에 답이 전혀 없는 질의"(GS-008)와 "정답을 1위로 맞힌 질의"(GS-005).
@@ -171,8 +199,29 @@ def main() -> int:
         "llm_calls": 0,
         "cold_load_s": round(cold_s, 3),
         "warm_encode_s": round(warm_s, 4),
-        "recall_top4": {"ko": _recall("ko"), "en": _recall("en")},
+        # ⚠️ ADR-022: 아래 4개 중 판정에 쓰는 것은 stratum_A다.
+        # all_positives는 **필터 없음 조건에서만** 의미가 있다.
+        "recall_top4": {
+            "stratum_A": {"ko": _recall("ko", stratum_a), "en": _recall("en", stratum_a)},
+            "stratum_B": {"ko": _recall("ko", stratum_b), "en": _recall("en", stratum_b)},
+            "all_positives": {"ko": _recall("ko"), "en": _recall("en")},
+            "v1_subset_GS001_007": {
+                "ko": _recall("ko", v1_positives),
+                "en": _recall("en", v1_positives),
+            },
+            "note": (
+                "stratum_A만이 Session 3 필터 판정의 주 지표다 (ADR-022). "
+                "all_positives는 필터 없음 조건에서만 참고로 낸다. "
+                "v1_subset_GS001_007만이 session-12와 동일 구성이라 연속 비교가 성립한다."
+            ),
+        },
+        "strata_counts": {
+            "A": len(stratum_a),
+            "B": len(stratum_b),
+            "C": len(negatives),
+        },
         "score_gap": {},
+        "negatives_top_score": {},
     }
     for lang in ("ko", "en"):
         irrelevant = _by_id("GS-008")["by_lang"][lang]["top_score"]
@@ -181,6 +230,11 @@ def main() -> int:
             "irrelevant_query_top_score_GS-008": irrelevant,
             "correct_at_rank1_top_score_GS-005": correct,
             "gap": round(correct - irrelevant, 4),
+        }
+        # negative가 2건 -> 7건이 됐다. GS-008 하나로 "무관 질의의 최고 점수"를 대표시키면
+        # 근접 negative(GS-026~030)가 그보다 높은지 낮은지를 볼 수 없다. 전건을 적는다.
+        summary["negatives_top_score"][lang] = {
+            r["id"]: r["by_lang"][lang]["top_score"] for r in negatives
         }
         summary[f"rank1_minus_rank4_{lang}"] = {
             r["id"]: r["by_lang"][lang]["rank1_minus_rank4"] for r in results
@@ -192,6 +246,27 @@ def main() -> int:
     out_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(json.dumps(summary, ensure_ascii=False, indent=2))
+
+    # 케이스별 표 — 평균만 보면 개별 회귀가 가려진다 (v1.0 GS-006이 그 사례다).
+    print("\n케이스별 (ko 질의 / en 질의)")
+    print(f"{'ID':8} {'층':3} {'유형':13} {'ko순위':>7} {'ko':3} {'en순위':>7} {'en':3}  {'ko최고점':>9}")
+    print("-" * 78)
+    for r in results:
+        ko, en = r["by_lang"]["ko"], r["by_lang"]["en"]
+        def _fmt(d: dict) -> tuple[str, str]:
+            if not r["positive"]:
+                return ("-", "✅" if True else "")
+            rank = d["best_expected_rank"]
+            return (str(rank) if rank else "없음", "✅" if d["in_top_k"] else "❌")
+        ko_r, ko_hit = _fmt(ko)
+        en_r, en_hit = _fmt(en)
+        if not r["positive"]:
+            ko_hit = en_hit = "neg"
+        print(
+            f"{r['id']:8} {r['stratum'] or '-':3} {r['case_type'] or '-':13} "
+            f"{ko_r:>7} {ko_hit:3} {en_r:>7} {en_hit:3}  {ko['top_score']:>9.4f}"
+        )
+
     print(f"\n→ {out_path.relative_to(REPO_ROOT)}")
     return 0
 
