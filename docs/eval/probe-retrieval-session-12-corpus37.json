@@ -1,0 +1,823 @@
+{
+  "summary": {
+    "label": "session-12-corpus37",
+    "measured_at": "2026-09-18T11:39:27+0900",
+    "corpus_size": 37,
+    "top_k": 4,
+    "golden_set_cases": 9,
+    "positive_cases": 7,
+    "negative_cases": 2,
+    "embedding_model": "intfloat/multilingual-e5-small",
+    "embedding_revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+    "cache_enabled": false,
+    "llm_calls": 0,
+    "cold_load_s": 31.906,
+    "warm_encode_s": 0.0181,
+    "recall_top4": {
+      "ko": {
+        "hits": 4,
+        "n": 7,
+        "recall": 0.5714,
+        "mean_expected_rank": 5.0
+      },
+      "en": {
+        "hits": 5,
+        "n": 7,
+        "recall": 0.7143,
+        "mean_expected_rank": 2.5714
+      }
+    },
+    "score_gap": {
+      "ko": {
+        "irrelevant_query_top_score_GS-008": 0.7829,
+        "correct_at_rank1_top_score_GS-005": 0.8404,
+        "gap": 0.0575
+      },
+      "en": {
+        "irrelevant_query_top_score_GS-008": 0.7807,
+        "correct_at_rank1_top_score_GS-005": 0.9088,
+        "gap": 0.1281
+      }
+    },
+    "rank1_minus_rank4_ko": {
+      "GS-001": 0.0092,
+      "GS-002": 0.0191,
+      "GS-003": 0.0202,
+      "GS-004": 0.0119,
+      "GS-005": 0.0077,
+      "GS-006": 0.008,
+      "GS-007": 0.0276,
+      "GS-008": 0.0078,
+      "GS-009": 0.0027
+    },
+    "rank1_minus_rank4_en": {
+      "GS-001": 0.0177,
+      "GS-002": 0.0508,
+      "GS-003": 0.0291,
+      "GS-004": 0.0035,
+      "GS-005": 0.051,
+      "GS-006": 0.0064,
+      "GS-007": 0.0241,
+      "GS-008": 0.0126,
+      "GS-009": 0.0076
+    }
+  },
+  "cases": [
+    {
+      "id": "GS-001",
+      "positive": true,
+      "expected_doc_ids": [
+        "arXiv:2412.05449v1"
+      ],
+      "by_lang": {
+        "ko": {
+          "query": "LLM 멀티에이전트 협업 시스템을 설계하고 평가할 때 어떤 어려움이 보고되는가?",
+          "retrieval_latency_s": 0.0415,
+          "expected_ranks": [
+            4
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 4,
+          "top_score": 0.8428,
+          "rank4_score": 0.8336,
+          "rank1_minus_rank4": 0.0092,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8428,
+              "source": "news"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8411,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8339,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8336,
+              "source": "arxiv"
+            }
+          ]
+        },
+        "en": {
+          "query": "What difficulties are reported when designing and evaluating LLM multi-agent collaboration systems?",
+          "retrieval_latency_s": 0.0322,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "top_score": 0.8733,
+          "rank4_score": 0.8556,
+          "rank1_minus_rank4": 0.0177,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8733,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8643,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2405.16887v2",
+              "score": 0.8613,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8556,
+              "source": "arxiv"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-002",
+      "positive": true,
+      "expected_doc_ids": [
+        "arXiv:2602.03128v1"
+      ],
+      "by_lang": {
+        "ko": {
+          "query": "멀티에이전트 LLM 프레임워크의 아키텍처 선택은 시스템 성능에 어떤 영향을 주는가?",
+          "retrieval_latency_s": 0.035,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "top_score": 0.8482,
+          "rank4_score": 0.8291,
+          "rank1_minus_rank4": 0.0191,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8482,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8359,
+              "source": "news"
+            },
+            {
+              "rank": 3,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8336,
+              "source": "news"
+            },
+            {
+              "rank": 4,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8291,
+              "source": "news"
+            }
+          ]
+        },
+        "en": {
+          "query": "How does the choice of architecture in a multi-agent LLM framework affect system performance?",
+          "retrieval_latency_s": 0.0298,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "top_score": 0.8921,
+          "rank4_score": 0.8413,
+          "rank1_minus_rank4": 0.0508,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8921,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2405.16887v2",
+              "score": 0.8582,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8549,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8413,
+              "source": "arxiv"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-003",
+      "positive": true,
+      "expected_doc_ids": [
+        "arXiv:2405.16887v2",
+        "arXiv:2406.01893v2"
+      ],
+      "by_lang": {
+        "ko": {
+          "query": "제조 현장에 LLM 기반 멀티에이전트 시스템을 적용한 연구에는 어떤 것이 있는가?",
+          "retrieval_latency_s": 0.0327,
+          "expected_ranks": [
+            1,
+            2
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "top_score": 0.8423,
+          "rank4_score": 0.8221,
+          "rank1_minus_rank4": 0.0202,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2405.16887v2",
+              "score": 0.8423,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2406.01893v2",
+              "score": 0.8248,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8245,
+              "source": "news"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8221,
+              "source": "arxiv"
+            }
+          ]
+        },
+        "en": {
+          "query": "Is there research that applies LLM-based multi-agent systems to the manufacturing floor?",
+          "retrieval_latency_s": 0.0307,
+          "expected_ranks": [
+            1,
+            3
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "top_score": 0.8857,
+          "rank4_score": 0.8566,
+          "rank1_minus_rank4": 0.0291,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2405.16887v2",
+              "score": 0.8857,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8661,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2406.01893v2",
+              "score": 0.8598,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8566,
+              "source": "arxiv"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-004",
+      "positive": true,
+      "expected_doc_ids": [
+        "arXiv:2512.06196v1"
+      ],
+      "by_lang": {
+        "ko": {
+          "query": "LLM 에이전트의 정렬(alignment)을 재학습 없이 조정하는 접근이 있는가?",
+          "retrieval_latency_s": 0.0299,
+          "expected_ranks": [
+            7
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 7,
+          "top_score": 0.8505,
+          "rank4_score": 0.8386,
+          "rank1_minus_rank4": 0.0119,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8505,
+              "source": "news"
+            },
+            {
+              "rank": 2,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8441,
+              "source": "news"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2609.19144v1",
+              "score": 0.8405,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8386,
+              "source": "news"
+            }
+          ]
+        },
+        "en": {
+          "query": "Is there an approach that adjusts the alignment of an LLM agent without retraining it?",
+          "retrieval_latency_s": 0.0283,
+          "expected_ranks": [
+            5
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 5,
+          "top_score": 0.8611,
+          "rank4_score": 0.8576,
+          "rank1_minus_rank4": 0.0035,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8611,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2502.05227v1",
+              "score": 0.8588,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2609.19144v1",
+              "score": 0.8577,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2401.07324v3",
+              "score": 0.8576,
+              "source": "arxiv"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-005",
+      "positive": true,
+      "expected_doc_ids": [
+        "arXiv:2412.20138v7"
+      ],
+      "by_lang": {
+        "ko": {
+          "query": "금융 트레이딩에 멀티에이전트 LLM을 적용한 프레임워크가 있는가?",
+          "retrieval_latency_s": 0.0376,
+          "expected_ranks": [
+            2
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 2,
+          "top_score": 0.8404,
+          "rank4_score": 0.8327,
+          "rank1_minus_rank4": 0.0077,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8404,
+              "source": "news"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8401,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8386,
+              "source": "news"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8327,
+              "source": "arxiv"
+            }
+          ]
+        },
+        "en": {
+          "query": "Is there a framework that applies multi-agent LLMs to financial trading?",
+          "retrieval_latency_s": 0.0312,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "top_score": 0.9088,
+          "rank4_score": 0.8578,
+          "rank1_minus_rank4": 0.051,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.9088,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8613,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2401.07324v3",
+              "score": 0.8597,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8578,
+              "source": "arxiv"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-006",
+      "positive": true,
+      "expected_doc_ids": [
+        "arXiv:2404.01023v1"
+      ],
+      "by_lang": {
+        "ko": {
+          "query": "LLM의 성능을 평가하기 위해 멀티에이전트 구조를 사용하는 접근이 있는가?",
+          "retrieval_latency_s": 0.0288,
+          "expected_ranks": [
+            12
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 12,
+          "top_score": 0.8358,
+          "rank4_score": 0.8278,
+          "rank1_minus_rank4": 0.008,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8358,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8317,
+              "source": "news"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.83,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8278,
+              "source": "news"
+            }
+          ]
+        },
+        "en": {
+          "query": "Is there an approach that uses a multi-agent structure to evaluate the performance of an LLM?",
+          "retrieval_latency_s": 0.0331,
+          "expected_ranks": [
+            8
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 8,
+          "top_score": 0.8772,
+          "rank4_score": 0.8708,
+          "rank1_minus_rank4": 0.0064,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8772,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8733,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8712,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8708,
+              "source": "arxiv"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-007",
+      "positive": true,
+      "expected_doc_ids": [
+        "arXiv:2512.13930v1"
+      ],
+      "by_lang": {
+        "ko": {
+          "query": "과학 연구 자동화에서 LLM 멀티에이전트가 자율적으로 추론한 사례가 있는가?",
+          "retrieval_latency_s": 0.0332,
+          "expected_ranks": [
+            8
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 8,
+          "top_score": 0.8498,
+          "rank4_score": 0.8222,
+          "rank1_minus_rank4": 0.0276,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8498,
+              "source": "news"
+            },
+            {
+              "rank": 2,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8331,
+              "source": "news"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8293,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8222,
+              "source": "arxiv"
+            }
+          ]
+        },
+        "en": {
+          "query": "Are there cases where LLM multi-agents reasoned autonomously in automating scientific research?",
+          "retrieval_latency_s": 0.029,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "top_score": 0.8632,
+          "rank4_score": 0.8391,
+          "rank1_minus_rank4": 0.0241,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2512.13930v1",
+              "score": 0.8632,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.847,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8434,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2502.05227v1",
+              "score": 0.8391,
+              "source": "arxiv"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-008",
+      "positive": false,
+      "expected_doc_ids": [],
+      "by_lang": {
+        "ko": {
+          "query": "한국 개인정보보호법상 가명정보를 처리할 때 충족해야 하는 요건은 무엇인가?",
+          "retrieval_latency_s": 0.0558,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "top_score": 0.7829,
+          "rank4_score": 0.7751,
+          "rank1_minus_rank4": 0.0078,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "news:587009bd5b1aa4ce",
+              "score": 0.7829,
+              "source": "news"
+            },
+            {
+              "rank": 2,
+              "doc_id": "news:1047cd7bf162d6e0",
+              "score": 0.7823,
+              "source": "news"
+            },
+            {
+              "rank": 3,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.7795,
+              "source": "news"
+            },
+            {
+              "rank": 4,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.7751,
+              "source": "news"
+            }
+          ]
+        },
+        "en": {
+          "query": "What requirements must be met when processing pseudonymized data under Korea's Personal Information Protection Act?",
+          "retrieval_latency_s": 0.0548,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "top_score": 0.7807,
+          "rank4_score": 0.7681,
+          "rank1_minus_rank4": 0.0126,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2609.19143v1",
+              "score": 0.7807,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.7746,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2609.19144v1",
+              "score": 0.7745,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2404.01023v1",
+              "score": 0.7681,
+              "source": "arxiv"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-009",
+      "positive": false,
+      "expected_doc_ids": [],
+      "by_lang": {
+        "ko": {
+          "query": "LLM 멀티에이전트 시스템 운영 시 GPU 비용을 얼마나 절감할 수 있는지 실측 수치가 있는가?",
+          "retrieval_latency_s": 0.058,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "top_score": 0.8239,
+          "rank4_score": 0.8212,
+          "rank1_minus_rank4": 0.0027,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2404.01023v1",
+              "score": 0.8239,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.8238,
+              "source": "news"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8231,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "news:1047cd7bf162d6e0",
+              "score": 0.8212,
+              "source": "news"
+            }
+          ]
+        },
+        "en": {
+          "query": "Are there measured numbers for how much GPU cost can be saved when operating an LLM multi-agent system?",
+          "retrieval_latency_s": 0.0614,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "top_score": 0.8514,
+          "rank4_score": 0.8438,
+          "rank1_minus_rank4": 0.0076,
+          "top_k": [
+            {
+              "rank": 1,
+              "doc_id": "arXiv:2410.09024v3",
+              "score": 0.8514,
+              "source": "arxiv"
+            },
+            {
+              "rank": 2,
+              "doc_id": "arXiv:2609.19101v1",
+              "score": 0.8457,
+              "source": "arxiv"
+            },
+            {
+              "rank": 3,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8449,
+              "source": "arxiv"
+            },
+            {
+              "rank": 4,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8438,
+              "source": "arxiv"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
