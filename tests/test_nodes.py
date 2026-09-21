@@ -297,7 +297,9 @@ def test_writer_marks_uncovered_topics_in_prompt() -> None:
     ]
     result = node(state)
 
-    assert result["draft"] == "# 보고서"
+    # 본문은 모델이 쓴 그대로 앞에 남고, 출처 표만 코드가 뒤에 붙는다 (ADR-024).
+    assert result["draft"].startswith("# 보고서")
+    assert "## 출처" in result["draft"]
     prompt = provider.calls[0][1].content
     assert "근거 없음" in prompt
     assert "arXiv:1" in prompt

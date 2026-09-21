@@ -29,7 +29,21 @@ class RetrievalError(RuntimeError):
 
 @dataclass(frozen=True)
 class RetrievedChunk:
-    """검색 결과 1건. 출처 정보가 항상 함께 온다."""
+    """검색 결과 1건. 출처 정보가 항상 함께 온다.
+
+    **온톨로지 메타(session-16).** `release_type`·`tech_domains`·`published`를 함께
+    싣는다. 인용에 "어떤 종류의 문서인가"를 붙이려면 검색 결과가 그것을 들고 와야
+    하기 때문이다 (ADR-024).
+
+    ⚠️ **`derived_*` 키는 여기로 옮기지 않는다** — `derived_summary`·
+    `derived_impact_rationale`는 모델이 쓴 패러프레이즈이고 계약 §6이 색인·인용을
+    금지한다. 옮기는 순간 Writer가 원문 대신 패러프레이즈를 인용할 수 있게 된다
+    (`contract_import.py` 모듈 docstring).
+
+    ⚠️ **추가는 additive다.** 질의·`where` 절·`k`·정렬·점수 계산은 한 줄도 바뀌지
+    않았다 — 메타를 더 실어올 뿐 무엇이 몇 위로 오는지는 그대로다. 그 불변을
+    `docs/eval/citation-metadata-parity-session-16.md`가 30케이스 전건 대조로 확인한다.
+    """
 
     doc_id: str
     locator: str
@@ -38,6 +52,18 @@ class RetrievedChunk:
     title: str = ""
     url: str = ""
     score: float = 0.0  # 1.0에 가까울수록 유사 (코사인 유사도)
+    # --- 온톨로지 메타 (session-16, ADR-024) ---
+    published: str = ""
+    release_type: str = ""
+    tech_domains: tuple[str, ...] = ()
+    has_ontology: bool = False
+    """이 문서가 **온톨로지 export를 거쳤는가**.
+
+    `release_type`이 비어 있는 이유가 두 가지이기 때문에 따로 들고 다닌다:
+    export를 거쳤는데 값이 없는 것(= 해당 없음)과, export 자체를 거치지 않은 것
+    (= 확인 안 됨, ADR-022 층 B의 스냅샷 arXiv 14건)은 다른 사실이다.
+    인용에서 이 둘을 같은 빈칸으로 보여주면 독자가 구별할 수 없다.
+    """
 
 
 @runtime_checkable
@@ -212,9 +238,26 @@ def _to_chunks(raw: dict) -> list[RetrievedChunk]:
                 url=str(meta.get("url", "")),
                 # cosine distance -> similarity
                 score=round(1.0 - float(distance), 4),
+                published=str(meta.get("published", "")),
+                release_type=str(meta.get("release_type", "")),
+                tech_domains=_split_list(meta.get("tech_domains")),
+                # `export_id`는 `ontology_metadata()`가 항상 싣는 키다. 있으면 그 문서는
+                # 계약 export를 거쳤다는 뜻이고, 없으면 스냅샷만으로 들어온 문서다.
+                has_ontology=bool(str(meta.get("export_id", "")).strip()),
             )
         )
     return chunks
+
+
+def _split_list(value: object) -> tuple[str, ...]:
+    """Chroma에 `|`로 이어 붙여 저장한 리스트를 되돌린다.
+
+    저장 형태는 `contract_import._LIST_JOIN`이 정한다. 스칼라만 받는 메타데이터에
+    리스트를 넣으려고 이어 붙인 것이라, 읽는 쪽에서 되돌리는 자리가 필요하다.
+    """
+    if not value:
+        return ()
+    return tuple(part for part in str(value).split("|") if part.strip())
 
 
 def get_retriever(

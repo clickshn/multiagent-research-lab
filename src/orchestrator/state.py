@@ -21,11 +21,25 @@ Coverage = Literal["covered", "uncovered"]
 
 @dataclass(frozen=True)
 class Citation:
-    """근거 1건의 출처. 검색 결과에는 항상 문서 ID와 위치가 함께 온다."""
+    """근거 1건의 출처. 검색 결과에는 항상 문서 ID와 위치가 함께 온다.
+
+    **온톨로지 메타(session-16, ADR-024).** 문서의 종류(`release_type`)·기술 영역
+    (`tech_domains`)·발행일을 함께 들고 다닌다. 값은 검색 결과(`RetrievedChunk`)에서
+    그대로 옮겨오며, **모델을 거치지 않는다.**
+
+    ⚠️ **이 값들은 Writer의 LLM 입력에 들어가지 않는다.** 출처 표를 코드가 렌더링할 때만
+    쓴다 — 모델이 옮겨 적으면 `Community`를 `Paper`로 잘못 쓸 수 있고, 그러면 감사
+    가능성이 모델 정확도에 걸린다 (ADR-024, ADR-006 "셀 수 있는 것은 모델에게 묻지 않는다").
+    """
 
     doc_id: str
     locator: str  # 페이지/섹션/청크 등 문서 내 위치
     snippet: str
+    published: str = ""
+    release_type: str = ""
+    tech_domains: tuple[str, ...] = ()
+    # 온톨로지 export를 거친 문서인가. "값이 없음"과 "확인 안 됨"을 가르는 유일한 근거다.
+    has_ontology: bool = False
 
 
 @dataclass(frozen=True)

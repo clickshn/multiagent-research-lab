@@ -1,0 +1,4538 @@
+{
+  "summary": {
+    "label": "session-16-after-chunk-metadata",
+    "measured_at": "2026-09-21T13:53:34+0900",
+    "arm": "none",
+    "null_policy": "n/a",
+    "corpus_size": 37,
+    "top_k": 4,
+    "golden_set_version": "2.0",
+    "golden_set_cases": 30,
+    "positive_cases": 23,
+    "negative_cases": 7,
+    "embedding_model": "intfloat/multilingual-e5-small",
+    "embedding_revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+    "extraction_models": [
+      "(none)",
+      "claude-opus-5"
+    ],
+    "cache_enabled": false,
+    "llm_calls": 0,
+    "cold_load_s": 11.238,
+    "warm_encode_s": 0.0141,
+    "recall_top4": {
+      "stratum_A": {
+        "ko": {
+          "hits": 12,
+          "n": 14,
+          "recall": 0.8571,
+          "mean_expected_rank": 3.8571,
+          "ranked_n": 14,
+          "expected_filtered_out": [],
+          "case_ids": [
+            "GS-001",
+            "GS-010",
+            "GS-011",
+            "GS-012",
+            "GS-013",
+            "GS-014",
+            "GS-015",
+            "GS-016",
+            "GS-017",
+            "GS-018",
+            "GS-021",
+            "GS-022",
+            "GS-023",
+            "GS-024"
+          ],
+          "misses": [
+            "GS-010",
+            "GS-023"
+          ]
+        },
+        "en": {
+          "hits": 12,
+          "n": 14,
+          "recall": 0.8571,
+          "mean_expected_rank": 2.9286,
+          "ranked_n": 14,
+          "expected_filtered_out": [],
+          "case_ids": [
+            "GS-001",
+            "GS-010",
+            "GS-011",
+            "GS-012",
+            "GS-013",
+            "GS-014",
+            "GS-015",
+            "GS-016",
+            "GS-017",
+            "GS-018",
+            "GS-021",
+            "GS-022",
+            "GS-023",
+            "GS-024"
+          ],
+          "misses": [
+            "GS-014",
+            "GS-022"
+          ]
+        }
+      },
+      "stratum_B": {
+        "ko": {
+          "hits": 3,
+          "n": 9,
+          "recall": 0.3333,
+          "mean_expected_rank": 5.5556,
+          "ranked_n": 9,
+          "expected_filtered_out": [],
+          "case_ids": [
+            "GS-002",
+            "GS-003",
+            "GS-004",
+            "GS-005",
+            "GS-006",
+            "GS-007",
+            "GS-019",
+            "GS-020",
+            "GS-025"
+          ],
+          "misses": [
+            "GS-004",
+            "GS-006",
+            "GS-007",
+            "GS-019",
+            "GS-020",
+            "GS-025"
+          ]
+        },
+        "en": {
+          "hits": 7,
+          "n": 9,
+          "recall": 0.7778,
+          "mean_expected_rank": 2.2222,
+          "ranked_n": 9,
+          "expected_filtered_out": [],
+          "case_ids": [
+            "GS-002",
+            "GS-003",
+            "GS-004",
+            "GS-005",
+            "GS-006",
+            "GS-007",
+            "GS-019",
+            "GS-020",
+            "GS-025"
+          ],
+          "misses": [
+            "GS-004",
+            "GS-006"
+          ]
+        }
+      },
+      "all_positives": {
+        "ko": {
+          "hits": 15,
+          "n": 23,
+          "recall": 0.6522,
+          "mean_expected_rank": 4.5217,
+          "ranked_n": 23,
+          "expected_filtered_out": [],
+          "case_ids": [
+            "GS-001",
+            "GS-002",
+            "GS-003",
+            "GS-004",
+            "GS-005",
+            "GS-006",
+            "GS-007",
+            "GS-010",
+            "GS-011",
+            "GS-012",
+            "GS-013",
+            "GS-014",
+            "GS-015",
+            "GS-016",
+            "GS-017",
+            "GS-018",
+            "GS-019",
+            "GS-020",
+            "GS-021",
+            "GS-022",
+            "GS-023",
+            "GS-024",
+            "GS-025"
+          ],
+          "misses": [
+            "GS-004",
+            "GS-006",
+            "GS-007",
+            "GS-010",
+            "GS-019",
+            "GS-020",
+            "GS-023",
+            "GS-025"
+          ]
+        },
+        "en": {
+          "hits": 19,
+          "n": 23,
+          "recall": 0.8261,
+          "mean_expected_rank": 2.6522,
+          "ranked_n": 23,
+          "expected_filtered_out": [],
+          "case_ids": [
+            "GS-001",
+            "GS-002",
+            "GS-003",
+            "GS-004",
+            "GS-005",
+            "GS-006",
+            "GS-007",
+            "GS-010",
+            "GS-011",
+            "GS-012",
+            "GS-013",
+            "GS-014",
+            "GS-015",
+            "GS-016",
+            "GS-017",
+            "GS-018",
+            "GS-019",
+            "GS-020",
+            "GS-021",
+            "GS-022",
+            "GS-023",
+            "GS-024",
+            "GS-025"
+          ],
+          "misses": [
+            "GS-004",
+            "GS-006",
+            "GS-014",
+            "GS-022"
+          ]
+        }
+      },
+      "v1_subset_GS001_007": {
+        "ko": {
+          "hits": 4,
+          "n": 7,
+          "recall": 0.5714,
+          "mean_expected_rank": 5.0,
+          "ranked_n": 7,
+          "expected_filtered_out": [],
+          "case_ids": [
+            "GS-001",
+            "GS-002",
+            "GS-003",
+            "GS-004",
+            "GS-005",
+            "GS-006",
+            "GS-007"
+          ],
+          "misses": [
+            "GS-004",
+            "GS-006",
+            "GS-007"
+          ]
+        },
+        "en": {
+          "hits": 5,
+          "n": 7,
+          "recall": 0.7143,
+          "mean_expected_rank": 2.5714,
+          "ranked_n": 7,
+          "expected_filtered_out": [],
+          "case_ids": [
+            "GS-001",
+            "GS-002",
+            "GS-003",
+            "GS-004",
+            "GS-005",
+            "GS-006",
+            "GS-007"
+          ],
+          "misses": [
+            "GS-004",
+            "GS-006"
+          ]
+        }
+      },
+      "note": "stratum_A만이 필터 판정의 주 지표다 (ADR-022). all_positives는 필터 없음 조건에서만 참고로 낸다. v1_subset_GS001_007만이 session-12와 동일 구성이라 연속 비교가 성립한다."
+    },
+    "strata_counts": {
+      "A": 14,
+      "B": 9,
+      "C": 7
+    },
+    "score_gap": {
+      "ko": {
+        "irrelevant_query_top_score_GS-008": 0.7829,
+        "correct_at_rank1_top_score_GS-005": 0.8404,
+        "gap": 0.0575,
+        "note": "연속성 지표다. 정본 간격이 아니다 (ADR-005 Amendment 2 규칙 5)."
+      },
+      "en": {
+        "irrelevant_query_top_score_GS-008": 0.7807,
+        "correct_at_rank1_top_score_GS-005": 0.9088,
+        "gap": 0.1281,
+        "note": "연속성 지표다. 정본 간격이 아니다 (ADR-005 Amendment 2 규칙 5)."
+      }
+    },
+    "score_gap_canonical": {
+      "ko": {
+        "continuity_anchor_GS-005": {
+          "hardest": 0.0098,
+          "mean": 0.0268,
+          "n": 7,
+          "golden_set_version": "2.0",
+          "display": "0.0098(최난도) / 0.0268(평균), negative n=7",
+          "anchor": "GS-005",
+          "anchor_stratum": "B",
+          "anchor_expected_score": 0.8401,
+          "hardest_negative": "GS-028",
+          "hardest_negative_top_score": 0.8303,
+          "negative_mean_top_score": 0.8133,
+          "negative_filter_policy": "무필터 (arm=none이거나 앵커에 필터 값이 선언되지 않았다)",
+          "negatives_with_no_survivor": []
+        },
+        "stratum_A_anchor_GS-013": {
+          "hardest": -0.0052,
+          "mean": 0.0118,
+          "n": 7,
+          "golden_set_version": "2.0",
+          "display": "-0.0052(최난도) / 0.0118(평균), negative n=7",
+          "anchor": "GS-013",
+          "anchor_stratum": "A",
+          "anchor_expected_score": 0.8251,
+          "hardest_negative": "GS-028",
+          "hardest_negative_top_score": 0.8303,
+          "negative_mean_top_score": 0.8133,
+          "negative_filter_policy": "무필터 (arm=none이거나 앵커에 필터 값이 선언되지 않았다)",
+          "negatives_with_no_survivor": []
+        }
+      },
+      "en": {
+        "continuity_anchor_GS-005": {
+          "hardest": 0.0566,
+          "mean": 0.0753,
+          "n": 7,
+          "golden_set_version": "2.0",
+          "display": "0.0566(최난도) / 0.0753(평균), negative n=7",
+          "anchor": "GS-005",
+          "anchor_stratum": "B",
+          "anchor_expected_score": 0.9088,
+          "hardest_negative": "GS-029",
+          "hardest_negative_top_score": 0.8522,
+          "negative_mean_top_score": 0.8335,
+          "negative_filter_policy": "무필터 (arm=none이거나 앵커에 필터 값이 선언되지 않았다)",
+          "negatives_with_no_survivor": []
+        },
+        "stratum_A_anchor_GS-013": {
+          "hardest": 0.0387,
+          "mean": 0.0574,
+          "n": 7,
+          "golden_set_version": "2.0",
+          "display": "0.0387(최난도) / 0.0574(평균), negative n=7",
+          "anchor": "GS-013",
+          "anchor_stratum": "A",
+          "anchor_expected_score": 0.8909,
+          "hardest_negative": "GS-029",
+          "hardest_negative_top_score": 0.8522,
+          "negative_mean_top_score": 0.8335,
+          "negative_filter_policy": "무필터 (arm=none이거나 앵커에 필터 값이 선언되지 않았다)",
+          "negatives_with_no_survivor": []
+        }
+      }
+    },
+    "negatives_top_score": {
+      "ko": {
+        "GS-008": 0.7829,
+        "GS-009": 0.8239,
+        "GS-026": 0.8284,
+        "GS-027": 0.8198,
+        "GS-028": 0.8303,
+        "GS-029": 0.8167,
+        "GS-030": 0.7913
+      },
+      "en": {
+        "GS-008": 0.7807,
+        "GS-009": 0.8514,
+        "GS-026": 0.8424,
+        "GS-027": 0.8291,
+        "GS-028": 0.8443,
+        "GS-029": 0.8522,
+        "GS-030": 0.8341
+      }
+    },
+    "rank1_minus_rank4_ko": {
+      "GS-001": 0.0092,
+      "GS-002": 0.0191,
+      "GS-003": 0.0202,
+      "GS-004": 0.0119,
+      "GS-005": 0.0077,
+      "GS-006": 0.008,
+      "GS-007": 0.0276,
+      "GS-008": 0.0078,
+      "GS-009": 0.0027,
+      "GS-010": 0.0106,
+      "GS-011": 0.0068,
+      "GS-012": 0.0148,
+      "GS-013": 0.0246,
+      "GS-014": 0.0732,
+      "GS-015": 0.013,
+      "GS-016": 0.0321,
+      "GS-017": 0.007,
+      "GS-018": 0.0231,
+      "GS-019": 0.0067,
+      "GS-020": 0.0221,
+      "GS-021": 0.0098,
+      "GS-022": 0.0841,
+      "GS-023": 0.011,
+      "GS-024": 0.1052,
+      "GS-025": 0.0206,
+      "GS-026": 0.02,
+      "GS-027": 0.0076,
+      "GS-028": 0.0239,
+      "GS-029": 0.0038,
+      "GS-030": 0.0155
+    },
+    "rank1_minus_rank4_en": {
+      "GS-001": 0.0177,
+      "GS-002": 0.0508,
+      "GS-003": 0.0291,
+      "GS-004": 0.0035,
+      "GS-005": 0.051,
+      "GS-006": 0.0064,
+      "GS-007": 0.0241,
+      "GS-008": 0.0126,
+      "GS-009": 0.0076,
+      "GS-010": 0.0116,
+      "GS-011": 0.0518,
+      "GS-012": 0.0697,
+      "GS-013": 0.0651,
+      "GS-014": 0.0022,
+      "GS-015": 0.0163,
+      "GS-016": 0.0508,
+      "GS-017": 0.0398,
+      "GS-018": 0.0636,
+      "GS-019": 0.0332,
+      "GS-020": 0.029,
+      "GS-021": 0.0434,
+      "GS-022": 0.0133,
+      "GS-023": 0.0472,
+      "GS-024": 0.031,
+      "GS-025": 0.0146,
+      "GS-026": 0.0076,
+      "GS-027": 0.0128,
+      "GS-028": 0.0239,
+      "GS-029": 0.0134,
+      "GS-030": 0.0098
+    }
+  },
+  "cases": [
+    {
+      "id": "GS-001",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "v1.0",
+      "expected_doc_ids": [
+        "arXiv:2412.05449v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "LLM 멀티에이전트 협업 시스템을 설계하고 평가할 때 어떤 어려움이 보고되는가?",
+          "retrieval_latency_s": 0.0316,
+          "expected_ranks": [
+            4
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 4,
+          "best_expected_rank_unfiltered": 4,
+          "best_expected_score": 0.8336,
+          "candidates_after_filter": 37,
+          "top_score": 0.8428,
+          "rank4_score": 0.8336,
+          "rank1_minus_rank4": 0.0092,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8428,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8411,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8339,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8336,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 3,
+            "by_group": {
+              "v1.0-long": 2,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 1
+            },
+            "doc_ids": [
+              "news:c076df17a63066ea",
+              "arXiv:2602.03128v1",
+              "arXiv:2406.00215v3"
+            ]
+          }
+        },
+        "en": {
+          "query": "What difficulties are reported when designing and evaluating LLM multi-agent collaboration systems?",
+          "retrieval_latency_s": 0.0288,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8733,
+          "candidates_after_filter": 37,
+          "top_score": 0.8733,
+          "rank4_score": 0.8556,
+          "rank1_minus_rank4": 0.0177,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8733,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8643,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2405.16887v2",
+              "score": 0.8613,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8556,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-002",
+      "positive": true,
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "case_type": "v1.0",
+      "expected_doc_ids": [
+        "arXiv:2602.03128v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "멀티에이전트 LLM 프레임워크의 아키텍처 선택은 시스템 성능에 어떤 영향을 주는가?",
+          "retrieval_latency_s": 0.0262,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8482,
+          "candidates_after_filter": 37,
+          "top_score": 0.8482,
+          "rank4_score": 0.8291,
+          "rank1_minus_rank4": 0.0191,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8482,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8359,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8336,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8291,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        },
+        "en": {
+          "query": "How does the choice of architecture in a multi-agent LLM framework affect system performance?",
+          "retrieval_latency_s": 0.0233,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8921,
+          "candidates_after_filter": 37,
+          "top_score": 0.8921,
+          "rank4_score": 0.8413,
+          "rank1_minus_rank4": 0.0508,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8921,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2405.16887v2",
+              "score": 0.8582,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8549,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8413,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-003",
+      "positive": true,
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "case_type": "v1.0",
+      "expected_doc_ids": [
+        "arXiv:2405.16887v2",
+        "arXiv:2406.01893v2"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "제조 현장에 LLM 기반 멀티에이전트 시스템을 적용한 연구에는 어떤 것이 있는가?",
+          "retrieval_latency_s": 0.0304,
+          "expected_ranks": [
+            1,
+            2
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8423,
+          "candidates_after_filter": 37,
+          "top_score": 0.8423,
+          "rank4_score": 0.8221,
+          "rank1_minus_rank4": 0.0202,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2405.16887v2",
+              "score": 0.8423,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2406.01893v2",
+              "score": 0.8248,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8245,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8221,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        },
+        "en": {
+          "query": "Is there research that applies LLM-based multi-agent systems to the manufacturing floor?",
+          "retrieval_latency_s": 0.0264,
+          "expected_ranks": [
+            1,
+            3
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8857,
+          "candidates_after_filter": 37,
+          "top_score": 0.8857,
+          "rank4_score": 0.8566,
+          "rank1_minus_rank4": 0.0291,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2405.16887v2",
+              "score": 0.8857,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8661,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2406.01893v2",
+              "score": 0.8598,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8566,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-004",
+      "positive": true,
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "case_type": "v1.0",
+      "expected_doc_ids": [
+        "arXiv:2512.06196v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "LLM 에이전트의 정렬(alignment)을 재학습 없이 조정하는 접근이 있는가?",
+          "retrieval_latency_s": 0.0248,
+          "expected_ranks": [
+            7
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 7,
+          "best_expected_rank_unfiltered": 7,
+          "best_expected_score": 0.8282,
+          "candidates_after_filter": 37,
+          "top_score": 0.8505,
+          "rank4_score": 0.8386,
+          "rank1_minus_rank4": 0.0119,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8505,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8441,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19144v1",
+              "score": 0.8405,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8386,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 6,
+            "by_group": {
+              "v1.0-long": 2,
+              "new-en-long": 1,
+              "new-en-short": 0,
+              "new-ko": 3
+            },
+            "doc_ids": [
+              "news:42f467857601213c",
+              "news:3dd7208e3f2a1dde",
+              "arXiv:2609.19144v1",
+              "news:c076df17a63066ea",
+              "arXiv:2602.03128v1",
+              "arXiv:2512.02230v1"
+            ]
+          }
+        },
+        "en": {
+          "query": "Is there an approach that adjusts the alignment of an LLM agent without retraining it?",
+          "retrieval_latency_s": 0.0262,
+          "expected_ranks": [
+            5
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 5,
+          "best_expected_rank_unfiltered": 5,
+          "best_expected_score": 0.8567,
+          "candidates_after_filter": 37,
+          "top_score": 0.8611,
+          "rank4_score": 0.8576,
+          "rank1_minus_rank4": 0.0035,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8611,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2502.05227v1",
+              "score": 0.8588,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19144v1",
+              "score": 0.8577,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2401.07324v3",
+              "score": 0.8576,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 4,
+            "by_group": {
+              "v1.0-long": 3,
+              "new-en-long": 1,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": [
+              "arXiv:2512.02230v1",
+              "arXiv:2502.05227v1",
+              "arXiv:2609.19144v1",
+              "arXiv:2401.07324v3"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-005",
+      "positive": true,
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "case_type": "v1.0",
+      "expected_doc_ids": [
+        "arXiv:2412.20138v7"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "금융 트레이딩에 멀티에이전트 LLM을 적용한 프레임워크가 있는가?",
+          "retrieval_latency_s": 0.03,
+          "expected_ranks": [
+            2
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 2,
+          "best_expected_rank_unfiltered": 2,
+          "best_expected_score": 0.8401,
+          "candidates_after_filter": 37,
+          "top_score": 0.8404,
+          "rank4_score": 0.8327,
+          "rank1_minus_rank4": 0.0077,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8404,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8401,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8386,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8327,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 1,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 1
+            },
+            "doc_ids": [
+              "news:42f467857601213c"
+            ]
+          }
+        },
+        "en": {
+          "query": "Is there a framework that applies multi-agent LLMs to financial trading?",
+          "retrieval_latency_s": 0.028,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.9088,
+          "candidates_after_filter": 37,
+          "top_score": 0.9088,
+          "rank4_score": 0.8578,
+          "rank1_minus_rank4": 0.051,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.9088,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8613,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2401.07324v3",
+              "score": 0.8597,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8578,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-006",
+      "positive": true,
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "case_type": "v1.0",
+      "expected_doc_ids": [
+        "arXiv:2404.01023v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "LLM의 성능을 평가하기 위해 멀티에이전트 구조를 사용하는 접근이 있는가?",
+          "retrieval_latency_s": 0.0269,
+          "expected_ranks": [
+            12
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 12,
+          "best_expected_rank_unfiltered": 12,
+          "best_expected_score": 0.8126,
+          "candidates_after_filter": 37,
+          "top_score": 0.8358,
+          "rank4_score": 0.8278,
+          "rank1_minus_rank4": 0.008,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8358,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8317,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.83,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8278,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 11,
+            "by_group": {
+              "v1.0-long": 8,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 3
+            },
+            "doc_ids": [
+              "arXiv:2602.03128v1",
+              "news:42f467857601213c",
+              "arXiv:2602.16901v1",
+              "news:3dd7208e3f2a1dde",
+              "news:c076df17a63066ea",
+              "arXiv:2512.02230v1",
+              "arXiv:2401.07324v3",
+              "arXiv:2405.16887v2",
+              "arXiv:2412.05449v1",
+              "arXiv:2406.00215v3",
+              "arXiv:2410.09024v3"
+            ]
+          }
+        },
+        "en": {
+          "query": "Is there an approach that uses a multi-agent structure to evaluate the performance of an LLM?",
+          "retrieval_latency_s": 0.0231,
+          "expected_ranks": [
+            8
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 8,
+          "best_expected_rank_unfiltered": 8,
+          "best_expected_score": 0.8597,
+          "candidates_after_filter": 37,
+          "top_score": 0.8772,
+          "rank4_score": 0.8708,
+          "rank1_minus_rank4": 0.0064,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8772,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8733,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8712,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8708,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 7,
+            "by_group": {
+              "v1.0-long": 7,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": [
+              "arXiv:2602.03128v1",
+              "arXiv:2512.02230v1",
+              "arXiv:2412.20138v7",
+              "arXiv:2412.05449v1",
+              "arXiv:2401.07324v3",
+              "arXiv:2405.16887v2",
+              "arXiv:2410.09024v3"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-007",
+      "positive": true,
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "case_type": "v1.0",
+      "expected_doc_ids": [
+        "arXiv:2512.13930v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "과학 연구 자동화에서 LLM 멀티에이전트가 자율적으로 추론한 사례가 있는가?",
+          "retrieval_latency_s": 0.0276,
+          "expected_ranks": [
+            8
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 8,
+          "best_expected_rank_unfiltered": 8,
+          "best_expected_score": 0.8179,
+          "candidates_after_filter": 37,
+          "top_score": 0.8498,
+          "rank4_score": 0.8222,
+          "rank1_minus_rank4": 0.0276,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8498,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8331,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8293,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8222,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 7,
+            "by_group": {
+              "v1.0-long": 4,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 3
+            },
+            "doc_ids": [
+              "news:42f467857601213c",
+              "news:3dd7208e3f2a1dde",
+              "arXiv:2512.02230v1",
+              "arXiv:2602.16901v1",
+              "arXiv:2405.16887v2",
+              "news:c076df17a63066ea",
+              "arXiv:2412.05449v1"
+            ]
+          }
+        },
+        "en": {
+          "query": "Are there cases where LLM multi-agents reasoned autonomously in automating scientific research?",
+          "retrieval_latency_s": 0.0279,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8632,
+          "candidates_after_filter": 37,
+          "top_score": 0.8632,
+          "rank4_score": 0.8391,
+          "rank1_minus_rank4": 0.0241,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2512.13930v1",
+              "score": 0.8632,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.847,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8434,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2502.05227v1",
+              "score": 0.8391,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-008",
+      "positive": false,
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "case_type": "negative",
+      "expected_doc_ids": [],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "한국 개인정보보호법상 가명정보를 처리할 때 충족해야 하는 요건은 무엇인가?",
+          "retrieval_latency_s": 0.064,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.7829,
+          "rank4_score": 0.7751,
+          "rank1_minus_rank4": 0.0078,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:587009bd5b1aa4ce",
+              "score": 0.7829,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:1047cd7bf162d6e0",
+              "score": 0.7823,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.7795,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.7751,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ]
+        },
+        "en": {
+          "query": "What requirements must be met when processing pseudonymized data under Korea's Personal Information Protection Act?",
+          "retrieval_latency_s": 0.0913,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.7807,
+          "rank4_score": 0.7681,
+          "rank1_minus_rank4": 0.0126,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19143v1",
+              "score": 0.7807,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.7746,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19144v1",
+              "score": 0.7745,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2404.01023v1",
+              "score": 0.7681,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-009",
+      "positive": false,
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "case_type": "negative",
+      "expected_doc_ids": [],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "LLM 멀티에이전트 시스템 운영 시 GPU 비용을 얼마나 절감할 수 있는지 실측 수치가 있는가?",
+          "retrieval_latency_s": 0.071,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.8239,
+          "rank4_score": 0.8212,
+          "rank1_minus_rank4": 0.0027,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2404.01023v1",
+              "score": 0.8239,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.8238,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8231,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:1047cd7bf162d6e0",
+              "score": 0.8212,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ]
+        },
+        "en": {
+          "query": "Are there measured numbers for how much GPU cost can be saved when operating an LLM multi-agent system?",
+          "retrieval_latency_s": 0.0308,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.8514,
+          "rank4_score": 0.8438,
+          "rank1_minus_rank4": 0.0076,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2410.09024v3",
+              "score": 0.8514,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2609.19101v1",
+              "score": 0.8457,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8449,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8438,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-010",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "tech_domain",
+      "expected_doc_ids": [
+        "arXiv:2609.19113v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "두 언어모델이 서로 질문과 답을 주고받으며 후보를 좁혀가는 능력을 측정한 연구가 있는가?",
+          "retrieval_latency_s": 0.0421,
+          "expected_ranks": [
+            19
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 19,
+          "best_expected_rank_unfiltered": 19,
+          "best_expected_score": 0.7891,
+          "candidates_after_filter": 37,
+          "top_score": 0.8207,
+          "rank4_score": 0.8101,
+          "rank1_minus_rank4": 0.0106,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.8207,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8138,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8123,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2404.01023v1",
+              "score": 0.8101,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 18,
+            "by_group": {
+              "v1.0-long": 7,
+              "new-en-long": 3,
+              "new-en-short": 0,
+              "new-ko": 8
+            },
+            "doc_ids": [
+              "news:0252e9379cd9f923",
+              "arXiv:2406.00215v3",
+              "news:c076df17a63066ea",
+              "arXiv:2404.01023v1",
+              "news:587009bd5b1aa4ce",
+              "news:42f467857601213c",
+              "news:3dd7208e3f2a1dde",
+              "arXiv:2512.13930v1",
+              "news:14d2c76967ca2b60",
+              "arXiv:2401.07324v3",
+              "arXiv:2412.05449v1",
+              "arXiv:2609.19088v1",
+              "news:1047cd7bf162d6e0",
+              "arXiv:2406.01893v2",
+              "arXiv:2609.19144v1",
+              "news:c45b8926d7935cd2",
+              "arXiv:2609.19145v1",
+              "arXiv:2602.03128v1"
+            ]
+          }
+        },
+        "en": {
+          "query": "Is there a study measuring how well two language models can narrow down candidates by exchanging questions and answers?",
+          "retrieval_latency_s": 0.0386,
+          "expected_ranks": [
+            2
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 2,
+          "best_expected_rank_unfiltered": 2,
+          "best_expected_score": 0.8473,
+          "candidates_after_filter": 37,
+          "top_score": 0.8511,
+          "rank4_score": 0.8395,
+          "rank1_minus_rank4": 0.0116,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8511,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2609.19113v1",
+              "score": 0.8473,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19088v1",
+              "score": 0.8415,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2401.07324v3",
+              "score": 0.8395,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 1,
+            "by_group": {
+              "v1.0-long": 1,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": [
+              "arXiv:2406.00215v3"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-011",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "tech_domain",
+      "expected_doc_ids": [
+        "arXiv:2609.19101v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "모델이 보상을 속이는 행동을 내부 표현으로 탐지할 수 있다는 연구가 있는가?",
+          "retrieval_latency_s": 0.033,
+          "expected_ranks": [
+            3
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 3,
+          "best_expected_rank_unfiltered": 3,
+          "best_expected_score": 0.8116,
+          "candidates_after_filter": 37,
+          "top_score": 0.8152,
+          "rank4_score": 0.8084,
+          "rank1_minus_rank4": 0.0068,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8152,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:1047cd7bf162d6e0",
+              "score": 0.8125,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19101v1",
+              "score": 0.8116,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8084,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 2,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 2
+            },
+            "doc_ids": [
+              "news:3dd7208e3f2a1dde",
+              "news:1047cd7bf162d6e0"
+            ]
+          }
+        },
+        "en": {
+          "query": "Is there research on spotting a model's reward-cheating behaviour from its internal representations?",
+          "retrieval_latency_s": 0.0267,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8657,
+          "candidates_after_filter": 37,
+          "top_score": 0.8657,
+          "rank4_score": 0.8139,
+          "rank1_minus_rank4": 0.0518,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19101v1",
+              "score": 0.8657,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2609.19093v1",
+              "score": 0.8165,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:f3899afd4d6a0a2d",
+              "score": 0.815,
+              "source": "news",
+              "group": "new-en-short"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2609.19113v1",
+              "score": 0.8139,
+              "source": "arxiv",
+              "group": "new-en-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-012",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "tech_domain",
+      "expected_doc_ids": [
+        "arXiv:2609.19145v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "토크나이저의 최적화 목표와 탐색 절차 중 어느 쪽이 언어모델 성능을 좌우하는가?",
+          "retrieval_latency_s": 0.024,
+          "expected_ranks": [
+            3
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 3,
+          "best_expected_rank_unfiltered": 3,
+          "best_expected_score": 0.8334,
+          "candidates_after_filter": 37,
+          "top_score": 0.8387,
+          "rank4_score": 0.8239,
+          "rank1_minus_rank4": 0.0148,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:587009bd5b1aa4ce",
+              "score": 0.8387,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8383,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19145v1",
+              "score": 0.8334,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8239,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 2,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 2
+            },
+            "doc_ids": [
+              "news:587009bd5b1aa4ce",
+              "news:42f467857601213c"
+            ]
+          }
+        },
+        "en": {
+          "query": "For tokenisers, which matters more for language model performance -- what is optimised, or how it is searched?",
+          "retrieval_latency_s": 0.0298,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.9042,
+          "candidates_after_filter": 37,
+          "top_score": 0.9042,
+          "rank4_score": 0.8345,
+          "rank1_minus_rank4": 0.0697,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19145v1",
+              "score": 0.9042,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2609.19113v1",
+              "score": 0.8397,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2404.01023v1",
+              "score": 0.8388,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8345,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-013",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "tech_domain",
+      "expected_doc_ids": [
+        "arXiv:2609.19088v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "시각-언어 모델을 교육 맥락의 예술 이미지 이해로 평가한 벤치마크가 있는가?",
+          "retrieval_latency_s": 0.0265,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8251,
+          "candidates_after_filter": 37,
+          "top_score": 0.8251,
+          "rank4_score": 0.8005,
+          "rank1_minus_rank4": 0.0246,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19088v1",
+              "score": 0.8251,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8122,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19143v1",
+              "score": 0.8045,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8005,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        },
+        "en": {
+          "query": "Is there a benchmark that evaluates vision-language models on understanding artworks in an educational setting?",
+          "retrieval_latency_s": 0.0284,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8909,
+          "candidates_after_filter": 37,
+          "top_score": 0.8909,
+          "rank4_score": 0.8258,
+          "rank1_minus_rank4": 0.0651,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19088v1",
+              "score": 0.8909,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.829,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19143v1",
+              "score": 0.8262,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8258,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-014",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "tech_domain",
+      "expected_doc_ids": [
+        "news:42f467857601213c"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "AI 하드웨어의 초점이 대규모 학습에서 추론 수요 대응으로 옮겨가고 있다는 설명이 있는가?",
+          "retrieval_latency_s": 0.0407,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8917,
+          "candidates_after_filter": 37,
+          "top_score": 0.8917,
+          "rank4_score": 0.8185,
+          "rank1_minus_rank4": 0.0732,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8917,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8472,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:1047cd7bf162d6e0",
+              "score": 0.8282,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8185,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        },
+        "en": {
+          "query": "Is there an account of AI hardware shifting its focus from large-scale training toward meeting inference demand?",
+          "retrieval_latency_s": 0.0303,
+          "expected_ranks": [
+            23
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 23,
+          "best_expected_rank_unfiltered": 23,
+          "best_expected_score": 0.8093,
+          "candidates_after_filter": 37,
+          "top_score": 0.8297,
+          "rank4_score": 0.8275,
+          "rank1_minus_rank4": 0.0022,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19134v1",
+              "score": 0.8297,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:4410122683c56925",
+              "score": 0.8294,
+              "source": "news",
+              "group": "new-en-short"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2512.06196v1",
+              "score": 0.8278,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8275,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 22,
+            "by_group": {
+              "v1.0-long": 13,
+              "new-en-long": 6,
+              "new-en-short": 3,
+              "new-ko": 0
+            },
+            "doc_ids": [
+              "arXiv:2609.19134v1",
+              "news:4410122683c56925",
+              "arXiv:2512.06196v1",
+              "arXiv:2412.05449v1",
+              "arXiv:2406.00215v3",
+              "arXiv:2406.01893v2",
+              "arXiv:2609.19113v1",
+              "arXiv:2405.16887v2",
+              "arXiv:2609.19088v1",
+              "arXiv:2404.01023v1",
+              "arXiv:2401.07324v3",
+              "arXiv:2609.19101v1",
+              "news:7d2872733a614740",
+              "arXiv:2502.05227v1",
+              "news:f3899afd4d6a0a2d",
+              "arXiv:2412.20138v7",
+              "arXiv:2609.19143v1",
+              "arXiv:2512.13930v1",
+              "arXiv:2602.16901v1",
+              "arXiv:2602.03128v1",
+              "arXiv:2512.02230v1",
+              "arXiv:2609.19145v1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-015",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "tech_domain",
+      "expected_doc_ids": [
+        "arXiv:2605.21404v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "LLM 에이전트 벤치마크 논문들이 평가 실행 조건을 얼마나 공개하는지 조사한 것이 있는가?",
+          "retrieval_latency_s": 0.0289,
+          "expected_ranks": [
+            4
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 4,
+          "best_expected_rank_unfiltered": 4,
+          "best_expected_score": 0.8285,
+          "candidates_after_filter": 37,
+          "top_score": 0.8415,
+          "rank4_score": 0.8285,
+          "rank1_minus_rank4": 0.013,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8415,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8366,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8296,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2605.21404v1",
+              "score": 0.8285,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 3,
+            "by_group": {
+              "v1.0-long": 1,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 2
+            },
+            "doc_ids": [
+              "arXiv:2512.02230v1",
+              "news:42f467857601213c",
+              "news:3dd7208e3f2a1dde"
+            ]
+          }
+        },
+        "en": {
+          "query": "Has anyone surveyed how much agent benchmark papers reveal about the conditions their evaluations were run under?",
+          "retrieval_latency_s": 0.0294,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8621,
+          "candidates_after_filter": 37,
+          "top_score": 0.8621,
+          "rank4_score": 0.8458,
+          "rank1_minus_rank4": 0.0163,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2605.21404v1",
+              "score": 0.8621,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8604,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.849,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8458,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-016",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "language",
+      "expected_doc_ids": [
+        "arXiv:2609.19134v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "과학 코드 저장소를 에이전트가 학습할 수 있는 실행 환경으로 바꾸는 접근이 있는가?",
+          "retrieval_latency_s": 0.0292,
+          "expected_ranks": [
+            2
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 2,
+          "best_expected_rank_unfiltered": 2,
+          "best_expected_score": 0.8424,
+          "candidates_after_filter": 37,
+          "top_score": 0.8571,
+          "rank4_score": 0.825,
+          "rank1_minus_rank4": 0.0321,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8571,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2609.19134v1",
+              "score": 0.8424,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.831,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.825,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 1,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 1
+            },
+            "doc_ids": [
+              "news:3dd7208e3f2a1dde"
+            ]
+          }
+        },
+        "en": {
+          "query": "Is there an approach that converts scientific code repositories into runnable environments an agent can learn from?",
+          "retrieval_latency_s": 0.0263,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8916,
+          "candidates_after_filter": 37,
+          "top_score": 0.8916,
+          "rank4_score": 0.8408,
+          "rank1_minus_rank4": 0.0508,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19134v1",
+              "score": 0.8916,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2512.06196v1",
+              "score": 0.8426,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8409,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8408,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-017",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "language",
+      "expected_doc_ids": [
+        "arXiv:2609.19144v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "선호 쌍의 차이가 작을 때 기울기 계산 없이 비교만으로 모델을 정렬하는 방법이 있는가?",
+          "retrieval_latency_s": 0.0287,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8124,
+          "candidates_after_filter": 37,
+          "top_score": 0.8124,
+          "rank4_score": 0.8054,
+          "rank1_minus_rank4": 0.007,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19144v1",
+              "score": 0.8124,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:587009bd5b1aa4ce",
+              "score": 0.8079,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.8066,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8054,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        },
+        "en": {
+          "query": "Is there a way to align a model using only comparisons, without computing gradients, when preference pairs differ only slightly?",
+          "retrieval_latency_s": 0.0328,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8639,
+          "candidates_after_filter": 37,
+          "top_score": 0.8639,
+          "rank4_score": 0.8241,
+          "rank1_minus_rank4": 0.0398,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19144v1",
+              "score": 0.8639,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2512.06196v1",
+              "score": 0.8338,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19145v1",
+              "score": 0.8263,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:f3899afd4d6a0a2d",
+              "score": 0.8241,
+              "source": "news",
+              "group": "new-en-short"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-018",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "language",
+      "expected_doc_ids": [
+        "arXiv:2609.19093v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "방사선 판독문 생성 모델의 평가 점수가 참조 보고서의 작성 방식에 따라 흔들린다는 연구가 있는가?",
+          "retrieval_latency_s": 0.0252,
+          "expected_ranks": [
+            2
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 2,
+          "best_expected_rank_unfiltered": 2,
+          "best_expected_score": 0.8074,
+          "candidates_after_filter": 37,
+          "top_score": 0.825,
+          "rank4_score": 0.8019,
+          "rank1_minus_rank4": 0.0231,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:587009bd5b1aa4ce",
+              "score": 0.825,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2609.19093v1",
+              "score": 0.8074,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8058,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8019,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 1,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 1
+            },
+            "doc_ids": [
+              "news:587009bd5b1aa4ce"
+            ]
+          }
+        },
+        "en": {
+          "query": "Is there research showing that scores for radiology report generation models shift with how the reference reports were written?",
+          "retrieval_latency_s": 0.0263,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.884,
+          "candidates_after_filter": 37,
+          "top_score": 0.884,
+          "rank4_score": 0.8204,
+          "rank1_minus_rank4": 0.0636,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19093v1",
+              "score": 0.884,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8264,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19101v1",
+              "score": 0.8229,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2609.19113v1",
+              "score": 0.8204,
+              "source": "arxiv",
+              "group": "new-en-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-019",
+      "positive": true,
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "case_type": "language",
+      "expected_doc_ids": [
+        "arXiv:2401.07324v3"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "작은 모델을 계획·호출·요약 역할로 나눠 도구 사용 성능을 끌어올린 연구가 있는가?",
+          "retrieval_latency_s": 0.0328,
+          "expected_ranks": [
+            7
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 7,
+          "best_expected_rank_unfiltered": 7,
+          "best_expected_score": 0.8006,
+          "candidates_after_filter": 37,
+          "top_score": 0.8154,
+          "rank4_score": 0.8087,
+          "rank1_minus_rank4": 0.0067,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8154,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.815,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:587009bd5b1aa4ce",
+              "score": 0.8124,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:c45b8926d7935cd2",
+              "score": 0.8087,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 6,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 6
+            },
+            "doc_ids": [
+              "news:42f467857601213c",
+              "news:3dd7208e3f2a1dde",
+              "news:587009bd5b1aa4ce",
+              "news:c45b8926d7935cd2",
+              "news:c076df17a63066ea",
+              "news:0252e9379cd9f923"
+            ]
+          }
+        },
+        "en": {
+          "query": "Is there a study that splits a small model into planning, calling and summarising roles to improve tool use?",
+          "retrieval_latency_s": 0.0306,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.86,
+          "candidates_after_filter": 37,
+          "top_score": 0.86,
+          "rank4_score": 0.8268,
+          "rank1_minus_rank4": 0.0332,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2401.07324v3",
+              "score": 0.86,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2502.05227v1",
+              "score": 0.8316,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2405.16887v2",
+              "score": 0.8286,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2609.19113v1",
+              "score": 0.8268,
+              "source": "arxiv",
+              "group": "new-en-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-020",
+      "positive": true,
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "case_type": "language",
+      "expected_doc_ids": [
+        "arXiv:2502.05227v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "에이전트가 병렬로 진행되거나 중단되는 장기 과제를 비동기적으로 계획하는 능력을 측정한 벤치마크가 있는가?",
+          "retrieval_latency_s": 0.0312,
+          "expected_ranks": [
+            7
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 7,
+          "best_expected_rank_unfiltered": 7,
+          "best_expected_score": 0.8148,
+          "candidates_after_filter": 37,
+          "top_score": 0.8409,
+          "rank4_score": 0.8188,
+          "rank1_minus_rank4": 0.0221,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8409,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8365,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2410.09024v3",
+              "score": 0.8206,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8188,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 6,
+            "by_group": {
+              "v1.0-long": 5,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 1
+            },
+            "doc_ids": [
+              "news:3dd7208e3f2a1dde",
+              "arXiv:2512.02230v1",
+              "arXiv:2410.09024v3",
+              "arXiv:2602.16901v1",
+              "arXiv:2602.03128v1",
+              "arXiv:2406.00215v3"
+            ]
+          }
+        },
+        "en": {
+          "query": "Is there a benchmark measuring how well agents plan long tasks asynchronously when steps run in parallel or get interrupted?",
+          "retrieval_latency_s": 0.0287,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8852,
+          "candidates_after_filter": 37,
+          "top_score": 0.8852,
+          "rank4_score": 0.8562,
+          "rank1_minus_rank4": 0.029,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2502.05227v1",
+              "score": 0.8852,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8651,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2410.09024v3",
+              "score": 0.8602,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8562,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-021",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "language",
+      "expected_doc_ids": [
+        "arXiv:2609.19143v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "이미지 캡션의 각 구절을 픽셀 마스크에 연결하는 문제를 다룬 연구가 있는가?",
+          "retrieval_latency_s": 0.0285,
+          "expected_ranks": [
+            3
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 3,
+          "best_expected_rank_unfiltered": 3,
+          "best_expected_score": 0.804,
+          "candidates_after_filter": 37,
+          "top_score": 0.8135,
+          "rank4_score": 0.8037,
+          "rank1_minus_rank4": 0.0098,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:1047cd7bf162d6e0",
+              "score": 0.8135,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.8097,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19143v1",
+              "score": 0.804,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:14d2c76967ca2b60",
+              "score": 0.8037,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 2,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 2
+            },
+            "doc_ids": [
+              "news:1047cd7bf162d6e0",
+              "news:0252e9379cd9f923"
+            ]
+          }
+        },
+        "en": {
+          "query": "Is there research on linking each phrase of an image caption to pixel-level masks?",
+          "retrieval_latency_s": 0.0274,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8609,
+          "candidates_after_filter": 37,
+          "top_score": 0.8609,
+          "rank4_score": 0.8175,
+          "rank1_minus_rank4": 0.0434,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19143v1",
+              "score": 0.8609,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2609.19088v1",
+              "score": 0.8269,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19113v1",
+              "score": 0.8178,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2609.19093v1",
+              "score": 0.8175,
+              "source": "arxiv",
+              "group": "new-en-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-022",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "release_type",
+      "expected_doc_ids": [
+        "news:3dd7208e3f2a1dde"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "코딩 에이전트의 탐색 전략을 과거 시도 기록 위에서 시험해 개선하는 프레임워크가 있는가?",
+          "retrieval_latency_s": 0.0299,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.9105,
+          "candidates_after_filter": 37,
+          "top_score": 0.9105,
+          "rank4_score": 0.8264,
+          "rank1_minus_rank4": 0.0841,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.9105,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8408,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.8271,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:14d2c76967ca2b60",
+              "score": 0.8264,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        },
+        "en": {
+          "query": "Is there a framework that improves a coding agent's search strategy by trying it against records of past attempts?",
+          "retrieval_latency_s": 0.0294,
+          "expected_ranks": [
+            5
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 5,
+          "best_expected_rank_unfiltered": 5,
+          "best_expected_score": 0.8276,
+          "candidates_after_filter": 37,
+          "top_score": 0.8422,
+          "rank4_score": 0.8289,
+          "rank1_minus_rank4": 0.0133,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19113v1",
+              "score": 0.8422,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8327,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8311,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2502.05227v1",
+              "score": 0.8289,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 4,
+            "by_group": {
+              "v1.0-long": 3,
+              "new-en-long": 1,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": [
+              "arXiv:2609.19113v1",
+              "arXiv:2412.20138v7",
+              "arXiv:2406.00215v3",
+              "arXiv:2502.05227v1"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-023",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "release_type",
+      "expected_doc_ids": [
+        "news:f3899afd4d6a0a2d"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "모델의 오정렬 사례를 추적·조사·공개하는 운영 체계를 제시한 곳이 있는가?",
+          "retrieval_latency_s": 0.0281,
+          "expected_ranks": [
+            9
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 9,
+          "best_expected_rank_unfiltered": 9,
+          "best_expected_score": 0.7677,
+          "candidates_after_filter": 37,
+          "top_score": 0.7972,
+          "rank4_score": 0.7862,
+          "rank1_minus_rank4": 0.011,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.7972,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:14d2c76967ca2b60",
+              "score": 0.7942,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:1047cd7bf162d6e0",
+              "score": 0.7941,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:587009bd5b1aa4ce",
+              "score": 0.7862,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 8,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 1,
+              "new-en-short": 0,
+              "new-ko": 7
+            },
+            "doc_ids": [
+              "news:42f467857601213c",
+              "news:14d2c76967ca2b60",
+              "news:1047cd7bf162d6e0",
+              "news:587009bd5b1aa4ce",
+              "news:3dd7208e3f2a1dde",
+              "news:c076df17a63066ea",
+              "news:0252e9379cd9f923",
+              "arXiv:2609.19144v1"
+            ]
+          }
+        },
+        "en": {
+          "query": "Has anyone laid out an operating scheme for tracking, investigating and disclosing cases of model misalignment?",
+          "retrieval_latency_s": 0.0312,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.879,
+          "candidates_after_filter": 37,
+          "top_score": 0.879,
+          "rank4_score": 0.8318,
+          "rank1_minus_rank4": 0.0472,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:f3899afd4d6a0a2d",
+              "score": 0.879,
+              "source": "news",
+              "group": "new-en-short"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2609.19113v1",
+              "score": 0.8354,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19144v1",
+              "score": 0.833,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8318,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-024",
+      "positive": true,
+      "stratum": "A",
+      "anchor_meta": "present",
+      "case_type": "release_type",
+      "expected_doc_ids": [
+        "news:14d2c76967ca2b60"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "광고를 클릭하면 기업이 후원하는 에이전트와 대화하는 기능이 시험되고 있는가?",
+          "retrieval_latency_s": 0.0267,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.9184,
+          "candidates_after_filter": 37,
+          "top_score": 0.9184,
+          "rank4_score": 0.8132,
+          "rank1_minus_rank4": 0.1052,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:14d2c76967ca2b60",
+              "score": 0.9184,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8411,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.8225,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:1047cd7bf162d6e0",
+              "score": 0.8132,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        },
+        "en": {
+          "query": "Is a feature being tested where clicking an ad opens a conversation with a company-sponsored agent?",
+          "retrieval_latency_s": 0.0267,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8483,
+          "candidates_after_filter": 37,
+          "top_score": 0.8483,
+          "rank4_score": 0.8173,
+          "rank1_minus_rank4": 0.031,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:14d2c76967ca2b60",
+              "score": 0.8483,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2412.20138v7",
+              "score": 0.8232,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8197,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8173,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-025",
+      "positive": true,
+      "stratum": "B",
+      "anchor_meta": "missing",
+      "case_type": "release_type",
+      "expected_doc_ids": [
+        "arXiv:2602.16901v1"
+      ],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "한 번의 요청으로는 불가능한 목표를, 에이전트와 여러 턴을 주고받으며 달성하는 공격에 대한 취약성을 측정한 벤치마크가 있는가?",
+          "retrieval_latency_s": 0.031,
+          "expected_ranks": [
+            5
+          ],
+          "in_top_k": false,
+          "best_expected_rank": 5,
+          "best_expected_rank_unfiltered": 5,
+          "best_expected_score": 0.8285,
+          "candidates_after_filter": 37,
+          "top_score": 0.851,
+          "rank4_score": 0.8304,
+          "rank1_minus_rank4": 0.0206,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:509053e1f8b378dd",
+              "score": 0.851,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8409,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2410.09024v3",
+              "score": 0.8325,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2410.09114v2",
+              "score": 0.8304,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 4,
+            "by_group": {
+              "v1.0-long": 2,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 2
+            },
+            "doc_ids": [
+              "news:509053e1f8b378dd",
+              "news:3dd7208e3f2a1dde",
+              "arXiv:2410.09024v3",
+              "arXiv:2410.09114v2"
+            ]
+          }
+        },
+        "en": {
+          "query": "Is there a benchmark measuring vulnerability to attacks that reach goals impossible in one request by exchanging many turns with an agent?",
+          "retrieval_latency_s": 0.0352,
+          "expected_ranks": [
+            1
+          ],
+          "in_top_k": true,
+          "best_expected_rank": 1,
+          "best_expected_rank_unfiltered": 1,
+          "best_expected_score": 0.8607,
+          "candidates_after_filter": 37,
+          "top_score": 0.8607,
+          "rank4_score": 0.8461,
+          "rank1_minus_rank4": 0.0146,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8607,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2410.09024v3",
+              "score": 0.8591,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8489,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8461,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ],
+          "displacement": {
+            "n": 0,
+            "by_group": {
+              "v1.0-long": 0,
+              "new-en-long": 0,
+              "new-en-short": 0,
+              "new-ko": 0
+            },
+            "doc_ids": []
+          }
+        }
+      }
+    },
+    {
+      "id": "GS-026",
+      "positive": false,
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "case_type": "negative",
+      "expected_doc_ids": [],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "국내 기업이 사내 문서로 한국어 LLM을 파인튜닝해 얻은 성능 수치가 있는가?",
+          "retrieval_latency_s": 0.0261,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.8284,
+          "rank4_score": 0.8084,
+          "rank1_minus_rank4": 0.02,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8284,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8161,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:1047cd7bf162d6e0",
+              "score": 0.8086,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8084,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ]
+        },
+        "en": {
+          "query": "Are there performance numbers from a Korean company fine-tuning a Korean-language LLM on its own internal documents?",
+          "retrieval_latency_s": 0.024,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.8424,
+          "rank4_score": 0.8348,
+          "rank1_minus_rank4": 0.0076,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19101v1",
+              "score": 0.8424,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2609.19113v1",
+              "score": 0.8406,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19145v1",
+              "score": 0.8365,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8348,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-027",
+      "positive": false,
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "case_type": "negative",
+      "expected_doc_ids": [],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "LLM 에이전트를 실제 공장 설비에 붙였을 때 발생한 안전 사고가 보고돼 있는가?",
+          "retrieval_latency_s": 0.0356,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.8198,
+          "rank4_score": 0.8122,
+          "rank1_minus_rank4": 0.0076,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8198,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8155,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8154,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.8122,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ]
+        },
+        "en": {
+          "query": "Have safety incidents been reported from attaching LLM agents to real factory equipment?",
+          "retrieval_latency_s": 0.027,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.8291,
+          "rank4_score": 0.8163,
+          "rank1_minus_rank4": 0.0128,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8291,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2410.09024v3",
+              "score": 0.8212,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2405.16887v2",
+              "score": 0.8165,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2609.19101v1",
+              "score": 0.8163,
+              "source": "arxiv",
+              "group": "new-en-long"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-028",
+      "positive": false,
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "case_type": "negative",
+      "expected_doc_ids": [],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "배치 크기나 KV 캐시 같은 추론 서버 설정값을 바꿔가며 처리량을 측정한 실험이 있는가?",
+          "retrieval_latency_s": 0.0281,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.8303,
+          "rank4_score": 0.8064,
+          "rank1_minus_rank4": 0.0239,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:587009bd5b1aa4ce",
+              "score": 0.8303,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2609.19101v1",
+              "score": 0.8257,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.8187,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8064,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ]
+        },
+        "en": {
+          "query": "Is there an experiment that varies inference server settings such as batch size or KV cache and measures throughput?",
+          "retrieval_latency_s": 0.0267,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.8443,
+          "rank4_score": 0.8204,
+          "rank1_minus_rank4": 0.0239,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2609.19101v1",
+              "score": 0.8443,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2609.19113v1",
+              "score": 0.8312,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2609.19134v1",
+              "score": 0.8215,
+              "source": "arxiv",
+              "group": "new-en-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2410.09114v2",
+              "score": 0.8204,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-029",
+      "positive": false,
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "case_type": "negative",
+      "expected_doc_ids": [],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "LLM 에이전트가 임상시험에서 전문의의 진단 정확도를 넘었다는 결과가 있는가?",
+          "retrieval_latency_s": 0.0273,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.8167,
+          "rank4_score": 0.8129,
+          "rank1_minus_rank4": 0.0038,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:c076df17a63066ea",
+              "score": 0.8167,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8163,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8137,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "news:42f467857601213c",
+              "score": 0.8129,
+              "source": "news",
+              "group": "new-ko"
+            }
+          ]
+        },
+        "en": {
+          "query": "Are there results showing an LLM agent beating specialist physicians' diagnostic accuracy in a clinical trial?",
+          "retrieval_latency_s": 0.0361,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.8522,
+          "rank4_score": 0.8388,
+          "rank1_minus_rank4": 0.0134,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2602.16901v1",
+              "score": 0.8522,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.846,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8449,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8388,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "GS-030",
+      "positive": false,
+      "stratum": "C",
+      "anchor_meta": "n-a",
+      "case_type": "negative",
+      "expected_doc_ids": [],
+      "filter": {
+        "arm": "none",
+        "null_policy": "n/a",
+        "applied": false,
+        "value": null,
+        "value_source": "n/a",
+        "value_declared": false
+      },
+      "by_lang": {
+        "ko": {
+          "query": "멀티에이전트 시스템 운영의 전력 소비량이나 탄소 배출량을 측정한 연구가 있는가?",
+          "retrieval_latency_s": 0.0293,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.7913,
+          "rank4_score": 0.7758,
+          "rank1_minus_rank4": 0.0155,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "score": 0.7913,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "news:0252e9379cd9f923",
+              "score": 0.7801,
+              "source": "news",
+              "group": "new-ko"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.7783,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.7758,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ]
+        },
+        "en": {
+          "query": "Is there research measuring the power consumption or carbon emissions of running a multi-agent system?",
+          "retrieval_latency_s": 0.1472,
+          "expected_ranks": [],
+          "in_top_k": false,
+          "best_expected_rank": null,
+          "best_expected_rank_unfiltered": null,
+          "best_expected_score": null,
+          "candidates_after_filter": 37,
+          "top_score": 0.8341,
+          "rank4_score": 0.8243,
+          "rank1_minus_rank4": 0.0098,
+          "top_k": [
+            {
+              "rank": 1,
+              "rank_unfiltered": 1,
+              "doc_id": "arXiv:2412.05449v1",
+              "score": 0.8341,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 2,
+              "rank_unfiltered": 2,
+              "doc_id": "arXiv:2602.03128v1",
+              "score": 0.8268,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 3,
+              "rank_unfiltered": 3,
+              "doc_id": "arXiv:2406.00215v3",
+              "score": 0.8254,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            },
+            {
+              "rank": 4,
+              "rank_unfiltered": 4,
+              "doc_id": "arXiv:2512.02230v1",
+              "score": 0.8243,
+              "source": "arxiv",
+              "group": "v1.0-long"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

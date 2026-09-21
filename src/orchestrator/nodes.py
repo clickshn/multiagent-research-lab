@@ -26,6 +26,7 @@ from src.tools.retrieval import RetrievalError, RetrievedChunk, Retriever
 from src.tools.sanitize import wrap_untrusted
 
 from . import prompts
+from .citations import attach_source_table
 from .state import Citation, Finding, LLMCallRecord, ResearchState
 
 # 노드의 계약: State를 받아 "이번에 바뀐 키만" 담은 부분 갱신을 돌려준다.
@@ -206,6 +207,13 @@ def _format_evidence(citations: Sequence[Citation]) -> str:
     snippet은 검색된 문서 본문이 그대로 들어온 것이다. Researcher를 통과했다는
     사실이 내용을 신뢰할 근거가 되지는 않으므로 여기서도 경계로 감싼다 —
     파이프라인 뒷단일수록 "이미 검증된 것"으로 착각하기 쉽다 (ADR-009).
+
+    ⚠️ **`Citation`의 온톨로지 메타는 여기 들어오지 않는다 (ADR-024).** 이 함수의
+    출력이 곧 LLM 입력이고, 입력이 그대로여야 `PROMPT_VERSION`이 바뀌지 않으며
+    "인용 형식 하나만 바뀌었다"가 참이 된다. 그리고 `release_type`을 모델에게 보여주면
+    근거의 신뢰도 신호로 읽는다 — Researcher 프롬프트의 유사도 점수 노출과 같은
+    함정이다(session-13 §6.2). 메타는 `citations.render_source_table()`만 쓴다.
+    `tests/test_citations.py`가 이 함수의 출력에 메타가 섞이지 않는지 붙든다.
     """
     if not citations:
         return "(근거 없음)"
@@ -414,6 +422,12 @@ def _select_citations(
                 doc_id=chunk.doc_id,
                 locator=chunk.locator,
                 snippet=chunk.text[:_SNIPPET_LIMIT],
+                # 온톨로지 메타는 검색 결과에서 **그대로** 옮긴다 (ADR-024).
+                # 모델 출력에서 읽지 않는다 — 모델이 고른 것은 후보 번호뿐이다.
+                published=chunk.published,
+                release_type=chunk.release_type,
+                tech_domains=chunk.tech_domains,
+                has_ontology=chunk.has_ontology,
             )
         )
     return tuple(citations)
@@ -505,6 +519,11 @@ def make_writer_node(
     Researcher가 반환한 근거 범위 밖의 주장은 생성하지 않는다. 근거가 없는 항목은
     본문에 "근거 없음"으로 표시한다 (docs/architecture.md 설계 원칙).
 
+    **출처 표는 모델이 아니라 코드가 붙인다 (ADR-024).** 모델은 지금까지와 똑같은
+    입력을 받고 똑같이 본문만 쓴다. 그 뒤에 인용된 문서의 온톨로지 메타
+    (종류·기술 영역·발행일)를 표로 렌더링해 덧붙인다 — 값이 모델을 거치지 않으므로
+    옮겨 적기 오류가 원리적으로 생기지 않는다.
+
     반환 키: `draft`, `trace`
     """
 
@@ -516,11 +535,14 @@ def make_writer_node(
         by_topic = _citations_by_topic(state.get("findings") or [])
 
         blocks: list[str] = []
+        cited: list[Citation] = []
         for topic in outline:
             if topic in uncovered:
                 blocks.append(f"## {topic}\n(근거 없음 — 검색에서 뒷받침 자료를 찾지 못함)")
                 continue
-            blocks.append(f"## {topic}\n{_format_evidence(by_topic.get(topic, []))}")
+            topic_citations = by_topic.get(topic, [])
+            cited.extend(topic_citations)
+            blocks.append(f"## {topic}\n{_format_evidence(topic_citations)}")
 
         if not blocks:
             # 조사 항목 자체가 없다. 지어내지 않고 그 사실을 초안으로 남긴다.
@@ -545,7 +567,8 @@ def make_writer_node(
             )
 
         return ResearchState(
-            draft=response.text.strip(),
+            # 본문은 모델이, 출처 표는 코드가 쓴다 (ADR-024). 본문은 한 글자도 바꾸지 않는다.
+            draft=attach_source_table(response.text.strip(), cited),
             trace=[_record("writer", response, revision)],
         )
 
