@@ -1,0 +1,2679 @@
+{
+  "probe": "ann-completeness",
+  "session": "session-15",
+  "label": "reproduce-triple-log-b",
+  "generated_at": "2026-09-21T10:52:27+0900",
+  "elapsed_s": 486.5,
+  "environment": {
+    "chromadb": "1.5.5",
+    "python": "3.14.0",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "config": {
+    "runs": 80,
+    "clients": 1,
+    "queries": 3
+  },
+  "summary": {
+    "runs": 80,
+    "incomplete_runs": 1,
+    "incomplete_rate": 0.0125,
+    "missing_doc_tally": {
+      "arXiv:2609.19144v1": 1
+    },
+    "distinct_missing_docs": 1,
+    "all_consistent_within_process": true,
+    "count_always_n_total": true,
+    "get_always_n_total": true
+  },
+  "samples": [
+    {
+      "pid": 24264,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.383,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 0
+    },
+    {
+      "pid": 25800,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.407,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 1
+    },
+    {
+      "pid": 27176,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.333,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 2
+    },
+    {
+      "pid": 25484,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.44,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 3
+    },
+    {
+      "pid": 29520,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        36
+      ],
+      "complete": false,
+      "missing_union": [
+        "arXiv:2609.19144v1"
+      ],
+      "consistent_within_process": true,
+      "open_s": 0.321,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 36,
+          "missing": [
+            "arXiv:2609.19144v1"
+          ]
+        },
+        {
+          "i": 1,
+          "returned": 36,
+          "missing": [
+            "arXiv:2609.19144v1"
+          ]
+        },
+        {
+          "i": 2,
+          "returned": 36,
+          "missing": [
+            "arXiv:2609.19144v1"
+          ]
+        }
+      ],
+      "run": 4
+    },
+    {
+      "pid": 27068,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.246,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 5
+    },
+    {
+      "pid": 9708,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.358,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 6
+    },
+    {
+      "pid": 14620,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.305,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 7
+    },
+    {
+      "pid": 22832,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.259,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 8
+    },
+    {
+      "pid": 11980,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.335,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 9
+    },
+    {
+      "pid": 26776,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.263,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 10
+    },
+    {
+      "pid": 24096,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.24,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 11
+    },
+    {
+      "pid": 28212,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.436,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 12
+    },
+    {
+      "pid": 28372,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.314,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 13
+    },
+    {
+      "pid": 27528,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.311,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 14
+    },
+    {
+      "pid": 13928,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.255,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 15
+    },
+    {
+      "pid": 28476,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.31,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 16
+    },
+    {
+      "pid": 26608,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.274,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 17
+    },
+    {
+      "pid": 28276,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.331,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 18
+    },
+    {
+      "pid": 28008,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.361,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 19
+    },
+    {
+      "pid": 4256,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.25,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 20
+    },
+    {
+      "pid": 23300,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.471,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 21
+    },
+    {
+      "pid": 29236,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.282,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 22
+    },
+    {
+      "pid": 19776,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.299,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 23
+    },
+    {
+      "pid": 27508,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.216,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 24
+    },
+    {
+      "pid": 28884,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.272,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 25
+    },
+    {
+      "pid": 25480,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.508,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 26
+    },
+    {
+      "pid": 27392,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.291,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 27
+    },
+    {
+      "pid": 27528,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.234,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 28
+    },
+    {
+      "pid": 27780,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.386,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 29
+    },
+    {
+      "pid": 572,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.325,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 30
+    },
+    {
+      "pid": 24972,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.345,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 31
+    },
+    {
+      "pid": 26668,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.286,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 32
+    },
+    {
+      "pid": 3132,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.253,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 33
+    },
+    {
+      "pid": 1400,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.566,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 34
+    },
+    {
+      "pid": 26644,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.463,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 35
+    },
+    {
+      "pid": 24784,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.241,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 36
+    },
+    {
+      "pid": 24008,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.28,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 37
+    },
+    {
+      "pid": 29496,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.274,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 38
+    },
+    {
+      "pid": 28736,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.338,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 39
+    },
+    {
+      "pid": 26040,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.299,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 40
+    },
+    {
+      "pid": 18232,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.326,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 41
+    },
+    {
+      "pid": 25968,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.276,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 42
+    },
+    {
+      "pid": 23220,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.262,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 43
+    },
+    {
+      "pid": 23872,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.411,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 44
+    },
+    {
+      "pid": 28704,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.321,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 45
+    },
+    {
+      "pid": 23928,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.426,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 46
+    },
+    {
+      "pid": 24024,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.358,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 47
+    },
+    {
+      "pid": 28732,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.377,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 48
+    },
+    {
+      "pid": 9732,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.581,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 49
+    },
+    {
+      "pid": 25572,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.403,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 50
+    },
+    {
+      "pid": 26360,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.497,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 51
+    },
+    {
+      "pid": 24872,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.317,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 52
+    },
+    {
+      "pid": 3632,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.478,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 53
+    },
+    {
+      "pid": 8972,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.321,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 54
+    },
+    {
+      "pid": 17916,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.432,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 55
+    },
+    {
+      "pid": 17116,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.262,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 56
+    },
+    {
+      "pid": 11688,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.363,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 57
+    },
+    {
+      "pid": 25564,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.378,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 58
+    },
+    {
+      "pid": 29420,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.489,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 59
+    },
+    {
+      "pid": 13744,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.488,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 60
+    },
+    {
+      "pid": 24752,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.786,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 61
+    },
+    {
+      "pid": 26344,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.959,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 62
+    },
+    {
+      "pid": 4316,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.684,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 63
+    },
+    {
+      "pid": 22720,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.415,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 64
+    },
+    {
+      "pid": 23728,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.563,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 65
+    },
+    {
+      "pid": 5272,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.807,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 66
+    },
+    {
+      "pid": 4632,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.534,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 67
+    },
+    {
+      "pid": 23796,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.638,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 68
+    },
+    {
+      "pid": 25920,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.349,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 69
+    },
+    {
+      "pid": 27604,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.435,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 70
+    },
+    {
+      "pid": 27860,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.271,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 71
+    },
+    {
+      "pid": 27520,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.449,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 72
+    },
+    {
+      "pid": 8272,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.451,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 73
+    },
+    {
+      "pid": 23976,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.497,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 74
+    },
+    {
+      "pid": 27420,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.711,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 75
+    },
+    {
+      "pid": 27332,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.568,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 76
+    },
+    {
+      "pid": 16772,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.335,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 77
+    },
+    {
+      "pid": 25380,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.228,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 78
+    },
+    {
+      "pid": 23168,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 3,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.307,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 79
+    }
+  ]
+}

@@ -1,0 +1,8149 @@
+{
+  "probe": "ann-completeness",
+  "session": "session-15",
+  "label": "rebuilt-index",
+  "generated_at": "2026-09-21T10:25:00+0900",
+  "elapsed_s": 200.2,
+  "environment": {
+    "chromadb": "1.5.5",
+    "python": "3.14.0",
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "config": {
+    "runs": 40,
+    "clients": 1,
+    "queries": 37
+  },
+  "summary": {
+    "runs": 40,
+    "incomplete_runs": 0,
+    "incomplete_rate": 0.0,
+    "missing_doc_tally": {},
+    "distinct_missing_docs": 0,
+    "all_consistent_within_process": true,
+    "count_always_n_total": true,
+    "get_always_n_total": true
+  },
+  "samples": [
+    {
+      "pid": 25848,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.323,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 0
+    },
+    {
+      "pid": 23344,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.515,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 1
+    },
+    {
+      "pid": 28096,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.351,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 2
+    },
+    {
+      "pid": 16436,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.272,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 3
+    },
+    {
+      "pid": 25724,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.227,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 4
+    },
+    {
+      "pid": 20236,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.28,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 5
+    },
+    {
+      "pid": 24160,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.242,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 6
+    },
+    {
+      "pid": 4252,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.261,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 7
+    },
+    {
+      "pid": 24356,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.311,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 8
+    },
+    {
+      "pid": 17200,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.238,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 9
+    },
+    {
+      "pid": 26008,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.226,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 10
+    },
+    {
+      "pid": 27620,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.303,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 11
+    },
+    {
+      "pid": 24412,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.316,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 12
+    },
+    {
+      "pid": 26568,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.525,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 13
+    },
+    {
+      "pid": 28352,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.27,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 14
+    },
+    {
+      "pid": 29200,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.619,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 15
+    },
+    {
+      "pid": 25180,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.389,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 16
+    },
+    {
+      "pid": 4796,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.214,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 17
+    },
+    {
+      "pid": 15156,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.24,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 18
+    },
+    {
+      "pid": 1120,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.232,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 19
+    },
+    {
+      "pid": 1872,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.237,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 20
+    },
+    {
+      "pid": 21176,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.232,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 21
+    },
+    {
+      "pid": 25584,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.223,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 22
+    },
+    {
+      "pid": 26908,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.266,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 23
+    },
+    {
+      "pid": 2700,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.217,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 24
+    },
+    {
+      "pid": 28892,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.243,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 25
+    },
+    {
+      "pid": 27164,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.235,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 26
+    },
+    {
+      "pid": 15816,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.27,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 27
+    },
+    {
+      "pid": 28384,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.271,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 28
+    },
+    {
+      "pid": 28092,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.286,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 29
+    },
+    {
+      "pid": 26648,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.306,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 30
+    },
+    {
+      "pid": 11024,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.332,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 31
+    },
+    {
+      "pid": 16372,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.222,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 32
+    },
+    {
+      "pid": 28364,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.306,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 33
+    },
+    {
+      "pid": 2464,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.222,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 34
+    },
+    {
+      "pid": 28860,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.194,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 35
+    },
+    {
+      "pid": 4640,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.386,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 36
+    },
+    {
+      "pid": 26464,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.317,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 37
+    },
+    {
+      "pid": 29096,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.225,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 38
+    },
+    {
+      "pid": 27740,
+      "clients": 1,
+      "n_total": 37,
+      "collection_count": 37,
+      "get_count": 37,
+      "queries": 37,
+      "returned_counts": [
+        37
+      ],
+      "complete": true,
+      "missing_union": [],
+      "consistent_within_process": true,
+      "open_s": 0.29,
+      "per_query": [
+        {
+          "i": 0,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 1,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 2,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 3,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 4,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 5,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 6,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 7,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 8,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 9,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 10,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 11,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 12,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 13,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 14,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 15,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 16,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 17,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 18,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 19,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 20,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 21,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 22,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 23,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 24,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 25,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 26,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 27,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 28,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 29,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 30,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 31,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 32,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 33,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 34,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 35,
+          "returned": 37,
+          "missing": []
+        },
+        {
+          "i": 36,
+          "returned": 37,
+          "missing": []
+        }
+      ],
+      "run": 39
+    }
+  ]
+}
