@@ -163,11 +163,25 @@ GS-002~007은 v1.0부터 이어져 온 **Session 1·5·12와의 유일한 연속
 
 ## Implementation
 
-- [ ] `docs/eval/golden-set.json` v2.0 — 30건, 각 케이스에 `anchor_meta` 선언
-- [ ] `docs/eval/golden-set-en.json` — 신규 21건 영어 대조 질의 추가
-- [ ] `scripts/probe_retrieval.py` — 층별 집계 + v1.0 부분집합 집계 추가
-- [ ] **Session 3:** strict arm / null-통과 arm 2회 측정, 층 A·B·C 3표로 보고
-- [ ] **`src/tools/retrieval.py` 변경 0줄 유지**
+- [x] `docs/eval/golden-set.json` v2.0 — 30건, 각 케이스에 `anchor_meta` 선언 (session-13)
+- [x] `docs/eval/golden-set-en.json` — 신규 21건 영어 대조 질의 추가 (session-13)
+- [x] `scripts/probe_retrieval.py` — 층별 집계 + v1.0 부분집합 집계 추가 (session-13)
+- [x] **Session 3:** strict arm / null-통과 arm 2회 측정, 층 A·B·C 3표로 보고
+      → **session-14에서 완료.** 필터 축이 둘(`release_type` / `tech_domain`)이므로
+      2 arm이 아니라 **2×2 = 4회 + 무필터 baseline 1회, 총 5회**를 쟀다. 배선 설계는
+      **ADR-023**이다.
+- [x] **`src/tools/retrieval.py` 변경 0줄 유지** (session-14 기준 유지)
+
+### session-14 실측 — 이 ADR의 예측이 맞았는가
+
+- **null 희석률 예측이 소수점까지 맞았다.** Rationale 표의 `Paper` 11 → 25건(14/25 = 56.0%),
+  `Reasoning` 2 → 16건(14/16 = **87.5%**)이 실측과 동일하다. null-통과를 주 규칙으로
+  쓰지 않은 근거가 재현됐다.
+- **층 B의 strict 재현율은 예측대로 0/9다.** 이 값은 필터 품질이 아니라
+  **ADR-020이 경고한 37.8% 결측의 비용**이다 (Decision 5).
+- **층을 합쳤다면 결론이 뒤집혔다.** `tech_domain` strict의 층 A 재현율은 **14/14 = 100%**
+  인데, A+B를 합치면 14/23 = 60.9%로 **무필터 합산 65.2%보다 낮아진다.**
+  "필터를 걸었더니 나빠졌다"는 정반대 결론이 합산 한 줄에서 나온다.
 
 ## Reversibility
 
