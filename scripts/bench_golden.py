@@ -90,6 +90,7 @@ EXIT_OK = 0
 EXIT_EXISTS = 3
 EXIT_INDEX = 4
 EXIT_LOCKED = 5
+EXIT_TRACE = 6
 
 
 class BenchRefused(RuntimeError):
@@ -736,6 +737,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--only", nargs="*", default=None, help="특정 케이스 ID만")
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
     parser.add_argument("--golden-set", type=Path, default=GOLDEN_SET)
+    parser.add_argument(
+        "--require-trace",
+        action="store_true",
+        help="로컬 트레이스·항목 기록이 없는 행이 생기면 경고가 아니라 즉시 멈춘다 (ADR-025 before 값 보호)",
+    )
     args = parser.parse_args(argv)
 
     golden = json.loads(args.golden_set.read_text(encoding="utf-8"))
@@ -812,6 +818,11 @@ def _bench(args, cases, golden, labels, out_paths, index_check, score_exposed, *
     print(f"[2/3] 인덱스 문서 수: {corpus_docs}")
 
     tracer = get_tracer()
+    if isinstance(tracer, NullTracer) and args.require_trace:
+        raise BenchRefused(
+            "트레이싱이 꺼져 있는데 --require-trace입니다. 항목별 후보를 기록할 수 없습니다.",
+            EXIT_TRACE,
+        )
     if isinstance(tracer, NullTracer):
         print(
             "      ⚠️ 트레이싱이 꺼져 있습니다(DISABLE_TRACING). 검색 지연과 항목별 후보가 "
@@ -839,6 +850,13 @@ def _bench(args, cases, golden, labels, out_paths, index_check, score_exposed, *
             )
             rows.append(row)
             _print_row(row)
+            if args.require_trace and (not row["local_trace"] or row["items"] is None):
+                # 부분 결과는 저장하지 않는다 — before 값이 빠진 회차를 기준선으로 남기지 않는다.
+                raise BenchRefused(
+                    f"{row['case_id']}: 로컬 트레이스 또는 항목별 기록이 없습니다 "
+                    f"(run_id={row['run_id']}). --require-trace라 여기서 멈춥니다.",
+                    EXIT_TRACE,
+                )
         bench_s = time.perf_counter() - bench_started
 
         summary = {

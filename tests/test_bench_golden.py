@@ -321,6 +321,23 @@ def test_missing_local_trace_warns_and_is_not_counted_as_zero(bench, capsys) -> 
     assert result["risk_selection"]["rate"] is None
 
 
+def test_require_trace_refuses_null_tracer_before_any_call(bench) -> None:
+    _build_index(bench.persist_dir, "bench_test")
+    bench.monkeypatch.setattr(bench_golden, "get_tracer", lambda: NullTracer())
+    assert bench.run("--label", "strict", "--require-trace") == bench_golden.EXIT_TRACE
+    assert bench.provider.calls == 0
+
+
+def test_require_trace_stops_on_row_without_trace_and_saves_nothing(bench) -> None:
+    """트레이스 파일이 사라진 행이 나오면 그 자리에서 멈추고 부분 결과를 남기지 않는다."""
+    _build_index(bench.persist_dir, "bench_test")
+    bench.monkeypatch.setattr(bench_golden, "_read_trace", lambda path: None)
+    assert bench.run("--label", "strict2", "--require-trace") == bench_golden.EXIT_TRACE
+    assert 0 < bench.provider.calls <= 12  # 첫 케이스만 돌고 멈췄다 (4T+2, T=2)
+    assert not (bench.out_dir / "bench-strict2.json").exists()
+    assert not bench_golden.lock_path(bench.persist_dir).exists()
+
+
 # --- 항목 짝짓기 · 선택률 ----------------------------------------------------
 
 
