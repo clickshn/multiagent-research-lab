@@ -12,13 +12,23 @@
 없으면 계측 없이 동작한다 — 관측은 본 작업의 부수 효과지 전제 조건이 아니다.
 모델 호출 1건 = span 1개이고, 토큰·지연은 프로바이더 응답(`LLMResponse`)에서
 그대로 가져온다. 노드가 따로 토큰을 세지 않는다 (ADR-007).
+
+**노드 안 동시 호출 (v1.2-P1, ADR-026).** Researcher·Verifier는 `max_concurrency`가
+2 이상이면 항목별 호출을 스레드 풀로 동시에 보낸다. 그래프 구조·프롬프트·판정 로직은
+그대로이고, 결과는 **원래 항목 순서로** 합친다. 1(기본)이면 풀을 만들지 않고 순차
+루프를 그대로 돈다. 검색은 동시 실행에서도 **항상 직렬**이다(`_RETRIEVAL_LOCK`).
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
+import threading
+import time
 from collections.abc import Callable, Sequence
+from concurrent.futures import ThreadPoolExecutor
+from typing import TypeVar
 
 from src.obs import RunTrace
 from src.providers import ChatMessage, LLMError, LLMProvider, LLMResponse
@@ -45,6 +55,16 @@ DEFAULT_MIN_CITATIONS = 1
 # 근거 후보로 모델에 보여줄 때 문서 본문을 자르는 길이. 초록 하나가 보통
 # 1,000~1,500자라 4건이면 프롬프트가 길어진다.
 _SNIPPET_LIMIT = 900
+
+# 노드 안 동시 호출 상한. 1 = 순차 (ADR-026). 켜는 값은 `ConcurrencySettings`가 정한다.
+DEFAULT_MAX_CONCURRENCY = 1
+
+# 검색 직렬화. Chroma 질의가 인덱스 파일을 쓰므로(v1.1 Session 3.5) 같은 프로세스 안에서
+# 검색이 겹치지 않게 한다. 노드마다가 아니라 **모듈에 하나** 두는 이유: 막으려는 것이
+# 인덱스 파일 경합이라, 노드 인스턴스가 여럿이어도 같은 파일을 쓴다.
+_RETRIEVAL_LOCK = threading.Lock()
+
+_T = TypeVar("_T")
 
 
 # ---------------------------------------------------------------------------
@@ -86,6 +106,42 @@ def _extract_json(text: str) -> object | None:
     return None
 
 
+def _input_hash(
+    messages: Sequence[ChatMessage], *, temperature: float, max_tokens: int | None
+) -> str:
+    """호출 입력(메시지·파라미터)의 지문 (ADR-026).
+
+    동시 실행이 "같은 입력을 보냈는가"를 트레이스만으로 답하려고 둔다. span의 `input`은
+    `_safe()`가 4,000자에서 자르므로 원문 대조로는 답할 수 없다. 모델명은 넣지 않는다 —
+    호출 지점이 모르는 값이고 실행 1건 안에서 고정이다(`LLMResponse.model`로 따로 남는다).
+    직렬화 규칙은 캐시 키(`make_cache_key`)와 같다.
+    """
+    payload = {
+        "messages": [[m.role, m.content] for m in messages],
+        "temperature": temperature,
+        "max_tokens": max_tokens,
+    }
+    blob = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+    return hashlib.sha256(blob.encode("utf-8")).hexdigest()
+
+
+def _map_ordered(
+    fn: Callable[[int, str], _T], items: Sequence[str], max_concurrency: int
+) -> list[_T]:
+    """`fn(index, item)`을 항목마다 실행하고 **원래 순서로** 결과를 돌려준다 (ADR-026).
+
+    `max_concurrency`가 1 이하면 풀을 만들지 않는다 — 순차 경로는 v1.2-S0c의 `for` 루프와
+    같은 순서로 같은 호출을 만든다. 결과 순서는 완료 순서가 아니라 제출 순서다.
+    """
+    if max_concurrency <= 1 or len(items) <= 1:
+        return [fn(index, item) for index, item in enumerate(items)]
+    with ThreadPoolExecutor(
+        max_workers=min(max_concurrency, len(items)), thread_name_prefix="node-call"
+    ) as pool:
+        futures = [pool.submit(fn, index, item) for index, item in enumerate(items)]
+        return [future.result() for future in futures]
+
+
 def _record(node: str, response: LLMResponse, revision: int) -> LLMCallRecord:
     """감사 로그 1건. 토큰·지연은 프로바이더가 실어 보낸 값을 그대로 쓴다."""
     return LLMCallRecord(
@@ -119,6 +175,8 @@ def _call(
     그 항목을 "근거 없음"으로 남기고 계속 가는 편이 낫다 — 그래야 Verifier가
     그 사실을 볼 수 있다.
     """
+    messages = [ChatMessage("system", system), ChatMessage("user", user)]
+    input_hash = _input_hash(messages, temperature=0.0, max_tokens=max_tokens)
     span = None
     if trace is not None:
         span = trace.span(
@@ -128,14 +186,18 @@ def _call(
         )
 
     try:
-        response = provider.complete(
-            [ChatMessage("system", system), ChatMessage("user", user)],
-            temperature=0.0,
-            max_tokens=max_tokens,
-        )
+        response = provider.complete(messages, temperature=0.0, max_tokens=max_tokens)
     except LLMError as exc:
         if span is not None:
-            span.end(output=None, metadata={"error": str(exc), **(span_metadata or {})})
+            span.end(
+                output=None,
+                metadata={
+                    "node": node,
+                    "error": str(exc),
+                    "input_hash": input_hash,
+                    **(span_metadata or {}),
+                },
+            )
         return None
 
     if span is not None:
@@ -152,6 +214,7 @@ def _call(
                 "cached": response.cached,
                 "billed_tokens": response.billed_tokens,
                 "prompt_version": prompts.PROMPT_VERSION,
+                "input_hash": input_hash,
                 **(span_metadata or {}),
             },
             usage={
@@ -283,6 +346,7 @@ def make_researcher_node(
     trace: RunTrace | None = None,
     top_k: int = DEFAULT_TOP_K,
     sources: Sequence[str] | None = None,
+    max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
 ) -> NodeFn:
     """조사 항목별로 근거 문서를 검색·추출한다.
 
@@ -292,6 +356,9 @@ def make_researcher_node(
 
     `sources`는 검색 스코프 화이트리스트다. None이면 인덱스 전체를 검색하되,
     인덱스에는 애초에 공개 출처만 들어 있다 (ADR-004, `src/tools/corpus.py`).
+
+    `max_concurrency` ≥ 2면 항목들을 동시에 처리한다(검색은 직렬, LLM 호출만 겹친다).
+    `findings`·`trace`는 항목 순서 그대로다 (ADR-026).
 
     반환 키: `findings`(누적), `revision`, `trace`
     """
@@ -306,16 +373,13 @@ def make_researcher_node(
         is_retry = revision > 0 and bool(uncovered)
         topics = uncovered if is_retry else outline
 
-        findings: list[Finding] = []
-        records: list[LLMCallRecord] = []
-
-        for topic in topics:
+        def research_one(index: int, topic: str) -> tuple[Finding, LLMCallRecord | None]:
             chunks = _retrieve(
-                retriever, topic, query=query, top_k=top_k, sources=sources, trace=trace
+                retriever, topic, query=query, top_k=top_k, sources=sources, trace=trace,
+                revision=revision, item_index=index,
             )
             if not chunks:
-                findings.append(Finding(topic=topic, citations=(), revision=revision))
-                continue
+                return Finding(topic=topic, citations=(), revision=revision), None
 
             user = prompts.RESEARCHER_USER.format(
                 query=query, topic=topic, candidates=_format_candidates(chunks)
@@ -330,20 +394,29 @@ def make_researcher_node(
                 system=prompts.RESEARCHER_SYSTEM,
                 user=user,
                 max_tokens=384,
-                span_metadata={"topic": topic, "candidates": len(chunks), "retry": is_retry},
+                span_metadata={
+                    "topic": topic,
+                    "candidates": len(chunks),
+                    "retry": is_retry,
+                    "revision": revision,
+                    "item_index": index,
+                },
             )
             if response is None:
-                findings.append(Finding(topic=topic, citations=(), revision=revision))
-                continue
+                return Finding(topic=topic, citations=(), revision=revision), None
 
-            records.append(_record("researcher", response, revision))
-            findings.append(
+            return (
                 Finding(
                     topic=topic,
                     citations=_select_citations(response.text, chunks),
                     revision=revision,
-                )
+                ),
+                _record("researcher", response, revision),
             )
+
+        results = _map_ordered(research_one, topics, max_concurrency)
+        findings = [finding for finding, _ in results]
+        records = [record for _, record in results if record is not None]
 
         return ResearchState(
             findings=findings,
@@ -362,36 +435,52 @@ def _retrieve(
     top_k: int,
     sources: Sequence[str] | None,
     trace: RunTrace | None,
+    revision: int = 0,
+    item_index: int = 0,
 ) -> list[RetrievedChunk]:
     """검색 툴 호출 + span 기록.
 
     검색어는 조사 항목 단독이 아니라 전체 질의와 함께 만든다 — 항목만 쓰면
     "한계점" 같은 짧은 항목이 문맥을 잃는다.
+
+    **검색은 직렬이다 (ADR-026).** 락을 잡은 뒤에 span을 연다 — span 지연은 검색 자체만
+    재고, 락을 기다린 시간은 `lock_wait_s`로 따로 남긴다. span에 `revision`·`item_index`를
+    싣는 이유: 동시 실행에서는 span이 파일에 **완료 순서로** 쓰이므로, bench가 span을
+    Finding과 짝지을 때 쓰기 순서가 아니라 이 키로 정렬한다.
     """
     if retriever is None:
         return []
 
     search_text = f"{query} {topic}".strip()
-    span = None
-    if trace is not None:
-        span = trace.span(
-            "researcher_retrieve",
-            kind="span",
-            input={"topic": topic, "search_text": search_text, "k": top_k},
-        )
+    wait_started = time.perf_counter()
+    with _RETRIEVAL_LOCK:
+        lock_wait_s = round(time.perf_counter() - wait_started, 4)
+        span = None
+        if trace is not None:
+            span = trace.span(
+                "researcher_retrieve",
+                kind="span",
+                input={
+                    "topic": topic,
+                    "search_text": search_text,
+                    "k": top_k,
+                    "revision": revision,
+                    "item_index": item_index,
+                },
+            )
 
-    try:
-        chunks = retriever.search(search_text, k=top_k, sources=sources)
-    except RetrievalError as exc:
+        try:
+            chunks = retriever.search(search_text, k=top_k, sources=sources)
+        except RetrievalError as exc:
+            if span is not None:
+                span.end(output=None, metadata={"error": str(exc), "lock_wait_s": lock_wait_s})
+            return []
+
         if span is not None:
-            span.end(output=None, metadata={"error": str(exc)})
-        return []
-
-    if span is not None:
-        span.end(
-            output=[{"doc_id": c.doc_id, "score": c.score} for c in chunks],
-            metadata={"hits": len(chunks)},
-        )
+            span.end(
+                output=[{"doc_id": c.doc_id, "score": c.score} for c in chunks],
+                metadata={"hits": len(chunks), "lock_wait_s": lock_wait_s},
+            )
     return chunks
 
 
@@ -447,6 +536,7 @@ def make_verifier_node(
     *,
     trace: RunTrace | None = None,
     min_citations: int = DEFAULT_MIN_CITATIONS,
+    max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
 ) -> NodeFn:
     """각 조사 항목에 실제로 근거가 붙었는지 판정한다.
 
@@ -462,6 +552,9 @@ def make_verifier_node(
     2. **모델 판정** — 인용이 붙은 항목만, 그 근거가 실제로 항목을 뒷받침하는지
        묻는다. 검색은 주제가 비슷하기만 해도 걸리므로 이 단계가 필요하다.
 
+    `max_concurrency` ≥ 2면 항목별 모델 판정을 동시에 보낸다. 판정 단위(매 회차 outline
+    전체)는 바꾸지 않는다 — 그건 ADR-006 사안이다. `uncovered`는 outline 순서 그대로다.
+
     반환 키: `uncovered`, `trace`
     """
 
@@ -470,15 +563,12 @@ def make_verifier_node(
         outline = state.get("outline") or []
         by_topic = _citations_by_topic(state.get("findings") or [])
 
-        uncovered: list[str] = []
-        records: list[LLMCallRecord] = []
-
-        for topic in outline:
+        def verify_one(index: int, topic: str) -> tuple[bool, LLMCallRecord | None]:
+            """(covered 여부, 호출 기록)."""
             citations = by_topic.get(topic, [])
 
             if len(citations) < min_citations:
-                uncovered.append(topic)
-                continue
+                return False, None
 
             response = _call(
                 provider,
@@ -489,21 +579,29 @@ def make_verifier_node(
                     topic=topic, evidence=_format_evidence(citations)
                 ),
                 max_tokens=256,
-                span_metadata={"topic": topic, "citations": len(citations)},
+                span_metadata={
+                    "topic": topic,
+                    "citations": len(citations),
+                    "revision": revision,
+                    "item_index": index,
+                },
             )
             if response is None:
                 # 판정하지 못한 항목은 통과시키지 않는다. 검증 실패를 통과로
                 # 처리하면 검증 단계가 있으나 마나가 된다.
-                uncovered.append(topic)
-                continue
+                return False, None
 
-            records.append(_record("verifier", response, revision))
             parsed = _extract_json(response.text)
             verdict = ""
             if isinstance(parsed, dict):
                 verdict = str(parsed.get("verdict", "")).strip().lower()
-            if verdict != "covered":
-                uncovered.append(topic)
+            return verdict == "covered", _record("verifier", response, revision)
+
+        results = _map_ordered(verify_one, outline, max_concurrency)
+        uncovered = [
+            topic for topic, (covered, _) in zip(outline, results, strict=True) if not covered
+        ]
+        records = [record for _, record in results if record is not None]
 
         return ResearchState(uncovered=uncovered, trace=records)
 

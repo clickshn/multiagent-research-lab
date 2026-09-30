@@ -347,3 +347,43 @@ def load_cache_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> CacheSettin
         enabled=(os.getenv("LLM_CACHE") or "").strip().lower() in {"1", "true", "yes", "on"},
         cache_dir=cache_dir,
     )
+
+
+@dataclass(frozen=True)
+class ConcurrencySettings:
+    """노드 안 LLM 호출의 동시 실행 (v1.2-P1, ADR-026).
+
+    기본값이 **꺼짐**인 이유: 캐시와 같다(ADR-008). 동시 실행은 서버 배칭을 바꿔 greedy
+    출력이 흔들릴 수 있고, 켠 채로 측정하면 "하네스 변경"과 "배칭 차이"가 섞인다.
+    측정에서는 명시적으로 켠다.
+
+    상한이 프로바이더 설정에 있는 이유: 이 값이 묶인 것은 오케스트레이션 구조가 아니라
+    **엔드포인트가 동시에 받아주는 요청 수**다. 할당 GPU를 바꾸면 이 값을 다시 정한다.
+    """
+
+    parallel: bool = False
+    max_concurrency: int = 4
+
+    @property
+    def effective(self) -> int:
+        """노드에 넘기는 값. 1이면 순차 경로(S0c와 같은 코드 경로)다."""
+        return self.max_concurrency if self.parallel else 1
+
+    def redacted(self) -> dict[str, object]:
+        return {"parallel": self.parallel, "max_concurrency": self.max_concurrency}
+
+
+def load_concurrency_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> ConcurrencySettings:
+    _ensure_env_loaded(env_file)
+    raw_cap = (os.getenv("RESEARCH_MAX_CONCURRENCY") or "").strip()
+    try:
+        cap = int(raw_cap) if raw_cap else 4
+    except ValueError as exc:
+        raise ConfigError(f"RESEARCH_MAX_CONCURRENCY는 정수여야 한다: {raw_cap!r}") from exc
+    if cap < 1:
+        raise ConfigError(f"RESEARCH_MAX_CONCURRENCY는 1 이상이어야 한다: {cap}")
+    return ConcurrencySettings(
+        parallel=(os.getenv("RESEARCH_PARALLEL") or "").strip().lower()
+        in {"1", "true", "yes", "on"},
+        max_concurrency=cap,
+    )

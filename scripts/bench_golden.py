@@ -61,6 +61,7 @@ from src.providers import get_provider  # noqa: E402
 from src.providers.cache import clear_cache  # noqa: E402
 from src.providers.config import (  # noqa: E402
     load_cache_settings,
+    load_concurrency_settings,
     load_embedding_settings,
     load_settings,
     load_tracing_settings,
@@ -306,12 +307,28 @@ def item_records(findings: Sequence, trace_records: list[dict] | None) -> list[d
     코드를 바꾸지 않기 위해서다. Researcher는 항목마다 검색 1회 → Finding 1건을 같은
     순서로 만들므로 두 목록은 1:1이다. **항목 이름이 어긋나면 짝짓지 않고 None을 돌려준다**
     — 추정으로 맞추면 효과 지표가 틀린 짝 위에서 계산된다.
+
+    **동시 실행(ADR-026)에서는 span이 완료 순서로 쓰인다.** 그래서 span에
+    `revision`·`item_index`가 있으면 그 키로 정렬한 뒤 짝짓는다(순차 실행에서는 이미 그
+    순서라 정렬이 아무것도 바꾸지 않는다). 키가 없는 옛 트레이스는 파일 순서 그대로다.
+    같은 키로 Researcher 호출 span을 찾아 `input_hash`를 붙인다 — 후보가 없어 호출하지
+    않은 항목은 None이다.
     """
     if trace_records is None:
         return None
     spans = [r for r in trace_records if r.get("name") == "researcher_retrieve"]
     if len(spans) != len(findings):
         return None
+    keys = [_item_key(span.get("input")) for span in spans]
+    if all(key is not None for key in keys):
+        if len(set(keys)) != len(keys):
+            return None  # 같은 항목 키가 두 번 — 짝을 정할 수 없다
+        spans = [span for _, span in sorted(zip(keys, spans, strict=True), key=lambda p: p[0])]
+    call_hashes = {
+        _item_key(r.get("metadata")): (r.get("metadata") or {}).get("input_hash")
+        for r in trace_records
+        if r.get("name") == "researcher_call" and _item_key(r.get("metadata")) is not None
+    }
 
     items = []
     for finding, span in zip(findings, spans, strict=True):
@@ -332,12 +349,48 @@ def item_records(findings: Sequence, trace_records: list[dict] | None) -> list[d
             {
                 "topic": finding.topic,
                 "revision": finding.revision,
+                "item_index": (span.get("input") or {}).get("item_index"),
                 "retrieval_error": span.get("output") is None,
                 "candidates": candidates,
                 "supporting": supporting,
+                "input_hash": call_hashes.get(_item_key(span.get("input"))),
             }
         )
     return items
+
+
+def _item_key(fields: dict | None) -> tuple[int, int] | None:
+    """span의 (revision, item_index). 둘 중 하나라도 없으면 None (ADR-026 이전 트레이스)."""
+    if not isinstance(fields, dict):
+        return None
+    revision, index = fields.get("revision"), fields.get("item_index")
+    if not isinstance(revision, int) or not isinstance(index, int):
+        return None
+    return revision, index
+
+
+def endpoint_errors(trace_records: list[dict] | None) -> dict:
+    """LLM 호출 span 중 실패로 끝난 것을 센다 (ADR-026 대조표).
+
+    **최종 실패만 보인다.** LiteLLM이 내부에서 재시도(`num_retries`)해 성공한 429·타임아웃은
+    span에 남지 않는다 — 그 경우는 지연으로만 드러난다. 분류는 오류 문자열로 한다.
+    """
+    counts = {"total": 0, "rate_limit": 0, "timeout": 0, "other": 0}
+    for record in trace_records or []:
+        if record.get("type") != "generation":
+            continue
+        error = (record.get("metadata") or {}).get("error")
+        if not error:
+            continue
+        text = str(error).lower()
+        counts["total"] += 1
+        if "429" in text or "ratelimit" in text or "rate limit" in text:
+            counts["rate_limit"] += 1
+        elif "timeout" in text or "timed out" in text:
+            counts["timeout"] += 1
+        else:
+            counts["other"] += 1
+    return counts
 
 
 # ---------------------------------------------------------------------------
@@ -581,6 +634,11 @@ def summarize(rows: Sequence[dict]) -> dict:
 # ---------------------------------------------------------------------------
 
 
+def effective_concurrency(args) -> int:
+    """노드에 넘기는 상한. off면 1 — 순차 경로(v1.2-S0c와 같은 코드 경로)다."""
+    return args.max_concurrency if args.parallel == "on" else 1
+
+
 def _run_case(case, *, args, label, run_index, provider, retriever, tracer, tracing_settings,
               llm_settings, embedding_settings) -> dict:
     trace = tracer.trace(
@@ -596,9 +654,14 @@ def _run_case(case, *, args, label, run_index, provider, retriever, tracer, trac
             "cache": args.cache,
             "max_revisions": args.max_revisions,
             "top_k": args.top_k,
+            "parallel": args.parallel == "on",
+            "max_concurrency": args.max_concurrency,
         },
     )
-    app = compile_graph(provider, retriever=retriever, trace=trace, top_k=args.top_k)
+    app = compile_graph(
+        provider, retriever=retriever, trace=trace, top_k=args.top_k,
+        max_concurrency=effective_concurrency(args),
+    )
 
     started = time.perf_counter()
     state = app.invoke(
@@ -675,6 +738,7 @@ def _run_case(case, *, args, label, run_index, provider, retriever, tracer, trac
         "retry_evidence": _new_evidence_from_retry(findings),
         "score": score,
         "items": items,
+        "endpoint_errors": endpoint_errors(trace_records),
         "local_trace": trace_records is not None,
         "draft_chars": len(state.get("draft", "")),
     }
@@ -742,7 +806,23 @@ def main(argv: Sequence[str] | None = None) -> int:
         action="store_true",
         help="로컬 트레이스·항목 기록이 없는 행이 생기면 경고가 아니라 즉시 멈춘다 (ADR-025 before 값 보호)",
     )
+    parser.add_argument(
+        "--parallel", choices=("on", "off"), default=None,
+        help="노드 안 동시 호출 (ADR-026). 생략하면 RESEARCH_PARALLEL",
+    )
+    parser.add_argument(
+        "--max-concurrency", type=int, default=None,
+        help="동시 호출 상한. 생략하면 RESEARCH_MAX_CONCURRENCY (기본 4)",
+    )
     args = parser.parse_args(argv)
+    concurrency = load_concurrency_settings()
+    if args.parallel is None:
+        args.parallel = "on" if concurrency.parallel else "off"
+    if args.max_concurrency is None:
+        args.max_concurrency = concurrency.max_concurrency
+    if args.max_concurrency < 1:
+        print(f"--max-concurrency는 1 이상이어야 한다: {args.max_concurrency}")
+        return 2
 
     golden = json.loads(args.golden_set.read_text(encoding="utf-8"))
     cases = golden["cases"]
@@ -768,6 +848,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     print("계측       :", tracing_settings.redacted())
     print("프롬프트   :", PROMPT_VERSION)
     print("캐시       :", "ON" if args.cache else "OFF")
+    print(
+        "동시 호출  :",
+        f"{args.parallel.upper()} (상한 {args.max_concurrency}, 실효 {effective_concurrency(args)})",
+    )
     print("골든셋     :", golden.get("version"), f"({len(cases)}건)")
     score_exposed = candidate_score_exposed()
     print("후보 점수  :", "노출 (ADR-025 적용 전)" if score_exposed else "미노출")
@@ -875,6 +959,14 @@ def _bench(args, cases, golden, labels, out_paths, index_check, score_exposed, *
             "index_check": index_check,
             "max_revisions": args.max_revisions,
             "top_k": args.top_k,
+            # 노드 안 동시 호출 (ADR-026). 지연 비교는 같은 세션의 off/on 짝으로만 한다.
+            "parallel": args.parallel == "on",
+            "max_concurrency": args.max_concurrency,
+            "effective_concurrency": effective_concurrency(args),
+            "endpoint_errors": {
+                key: sum(r["endpoint_errors"][key] for r in rows)
+                for key in ("total", "rate_limit", "timeout", "other")
+            },
             "warmup": warmup if run_index == 1 else {"note": "1회차에서 이미 워밍업됨"},
             **summarize(rows),
             "bench_wall_clock_s": round(bench_s, 2),

@@ -20,6 +20,7 @@ from src.tools.retrieval import Retriever
 from src.tools.scope import ScopedRetriever, ToolScope
 
 from .nodes import (
+    DEFAULT_MAX_CONCURRENCY,
     DEFAULT_MIN_CITATIONS,
     DEFAULT_TOP_K,
     make_outliner_node,
@@ -45,6 +46,7 @@ def build_graph(
     min_citations: int = DEFAULT_MIN_CITATIONS,
     sources: Sequence[str] | None = None,
     scope: ToolScope | None = None,
+    max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
 ) -> StateGraph:
     """그래프를 구성한다 (컴파일 전).
 
@@ -59,6 +61,10 @@ def build_graph(
     `ScopedRetriever`로 감싸므로, 호출자가 스코프를 빠뜨려서 넓은 권한이 새는
     경로가 없다. 스코프를 노드나 스크립트에 맡기면 새 호출 지점이 생길 때마다
     빠뜨릴 수 있다 — 그래서 그래프 배선이라는 **단일 길목**에 둔다.
+
+    `max_concurrency`는 Researcher·Verifier **노드 안** 동시 호출 상한이다(1 = 순차).
+    그래프 구조는 이 값과 무관하게 같다 — 팬아웃(`Send`)을 쓰지 않는다 (ADR-026).
+    환경변수로 켜는 값은 호출자가 `load_concurrency_settings().effective`로 넘긴다.
     """
     llm = provider or get_provider()
 
@@ -75,11 +81,15 @@ def build_graph(
     graph.add_node(
         RESEARCHER,
         make_researcher_node(
-            llm, retriever=retriever, trace=trace, top_k=top_k, sources=sources
+            llm, retriever=retriever, trace=trace, top_k=top_k, sources=sources,
+            max_concurrency=max_concurrency,
         ),
     )
     graph.add_node(
-        VERIFIER, make_verifier_node(llm, trace=trace, min_citations=min_citations)
+        VERIFIER,
+        make_verifier_node(
+            llm, trace=trace, min_citations=min_citations, max_concurrency=max_concurrency
+        ),
     )
     graph.add_node(WRITER, make_writer_node(llm, trace=trace))
 
@@ -109,6 +119,7 @@ def compile_graph(
     sources: Sequence[str] | None = None,
     scope: ToolScope | None = None,
     checkpointer=None,
+    max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
 ):
     """실행 가능한 그래프.
 
@@ -123,4 +134,5 @@ def compile_graph(
         min_citations=min_citations,
         sources=sources,
         scope=scope,
+        max_concurrency=max_concurrency,
     ).compile(checkpointer=checkpointer)

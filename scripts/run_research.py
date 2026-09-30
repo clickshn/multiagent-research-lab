@@ -23,7 +23,11 @@ from src.orchestrator import compile_graph, initial_state  # noqa: E402
 from src.orchestrator.prompts import PROMPT_VERSION  # noqa: E402
 from src.orchestrator.state import LLMCallRecord  # noqa: E402
 from src.providers import get_provider  # noqa: E402
-from src.providers.config import load_embedding_settings, load_settings  # noqa: E402
+from src.providers.config import (  # noqa: E402
+    load_concurrency_settings,
+    load_embedding_settings,
+    load_settings,
+)
 from src.tools.retrieval import ChromaRetriever  # noqa: E402
 
 
@@ -74,6 +78,7 @@ def main() -> int:
 
     llm_settings = load_settings()
     embedding_settings = load_embedding_settings()
+    concurrency = load_concurrency_settings()
 
     print("=" * 72)
     print("리서치 실행")
@@ -82,6 +87,7 @@ def main() -> int:
     print("LLM        :", llm_settings.redacted())
     print("임베딩     :", embedding_settings.model_name)
     print("프롬프트   :", PROMPT_VERSION)
+    print("동시 호출  :", concurrency.redacted())
     print("질의       :", args.query)
     print()
 
@@ -98,6 +104,7 @@ def main() -> int:
             "embedding_model": embedding_settings.model_name,
             "max_revisions": args.max_revisions,
             "top_k": args.top_k,
+            "concurrency": concurrency.redacted(),
         },
     )
     print("run_id        :", trace.run_id)
@@ -108,6 +115,7 @@ def main() -> int:
         retriever=retriever,
         trace=trace,
         top_k=args.top_k,
+        max_concurrency=concurrency.effective,
     )
 
     started = time.perf_counter()

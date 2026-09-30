@@ -481,3 +481,81 @@ def test_compare_main_refuses_to_overwrite(tmp_path) -> None:
     first = out.read_bytes()
     assert compare_bench_runs.main([str(a), str(b), "--out", str(out)]) == 2
     assert out.read_bytes() == first
+
+
+# --- 노드 안 동시 호출 (ADR-026) ---------------------------------------------
+
+
+@pytest.mark.parametrize("mode", ["off", "on"])
+def test_bench_records_concurrency_and_pairs_items_in_both_modes(bench, mode) -> None:
+    _build_index(bench.persist_dir, "bench_test")
+    assert bench.run("--label", f"p1-{mode}", "--parallel", mode, "--max-concurrency", "3",
+                     "--require-trace") == 0
+    result = _load(bench.out_dir / f"bench-p1-{mode}.json")
+    assert result["parallel"] is (mode == "on")
+    assert result["max_concurrency"] == 3
+    assert result["effective_concurrency"] == (3 if mode == "on" else 1)
+    assert result["endpoint_errors"] == {"total": 0, "rate_limit": 0, "timeout": 0, "other": 0}
+    for row in result["rows"]:
+        assert row["items"] is not None
+        assert [i["topic"] for i in row["items"] if i["revision"] == 0] == ["항목 하나", "항목 둘"]
+        assert all(len(i["input_hash"]) == 64 for i in row["items"] if i["candidates"])
+
+
+def test_bench_concurrency_defaults_come_from_env(bench, monkeypatch) -> None:
+    _build_index(bench.persist_dir, "bench_test")
+    monkeypatch.setattr(bench_golden, "load_concurrency_settings",
+                        lambda: SimpleNamespace(parallel=True, max_concurrency=2))
+    assert bench.run("--label", "p1-env", "--only", "GS-013") == 0
+    result = _load(bench.out_dir / "bench-p1-env.json")
+    assert (result["parallel"], result["effective_concurrency"]) == (True, 2)
+
+
+def test_bench_rejects_nonpositive_cap_before_any_call(bench) -> None:
+    assert bench.run("--label", "p1-bad", "--parallel", "on", "--max-concurrency", "0") == 2
+    assert bench.provider.calls == 0
+
+
+def test_p1_judge_logic_identity_defect_and_outline_variation(bench, tmp_path) -> None:
+    from scripts import compare_p1_concurrency as p1
+
+    _build_index(bench.persist_dir, "bench_test")
+    assert bench.run("--label", "j-off", "--parallel", "off", "--require-trace") == 0
+    assert bench.run("--label", "j-on", "--parallel", "on", "--require-trace") == 0
+    off = _load(bench.out_dir / "bench-j-off.json")
+    on = _load(bench.out_dir / "bench-j-on.json")
+
+    result = p1.judge(off, on, off)
+    assert result["logic"]["logic_identical"] is True
+    assert result["logic"]["first_pass_calls_compared"] > 0
+    assert result["batching_nondeterminism"]["cases_with_any_output_diff"] == []
+    assert [r["label"] for r in result["run_order"]] == ["j-off", "j-on"]
+
+    # 같은 Outliner인데 입력 해시가 다르면 결함이다
+    broken = json.loads(json.dumps(on))
+    broken["rows"][0]["items"][0]["input_hash"] = "0" * 64
+    assert p1.judge(off, broken, None)["logic"]["defects"][0]["case_id"] == on["rows"][0]["case_id"]
+
+    # Outliner가 달라진 케이스는 결함이 아니라 시간 간 변동이다
+    moved = json.loads(json.dumps(on))
+    for item in moved["rows"][0]["items"]:
+        item["topic"] = "다른 " + item["topic"]
+        item["input_hash"] = "1" * 64
+    judged = p1.judge(off, moved, None)
+    assert judged["logic"]["logic_identical"] is True
+    assert judged["logic"]["time_variation_outline_changed"]["total"] == 1
+
+    # 입력이 같은데 supporting이 다르면 배칭 비결정성
+    drift = json.loads(json.dumps(on))
+    drift["rows"][0]["items"][0]["supporting"] = ["다른 문서"]
+    b = p1.judge(off, drift, None)["batching_nondeterminism"]
+    assert b["first_pass_supporting_diffs"]["total"] == 1
+
+    # off/on이 뒤바뀌면 거부
+    with pytest.raises(ValueError):
+        p1.judge(on, off, None)
+    out = tmp_path / "p1.json"
+    assert p1.main([str(bench.out_dir / "bench-j-off.json"), str(bench.out_dir / "bench-j-on.json"),
+                    "--out", str(out)]) == 0
+    assert p1.main([str(bench.out_dir / "bench-j-off.json"), str(bench.out_dir / "bench-j-on.json"),
+                    "--out", str(out)]) == 2  # 덮어쓰기 거부

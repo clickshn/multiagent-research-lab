@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import os
+import threading
 import time
 import uuid
 from collections.abc import Sequence
@@ -173,6 +174,9 @@ class _JsonlTrace:
         self._path = path
         self._run_id = run_id
         self._started = time.perf_counter()
+        # 노드 안 동시 호출(ADR-026)에서 여러 스레드가 같은 파일에 span을 쓴다. 한 줄이
+        # 한 이벤트라는 JSONL 계약이 깨지면(줄이 섞이면) bench가 그 줄을 버린다.
+        self._lock = threading.Lock()
         self._write(
             {
                 "type": "trace",
@@ -189,8 +193,9 @@ class _JsonlTrace:
         return self._run_id
 
     def _write(self, record: dict) -> None:
-        with self._path.open("a", encoding="utf-8") as handle:
-            handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+        line = json.dumps(record, ensure_ascii=False) + "\n"
+        with self._lock, self._path.open("a", encoding="utf-8") as handle:
+            handle.write(line)
 
     def span(self, name: str, *, kind: SpanKind = "span", input: Any = None) -> Span:
         return _JsonlSpan(self, name, kind, input)
