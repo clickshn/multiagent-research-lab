@@ -1,0 +1,943 @@
+{
+  "run1": "v1.2-s0b-run1",
+  "run2": "v1.2-s0c-run3-old",
+  "condition": {
+    "golden_set_version": "2.0",
+    "prompt_version": "2026-09-16.1",
+    "model": "gemma-4-31B-it",
+    "embedding_model": "intfloat/multilingual-e5-small",
+    "corpus_docs": 37,
+    "cache_enabled": false,
+    "candidate_score_exposed": true,
+    "max_revisions": 2,
+    "top_k": 4
+  },
+  "n_cases": 30,
+  "verdict_flips": {
+    "total": 0,
+    "by_stratum": {
+      "A": {
+        "flips": 0,
+        "n": 14
+      },
+      "B": {
+        "flips": 0,
+        "n": 9
+      },
+      "C": {
+        "flips": 0,
+        "n": 7
+      }
+    },
+    "cases": []
+  },
+  "citation_set_diffs": {
+    "total": 0,
+    "cases": []
+  },
+  "topic_count_changed": [],
+  "revisions_changed": [],
+  "llm_calls_changed": [],
+  "tokens_changed": [
+    "GS-013"
+  ],
+  "token_abs_delta": {
+    "max": 2,
+    "mean": 0.1,
+    "max_relative": 0.0002
+  },
+  "risk_selection": {
+    "run1": {
+      "selected": 15,
+      "eligible": 17,
+      "rate": 0.8824,
+      "first_pass_selected": 14,
+      "first_pass_eligible": 15,
+      "first_pass_rate": 0.9333,
+      "missing_items": []
+    },
+    "run2": {
+      "selected": 15,
+      "eligible": 17,
+      "rate": 0.8824,
+      "first_pass_selected": 14,
+      "first_pass_eligible": 15,
+      "first_pass_rate": 0.9333,
+      "missing_items": []
+    },
+    "rate_delta": 0.0,
+    "first_pass_rate_delta": 0.0
+  },
+  "per_case": [
+    {
+      "case_id": "GS-001",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        4,
+        4
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        13,
+        13
+      ],
+      "tokens": [
+        14135,
+        14135
+      ],
+      "completion_tokens": [
+        1388,
+        1388
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-002",
+      "stratum": "B",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        4,
+        4
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        13,
+        13
+      ],
+      "tokens": [
+        12619,
+        12619
+      ],
+      "completion_tokens": [
+        898,
+        898
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-003",
+      "stratum": "B",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        4,
+        4
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        13,
+        13
+      ],
+      "tokens": [
+        14626,
+        14626
+      ],
+      "completion_tokens": [
+        940,
+        940
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-004",
+      "stratum": "B",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        4,
+        4
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        11,
+        11
+      ],
+      "tokens": [
+        12278,
+        12278
+      ],
+      "completion_tokens": [
+        566,
+        566
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-005",
+      "stratum": "B",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        9,
+        9
+      ],
+      "tokens": [
+        9877,
+        9877
+      ],
+      "completion_tokens": [
+        635,
+        635
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-006",
+      "stratum": "B",
+      "verdict": [
+        "fail",
+        "fail"
+      ],
+      "topic_count": [
+        4,
+        4
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        10,
+        10
+      ],
+      "tokens": [
+        12221,
+        12221
+      ],
+      "completion_tokens": [
+        296,
+        296
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-007",
+      "stratum": "B",
+      "verdict": [
+        "fail",
+        "fail"
+      ],
+      "topic_count": [
+        4,
+        4
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        11,
+        11
+      ],
+      "tokens": [
+        12704,
+        12704
+      ],
+      "completion_tokens": [
+        737,
+        737
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-008",
+      "stratum": "C",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        4,
+        4
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        10,
+        10
+      ],
+      "tokens": [
+        11703,
+        11703
+      ],
+      "completion_tokens": [
+        241,
+        241
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-009",
+      "stratum": "C",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        9615,
+        9615
+      ],
+      "completion_tokens": [
+        223,
+        223
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-010",
+      "stratum": "A",
+      "verdict": [
+        "fail",
+        "fail"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        10436,
+        10436
+      ],
+      "completion_tokens": [
+        225,
+        225
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-011",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        4,
+        4
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        13,
+        13
+      ],
+      "tokens": [
+        13555,
+        13555
+      ],
+      "completion_tokens": [
+        1130,
+        1130
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-012",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        1,
+        1
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        8499,
+        8499
+      ],
+      "completion_tokens": [
+        813,
+        813
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-013",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        12,
+        12
+      ],
+      "tokens": [
+        11583,
+        11585
+      ],
+      "completion_tokens": [
+        823,
+        825
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-014",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        1,
+        1
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        7338,
+        7338
+      ],
+      "completion_tokens": [
+        639,
+        639
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-015",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        9,
+        9
+      ],
+      "tokens": [
+        10073,
+        10073
+      ],
+      "completion_tokens": [
+        645,
+        645
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-016",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        4,
+        4
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        16,
+        16
+      ],
+      "tokens": [
+        16085,
+        16085
+      ],
+      "completion_tokens": [
+        1166,
+        1166
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-017",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        10,
+        10
+      ],
+      "tokens": [
+        9709,
+        9709
+      ],
+      "completion_tokens": [
+        759,
+        759
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-018",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        1,
+        1
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        8362,
+        8362
+      ],
+      "completion_tokens": [
+        800,
+        800
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-019",
+      "stratum": "B",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        11,
+        11
+      ],
+      "tokens": [
+        11064,
+        11064
+      ],
+      "completion_tokens": [
+        845,
+        845
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-020",
+      "stratum": "B",
+      "verdict": [
+        "fail",
+        "fail"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        9799,
+        9799
+      ],
+      "completion_tokens": [
+        211,
+        211
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-021",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        10,
+        10
+      ],
+      "tokens": [
+        9933,
+        9933
+      ],
+      "completion_tokens": [
+        898,
+        898
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-022",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        1,
+        1
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        7170,
+        7170
+      ],
+      "completion_tokens": [
+        524,
+        524
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-023",
+      "stratum": "A",
+      "verdict": [
+        "fail",
+        "fail"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        8719,
+        8719
+      ],
+      "completion_tokens": [
+        187,
+        187
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-024",
+      "stratum": "A",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        12,
+        12
+      ],
+      "tokens": [
+        10206,
+        10206
+      ],
+      "completion_tokens": [
+        731,
+        731
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-025",
+      "stratum": "B",
+      "verdict": [
+        "fail",
+        "fail"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        9,
+        9
+      ],
+      "tokens": [
+        10363,
+        10363
+      ],
+      "completion_tokens": [
+        616,
+        616
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-026",
+      "stratum": "C",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        9078,
+        9078
+      ],
+      "completion_tokens": [
+        212,
+        212
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-027",
+      "stratum": "C",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        8634,
+        8634
+      ],
+      "completion_tokens": [
+        197,
+        197
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-028",
+      "stratum": "C",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        9660,
+        9660
+      ],
+      "completion_tokens": [
+        192,
+        192
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-029",
+      "stratum": "C",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        9890,
+        9890
+      ],
+      "completion_tokens": [
+        209,
+        209
+      ],
+      "citations_same": true
+    },
+    {
+      "case_id": "GS-030",
+      "stratum": "C",
+      "verdict": [
+        "pass",
+        "pass"
+      ],
+      "topic_count": [
+        3,
+        3
+      ],
+      "revisions": [
+        2,
+        2
+      ],
+      "llm_calls": [
+        8,
+        8
+      ],
+      "tokens": [
+        9522,
+        9522
+      ],
+      "completion_tokens": [
+        209,
+        209
+      ],
+      "citations_same": true
+    }
+  ]
+}
