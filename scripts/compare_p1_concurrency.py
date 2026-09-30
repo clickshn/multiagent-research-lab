@@ -128,7 +128,8 @@ def logic_layer(off: dict, on: dict) -> dict:
 
 def output_layer(base: dict, after: dict, *, only: set[str] | None = None) -> dict:
     """인용 집합 · pass/fail · 1회차 supporting 차이. `only`가 있으면 그 케이스만 센다."""
-    result = compare(base, after)
+    # off ↔ on 대조는 의도된 parallel 불일치다. S0c(키 없음 = 순차) ↔ off는 일치.
+    result = compare(base, after, allow_parallel_mismatch=True)
     keep = (lambda c: c in only) if only is not None else (lambda c: True)
     flips = [f for f in result["verdict_flips"]["cases"] if keep(f["case_id"])]
     cites = [c for c in result["citation_set_diffs"]["cases"] if keep(c["case_id"])]

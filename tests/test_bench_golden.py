@@ -583,3 +583,25 @@ def test_bench_runs_parallel_by_default(bench, monkeypatch) -> None:
     assert bench.run("--label", "p1-default", "--only", "GS-013") == 0
     result = _load(bench.out_dir / "bench-p1-default.json")
     assert (result["parallel"], result["effective_concurrency"]) == (True, 4)
+
+
+def test_compare_refuses_parallel_mismatch_unless_allowed(tmp_path) -> None:
+    """ADR-026: off ↔ on은 의도했을 때만 대조한다. 키 없는 옛 결과는 순차(false)로 읽는다."""
+    rows = [_row("GS-001", [])]
+    legacy = _run_summary("s0c", rows)  # parallel 키 없음 (session-19까지)
+    off = {**_run_summary("off", rows), "parallel": False}
+    on = {**_run_summary("on", rows), "parallel": True}
+
+    assert compare_bench_runs.compare(legacy, off)["parallel"] == [False, False]
+    with pytest.raises(ValueError, match="동시 실행"):
+        compare_bench_runs.compare(off, on)
+    with pytest.raises(ValueError, match="동시 실행"):
+        compare_bench_runs.compare(legacy, on)
+    allowed = compare_bench_runs.compare(off, on, allow_parallel_mismatch=True)
+    assert allowed["parallel"] == [False, True] and allowed["parallel_mismatch_allowed"] is True
+
+    a, b = tmp_path / "off.json", tmp_path / "on.json"
+    a.write_text(json.dumps(off), encoding="utf-8")
+    b.write_text(json.dumps(on), encoding="utf-8")
+    assert compare_bench_runs.main([str(a), str(b)]) == 2
+    assert compare_bench_runs.main([str(a), str(b), "--allow-parallel-mismatch"]) == 0

@@ -16,6 +16,11 @@ temperature 0이어도 vLLM greedy는 비트 단위 결정론을 보장하지 �
 지연은 비교하지 않는다 — 엔드포인트 부하에 따라 흔들리는 값이라 자연 변동이 아니다.
 
     python scripts/compare_bench_runs.py <run1.json> <run2.json> [--out <compare.json>]
+                                         [--allow-parallel-mismatch]
+
+**노드 안 동시 호출(ADR-026)이 다른 두 회차는 기본으로 거부한다.** `parallel`이 없는 결과
+(ADR-026 이전, session-19까지)는 순차로 잰 것이라 `false`로 읽는다. off ↔ on처럼 **의도적으로**
+대조할 때만 `--allow-parallel-mismatch`를 준다 — 그때 결과의 `parallel`에 두 값이 남는다.
 
 종료 코드: 0 = 대조 완료 · 2 = 파일을 읽을 수 없음 / 케이스 구성이 다름 / 출력 파일이 이미 있음
 
@@ -49,12 +54,23 @@ def _verdict(row: dict) -> str:
     return "pass" if passed is True else ("fail" if passed is False else "unscored")
 
 
-def compare(run1: dict, run2: dict) -> dict:
+def parallel_of(run: dict) -> bool:
+    """결과의 동시 실행 여부. 키가 없으면(ADR-026 이전) 순차로 잰 것이다."""
+    return bool(run.get("parallel", False))
+
+
+def compare(run1: dict, run2: dict, *, allow_parallel_mismatch: bool = False) -> dict:
     mismatched = {
         k: [run1.get(k), run2.get(k)] for k in CONDITION_KEYS if run1.get(k) != run2.get(k)
     }
     if mismatched:
         raise ValueError(f"측정 조건이 다른 두 회차는 대조하지 않는다: {mismatched}")
+    parallel = [parallel_of(run1), parallel_of(run2)]
+    if parallel[0] != parallel[1] and not allow_parallel_mismatch:
+        raise ValueError(
+            f"동시 실행 여부가 다른 두 회차는 대조하지 않는다: parallel={parallel} "
+            "(off ↔ on 대조가 의도라면 --allow-parallel-mismatch)"
+        )
 
     rows1 = {r["case_id"]: r for r in run1["rows"]}
     rows2 = {r["case_id"]: r for r in run2["rows"]}
@@ -125,6 +141,8 @@ def compare(run1: dict, run2: dict) -> dict:
         "run1": run1.get("label"),
         "run2": run2.get("label"),
         "condition": {k: run1.get(k) for k in CONDITION_KEYS},
+        "parallel": parallel,
+        "parallel_mismatch_allowed": parallel[0] != parallel[1],
         "n_cases": len(per_case),
         "verdict_flips": {
             "total": len(flips),
@@ -163,12 +181,16 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("run1", type=Path)
     parser.add_argument("run2", type=Path)
     parser.add_argument("--out", type=Path, default=None)
+    parser.add_argument(
+        "--allow-parallel-mismatch", action="store_true",
+        help="parallel 값이 다른 두 회차를 대조한다 (off ↔ on 같은 의도적 대조, ADR-026)",
+    )
     args = parser.parse_args(argv)
 
     try:
         run1 = json.loads(args.run1.read_text(encoding="utf-8"))
         run2 = json.loads(args.run2.read_text(encoding="utf-8"))
-        result = compare(run1, run2)
+        result = compare(run1, run2, allow_parallel_mismatch=args.allow_parallel_mismatch)
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"대조할 수 없습니다: {exc}")
         return 2
