@@ -559,3 +559,17 @@ def test_p1_judge_logic_identity_defect_and_outline_variation(bench, tmp_path) -
                     "--out", str(out)]) == 0
     assert p1.main([str(bench.out_dir / "bench-j-off.json"), str(bench.out_dir / "bench-j-on.json"),
                     "--out", str(out)]) == 2  # 덮어쓰기 거부
+
+
+def test_trace_output_compare_pairs_off_and_on_calls(bench, tmp_path) -> None:
+    from scripts import compare_trace_outputs as cto
+
+    _build_index(bench.persist_dir, "bench_test")
+    assert bench.run("--label", "t-off", "--parallel", "off", "--require-trace") == 0
+    assert bench.run("--label", "t-on", "--parallel", "on", "--require-trace") == 0
+    off = _load(bench.out_dir / "bench-t-off.json")
+    on = _load(bench.out_dir / "bench-t-on.json")
+    result = cto.compare(off, on, tmp_path / "traces")
+    assert result["unpaired_cases"] == []
+    assert result["calls_paired"] == sum(r["llm_calls"] for r in off["rows"])
+    assert result["input_differs"] == 0 and result["same_input_text_differs"] == 0
