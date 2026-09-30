@@ -124,6 +124,31 @@ def test_researcher_attaches_selected_citations() -> None:
     assert result["revision"] == 1
 
 
+def test_researcher_prompt_has_no_similarity_score() -> None:
+    """후보 블록에 절대 유사도가 실리지 않는다 — 순위(번호)만 남는다 (ADR-025).
+
+    점수를 알아볼 수 있는 값으로 두고, 모델이 실제로 받는 렌더링 결과 전체에서 찾는다.
+    """
+    chunks = [
+        RetrievedChunk(doc_id=f"arXiv:{i}", locator="abstract", text="본문", source="arxiv",
+                       title="제목", score=score)
+        for i, score in enumerate((0.8251, 0.8116, 0.7963), start=1)
+    ]
+    provider = ScriptedProvider(['{"supporting": [1], "note": "요약"}'])
+    node = make_researcher_node(provider, retriever=StubRetriever(chunks))
+
+    state = initial_state("질의")
+    state["outline"] = ["항목 A"]
+    node(state)
+
+    rendered = "\n".join(m.content for m in provider.calls[0])
+    for score in ("0.825", "0.8251", "0.812", "0.796", "0.80"):
+        assert score not in rendered
+    assert "유사도" not in rendered
+    for i in (1, 2, 3):
+        assert f"[{i}] doc_id=arXiv:{i}\n" in rendered
+
+
 def test_researcher_keeps_empty_finding_when_nothing_supports() -> None:
     """뒷받침하는 후보가 없으면 항목을 조용히 누락시키지 않고 빈 Finding으로 남긴다."""
     provider = ScriptedProvider(['{"supporting": [], "note": ""}'])

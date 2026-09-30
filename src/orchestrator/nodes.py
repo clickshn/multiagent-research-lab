@@ -187,6 +187,10 @@ def _format_candidates(chunks: Sequence[RetrievedChunk]) -> str:
     본문은 **우리가 쓰지 않은 텍스트**다. 그대로 이어 붙이면 문서에 적힌 문장이
     지시로 읽힐 수 있으므로(간접 인젝션) 신뢰 경계로 감싼다 (ADR-009).
     제목도 감싼다 — 짧아서 안전해 보이지만 똑같이 외부 입력이다.
+
+    **유사도 점수는 싣지 않는다 (ADR-025, session-19).** 절대 유사도는 질의 간 비교가
+    성립하지 않는 값이라 근거 적합도 신호로 오도적이다. 후보는 이미 점수순이므로
+    `[1]`~`[k]` 번호가 순위를 담는다.
     """
     lines = []
     for index, chunk in enumerate(chunks, start=1):
@@ -194,7 +198,7 @@ def _format_candidates(chunks: Sequence[RetrievedChunk]) -> str:
         title_block = wrap_untrusted(chunk.title, label=f"후보 {index} 제목")
         body_block = wrap_untrusted(body, label=f"후보 {index} 본문")
         lines.append(
-            f"[{index}] doc_id={chunk.doc_id} (유사도 {chunk.score:.3f})\n"
+            f"[{index}] doc_id={chunk.doc_id}\n"
             f"{title_block}\n"
             f"{body_block}"
         )

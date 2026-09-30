@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from src.tools.sanitize import FENCE_CLOSE, FENCE_OPEN
 
-PROMPT_VERSION = "2026-09-16.1"  # session-05: 인젝션 방어 규칙 추가
+PROMPT_VERSION = "2026-09-30.1"  # session-19: Researcher 후보 유사도 점수 제거 (ADR-025)
 
 # --- 공통 ------------------------------------------------------------------
 

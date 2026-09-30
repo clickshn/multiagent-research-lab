@@ -161,7 +161,7 @@ def test_result_records_version_strata_items_and_no_combined_score(bench) -> Non
     result = _load(bench.out_dir / "bench-one.json")
     assert result["golden_set_version"] == "9.9-test"
     assert result["cache_enabled"] is False
-    assert result["candidate_score_exposed"] is True  # S0b = 점수 노출 상태
+    assert result["candidate_score_exposed"] is False  # S0c(ADR-025) 이후 = 점수 제거
     assert result["index_check"]["queue_rows"] == result["index_check"]["indexed_docs"] == 4
 
     # 합산 pass/fail 키가 없다. 층별만 있고 n이 붙는다.
@@ -420,9 +420,13 @@ def test_summarize_reports_per_item_calls_and_distributions() -> None:
 
 
 def test_candidate_score_exposed_reads_real_formatter(monkeypatch) -> None:
+    assert bench_golden.candidate_score_exposed() is False  # S0c(ADR-025) 이후
+    monkeypatch.setattr(
+        bench_golden,
+        "_format_candidates",
+        lambda chunks: f"[1] doc_id=probe (유사도 {chunks[0].score:.3f})",  # S0b 형식
+    )
     assert bench_golden.candidate_score_exposed() is True
-    monkeypatch.setattr(bench_golden, "_format_candidates", lambda chunks: "[1] doc_id=probe")
-    assert bench_golden.candidate_score_exposed() is False
 
 
 # --- 회차 간 대조 ------------------------------------------------------------
