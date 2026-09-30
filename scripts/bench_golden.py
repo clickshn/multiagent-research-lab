@@ -5,8 +5,10 @@
 "파이프라인이 느리다"와 "모델을 매번 새로 읽는다"를 구분할 수 없다 (session-03 관찰:
 벽시계 33.93s 중 LLM은 5.76s뿐). 이 스크립트는
 
-1. 임베딩 모델을 **먼저 한 번 워밍업**해 상주시키고 그 시간을 따로 보고한 뒤,
-2. 같은 프로세스에서 골든셋 N건을 연속 실행한다.
+1. 임베딩 모델·Chroma 첫 질의·`import litellm`을 **먼저 워밍업**해 두고 그 시간을
+   따로 보고한 뒤 (session-17 §1: 임베딩만 워밍업하면 첫 케이스 `wall_clock_s`에
+   HNSW 로딩과 litellm 임포트가 섞였다),
+2. 같은 프로세스에서 골든셋 N건을 연속 실행한다 (`--repeat`면 N건 × 회차).
 
 그래서 여기 나오는 "파이프라인 지연"은 상주 서비스로 배포했을 때의 지연에 해당한다.
 콜드 로딩 시간은 측정값이 아니라 **기동 1회 비용**으로 따로 적힌다.
@@ -18,27 +20,42 @@
   워밍업된 뒤의 값이므로 로딩 시간이 섞이지 않는다.
 - `wall_clock_s` — 파이프라인 전체. 위 둘에 파싱·그래프 오버헤드가 더해진 값이다.
 
+**측정 조건을 코드로 강제한다 (session-17 §1·§2, v1.2-S0b).** 사람의 기억에만 있던
+조건을 기동 시 검사로 옮겼다. 하나라도 어긋나면 **LLM을 한 번도 부르기 전에** 멈춘다.
+
+- 인덱스 쓰기 로그 == 문서 수 (`index_guard.read_write_log`, ADR-005 Amendment 5)
+- 같은 인덱스를 쓰는 다른 bench 실행이 없을 것 (잠금 파일)
+- 같은 라벨의 결과 파일이 이미 있으면 덮어쓰지 않는다
+- pass/fail은 **층별로만** 집계한다 — 합산 하나만 내면 ADR-022 위반 형태다
+
 실행:
-    python scripts/bench_golden.py --label no-cache
+    python scripts/bench_golden.py --label v1.2-s0b --repeat 2   # -> ...-run1 / -run2
+    python scripts/bench_golden.py --label smoke --only GS-013 GS-006
     python scripts/bench_golden.py --label cached --cache
-    python scripts/bench_golden.py --cache --clear-cache   # 캐시를 비우고 시작
+    python scripts/compare_bench_runs.py <run1.json> <run2.json>  # 회차 간 대조
 """
 
 from __future__ import annotations
 
 import argparse
+import importlib
 import json
+import os
 import statistics
 import sys
 import time
-from collections import defaultdict
+from collections import Counter, defaultdict
+from collections.abc import Iterator, Sequence
+from contextlib import contextmanager
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from src.obs import get_tracer  # noqa: E402
+from src.obs.tracer import NullTracer  # noqa: E402
 from src.orchestrator import compile_graph, initial_state  # noqa: E402
+from src.orchestrator.nodes import _format_candidates  # noqa: E402
 from src.orchestrator.prompts import PROMPT_VERSION  # noqa: E402
 from src.providers import get_provider  # noqa: E402
 from src.providers.cache import clear_cache  # noqa: E402
@@ -47,19 +64,48 @@ from src.providers.config import (  # noqa: E402
     load_embedding_settings,
     load_settings,
     load_tracing_settings,
+    load_vectorstore_settings,
 )
 from src.providers.embeddings import get_embedding_provider  # noqa: E402
-from src.tools.retrieval import ChromaRetriever  # noqa: E402
+from src.tools.index_guard import (  # noqa: E402
+    IndexIntegrityError,
+    indexed_ids,
+    read_write_log,
+)
+from src.tools.retrieval import ChromaRetriever, RetrievedChunk  # noqa: E402
 
 GOLDEN_SET = REPO_ROOT / "docs" / "eval" / "golden-set.json"
 DEFAULT_OUT_DIR = REPO_ROOT / "docs" / "eval"
+
+# ADR-025 효과 지표의 위험군: 골든셋 질의 기준 정답이 top-4 안에 있는데 점수가
+# 최난도 negative(0.8303)보다 낮은 6건. 판정 기준은 ADR-025 "판정 기준"에 사전 등록돼 있다.
+RISK_CASES: tuple[str, ...] = ("GS-011", "GS-013", "GS-015", "GS-017", "GS-018", "GS-021")
+
+# 논리 호출 1건이 엔드포인트 요청 몇 건이 될 수 있는가: 최초 1회 + HTTP 재시도
+# `max_retries`(config.py 기본 2)회. 재시도는 트레이스에 잡히지 않으므로(session-17 §3.1)
+# 실측하지 않고 상한만 적는다.
+REQUESTS_PER_CALL_UPPER = 1 + 2
+
+EXIT_OK = 0
+EXIT_EXISTS = 3
+EXIT_INDEX = 4
+EXIT_LOCKED = 5
+
+
+class BenchRefused(RuntimeError):
+    """측정 조건이 성립하지 않아 LLM을 부르기 전에 멈춘다."""
+
+    def __init__(self, message: str, exit_code: int) -> None:
+        super().__init__(message)
+        self.exit_code = exit_code
 
 
 def _percentile(values: list[float], pct: float) -> float:
     """가장 가까운 순위(nearest-rank) 백분위.
 
-    표본이 한 자릿수라 보간법을 쓰면 실제로 관측되지 않은 값이 지표가 된다.
-    nearest-rank는 항상 **실제 관측값**을 돌려주므로 n이 작을 때 정직하다.
+    보간법을 쓰면 실제로 관측되지 않은 값이 지표가 된다. nearest-rank는 항상
+    **실제 관측값**을 돌려준다. n=30이면 p95는 29번째 값이고 p50은 15번째 값이다
+    — 표본이 커져도 방법은 유효하며, 비교선(session-03·08)과 같은 방법을 유지한다.
     """
     if not values:
         return 0.0
@@ -68,12 +114,126 @@ def _percentile(values: list[float], pct: float) -> float:
     return ordered[index - 1]
 
 
-def _warm_up_embeddings() -> tuple[object, float, float]:
-    """임베딩 모델을 상주시키고 (콜드 로딩 시간, 웜 인코딩 시간)을 잰다.
+# ---------------------------------------------------------------------------
+# 기동 검사 — LLM 호출 전에 끝난다
+# ---------------------------------------------------------------------------
 
-    이 함수가 이 스크립트의 핵심이다. 여기서 로딩을 끝내두지 않으면 첫 질의의
-    벽시계에 로딩 시간이 통째로 들어가 측정이 망가진다.
+
+def run_labels(label: str, repeat: int) -> list[str]:
+    """회차 라벨. `--repeat 1`이면 라벨 그대로, 2 이상이면 `-run1`, `-run2`, ..."""
+    if repeat < 1:
+        raise ValueError("repeat은 1 이상이어야 한다")
+    if repeat == 1:
+        return [label]
+    return [f"{label}-run{i}" for i in range(1, repeat + 1)]
+
+
+def output_path(out_dir: Path, label: str) -> Path:
+    return out_dir / f"bench-{label}.json"
+
+
+def refuse_existing_outputs(out_dir: Path, labels: Sequence[str]) -> list[Path]:
+    """같은 라벨의 결과가 있으면 거부한다 (session-17 §2 #7).
+
+    예전 동작은 덮어쓰기였다 — `--label no-cache`로 돌리면 session-03 기준선이 조용히
+    사라진다. **모든 회차 경로를 측정 전에** 검사한다: 2회차에서야 거부되면 1회차 호출은
+    이미 쓴 뒤다.
     """
+    paths = [output_path(out_dir, label) for label in labels]
+    existing = [p for p in paths if p.exists()]
+    if existing:
+        names = ", ".join(p.name for p in existing)
+        raise BenchRefused(
+            f"같은 라벨의 결과가 이미 있습니다: {names}. 덮어쓰지 않습니다 — "
+            "다른 --label을 쓰거나, 정말 버릴 파일이면 사람이 직접 지우세요.",
+            EXIT_EXISTS,
+        )
+    return paths
+
+
+def check_index(persist_dir: Path, collection: str) -> dict:
+    """쓰기 로그 행 수 == 인덱스 문서 수인가 (session-17 §2 #8, ADR-005 Amendment 5).
+
+    Chroma 클라이언트를 열기 **전에** 읽기 전용 sqlite로만 본다. 중복 upsert가 있는
+    인덱스는 `count()`·`get()`이 정상값을 내면서 문서 1건을 조용히 검색하지 못한다
+    — 그 위에서 잰 수치는 전부 다시 재야 한다. 검사 불가도 통과로 치지 않는다.
+    """
+    try:
+        log = read_write_log(persist_dir, collection)
+        ids = indexed_ids(persist_dir, collection)
+    except IndexIntegrityError as exc:
+        raise BenchRefused(f"인덱스 검사를 할 수 없습니다: {exc}", EXIT_INDEX) from exc
+
+    if log is None:
+        raise BenchRefused(
+            f"컬렉션 {collection!r}이 없습니다. `python scripts/build_index.py`를 먼저 실행하세요.",
+            EXIT_INDEX,
+        )
+    if not (log.clean and log.rows == len(ids)):
+        raise BenchRefused(
+            f"인덱스 쓰기 로그가 '문서당 1행'을 어겼습니다: 로그 {log.describe()} / "
+            f"문서 {len(ids)}건. 이 인덱스 위의 측정은 무효다 (ADR-005 Amendment 4). "
+            "`python scripts/build_index.py --reset`으로 다시 만드세요.",
+            EXIT_INDEX,
+        )
+    return {
+        "queue_rows": log.rows,
+        "distinct_ids": log.distinct_ids,
+        "indexed_docs": len(ids),
+        "operations": {str(k): v for k, v in sorted(log.operations.items())},
+        "clean": True,
+    }
+
+
+def lock_path(persist_dir: Path) -> Path:
+    """인덱스 디렉터리 **옆**에 둔다 — 인덱스 디렉터리 안에 파일을 만들지 않는다."""
+    return persist_dir.parent / f".{persist_dir.name}.bench.lock"
+
+
+@contextmanager
+def index_lock(persist_dir: Path) -> Iterator[Path]:
+    """같은 인덱스를 쓰는 bench 실행을 하나로 제한한다 (session-15 §7.2, ADR-015 Risks).
+
+    `O_EXCL` 생성으로 원자적으로 잡는다. 오래된 잠금(프로세스가 죽어 남은 것)을 자동으로
+    치우지 않는다 — 살아 있는 실행을 죽은 것으로 오판하면 동시 실행 금지가 사라진다.
+    남은 잠금은 사람이 확인하고 지운다.
+    """
+    path = lock_path(persist_dir)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+    except FileExistsError as exc:
+        holder = path.read_text(encoding="utf-8", errors="replace").strip()
+        raise BenchRefused(
+            f"같은 인덱스를 쓰는 다른 bench 실행이 있습니다 (잠금: {path.name}, {holder}). "
+            "실행 중이 아니라면 확인 후 잠금 파일을 지우세요.",
+            EXIT_LOCKED,
+        ) from exc
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(f"pid={os.getpid()} started={time.strftime('%Y-%m-%dT%H:%M:%S%z')}\n")
+        yield path
+    finally:
+        path.unlink(missing_ok=True)
+
+
+def candidate_score_exposed() -> bool:
+    """Researcher 후보 블록에 유사도 점수가 실리는가 (ADR-025).
+
+    결과에 "점수 노출 상태"를 사람이 적어 넣는 대신, 실제 포맷터 출력에서 판정한다.
+    S0c에서 점수를 빼면 이 값이 스스로 False가 된다.
+    """
+    probe = RetrievedChunk(doc_id="probe", locator="0", text="x", source="probe", score=0.123456)
+    return "0.123" in _format_candidates([probe])
+
+
+# ---------------------------------------------------------------------------
+# 워밍업 — 측정 대상 아님, 기동 1회 비용
+# ---------------------------------------------------------------------------
+
+
+def _warm_up_embeddings() -> tuple[object, float, float]:
+    """임베딩 모델을 상주시키고 (콜드 로딩 시간, 웜 인코딩 시간)을 잰다."""
     embeddings = get_embedding_provider()
 
     started = time.perf_counter()
@@ -87,8 +247,43 @@ def _warm_up_embeddings() -> tuple[object, float, float]:
     return embeddings, cold_s, warm_s
 
 
-def _retrieval_latency(trace_path: Path) -> tuple[float, int]:
-    """JSONL 트레이스에서 검색 span의 지연 합과 건수를 읽는다.
+def _warm_up_chroma(retriever: ChromaRetriever, top_k: int) -> float:
+    """Chroma 첫 질의(HNSW 세그먼트 로딩)를 측정 전에 끝낸다. 결과는 버린다."""
+    started = time.perf_counter()
+    retriever.search("워밍업 질의", k=top_k)
+    return time.perf_counter() - started
+
+
+def _warm_up_litellm() -> float:
+    """`llm.py`는 litellm을 호출 시점에 임포트한다. 첫 케이스에 그 비용이 섞이지 않게 한다.
+
+    임포트만 한다 — 엔드포인트 호출은 없다.
+    """
+    started = time.perf_counter()
+    importlib.import_module("litellm")
+    return time.perf_counter() - started
+
+
+# ---------------------------------------------------------------------------
+# 트레이스 되읽기
+# ---------------------------------------------------------------------------
+
+
+def _read_trace(trace_path: Path) -> list[dict] | None:
+    """JSONL 트레이스를 읽는다. 파일이 없으면 None — 0건과 구분한다 (session-17 §2 #11)."""
+    if not trace_path.exists():
+        return None
+    records = []
+    for line in trace_path.read_text(encoding="utf-8").splitlines():
+        try:
+            records.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue
+    return records
+
+
+def _retrieval_latency(records: list[dict] | None) -> tuple[float, int]:
+    """트레이스에서 검색 span의 지연 합과 건수를 읽는다.
 
     검색 지연을 노드가 따로 세지 않고 트레이스에서 되읽는 이유: 계측 로그가
     운영 중에도 같은 질문에 답할 수 있어야 하기 때문이다 (ADR-007). 측정
@@ -96,17 +291,57 @@ def _retrieval_latency(trace_path: Path) -> tuple[float, int]:
     """
     total = 0.0
     count = 0
-    if not trace_path.exists():
-        return 0.0, 0
-    for line in trace_path.read_text(encoding="utf-8").splitlines():
-        try:
-            record = json.loads(line)
-        except json.JSONDecodeError:
-            continue
+    for record in records or []:
         if record.get("name") == "researcher_retrieve":
             total += float(record.get("latency_s") or 0.0)
             count += 1
     return total, count
+
+
+def item_records(findings: Sequence, trace_records: list[dict] | None) -> list[dict] | None:
+    """Researcher 호출(항목 × 회차)별로 후보와 `supporting`을 짝짓는다 (ADR-025 before 값).
+
+    후보는 State에 남지 않으므로 `researcher_retrieve` span에서 되읽는다 — 파이프라인
+    코드를 바꾸지 않기 위해서다. Researcher는 항목마다 검색 1회 → Finding 1건을 같은
+    순서로 만들므로 두 목록은 1:1이다. **항목 이름이 어긋나면 짝짓지 않고 None을 돌려준다**
+    — 추정으로 맞추면 효과 지표가 틀린 짝 위에서 계산된다.
+    """
+    if trace_records is None:
+        return None
+    spans = [r for r in trace_records if r.get("name") == "researcher_retrieve"]
+    if len(spans) != len(findings):
+        return None
+
+    items = []
+    for finding, span in zip(findings, spans, strict=True):
+        topic = (span.get("input") or {}).get("topic")
+        if topic != finding.topic:
+            return None
+        output = span.get("output") or []
+        candidates = [
+            {"doc_id": c.get("doc_id"), "rank": rank, "score": c.get("score")}
+            for rank, c in enumerate(output, start=1)
+            if isinstance(c, dict)
+        ]
+        supporting: list[str] = []
+        for citation in finding.citations:
+            if citation.doc_id not in supporting:
+                supporting.append(citation.doc_id)
+        items.append(
+            {
+                "topic": finding.topic,
+                "revision": finding.revision,
+                "retrieval_error": span.get("output") is None,
+                "candidates": candidates,
+                "supporting": supporting,
+            }
+        )
+    return items
+
+
+# ---------------------------------------------------------------------------
+# 채점 · 집계
+# ---------------------------------------------------------------------------
 
 
 def _new_evidence_from_retry(findings) -> dict:
@@ -145,9 +380,12 @@ def _score(case: dict, result: dict) -> dict:
     """골든셋 기대와 실행 결과를 대조한다.
 
     자동으로 채점하는 것은 **기계적으로 셀 수 있는 것만**이다 (ADR-006과 같은
-    원칙): 근거 없음 여부, 최소 인용 수, 기대 문서 ID 적중. `must_mention`은
-    의미 판정이라 자동화하지 않고 사람이 보도록 남긴다 — LLM 심판을 쓰면 판정
-    모델이 또 하나의 변수가 되어 모델 고정 원칙(ADR-002)과 충돌한다.
+    원칙): 근거 없음 여부, 기대 문서 ID 적중. `must_mention`은 의미 판정이라
+    자동화하지 않고 사람이 보도록 남긴다 — LLM 심판을 쓰면 판정 모델이 또 하나의
+    변수가 되어 모델 고정 원칙(ADR-002)과 충돌한다.
+
+    ⚠️ `min_citations`는 **판정에 넣지 않는다** (v1.2-S0b 결정). 넣으면 판정 기준이
+    바뀌어 session-08 비교선이 끊긴다. 충족 여부는 `min_citations_met`에 따로 적는다.
     """
     expect = case.get("expect", {})
     topic_count = len(result["outline"])
@@ -166,6 +404,7 @@ def _score(case: dict, result: dict) -> dict:
         if expected_docs:
             checks["expected_doc_cited"] = bool(expected_docs & cited_docs)
 
+    min_citations = expect.get("min_citations")
     return {
         "checks": checks,
         "passed": all(checks.values()) if checks else None,
@@ -173,290 +412,471 @@ def _score(case: dict, result: dict) -> dict:
         "uncovered_count": uncovered_count,
         "cited_doc_ids": sorted(cited_docs),
         "expected_doc_ids": sorted(expected_docs),
+        # 기록만 한다. 판정(`passed`)에 영향 없음.
+        "min_citations": min_citations,
+        "min_citations_met": (
+            None if min_citations is None else len(cited_docs) >= int(min_citations)
+        ),
         "must_mention_manual": expect.get("must_mention") or [],
     }
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description="골든셋 벤치마크 (지연·토큰·커버리지)")
-    parser.add_argument("--label", default="run", help="이 측정 조건의 이름")
-    parser.add_argument("--cache", action="store_true", help="LLM 응답 캐시를 켠다")
-    parser.add_argument(
-        "--clear-cache", action="store_true", help="시작 전에 캐시를 비운다"
-    )
-    parser.add_argument("--max-revisions", type=int, default=2)
-    parser.add_argument("--top-k", type=int, default=4)
-    parser.add_argument("--only", nargs="*", default=None, help="특정 케이스 ID만")
-    parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
-    args = parser.parse_args()
+def scoring_by_stratum(rows: Sequence[dict]) -> dict:
+    """층별 pass/fail + n (ADR-022). **합산 pass/fail은 만들지 않는다.**
 
-    golden = json.loads(GOLDEN_SET.read_text(encoding="utf-8"))
-    cases = golden["cases"]
-    if args.only:
-        wanted = set(args.only)
-        cases = [c for c in cases if c["id"] in wanted]
-
-    llm_settings = load_settings()
-    embedding_settings = load_embedding_settings()
-    tracing_settings = load_tracing_settings()
-
-    print("=" * 72)
-    print(f"골든셋 벤치마크 — 조건: {args.label}")
-    print("=" * 72)
-    print("LLM        :", llm_settings.redacted())  # URL은 시크릿이다 (governance.md)
-    print("임베딩     :", embedding_settings.model_name)
-    print("계측       :", tracing_settings.redacted())
-    print("프롬프트   :", PROMPT_VERSION)
-    print("캐시       :", "ON" if args.cache else "OFF")
-
-    if args.clear_cache:
-        removed = clear_cache(load_cache_settings())
-        print(f"캐시 비움  : {removed}개 항목 삭제")
-
-    # --- 1단계: 임베딩 워밍업 (측정 대상 아님, 기동 1회 비용) -------------------
-    print("\n[1/3] 임베딩 모델 워밍업 중... (콜드 로딩)")
-    embeddings, cold_s, warm_s = _warm_up_embeddings()
-    print(f"      콜드 로딩 {cold_s:.2f}s -> 웜 인코딩 {warm_s * 1000:.1f}ms")
-    print("      이후 측정은 전부 모델이 상주한 상태에서 이뤄진다.")
-
-    # 워밍업한 인스턴스를 그대로 넘긴다. 새로 만들면 로딩을 다시 한다.
-    retriever = ChromaRetriever(embeddings=embeddings)
-    print(f"[2/3] 인덱스 문서 수: {retriever.count()}")
-
-    provider = get_provider(cache=args.cache)
-    tracer = get_tracer()
-    rows: list[dict] = []
-
-    print(f"[3/3] 케이스 {len(cases)}건 실행\n")
-    bench_started = time.perf_counter()
-
-    for case in cases:
-        trace = tracer.trace(
-            "research_run",
-            input={"query": case["query"]},
-            metadata={
-                "bench_label": args.label,
-                "case_id": case["id"],
-                "prompt_version": PROMPT_VERSION,
-                "model": llm_settings.model,
-                "embedding_model": embedding_settings.model_name,
-                "cache": args.cache,
-                "max_revisions": args.max_revisions,
-                "top_k": args.top_k,
-            },
+    층 A·B·C는 난이도도 판정 규칙도 다르다(C는 음성). 합치면 층 구성비가 바뀔 때
+    숫자가 움직여 효과로 오독된다.
+    """
+    out: dict[str, dict] = {}
+    for row in rows:
+        bucket = out.setdefault(
+            row.get("stratum") or "?", {"n": 0, "passed": 0, "failed": 0, "unscored": 0}
         )
-        app = compile_graph(
-            provider, retriever=retriever, trace=trace, top_k=args.top_k
-        )
-
-        started = time.perf_counter()
-        state = app.invoke(
-            initial_state(case["query"], max_revisions=args.max_revisions),
-            config={"recursion_limit": 50},
-        )
-        wall_s = time.perf_counter() - started
-
-        records = state.get("trace") or []
-        findings = state.get("findings") or []
-        result = {
-            "outline": state.get("outline") or [],
-            "uncovered": state.get("uncovered") or [],
-            "findings": findings,
-        }
-
-        llm_latency = sum(r.latency_s for r in records)
-        by_node: dict[str, dict] = defaultdict(
-            lambda: {"calls": 0, "prompt": 0, "completion": 0, "latency_s": 0.0, "cached": 0}
-        )
-        for record in records:
-            bucket = by_node[record.node]
-            bucket["calls"] += 1
-            bucket["prompt"] += record.prompt_tokens
-            bucket["completion"] += record.completion_tokens
-            bucket["latency_s"] = round(bucket["latency_s"] + record.latency_s, 4)
-            bucket["cached"] += int(record.cached)
-
-        billed = sum(
-            r.prompt_tokens + r.completion_tokens for r in records if not r.cached
-        )
-
-        trace.end(
-            output={"draft": state.get("draft", "")},
-            metadata={
-                "bench_label": args.label,
-                "wall_clock_s": round(wall_s, 3),
-                "llm_latency_s": round(llm_latency, 3),
-                "uncovered": result["uncovered"],
-                "revisions": state.get("revision", 0),
-            },
-        )
-        tracer.flush()
-
-        retrieval_s, retrieval_calls = _retrieval_latency(
-            tracing_settings.local_trace_dir / f"{trace.run_id}.jsonl"
-        )
-
-        row = {
-            "case_id": case["id"],
-            "query": case["query"],
-            "run_id": trace.run_id,
-            "wall_clock_s": round(wall_s, 3),
-            "llm_latency_s": round(llm_latency, 3),
-            "retrieval_latency_s": round(retrieval_s, 3),
-            # 위 셋 중 어디에도 안 잡히는 시간 (JSON 파싱, 그래프 오버헤드 등).
-            "other_latency_s": round(max(0.0, wall_s - llm_latency - retrieval_s), 3),
-            "llm_calls": len(records),
-            "cache_hits": sum(1 for r in records if r.cached),
-            "retrieval_calls": retrieval_calls,
-            "prompt_tokens": sum(r.prompt_tokens for r in records),
-            "completion_tokens": sum(r.completion_tokens for r in records),
-            "billed_tokens": billed,
-            "revisions": state.get("revision", 0),
-            "by_node": {k: dict(v) for k, v in by_node.items()},
-            "retry_evidence": _new_evidence_from_retry(findings),
-            "score": _score(case, result),
-            "draft_chars": len(state.get("draft", "")),
-        }
-        rows.append(row)
-
+        bucket["n"] += 1
         verdict = row["score"]["passed"]
-        mark = "PASS" if verdict else ("FAIL" if verdict is False else "----")
-        print(
-            f"  [{mark}] {case['id']}  "
-            f"wall {row['wall_clock_s']:>6.2f}s | llm {row['llm_latency_s']:>6.2f}s | "
-            f"retr {row['retrieval_latency_s']:>5.2f}s | "
-            f"calls {row['llm_calls']:>2} (hit {row['cache_hits']:>2}) | "
-            f"tok {row['prompt_tokens'] + row['completion_tokens']:>6} "
-            f"(billed {row['billed_tokens']:>6}) | "
-            f"새근거 {row['retry_evidence']['new_citations']}"
-        )
+        key = "passed" if verdict is True else ("failed" if verdict is False else "unscored")
+        bucket[key] += 1
+    return dict(sorted(out.items()))
 
-    bench_s = time.perf_counter() - bench_started
 
+def risk_selection(rows: Sequence[dict], risk_cases: Sequence[str] = RISK_CASES) -> dict:
+    """ADR-025 효과 지표 — 위험군 조건부 선택률.
+
+    분모: 위험군 케이스의 Researcher 호출(항목 × 회차) 중 정답 doc_id가 그 호출의 후보에
+    있었던 것. 분자: 그중 정답이 `supporting`에 들어간 것. 위험군 순위는 골든셋 질의 기준이고
+    파이프라인은 항목별로 검색하므로 조건부로 센다 (ADR-025 판정 기준).
+
+    검색 오류 항목은 후보가 없으므로 자연히 분모에서 빠진다. 항목 기록이 없는 케이스
+    (트레이스 없음·짝짓기 실패)는 `missing_items`에 따로 적는다 — 0으로 세지 않는다.
+    """
+    wanted = set(risk_cases)
+    per_case: dict[str, dict] = {}
+    missing: list[str] = []
+    totals = {"all": [0, 0], "first_pass": [0, 0]}  # [분자, 분모]
+
+    for row in rows:
+        if row["case_id"] not in wanted:
+            continue
+        items = row.get("items")
+        if items is None:
+            missing.append(row["case_id"])
+            continue
+        expected = set(row["score"]["expected_doc_ids"])
+        eligible = selected = fp_eligible = fp_selected = 0
+        for item in items:
+            candidate_ids = {c["doc_id"] for c in item["candidates"]}
+            if not expected & candidate_ids:
+                continue
+            hit = bool(expected & set(item["supporting"]))
+            eligible += 1
+            selected += int(hit)
+            if item["revision"] == 0:
+                fp_eligible += 1
+                fp_selected += int(hit)
+        per_case[row["case_id"]] = {
+            "calls": len(items),
+            "eligible": eligible,
+            "selected": selected,
+            "first_pass_eligible": fp_eligible,
+            "first_pass_selected": fp_selected,
+        }
+        totals["all"][0] += selected
+        totals["all"][1] += eligible
+        totals["first_pass"][0] += fp_selected
+        totals["first_pass"][1] += fp_eligible
+
+    def rate(pair: list[int]) -> float | None:
+        return round(pair[0] / pair[1], 4) if pair[1] else None
+
+    return {
+        "risk_cases": list(risk_cases),
+        "selected": totals["all"][0],
+        "eligible": totals["all"][1],
+        "rate": rate(totals["all"]),
+        "first_pass_selected": totals["first_pass"][0],
+        "first_pass_eligible": totals["first_pass"][1],
+        "first_pass_rate": rate(totals["first_pass"]),
+        "per_case": per_case,
+        "missing_items": missing,
+    }
+
+
+def _dist(values: Sequence[float]) -> dict:
+    if not values:
+        return {"n": 0}
+    return {
+        "n": len(values),
+        "mean": round(statistics.fmean(values), 3),
+        "p50": round(_percentile(list(values), 50), 3),
+        "p95": round(_percentile(list(values), 95), 3),
+        "max": round(max(values), 3),
+    }
+
+
+def summarize(rows: Sequence[dict]) -> dict:
+    """회차 1건의 요약. 행(row)만으로 계산한다 — 테스트가 이 함수를 직접 부른다."""
     walls = [r["wall_clock_s"] for r in rows]
     llms = [r["llm_latency_s"] for r in rows]
+    others = [r["other_latency_s"] for r in rows]
     retrs = [r["retrieval_latency_s"] for r in rows]
-    per_call = [
-        r["llm_latency_s"] / r["llm_calls"] for r in rows if r["llm_calls"]
-    ]
+    per_call = [r["llm_latency_s"] / r["llm_calls"] for r in rows if r["llm_calls"]]
+    per_item = [r["llm_calls"] / r["topic_count"] for r in rows if r["topic_count"]]
 
-    summary = {
-        "label": args.label,
-        "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
-        "n_cases": len(rows),
-        "cache_enabled": args.cache,
-        "prompt_version": PROMPT_VERSION,
-        "model": llm_settings.model,
-        "embedding_model": embedding_settings.model_name,
-        "corpus_docs": retriever.count(),
-        "max_revisions": args.max_revisions,
-        "top_k": args.top_k,
-        "embedding_warmup": {
-            "cold_load_s": round(cold_s, 3),
-            "warm_encode_ms": round(warm_s * 1000, 2),
-            "note": (
-                "콜드 로딩은 프로세스 기동 1회 비용이며 아래 지연 수치에 포함되지 "
-                "않는다. 상주 프로세스에서는 발생하지 않는다."
-            ),
-        },
+    total_calls = sum(r["llm_calls"] for r in rows)
+    node_calls: Counter = Counter()
+    for r in rows:
+        for node, bucket in r["by_node"].items():
+            node_calls[node] += bucket["calls"]
+
+    return {
         "latency": {
-            "llm_mean_s": round(statistics.fmean(llms), 3) if llms else 0.0,
-            "llm_median_s": round(statistics.median(llms), 3) if llms else 0.0,
-            "llm_p95_s": round(_percentile(llms, 95), 3),
-            "llm_max_s": round(max(llms), 3) if llms else 0.0,
+            "wall": _dist(walls),
+            "llm": _dist(llms),
+            "other": _dist(others),
+            "retrieval": _dist(retrs),
             "llm_per_call_mean_s": round(statistics.fmean(per_call), 3) if per_call else 0.0,
-            "retrieval_mean_s": round(statistics.fmean(retrs), 3) if retrs else 0.0,
-            "pipeline_mean_s": round(statistics.fmean(walls), 3) if walls else 0.0,
-            "pipeline_median_s": round(statistics.median(walls), 3) if walls else 0.0,
-            "pipeline_p95_s": round(_percentile(walls, 95), 3),
-            "pipeline_max_s": round(max(walls), 3) if walls else 0.0,
-            "percentile_method": "nearest-rank (n이 작아 보간하지 않는다)",
+            "percentile_method": "nearest-rank (관측값만 돌려준다)",
+            "note": "워밍업(임베딩·Chroma·litellm 임포트)은 측정 전에 끝나 여기 포함되지 않는다.",
         },
         "tokens": {
             "prompt_total": sum(r["prompt_tokens"] for r in rows),
             "completion_total": sum(r["completion_tokens"] for r in rows),
             "billed_total": sum(r["billed_tokens"] for r in rows),
-            "mean_per_request": round(
-                statistics.fmean(
-                    [r["prompt_tokens"] + r["completion_tokens"] for r in rows]
-                ),
-                1,
-            )
-            if rows
-            else 0.0,
-            "billed_mean_per_request": round(
-                statistics.fmean([r["billed_tokens"] for r in rows]), 1
-            )
-            if rows
-            else 0.0,
+            "per_request": _dist([r["prompt_tokens"] + r["completion_tokens"] for r in rows]),
         },
         "calls": {
-            "total": sum(r["llm_calls"] for r in rows),
+            "total": total_calls,
             "cache_hits": sum(r["cache_hits"] for r in rows),
-            "mean_per_request": round(
-                statistics.fmean([r["llm_calls"] for r in rows]), 2
-            )
-            if rows
-            else 0.0,
+            "by_node": dict(sorted(node_calls.items())),
+            "per_request": _dist([r["llm_calls"] for r in rows]),
+            "per_item": _dist(per_item),
+            # HTTP 재시도는 트레이스에 잡히지 않는다. 실측이 아니라 상한이다.
+            "endpoint_requests_upper_bound": total_calls * REQUESTS_PER_CALL_UPPER,
+        },
+        "topic_count_distribution": {
+            str(k): v for k, v in sorted(Counter(r["topic_count"] for r in rows).items())
+        },
+        "revision_distribution": {
+            str(k): v for k, v in sorted(Counter(r["revisions"] for r in rows).items())
         },
         "retry_loop": {
             "runs_with_retry": sum(1 for r in rows if r["revisions"] > 1),
             "retry_citations_total": sum(
                 r["retry_evidence"]["retry_citations_total"] for r in rows
             ),
-            "new_citations_total": sum(
-                r["retry_evidence"]["new_citations"] for r in rows
-            ),
+            "new_citations_total": sum(r["retry_evidence"]["new_citations"] for r in rows),
         },
-        "scoring": {
-            "passed": sum(1 for r in rows if r["score"]["passed"] is True),
-            "failed": sum(1 for r in rows if r["score"]["passed"] is False),
-            "unscored": sum(1 for r in rows if r["score"]["passed"] is None),
-        },
-        "bench_wall_clock_s": round(bench_s, 2),
-        "rows": rows,
+        "scoring_by_stratum": scoring_by_stratum(rows),
+        "min_citations_unmet": sorted(
+            r["case_id"] for r in rows if r["score"]["min_citations_met"] is False
+        ),
+        "risk_selection": risk_selection(rows),
+        "rows_without_local_trace": sorted(r["case_id"] for r in rows if not r["local_trace"]),
     }
 
-    out_path = args.out_dir / f"bench-{args.label}.json"
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(
-        json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+
+# ---------------------------------------------------------------------------
+# 실행
+# ---------------------------------------------------------------------------
+
+
+def _run_case(case, *, args, label, run_index, provider, retriever, tracer, tracing_settings,
+              llm_settings, embedding_settings) -> dict:
+    trace = tracer.trace(
+        "research_run",
+        input={"query": case["query"]},
+        metadata={
+            "bench_label": label,
+            "run_index": run_index,
+            "case_id": case["id"],
+            "prompt_version": PROMPT_VERSION,
+            "model": llm_settings.model,
+            "embedding_model": embedding_settings.model_name,
+            "cache": args.cache,
+            "max_revisions": args.max_revisions,
+            "top_k": args.top_k,
+        },
+    )
+    app = compile_graph(provider, retriever=retriever, trace=trace, top_k=args.top_k)
+
+    started = time.perf_counter()
+    state = app.invoke(
+        initial_state(case["query"], max_revisions=args.max_revisions),
+        config={"recursion_limit": 50},
+    )
+    wall_s = time.perf_counter() - started
+
+    records = state.get("trace") or []
+    findings = state.get("findings") or []
+    result = {
+        "outline": state.get("outline") or [],
+        "uncovered": state.get("uncovered") or [],
+        "findings": findings,
+    }
+
+    llm_latency = sum(r.latency_s for r in records)
+    by_node: dict[str, dict] = defaultdict(
+        lambda: {"calls": 0, "prompt": 0, "completion": 0, "latency_s": 0.0, "cached": 0}
+    )
+    for record in records:
+        bucket = by_node[record.node]
+        bucket["calls"] += 1
+        bucket["prompt"] += record.prompt_tokens
+        bucket["completion"] += record.completion_tokens
+        bucket["latency_s"] = round(bucket["latency_s"] + record.latency_s, 4)
+        bucket["cached"] += int(record.cached)
+
+    billed = sum(r.prompt_tokens + r.completion_tokens for r in records if not r.cached)
+
+    trace.end(
+        output={"draft": state.get("draft", "")},
+        metadata={
+            "bench_label": label,
+            "wall_clock_s": round(wall_s, 3),
+            "llm_latency_s": round(llm_latency, 3),
+            "uncovered": result["uncovered"],
+            "revisions": state.get("revision", 0),
+        },
+    )
+    tracer.flush()
+
+    trace_records = _read_trace(tracing_settings.local_trace_dir / f"{trace.run_id}.jsonl")
+    if trace_records is None:
+        print(
+            f"  ⚠️ {case['id']}: 로컬 트레이스가 없습니다 — 검색 지연은 0으로, 항목별 후보는 "
+            "없음으로 기록됩니다 (DISABLE_TRACING 또는 트레이스 경로 확인)."
+        )
+    retrieval_s, retrieval_calls = _retrieval_latency(trace_records)
+    items = item_records(findings, trace_records)
+    if trace_records is not None and items is None:
+        print(f"  ⚠️ {case['id']}: 검색 span과 Finding을 짝지을 수 없어 항목별 기록을 비웁니다.")
+
+    score = _score(case, result)
+    return {
+        "case_id": case["id"],
+        "stratum": case.get("stratum"),
+        "query": case["query"],
+        "run_id": trace.run_id,
+        "topic_count": score["topic_count"],
+        "revisions": state.get("revision", 0),
+        "wall_clock_s": round(wall_s, 3),
+        "llm_latency_s": round(llm_latency, 3),
+        "retrieval_latency_s": round(retrieval_s, 3),
+        # 위 셋 중 어디에도 안 잡히는 시간 (JSON 파싱, 그래프 오버헤드 등).
+        "other_latency_s": round(max(0.0, wall_s - llm_latency - retrieval_s), 3),
+        "llm_calls": len(records),
+        "cache_hits": sum(1 for r in records if r.cached),
+        "retrieval_calls": retrieval_calls,
+        "prompt_tokens": sum(r.prompt_tokens for r in records),
+        "completion_tokens": sum(r.completion_tokens for r in records),
+        "billed_tokens": billed,
+        "by_node": {k: dict(v) for k, v in by_node.items()},
+        "retry_evidence": _new_evidence_from_retry(findings),
+        "score": score,
+        "items": items,
+        "local_trace": trace_records is not None,
+        "draft_chars": len(state.get("draft", "")),
+    }
+
+
+def _print_row(row: dict) -> None:
+    verdict = row["score"]["passed"]
+    mark = "PASS" if verdict else ("FAIL" if verdict is False else "----")
+    nodes = " ".join(
+        f"{node[:3]}{b['calls']}/{b['prompt'] + b['completion']}"
+        for node, b in sorted(row["by_node"].items())
+    )
+    print(
+        f"  [{mark}] {row['case_id']} 층{row['stratum']} T={row['topic_count']} "
+        f"rev={row['revisions']} | wall {row['wall_clock_s']:>6.2f}s "
+        f"llm {row['llm_latency_s']:>6.2f}s other {row['other_latency_s']:>5.2f}s | "
+        f"calls {row['llm_calls']:>2} (hit {row['cache_hits']}) | "
+        f"tok {row['prompt_tokens'] + row['completion_tokens']:>6} | {nodes}"
     )
 
+
+def _print_summary(label: str, summary: dict) -> None:
     lat = summary["latency"]
     print("\n" + "-" * 72)
-    print(f"요약 — 조건 {args.label} (n={len(rows)})")
+    print(f"요약 — {label} (n={summary['n_cases']})")
     print("-" * 72)
-    print(f"  임베딩 콜드 로딩   : {cold_s:.2f}s (기동 1회, 아래 수치에 미포함)")
-    print(f"  LLM 호출 지연      : 평균 {lat['llm_mean_s']:.2f}s / p95 {lat['llm_p95_s']:.2f}s")
-    print(f"  검색 지연          : 평균 {lat['retrieval_mean_s']:.2f}s")
+    for key, name in (("wall", "파이프라인"), ("llm", "LLM"), ("other", "기타")):
+        d = lat[key]
+        if d["n"]:
+            print(f"  {name:<10}: p50 {d['p50']:.2f}s / p95 {d['p95']:.2f}s (n={d['n']})")
+    calls = summary["calls"]
     print(
-        f"  파이프라인 지연    : 평균 {lat['pipeline_mean_s']:.2f}s / "
-        f"p95 {lat['pipeline_p95_s']:.2f}s"
+        f"  호출        : 총 {calls['total']} (요청 상한 ×{REQUESTS_PER_CALL_UPPER} = "
+        f"{calls['endpoint_requests_upper_bound']}) / 항목당 평균 "
+        f"{calls['per_item'].get('mean', 0)} / 노드별 {calls['by_node']}"
     )
+    print(f"  토큰        : 총 {summary['tokens']['prompt_total'] + summary['tokens']['completion_total']}")
+    print(f"  T 분포      : {summary['topic_count_distribution']}")
+    print("  채점 (층별, 합산하지 않는다 — ADR-022):")
+    for stratum, b in summary["scoring_by_stratum"].items():
+        print(f"    층 {stratum}: {b['passed']} pass / {b['failed']} fail (n={b['n']})")
+    risk = summary["risk_selection"]
     print(
-        f"  토큰/요청          : 평균 {summary['tokens']['mean_per_request']:.0f} "
-        f"(청구 {summary['tokens']['billed_mean_per_request']:.0f})"
+        f"  위험군 조건부 선택률 (ADR-025): {risk['selected']}/{risk['eligible']} "
+        f"(1회차 {risk['first_pass_selected']}/{risk['first_pass_eligible']})"
+        + (f" ⚠️ 항목 기록 없음: {risk['missing_items']}" if risk["missing_items"] else "")
     )
-    print(
-        f"  호출/요청          : 평균 {summary['calls']['mean_per_request']:.2f} "
-        f"(캐시 적중 {summary['calls']['cache_hits']})"
-    )
-    print(
-        f"  재검색 새 근거     : {summary['retry_loop']['new_citations_total']}건 "
-        f"(재검색 인용 {summary['retry_loop']['retry_citations_total']}건 중)"
-    )
-    print(
-        f"  채점               : {summary['scoring']['passed']} pass / "
-        f"{summary['scoring']['failed']} fail"
-    )
-    # --out-dir이 레포 밖일 수 있으므로(임시 디렉터리 등) 상대 경로를 강요하지 않는다.
+    if summary["rows_without_local_trace"]:
+        print(f"  ⚠️ 로컬 트레이스 없음: {summary['rows_without_local_trace']}")
+
+
+def main(argv: Sequence[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="골든셋 벤치마크 (지연·토큰·커버리지)")
+    parser.add_argument("--label", required=True, help="측정 조건의 이름 (결과 파일명)")
+    parser.add_argument("--repeat", type=int, default=1, help="회차 수. 2 이상이면 라벨에 -runN")
+    parser.add_argument("--cache", action="store_true", help="LLM 응답 캐시를 켠다")
+    parser.add_argument("--clear-cache", action="store_true", help="시작 전에 캐시를 비운다")
+    parser.add_argument("--max-revisions", type=int, default=2)
+    parser.add_argument("--top-k", type=int, default=4)
+    parser.add_argument("--only", nargs="*", default=None, help="특정 케이스 ID만")
+    parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
+    parser.add_argument("--golden-set", type=Path, default=GOLDEN_SET)
+    args = parser.parse_args(argv)
+
+    golden = json.loads(args.golden_set.read_text(encoding="utf-8"))
+    cases = golden["cases"]
+    if args.only:
+        wanted = set(args.only)
+        unknown = wanted - {c["id"] for c in cases}
+        if unknown:
+            print(f"골든셋에 없는 케이스: {sorted(unknown)}")
+            return 2
+        cases = [c for c in cases if c["id"] in wanted]
+
+    llm_settings = load_settings()
+    embedding_settings = load_embedding_settings()
+    tracing_settings = load_tracing_settings()
+    store_settings = load_vectorstore_settings()
+    labels = run_labels(args.label, args.repeat)
+
+    print("=" * 72)
+    print(f"골든셋 벤치마크 — 조건: {args.label} × {args.repeat}회")
+    print("=" * 72)
+    print("LLM        :", llm_settings.redacted())  # URL은 시크릿이다 (governance.md)
+    print("임베딩     :", embedding_settings.model_name)
+    print("계측       :", tracing_settings.redacted())
+    print("프롬프트   :", PROMPT_VERSION)
+    print("캐시       :", "ON" if args.cache else "OFF")
+    print("골든셋     :", golden.get("version"), f"({len(cases)}건)")
+    score_exposed = candidate_score_exposed()
+    print("후보 점수  :", "노출 (ADR-025 적용 전)" if score_exposed else "미노출")
+
     try:
-        shown = out_path.relative_to(REPO_ROOT)
-    except ValueError:
-        shown = out_path
-    print(f"\n저장: {shown}")
-    return 0
+        out_paths = refuse_existing_outputs(args.out_dir, labels)
+        index_check = check_index(store_settings.persist_dir, store_settings.collection)
+        print(
+            f"인덱스     : queue {index_check['queue_rows']} == 문서 {index_check['indexed_docs']} (clean)"
+        )
+        with index_lock(store_settings.persist_dir):
+            return _bench(
+                args, cases, golden, labels, out_paths, index_check, score_exposed,
+                llm_settings=llm_settings,
+                embedding_settings=embedding_settings,
+                tracing_settings=tracing_settings,
+                store_settings=store_settings,
+            )
+    except BenchRefused as exc:
+        print(f"\n[거부] {exc}")
+        return exc.exit_code
+
+
+def _bench(args, cases, golden, labels, out_paths, index_check, score_exposed, *,
+           llm_settings, embedding_settings, tracing_settings, store_settings) -> int:
+    if args.clear_cache:
+        removed = clear_cache(load_cache_settings())
+        print(f"캐시 비움  : {removed}개 항목 삭제")
+
+    # --- 워밍업 (측정 대상 아님, 기동 1회 비용) -------------------------------
+    print("\n[1/3] 워밍업 (임베딩 · Chroma 첫 질의 · litellm 임포트)")
+    embeddings, cold_s, warm_s = _warm_up_embeddings()
+    # 워밍업한 인스턴스를 그대로 넘긴다. 새로 만들면 로딩을 다시 한다.
+    retriever = ChromaRetriever(embeddings=embeddings, settings=store_settings)
+    chroma_s = _warm_up_chroma(retriever, args.top_k)
+    litellm_s = _warm_up_litellm()
+    print(
+        f"      임베딩 콜드 {cold_s:.2f}s -> 웜 {warm_s * 1000:.1f}ms | "
+        f"Chroma 첫 질의 {chroma_s:.2f}s | litellm 임포트 {litellm_s:.2f}s"
+    )
+
+    corpus_docs = retriever.count()
+    if corpus_docs != index_check["indexed_docs"]:
+        raise BenchRefused(
+            f"Chroma count()={corpus_docs} ≠ 인덱스 문서 {index_check['indexed_docs']}건.",
+            EXIT_INDEX,
+        )
+    print(f"[2/3] 인덱스 문서 수: {corpus_docs}")
+
+    tracer = get_tracer()
+    if isinstance(tracer, NullTracer):
+        print(
+            "      ⚠️ 트레이싱이 꺼져 있습니다(DISABLE_TRACING). 검색 지연과 항목별 후보가 "
+            "기록되지 않습니다 — ADR-025 효과 지표를 계산할 수 없습니다."
+        )
+    provider = get_provider(cache=args.cache)
+
+    warmup = {
+        "embedding_cold_load_s": round(cold_s, 3),
+        "embedding_warm_encode_ms": round(warm_s * 1000, 2),
+        "chroma_first_query_s": round(chroma_s, 3),
+        "litellm_import_s": round(litellm_s, 3),
+        "note": "기동 1회 비용이며 아래 지연 수치에 포함되지 않는다.",
+    }
+
+    for run_index, (label, out_path) in enumerate(zip(labels, out_paths, strict=True), start=1):
+        print(f"\n[3/3] {label}: 케이스 {len(cases)}건 실행\n")
+        bench_started = time.perf_counter()
+        rows: list[dict] = []
+        for case in cases:
+            row = _run_case(
+                case, args=args, label=label, run_index=run_index, provider=provider,
+                retriever=retriever, tracer=tracer, tracing_settings=tracing_settings,
+                llm_settings=llm_settings, embedding_settings=embedding_settings,
+            )
+            rows.append(row)
+            _print_row(row)
+        bench_s = time.perf_counter() - bench_started
+
+        summary = {
+            "label": label,
+            "run_index": run_index,
+            "runs_in_process": len(labels),
+            "generated_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+            "n_cases": len(rows),
+            "golden_set_version": golden.get("version"),
+            "cache_enabled": args.cache,
+            "candidate_score_exposed": score_exposed,
+            "prompt_version": PROMPT_VERSION,
+            "model": llm_settings.model,
+            "embedding_model": embedding_settings.model_name,
+            "corpus_docs": corpus_docs,
+            "index_check": index_check,
+            "max_revisions": args.max_revisions,
+            "top_k": args.top_k,
+            "warmup": warmup if run_index == 1 else {"note": "1회차에서 이미 워밍업됨"},
+            **summarize(rows),
+            "bench_wall_clock_s": round(bench_s, 2),
+            "rows": rows,
+        }
+        # 생성 직전에 한 번 더 확인한다 — 기동 검사 이후 다른 경로로 파일이 생겼을 수 있다.
+        if out_path.exists():
+            raise BenchRefused(f"결과 파일이 측정 중에 생겼습니다: {out_path.name}", EXIT_EXISTS)
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+        _print_summary(label, summary)
+        # --out-dir이 레포 밖일 수 있으므로(임시 디렉터리 등) 상대 경로를 강요하지 않는다.
+        try:
+            shown = out_path.relative_to(REPO_ROOT)
+        except ValueError:
+            shown = out_path
+        print(f"\n저장: {shown}")
+    return EXIT_OK
 
 
 if __name__ == "__main__":
