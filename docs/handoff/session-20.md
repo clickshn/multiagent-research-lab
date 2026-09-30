@@ -3,8 +3,8 @@
 - **날짜:** 2026-09-30
 - **범위:** v1.2-P1. 바뀐 변수는 **"노드 안 LLM 호출의 동시 실행 여부" 하나**. 그래프 구조·프롬프트·판정 로직 불변,
   `Send` 미사용, **`PROMPT_VERSION 2026-09-30.1` 그대로**. governance.md · `.claude/rules/` · 훅 수정 없음.
-- **ADR:** ADR-026 신규 (**Proposed** — 기본값을 켤지 결정 대기)
-- **테스트:** `python -m pytest tests/ -q` → **246 passed** (224 → +22)
+- **ADR:** ADR-026 신규 → **Accepted** (§10 결정 후 Amendment)
+- **테스트:** `python -m pytest tests/ -q` → **256 passed** (224 → 246 측정 전후 → 256 §10 결정 반영)
 - **LLM 호출:** vLLM(`VLLM_BASE`, `endpoint_fp=1897f0ecc081`, S0b·S0c와 같은 지문)만. **논리 호출 실측 624건**
   (경로 확인 30 + off 297 + on 297). 승인 상한 1,320 이내. 비용 0원(할당분). 외부 벤더 0건. 유료 리소스·IaC 0건.
 - **시크릿 검사:** `scan_local_secrets.py` 0건(양성 대조 통과), 커밋 diff 대조 0건 (커밋마다)
@@ -17,7 +17,9 @@
 | `89b31fb` | 관찰 스크립트 `compare_trace_outputs.py` — **측정 후 추가**(토큰 6 차이 설명용, 판정 밖) |
 | `6323e91` | 결과: 경로 확인 · off · on · 판정 JSON · 관찰 JSON |
 | `12626f5` | ADR-026 + README §8.1 한 줄 (+ §8 문서 표 범위 "ADR-001 ~ ADR-026") |
-| (이 커밋) | 이 핸드오프 |
+| `65e62d8` | 이 핸드오프 (초판) |
+| `668b207` · `2421898` · `58208b8` | §10 결정 1 · 2 · 3 (코드, LLM 호출 0건) |
+| (이 커밋) | ADR-026 Accepted + Amendment · README 행 정정 · 이 핸드오프 §10 |
 
 push 하지 않았다.
 
@@ -133,3 +135,38 @@ python scripts/compare_trace_outputs.py docs/eval/bench-v1.2-p1-off.json docs/ev
 | 실측 호출 총계 | **논리 624건** (30 + 297 + 297) ≤ 1,320 · 0원(할당분) |
 | `.claude/external-llm-approved` | 만들지 않음 — 목적지가 `VLLM_BASE`라 예외 대상 아님 |
 | 인덱스 | 읽기 전용 검사 + 검색만(queue 37 == 문서 37 clean). 잠금 해제 확인 |
+
+---
+
+## 10. 결정 반영 (같은 세션, 사용자 결정 · **LLM 호출 0건**)
+
+§7의 결정 대기 ①②③을 사용자가 결정했다. 재측정 없음 — 판정 결과(§1~§4)는 그대로다.
+
+| # | 결정 | 결과 | 커밋 |
+|---|---|---|---|
+| ① | **동시 실행 기본값 켬(상한 4)**, `--parallel off`로 끌 수 있게 유지, ADR-026 Accepted. 근거: 판정 지표 차이 0 · 입력 동일 297/297 · p95 −31% · 기본을 켜 두면 T2·T3에서 플래그 누락으로 조건이 섞일 위험이 없다 | `RESEARCH_PARALLEL` 비워두면 on, `0/false/no/off`면 off, **그 외 값은 `ConfigError`**(오타 거부). 노드 팩토리 인자 기본은 1 그대로(순차 응답에 의존하는 기존 테스트 때문) — 실행 진입점이 설정을 읽는다. 플래그 없는 bench가 on·실효 4로 도는 테스트 추가 | `668b207` |
+| ② | `compare_bench_runs.py`: `parallel`이 다르면 기본 거부, `--allow-parallel-mismatch`일 때만 비교 | `parallel` 키가 없는 옛 결과는 순차(`false`)로 읽는다 → **S0c ↔ off는 대조되고 S0c ↔ on은 거부된다.** 결과에 `parallel`·`parallel_mismatch_allowed`. `compare_p1_concurrency.py`는 허용 인자를 넘긴다 — P1 판정 재계산 결과 불변 확인. 실파일로 off ↔ on 기본 거부(종료 2) 확인 | `2421898` |
+| ③ | span 귀속 검사기를 레포에 커밋, `--require-trace`에 포함, 불일치 행이면 부분 결과 없이 멈춤. 변조 사본 테스트 | `bench_golden.attribution_problems` + 행의 `attribution_problems`(None = 검사 불가, [] = 없음) + `scripts/check_attribution.py`(저장 결과 재검사). 아래 참고 | `58208b8` |
+
+**③ 세부**
+
+- 검사 항목: 호출 span 키 중복 · 후보 있는 항목마다 호출 span 정확히 1개 · 후보 없는 항목엔 없음 · topic·`input_hash` 일치 ·
+  후보 doc_id가 호출 프롬프트에 **후보 순서대로** · supporting ⊆ 후보.
+- ⚠️ **span 입력이 4,000자에서 잘린다.** 실측 on 결과에 잘린 Researcher 프롬프트가 **7건** 있었다. 잘림 표식(`...<Nchars>`)이
+  있을 때만 뒤쪽 후보 누락을 허용한다 — 이 규칙 없이 넣었으면 본측정 결과가 오탐으로 거부됐다. 표식 없이 빠지면 불일치로 센다(테스트 있음).
+- 재검사: `python scripts/check_attribution.py docs/eval/bench-v1.2-p1-{pathcheck,off,on}.json` → **3 · 30 · 30행 불일치 0.**
+  S0c는 `item_index`가 없어 **검사 불가**(종료 2) — 의도된 동작.
+- 실측 on 결과의 변조 사본: 해시 맞바꿈 2건 · 후보·supporting 맞바꿈 2건 **모두 검출.**
+- 테스트: 깨끗한 동시 실행 0건 · 해시 맞바꿈 · 후보 맞바꿈 · topic · 고아 span · 중복 · 후보 밖 supporting · 잘림 허용 경계 ·
+  bench가 `EXIT_TRACE`로 멈추고 결과 파일을 남기지 않음 · `--require-trace` 없으면 행에 기록만 · CLI와 bench 판정 일치.
+- session-20 초판 §4의 scratchpad 일회성 검사기는 이것으로 대체됐다.
+
+**§7 갱신:** ①②③ **종료.** 남은 것 — 엔드포인트 동시 수용량(상한 4, 한 시점만 확인) · 내부 재시도로 흡수된 429 미계측 ·
+텍스트 층 비결정성 원인 미확정 · Langfuse 스레드 안전성 미검증 · session-19에서 넘어온 4건.
+
+**§8 갱신 — 다음 세션 진입 조건**
+
+- [ ] T2·T3는 **기본값(on, 상한 4)으로** 잰다 — 플래그 불필요. 결과 JSON `parallel: true`, `effective_concurrency: 4` 확인
+- [ ] 비교 기준 = `docs/eval/bench-v1.2-p1-on.json`. `compare_bench_runs.py`로 바로 대조된다(둘 다 on). off 결과와 대조하려면 `--allow-parallel-mismatch`
+- [ ] `--require-trace`가 이제 귀속 검사까지 한다 — 불일치면 멈춘다(부분 결과 없음)
+- [ ] 한 번에 하나(ADR-002), 판정 기준은 측정 전에 등록, 승인 게이트 6항목 — 1번 `VLLM_BASE`부터

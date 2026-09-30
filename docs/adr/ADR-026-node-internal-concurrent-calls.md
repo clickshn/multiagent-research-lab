@@ -1,10 +1,10 @@
 # ADR-026: Researcher·Verifier 노드 안 LLM 호출 동시 실행 — 그래프 팬아웃 대신
 
-- **Status:** Proposed
+- **Status:** Accepted (2026-09-30, session-20 — 기본값 켜짐으로 결정, 아래 Amendment)
 - **Date:** 2026-09-30
 - **Decision:** Researcher(`nodes.py` 항목 루프)와 Verifier(outline 루프)의 항목별 LLM 호출을 **노드 안에서**
   스레드 풀로 동시에 보낸다. 그래프 구조·프롬프트(`PROMPT_VERSION 2026-09-30.1`)·판정 로직은 바꾸지 않는다.
-  검색은 모듈 락으로 직렬화한다. 상한 기본 4, on/off는 `RESEARCH_PARALLEL` 한 줄(기본 꺼짐).
+  검색은 모듈 락으로 직렬화한다. 상한 기본 4, on/off는 `RESEARCH_PARALLEL` 한 줄 — **기본 켜짐**(Amendment), `--parallel off`로 끈다.
 - **Scope:** multiagent-research-lab (`src/orchestrator/nodes.py` · `graph.py` · `src/obs/tracer.py` · `src/providers/config.py` · `scripts/bench_golden.py`)
 - **Decision Source:** Human
 
@@ -107,7 +107,7 @@
 
 - 엔드포인트 동시 수용량을 모른다. 상한 4에서 오류 0이었지만 다른 부하·다른 날은 재지 않았다. 내부 재시도로 흡수된 429는 보이지 않는다.
 - Langfuse 백엔드의 스레드 안전성은 검증하지 않았다(bench·클라우드는 로컬 JSONL만 쓴다, ADR-016).
-- 기본값이 꺼짐이라, 켠 채로 재야 할 이후 측정(T2·T3)에서 `--parallel on`을 빠뜨리면 기준(`v1.2-p1-on`)과 조건이 달라진다 — 결과 JSON의 `parallel`로 확인한다.
+- ~~기본값이 꺼짐이라 T2·T3에서 `--parallel on`을 빠뜨리면 조건이 섞인다~~ → Amendment로 해소(기본 켜짐 + `compare_bench_runs` 불일치 거부).
 
 ## Implementation
 
@@ -115,13 +115,33 @@
 - [x] 테스트: off = S0c 경로(풀 미생성·호출 순서), 결과 순서 보존, 검색 직렬화(락 대기), span-항목 귀속, 상한 준수, 설정 검증 (224 → 246)
 - [x] 판정 스크립트 `compare_p1_concurrency.py` — 측정 전 커밋 (`c07a5a1`)
 - [x] 경로 확인 3건 · 동시간 대조 30 × 2 (`6323e91`)
-- [ ] 기본값을 켤지 결정 (현재 꺼짐, T2·T3 비교 기준은 `v1.2-p1-on`)
+- [x] 기본값 켜짐 (`668b207`) · `compare_bench_runs` parallel 불일치 거부 (`2421898`) · 귀속 검사 `--require-trace` 포함 (`58208b8`)
 - [ ] 다른 날·다른 부하에서의 오류·지연
+
+## Amendment — 2026-09-30 (session-20, 사용자 결정 · LLM 호출 0건)
+
+Proposed 상태에서 열려 있던 세 가지를 결정했다. 판정 결과(Evidence)는 바뀌지 않았다 — 재측정 없음.
+
+1. **기본값을 켠다 (상한 4).** 근거: 판정 지표 차이 0, 입력 동일 297/297, wall p95 −31%. 기본을 켜 두면 T2·T3
+   (비교 기준 `bench-v1.2-p1-on.json`)에서 플래그 누락으로 조건이 섞일 위험이 없다. `RESEARCH_PARALLEL`은 비워두면 on,
+   `0/false/no/off`면 off, 그 외 값은 `ConfigError`(오타를 조용히 한쪽으로 해석하지 않는다). 노드 팩토리 인자의 기본은 1(순차)
+   그대로이고 실행 진입점(bench·`run_research.py`)이 설정을 읽어 넘긴다. → `668b207`
+2. **`compare_bench_runs.py`는 `parallel`이 다른 두 회차를 기본 거부한다.** `--allow-parallel-mismatch`(off ↔ on 같은 의도적
+   대조)일 때만 대조한다. `parallel` 키가 없는 결과(session-19까지)는 순차(`false`)로 읽는다 — S0c ↔ off는 그대로 대조된다.
+   `compare_p1_concurrency.py`는 off ↔ on 전용이라 허용 인자를 넘긴다(판정 재계산 결과 불변). → `2421898`
+3. **span-항목 귀속 검사를 bench `--require-trace`에 넣는다.** 불일치 행이 나오면 부분 결과 없이 `EXIT_TRACE`로 멈춘다.
+   검사(`attribution_problems`): 호출 span 키 중복 · 후보 있는 항목마다 호출 span 1개 · topic·`input_hash` 일치 · 후보 doc_id가
+   호출 프롬프트에 순서대로 · supporting ⊆ 후보. span 입력은 4,000자에서 잘리므로 잘림 표식이 있을 때만 뒤쪽 후보 누락을 허용한다
+   (실측 on 결과에 잘린 Researcher 프롬프트 7건 — 오탐 0). 저장된 결과 재검사는 `scripts/check_attribution.py`
+   (p1-pathcheck/off/on 불일치 0, S0c는 키가 없어 검사 불가). 해시·후보를 맞바꾼 변조 사본을 잡는 테스트 포함.
+   T3의 도구 인자 평가도 span에서 되읽으므로 같은 검사가 필요하다. → `58208b8`
+
+테스트 246 → 256.
 
 ## Reversibility
 
 - **Reversible:** Yes
-- **Rollback:** `RESEARCH_PARALLEL`을 비우거나 bench `--parallel off` — 순차 경로는 S0c 코드 경로와 같다. 코드 원복은 `c07a5a1` revert.
+- **Rollback:** `RESEARCH_PARALLEL=off` 또는 bench `--parallel off` — 순차 경로는 S0c 코드 경로와 같다. 기본값만 되돌리려면 `668b207` revert, 기능 전체는 `c07a5a1`까지 revert.
 - **Migration Cost:** Low
 
 ## References
