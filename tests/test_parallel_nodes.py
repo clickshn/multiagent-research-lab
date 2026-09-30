@@ -381,3 +381,75 @@ def test_concurrency_cap_is_validated(monkeypatch, raw: str) -> None:
     monkeypatch.setenv("RESEARCH_MAX_CONCURRENCY", raw)
     with pytest.raises(ConfigError):
         load_concurrency_settings(env_file=None)
+
+
+# ---------------------------------------------------------------------------
+# 귀속 검사기 (bench --require-trace, session-20 결정 3)
+# ---------------------------------------------------------------------------
+
+
+def _concurrent_items(tmp_path):
+    delays = {t: 0.02 * (len(TOPICS) - i) for i, t in enumerate(TOPICS)}
+    trace = LocalJsonlTracer(tmp_path).trace("run")
+    out = make_researcher_node(TopicProvider(delays=delays), retriever=TopicRetriever(),
+                               trace=trace, max_concurrency=4)(_state(TOPICS))
+    records = _spans(tmp_path)
+    return bench_golden.item_records(out["findings"], records), records
+
+
+def test_attribution_checker_passes_clean_concurrent_run(tmp_path) -> None:
+    items, records = _concurrent_items(tmp_path)
+    assert bench_golden.attribution_problems(items, records) == []
+
+
+def test_attribution_checker_catches_swapped_hashes(tmp_path) -> None:
+    items, records = _concurrent_items(tmp_path)
+    tampered = json.loads(json.dumps(items))
+    tampered[0]["input_hash"], tampered[3]["input_hash"] = (
+        tampered[3]["input_hash"], tampered[0]["input_hash"])
+    problems = bench_golden.attribution_problems(tampered, records)
+    assert len(problems) == 2 and all("input_hash" in p for p in problems)
+
+
+def test_attribution_checker_catches_swapped_candidates(tmp_path) -> None:
+    items, records = _concurrent_items(tmp_path)
+    tampered = json.loads(json.dumps(items))
+    for key in ("candidates", "supporting"):
+        tampered[1][key], tampered[2][key] = tampered[2][key], tampered[1][key]
+    problems = bench_golden.attribution_problems(tampered, records)
+    assert len(problems) == 2 and all("프롬프트" in p for p in problems)
+
+
+def test_attribution_checker_catches_topic_and_orphan_and_duplicate(tmp_path) -> None:
+    items, records = _concurrent_items(tmp_path)
+    renamed = json.loads(json.dumps(items))
+    renamed[0]["topic"] = "다른 항목"
+    assert any("topic" in p for p in bench_golden.attribution_problems(renamed, records))
+
+    emptied = json.loads(json.dumps(items))
+    emptied[4]["candidates"], emptied[4]["supporting"] = [], []
+    assert any("후보 없는 항목" in p for p in bench_golden.attribution_problems(emptied, records))
+
+    call = next(r for r in records if r.get("name") == "researcher_call")
+    assert any("중복" in p for p in bench_golden.attribution_problems(items, records + [call]))
+
+    outside = json.loads(json.dumps(items))
+    outside[2]["supporting"] = ["doc:없음"]
+    assert any("후보 밖" in p for p in bench_golden.attribution_problems(outside, records))
+
+
+def test_attribution_checker_allows_only_truncated_tail(tmp_path) -> None:
+    """span 입력은 4,000자에서 잘린다 — 잘림 표식이 있을 때만 뒤쪽 후보 누락을 허용한다."""
+    items, records = _concurrent_items(tmp_path)
+    item = items[0]
+    call = next(r for r in records if r.get("name") == "researcher_call"
+                and r["metadata"]["item_index"] == 0)
+    user = call["input"]["user"]
+    cut = user.index(f"doc_id={item['candidates'][-1]['doc_id']}\n")
+    other = [r for r in records if r is not call]
+
+    truncated = {**call, "input": {**call["input"], "user": user[:cut] + "...<9999chars>"}}
+    assert bench_golden.attribution_problems(items, other + [truncated]) == []
+
+    silently_cut = {**call, "input": {**call["input"], "user": user[:cut]}}
+    assert any("없음" in p for p in bench_golden.attribution_problems(items, other + [silently_cut]))

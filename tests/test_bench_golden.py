@@ -605,3 +605,36 @@ def test_compare_refuses_parallel_mismatch_unless_allowed(tmp_path) -> None:
     b.write_text(json.dumps(on), encoding="utf-8")
     assert compare_bench_runs.main([str(a), str(b)]) == 2
     assert compare_bench_runs.main([str(a), str(b), "--allow-parallel-mismatch"]) == 0
+
+
+def test_require_trace_stops_on_attribution_mismatch_and_saves_nothing(bench) -> None:
+    """session-20 결정 3: 귀속이 어긋난 행이 나오면 부분 결과 없이 멈춘다."""
+    _build_index(bench.persist_dir, "bench_test")
+    original = bench_golden.item_records
+
+    def swapped(findings, records):
+        items = original(findings, records)
+        if items and len(items) >= 2:
+            items[0]["input_hash"], items[1]["input_hash"] = (
+                items[1]["input_hash"], items[0]["input_hash"])
+        return items
+
+    bench.monkeypatch.setattr(bench_golden, "item_records", swapped)
+    assert bench.run("--label", "attr-bad", "--require-trace") == bench_golden.EXIT_TRACE
+    assert not (bench.out_dir / "bench-attr-bad.json").exists()
+
+    # --require-trace가 없으면 멈추지 않고 행에 기록만 한다
+    assert bench.run("--label", "attr-warn") == 0
+    rows = _load(bench.out_dir / "bench-attr-warn.json")["rows"]
+    assert all(len(r["attribution_problems"]) == 2 for r in rows)
+
+
+def test_clean_run_records_empty_attribution_problems_and_cli_agrees(bench, monkeypatch) -> None:
+    from scripts import check_attribution
+
+    _build_index(bench.persist_dir, "bench_test")
+    assert bench.run("--label", "attr-ok", "--parallel", "on", "--require-trace") == 0
+    result = _load(bench.out_dir / "bench-attr-ok.json")
+    assert all(r["attribution_problems"] == [] for r in result["rows"])
+    report = check_attribution.check(result, bench.persist_dir.parent / "traces")
+    assert report["problems"] == {} and report["unreadable"] == [] and report["items"] > 0

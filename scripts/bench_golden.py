@@ -41,6 +41,7 @@ import argparse
 import importlib
 import json
 import os
+import re
 import statistics
 import sys
 import time
@@ -367,6 +368,70 @@ def _item_key(fields: dict | None) -> tuple[int, int] | None:
     if not isinstance(revision, int) or not isinstance(index, int):
         return None
     return revision, index
+
+
+_TRUNCATION_MARK = re.compile(r"\.\.\.<\d+chars>$")
+
+
+def attribution_problems(items: Sequence[dict], trace_records: list[dict] | None) -> list[str]:
+    """span-항목 귀속 검사 (ADR-026). 빈 목록이면 불일치 없음.
+
+    `item_records`는 검색 span에서 후보를, 같은 키의 Researcher 호출 span에서 `input_hash`를
+    가져온다. 동시 실행에서는 span이 완료 순서로 쓰이므로, 그 짝이 **다른 항목의 것**이 아닌지
+    호출 span 쪽에서 거꾸로 확인한다. T3의 도구 인자 평가도 span에서 되읽으므로 같은 검사가 필요하다.
+
+    - 호출 span의 `(revision, item_index)`가 중복되지 않는다
+    - 후보가 있는 항목마다 호출 span이 정확히 하나 있고, 없는 항목에는 없다
+    - 그 span의 `topic`·`input_hash`가 항목과 같다
+    - 항목의 후보 doc_id가 그 span 프롬프트에 **후보 순서대로** 있다. 프롬프트가 `_safe()`에서
+      잘렸으면 뒤쪽 후보만 빠지는 것은 허용한다(잘림 표식이 있을 때만)
+    - supporting ⊆ 후보
+    """
+    problems: list[str] = []
+    calls: dict[tuple[int, int], dict] = {}
+    for record in trace_records or []:
+        if record.get("name") != "researcher_call":
+            continue
+        key = _item_key(record.get("metadata"))
+        if key is None:
+            problems.append("호출 span에 revision·item_index 없음")
+            continue
+        if key in calls:
+            problems.append(f"호출 span 키 중복 {key}")
+        calls[key] = record
+
+    expected_keys: set[tuple[int, int]] = set()
+    for item in items:
+        label = f"{item.get('topic')!r} (rev {item.get('revision')}, #{item.get('item_index')})"
+        key = (item.get("revision"), item.get("item_index"))
+        candidates = [c["doc_id"] for c in item.get("candidates") or []]
+        if not set(item.get("supporting") or []) <= set(candidates):
+            problems.append(f"{label}: supporting이 후보 밖")
+        if not candidates:
+            continue
+        expected_keys.add(key)
+        call = calls.get(key)
+        if call is None:
+            problems.append(f"{label}: 호출 span 없음")
+            continue
+        meta = call.get("metadata") or {}
+        if meta.get("topic") != item.get("topic"):
+            problems.append(f"{label}: 호출 span topic {meta.get('topic')!r}")
+        if meta.get("input_hash") != item.get("input_hash"):
+            problems.append(f"{label}: input_hash 불일치")
+        user = str((call.get("input") or {}).get("user") or "")
+        positions = [user.find(f"doc_id={doc_id}\n") for doc_id in candidates]
+        found = [p for p in positions if p != -1]
+        missing_tail_only = all(p == -1 for p in positions[len(found):])
+        if found != sorted(found) or not missing_tail_only:
+            problems.append(f"{label}: 후보가 호출 프롬프트에 순서대로 없음")
+        elif len(found) < len(candidates) and not _TRUNCATION_MARK.search(user):
+            problems.append(f"{label}: 후보 {len(candidates) - len(found)}건이 호출 프롬프트에 없음")
+
+    extra = set(calls) - expected_keys
+    if extra:
+        problems.append(f"후보 없는 항목에 호출 span {sorted(extra)}")
+    return problems
 
 
 def endpoint_errors(trace_records: list[dict] | None) -> dict:
@@ -738,6 +803,10 @@ def _run_case(case, *, args, label, run_index, provider, retriever, tracer, trac
         "retry_evidence": _new_evidence_from_retry(findings),
         "score": score,
         "items": items,
+        # None = 검사할 수 없음(트레이스·항목 기록 없음), [] = 불일치 없음 (ADR-026)
+        "attribution_problems": (
+            attribution_problems(items, trace_records) if items is not None else None
+        ),
         "endpoint_errors": endpoint_errors(trace_records),
         "local_trace": trace_records is not None,
         "draft_chars": len(state.get("draft", "")),
@@ -939,6 +1008,15 @@ def _bench(args, cases, golden, labels, out_paths, index_check, score_exposed, *
                 raise BenchRefused(
                     f"{row['case_id']}: 로컬 트레이스 또는 항목별 기록이 없습니다 "
                     f"(run_id={row['run_id']}). --require-trace라 여기서 멈춥니다.",
+                    EXIT_TRACE,
+                )
+            if args.require_trace and row["attribution_problems"]:
+                # span-항목 귀속이 어긋난 행은 후보·supporting·input_hash가 다른 항목의 것일 수
+                # 있다. 그 위에서 계산한 지표는 틀린 짝 위의 지표다 — 부분 결과 없이 멈춘다 (ADR-026).
+                raise BenchRefused(
+                    f"{row['case_id']}: span-항목 귀속 불일치 {len(row['attribution_problems'])}건 "
+                    f"(run_id={row['run_id']}): {row['attribution_problems'][:3]}. "
+                    "--require-trace라 여기서 멈춥니다.",
                     EXIT_TRACE,
                 )
         bench_s = time.perf_counter() - bench_started
