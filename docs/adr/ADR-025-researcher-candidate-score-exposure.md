@@ -2,9 +2,10 @@
 
 - **Status:** Proposed
 - **Date:** 2026-09-30
-- **Decision:** **미정 — 3안 비교 초안이다.** Researcher 후보 프롬프트에 실리는 절대 유사도
-  (`유사도 0.xxx`)를 (가) 제거 / (나) 질의 내부 정규화 / (다) 유지 + 경고 문구 중 어느 것으로
-  처리할지 사용자가 결정한다. 이 문서는 선택지와 근거만 정리하며 코드는 바뀌지 않았다.
+- **Decision:** **(가) 제거로 결정 (session-18). 적용은 S0c.** Researcher 후보 프롬프트의
+  절대 유사도(`유사도 0.xxx`)를 빼고 순위(`[1]`~`[4]`)만 남긴다. 순서는 **점수 노출 상태의
+  기준선(S0b) → 적용·재측정(S0c)** 이다. Status는 효과 판정 전까지 Proposed로 둔다.
+  아래 "판정 기준"은 **S0b 측정 전에 등록한다**(이 커밋이 bench 코드 변경보다 먼저다).
 - **Scope:** multiagent-research-lab (`src/orchestrator/nodes.py` `_format_candidates` / `prompts.py` Researcher 프롬프트)
 - **Decision Source:** Human
 
@@ -56,8 +57,46 @@ nodes.py:197    f"[{index}] doc_id={chunk.doc_id} (유사도 {chunk.score:.3f})\
 ### Selected
 
 - **Technology:** 해당 없음 (프롬프트 형식 결정)
-- **Architecture:** **미정.** (가)/(나)/(다) 중 택일 또는 조합 — 사용자 결정 대기
-- **Implementation:** 결정 전까지 `_format_candidates`·`PROMPT_VERSION` 변경 없음
+- **Architecture:** **(가) 점수 제거, 순위만 노출.** (나)·(다)는 기각 (Alternatives).
+- **Order:** ① **S0b** — v1.1 하네스 그대로(**점수 노출 상태**) 골든셋 30건 × 2회로 기준선과
+  자연 변동을 잰다. 결과 JSON·핸드오프에 "점수 노출 상태"를 명기한다.
+  ② **S0c** — `_format_candidates`에서 점수를 빼고 `PROMPT_VERSION`을 올린 뒤 같은 조건으로 재측정.
+- **Implementation:** S0b에서는 `_format_candidates`·`PROMPT_VERSION` 변경 없음. 변경은 S0c.
+
+### 판정 기준 (사전 등록 — S0b 측정 전에 고정한다)
+
+**효과 지표 — 위험군 조건부 선택률.**
+
+- 위험군: Evidence 표의 top-4 안 6건 **GS-011 · GS-013 · GS-015 · GS-017 · GS-018 · GS-021**.
+- ⚠️ **조건부로 센다.** 위험군 순위는 **골든셋 질의** 기준 검색 결과다. 파이프라인은
+  **Outliner 항목별로** `"{질의} {항목}"`을 검색하므로 항목마다 후보가 다르고, 정답이 후보에
+  없는 항목도 있다. 후보에 없는 정답은 점수 노출과 무관하게 고를 수 없다.
+- **분모:** 위험군 6건의 Researcher 호출(항목 × 회차) 중 **정답 doc_id가 그 호출의 후보 top-4에
+  있었던 것.** **분자:** 그중 Researcher가 정답을 `supporting`에 넣은 것.
+  선택률 = 분자 / 분모. **분모를 항상 병기한다**(ADR-022와 같은 이유 — n이 작다).
+- 1회차 호출만의 선택률도 함께 적는다(재시도 회차는 1회차 거절·Verifier 판정에 조건부라 성격이 다르다).
+  판정은 전체(항목 × 회차) 기준으로 한다.
+- 데이터 출처: `bench_golden.py` 행의 항목별 기록(후보 doc_id·순위, `supporting` doc_id).
+  후보는 로컬 JSONL 트레이스의 `researcher_retrieve` span에서 되읽는다 — **파이프라인 코드는
+  바꾸지 않는다.**
+
+**자연 변동의 정의.** S0b run1 ↔ run2(같은 코드·같은 인덱스·캐시 끔)의 차이:
+선택률 차이 |Δ선택률|, 케이스별 pass/fail 뒤집힘 건수.
+
+**판정 규칙 (S0c 결과를 S0b 두 회차와 비교).**
+
+| 판정 | 조건 |
+|---|---|
+| **효과 있음** | S0c 선택률이 S0b 두 회차 **모두보다** 높고, 그 차이가 자연 변동(S0b |Δ선택률|)을 넘는다 |
+| **변화 없음(무해)** | 효과 있음도 해악도 아니다 |
+| **해악** | ① S0c 선택률이 S0b 두 회차보다 낮고 그 차이가 자연 변동을 넘는다, **또는** ② S0b 대비 케이스별 pass/fail 뒤집힘 건수가 S0b run1↔run2 뒤집힘 건수를 넘는다 |
+
+- **해악이 아니면 제거를 유지한다.** "변화 없음"도 유지다 — 오도적 신호가 모델 입력에서
+  원리적으로 사라지는 것 자체가 목적이고, 되돌리면 그 신호가 돌아온다.
+- 해악이면 되돌리고(Reversibility) 원인을 조사한다. (나)·(다)로 자동 전환하지 않는다.
+- pass/fail은 **층별로** 비교한다(ADR-022). 합산 pass/fail로 판정하지 않는다.
+- 판정 기준(`bench_golden.py` `_score`)은 S0b·S0c에서 바꾸지 않는다. `min_citations`는
+  별도 열로만 기록한다.
 
 ## Rationale
 
@@ -94,7 +133,8 @@ nodes.py:197    f"[{index}] doc_id={chunk.doc_id} (유사도 {chunk.score:.3f})\
   후보는 이미 점수순이므로 `[1]`~`[4]` 번호가 순위 정보를 그대로 담는다.
 - **Cons:** 후보 간 간격 정보(1위와 2위가 0.001 차이인지 0.05 차이인지)도 함께 사라진다.
   모델이 신뢰도 신호를 잃는다.
-- **Rejected because:** 미결 (사용자 결정 대기)
+- **Selected.** 간격 정보 손실(Cons)은 감수한다 — 간격 역시 절대값에서 나온 신호라 같은
+  오도 위험을 가지며, 순위는 번호로 남는다.
 
 ### (나) 질의 내부 정규화값으로 바꿔 보여준다
 
@@ -103,7 +143,8 @@ nodes.py:197    f"[{index}] doc_id={chunk.doc_id} (유사도 {chunk.score:.3f})\
   min-max는 4위를 항상 0.0으로 만들어 "무관"으로 읽힐 위험이 새로 생기고, z-score는 n=4라
   분산 추정이 흔들린다. 1위 대비 차(`score − top`)가 가장 무난하나 설계 선택이 하나 더 늘어난다.
   정규화 방식 자체가 새 변수가 된다.
-- **Rejected because:** 미결 (사용자 결정 대기)
+- **Rejected because:** k=4에서 정규화가 불안정하고(min-max는 4위를 항상 0으로, z-score는
+  n=4 분산), **정규화 방식 자체가 새 하네스 변수**가 된다 — 한 번에 하나만 바꾼다(ADR-002).
 - **Recheck if:** 필터가 운영 검색 경로에 배선되어 점수 분포가 바뀔 때 (session-13 §6.2
   "필터 적용 후 분포를 먼저 봐야 한다", session-14 0.8303 → 0.7965)
 
@@ -113,7 +154,8 @@ nodes.py:197    f"[{index}] doc_id={chunk.doc_id} (유사도 {chunk.score:.3f})\
 - **Cons:** 모델 순응에 의존한다 — 같은 채널(자연어)에서 숫자와 경고가 경쟁한다
   (`prompts.py` 신뢰 경계 주석과 같은 한계). 그리고 **`PROMPT_VERSION`은 (가)·(나)와 똑같이
   올라간다** — "싸다"는 구현 비용 얘기이지 비교선 비용이 아니다.
-- **Rejected because:** 미결 (사용자 결정 대기)
+- **Rejected because:** 모델 순응에 의존한다(숫자와 경고가 같은 자연어 채널에서 경쟁).
+  그런데 `PROMPT_VERSION` 비용은 (가)와 같다 — 같은 비교선 비용을 내고 더 약한 보장을 얻는다.
 
 ## Consequences
 
@@ -139,11 +181,13 @@ nodes.py:197    f"[{index}] doc_id={chunk.doc_id} (유사도 {chunk.score:.3f})\
 
 ## Implementation
 
-- [ ] 사용자 결정: (가)/(나)/(다) 및 baseline 대비 순서
-- [ ] `_format_candidates` 변경 + `PROMPT_VERSION` 갱신
+- [x] 사용자 결정: **(가) 제거**, 순서 = 점수 노출 기준선(S0b) → 적용·재측정(S0c) (session-18)
+- [ ] S0b: 점수 노출 상태 기준선 30건 × 2회 + 자연 변동 (위 판정 기준의 before)
+- [ ] S0c: `_format_candidates` 변경 + `PROMPT_VERSION` 갱신
 - [ ] 테스트: 후보 블록에 절대 점수 문자열이 없는지(가·나) / 경고 문구가 있는지(다) 고정
 - [ ] 효과 측정: 위 top-4 위험군 6건(GS-011·013·015·017·018·021)을 전/후 비교 — Researcher가
-      정답을 `supporting`에 넣었는지. 자연 변동 폭(S0b) 측정 후에만 판정
+      정답을 `supporting`에 넣었는지(조건부 선택률, 위 판정 기준). 자연 변동 폭(S0b) 측정 후에만 판정
+- [ ] S0c 판정 후 Status → Accepted (해악이 아니면)
 - [ ] 문서: 결정 시 이 ADR의 Selected 갱신, session-13 §6.2 결정 대기 ① 종료 표기
 
 ## Reversibility
@@ -173,4 +217,4 @@ nodes.py:197    f"[{index}] doc_id={chunk.doc_id} (유사도 {chunk.score:.3f})\
 
 | Metric | Before | After | Target |
 | ------ | -----: | ----: | -----: |
-| 위험군 6건 중 Researcher가 정답을 고른 수 (ko) | 미측정 | 미측정 | 미정 |
+| 위험군 6건 조건부 선택률 (정답이 후보 top-4에 있던 Researcher 호출 중 `supporting` 포함) | S0b에서 측정 | S0c | 해악 아님 (판정 기준) |
