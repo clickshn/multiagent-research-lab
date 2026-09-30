@@ -1,0 +1,191 @@
+{
+  "base": "v1.2-p1-off",
+  "after": "v1.2-p1-on",
+  "calls_paired": 297,
+  "input_differs": 0,
+  "same_input_text_differs": 15,
+  "same_input_structured_differs": 0,
+  "text_differs_by_node": {
+    "researcher_call": 5,
+    "verifier_call": 10
+  },
+  "within_run_repeated_input": {
+    "base": {
+      "pairs": 31,
+      "text_differs": 5
+    },
+    "after": {
+      "pairs": 31,
+      "text_differs": 5
+    }
+  },
+  "unpaired_cases": [],
+  "calls": [
+    {
+      "case_id": "GS-001",
+      "call": "verifier_call",
+      "revision": 1,
+      "item_index": 0,
+      "structured_changed": false,
+      "completion_tokens": [
+        80,
+        80
+      ]
+    },
+    {
+      "case_id": "GS-001",
+      "call": "verifier_call",
+      "revision": 2,
+      "item_index": 0,
+      "structured_changed": false,
+      "completion_tokens": [
+        80,
+        80
+      ]
+    },
+    {
+      "case_id": "GS-005",
+      "call": "researcher_call",
+      "revision": 0,
+      "item_index": 0,
+      "structured_changed": false,
+      "completion_tokens": [
+        65,
+        63
+      ]
+    },
+    {
+      "case_id": "GS-011",
+      "call": "researcher_call",
+      "revision": 0,
+      "item_index": 2,
+      "structured_changed": false,
+      "completion_tokens": [
+        70,
+        67
+      ]
+    },
+    {
+      "case_id": "GS-012",
+      "call": "verifier_call",
+      "revision": 1,
+      "item_index": 0,
+      "structured_changed": false,
+      "completion_tokens": [
+        83,
+        69
+      ]
+    },
+    {
+      "case_id": "GS-013",
+      "call": "researcher_call",
+      "revision": 0,
+      "item_index": 1,
+      "structured_changed": false,
+      "completion_tokens": [
+        49,
+        69
+      ]
+    },
+    {
+      "case_id": "GS-013",
+      "call": "verifier_call",
+      "revision": 1,
+      "item_index": 2,
+      "structured_changed": false,
+      "completion_tokens": [
+        60,
+        60
+      ]
+    },
+    {
+      "case_id": "GS-013",
+      "call": "verifier_call",
+      "revision": 2,
+      "item_index": 2,
+      "structured_changed": false,
+      "completion_tokens": [
+        60,
+        60
+      ]
+    },
+    {
+      "case_id": "GS-014",
+      "call": "verifier_call",
+      "revision": 1,
+      "item_index": 2,
+      "structured_changed": false,
+      "completion_tokens": [
+        49,
+        49
+      ]
+    },
+    {
+      "case_id": "GS-018",
+      "call": "researcher_call",
+      "revision": 0,
+      "item_index": 0,
+      "structured_changed": false,
+      "completion_tokens": [
+        60,
+        60
+      ]
+    },
+    {
+      "case_id": "GS-018",
+      "call": "researcher_call",
+      "revision": 0,
+      "item_index": 1,
+      "structured_changed": false,
+      "completion_tokens": [
+        61,
+        61
+      ]
+    },
+    {
+      "case_id": "GS-018",
+      "call": "verifier_call",
+      "revision": 1,
+      "item_index": 0,
+      "structured_changed": false,
+      "completion_tokens": [
+        73,
+        68
+      ]
+    },
+    {
+      "case_id": "GS-021",
+      "call": "verifier_call",
+      "revision": 1,
+      "item_index": 0,
+      "structured_changed": false,
+      "completion_tokens": [
+        68,
+        75
+      ]
+    },
+    {
+      "case_id": "GS-021",
+      "call": "verifier_call",
+      "revision": 2,
+      "item_index": 0,
+      "structured_changed": false,
+      "completion_tokens": [
+        75,
+        68
+      ]
+    },
+    {
+      "case_id": "GS-022",
+      "call": "verifier_call",
+      "revision": 1,
+      "item_index": 0,
+      "structured_changed": false,
+      "completion_tokens": [
+        61,
+        59
+      ]
+    }
+  ],
+  "note": "관찰 — 판정 지표 아님 (ADR-026). 출력 텍스트는 내용이 아니라 호출 위치만 기록한다."
+}

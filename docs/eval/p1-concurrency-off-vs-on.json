@@ -1,0 +1,173 @@
+{
+  "condition": {
+    "golden_set_version": "2.0",
+    "prompt_version": "2026-09-30.1",
+    "model": "gemma-4-31B-it",
+    "embedding_model": "intfloat/multilingual-e5-small",
+    "corpus_docs": 37,
+    "cache_enabled": false,
+    "candidate_score_exposed": false,
+    "max_revisions": 2,
+    "top_k": 4
+  },
+  "concurrency": {
+    "off": {
+      "parallel": false,
+      "max_concurrency": 4,
+      "effective_concurrency": 1
+    },
+    "on": {
+      "parallel": true,
+      "max_concurrency": 4,
+      "effective_concurrency": 4
+    }
+  },
+  "run_order": [
+    {
+      "label": "v1.2-p1-off",
+      "generated_at": "2026-09-30T16:09:28+0900"
+    },
+    {
+      "label": "v1.2-p1-on",
+      "generated_at": "2026-09-30T16:14:17+0900"
+    }
+  ],
+  "logic": {
+    "cases_same_outline": 30,
+    "first_pass_calls_compared": 99,
+    "defects": [],
+    "logic_identical": true,
+    "time_variation_outline_changed": {
+      "total": 0,
+      "cases": []
+    }
+  },
+  "batching_nondeterminism": {
+    "base": "v1.2-p1-off",
+    "after": "v1.2-p1-on",
+    "n_cases": 30,
+    "verdict_flips": {
+      "total": 0,
+      "cases": []
+    },
+    "citation_set_diffs": {
+      "total": 0,
+      "cases": []
+    },
+    "first_pass_supporting_diffs": {
+      "total": 0,
+      "compared_items": 99,
+      "items": []
+    },
+    "cases_with_any_output_diff": [],
+    "revisions_changed": [],
+    "llm_calls_changed": []
+  },
+  "time_variation_off_vs_s0c": {
+    "base": "v1.2-s0c",
+    "after": "v1.2-p1-off",
+    "n_cases": 30,
+    "verdict_flips": {
+      "total": 0,
+      "cases": []
+    },
+    "citation_set_diffs": {
+      "total": 0,
+      "cases": []
+    },
+    "first_pass_supporting_diffs": {
+      "total": 0,
+      "compared_items": 99,
+      "items": []
+    },
+    "cases_with_any_output_diff": [],
+    "revisions_changed": [],
+    "llm_calls_changed": []
+  },
+  "latency": {
+    "off": {
+      "n": 30,
+      "p50_s": 11.888,
+      "p95_s": 20.828,
+      "mean_s": 11.499,
+      "max_s": 28.09,
+      "bench_wall_clock_s": 345.63
+    },
+    "on": {
+      "n": 30,
+      "p50_s": 9.558,
+      "p95_s": 14.396,
+      "mean_s": 8.45,
+      "max_s": 18.515,
+      "bench_wall_clock_s": 254.03
+    },
+    "note": "wall_clock_s (케이스 1건 전체), 워밍업 제외. S0c와는 비교하지 않는다."
+  },
+  "paired_speedup": {
+    "on_over_off_p50": 0.731,
+    "on_over_off_min": 0.617,
+    "on_over_off_max": 0.932,
+    "n": 30
+  },
+  "calls": {
+    "off": {
+      "total": 297,
+      "by_node": {
+        "outliner": 30,
+        "researcher": 161,
+        "verifier": 76,
+        "writer": 30
+      },
+      "per_item_mean": 3.0,
+      "per_item_p50": 2.667,
+      "per_item_p95": 4.0,
+      "billed_tokens": 313047,
+      "prompt_tokens": 295040,
+      "completion_tokens": 18007
+    },
+    "on": {
+      "total": 297,
+      "by_node": {
+        "outliner": 30,
+        "researcher": 161,
+        "verifier": 76,
+        "writer": 30
+      },
+      "per_item_mean": 3.0,
+      "per_item_p50": 2.667,
+      "per_item_p95": 4.0,
+      "billed_tokens": 313041,
+      "prompt_tokens": 295040,
+      "completion_tokens": 18001
+    },
+    "s0c": {
+      "total": 297,
+      "by_node": {
+        "outliner": 30,
+        "researcher": 161,
+        "verifier": 76,
+        "writer": 30
+      },
+      "per_item_mean": 3.0,
+      "per_item_p50": 2.667,
+      "per_item_p95": 4.0,
+      "billed_tokens": 313047,
+      "prompt_tokens": 295040,
+      "completion_tokens": 18007
+    }
+  },
+  "endpoint_errors": {
+    "off": {
+      "total": 0,
+      "rate_limit": 0,
+      "timeout": 0,
+      "other": 0
+    },
+    "on": {
+      "total": 0,
+      "rate_limit": 0,
+      "timeout": 0,
+      "other": 0
+    }
+  }
+}

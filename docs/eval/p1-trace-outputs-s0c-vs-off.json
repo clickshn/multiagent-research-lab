@@ -1,0 +1,47 @@
+{
+  "base": "v1.2-s0c",
+  "after": "v1.2-p1-off",
+  "calls_paired": 297,
+  "input_differs": 0,
+  "same_input_text_differs": 2,
+  "same_input_structured_differs": 0,
+  "text_differs_by_node": {
+    "verifier_call": 2
+  },
+  "within_run_repeated_input": {
+    "base": {
+      "pairs": 31,
+      "text_differs": 5
+    },
+    "after": {
+      "pairs": 31,
+      "text_differs": 5
+    }
+  },
+  "unpaired_cases": [],
+  "calls": [
+    {
+      "case_id": "GS-013",
+      "call": "verifier_call",
+      "revision": null,
+      "item_index": null,
+      "structured_changed": false,
+      "completion_tokens": [
+        60,
+        60
+      ]
+    },
+    {
+      "case_id": "GS-013",
+      "call": "verifier_call",
+      "revision": null,
+      "item_index": null,
+      "structured_changed": false,
+      "completion_tokens": [
+        60,
+        60
+      ]
+    }
+  ],
+  "note": "관찰 — 판정 지표 아님 (ADR-026). 출력 텍스트는 내용이 아니라 호출 위치만 기록한다."
+}
