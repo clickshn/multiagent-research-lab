@@ -1202,7 +1202,7 @@ JSON으로** 쌓인다 (ADR-008). `var/`는 `.gitignore` 대상이라 커밋되�
 | `docs/problem-statement.md` | 문제·제약·목표·성공 기준 |
 | `docs/architecture.md` | 개념도, 구성 요소, 그래프 배선 |
 | `docs/governance.md` | 승인 게이트·ADR·시크릿 취급·측정 방법론 규칙 (에이전트 세션에 자동 로드) |
-| `docs/adr/` | 아키텍처 결정 기록 **ADR-001 ~ ADR-025** (아래 §8.1) |
+| `docs/adr/` | 아키텍처 결정 기록 **ADR-001 ~ ADR-026** (아래 §8.1) |
 | `docs/contracts/ai-news-ontology-export-v1.md` | **온톨로지 코퍼스 출력 계약 v1** — 생산자 레포와의 인터페이스 (ADR-018) |
 | `docs/security/owasp-notes.md` | **OWASP LLM Top 10 정리 + 인프라 수준 리스크** |
 | `docs/security/injection-results-session-05.md` | **인젝션 10건 방어 전/후 실측 원자료** |
@@ -1250,6 +1250,7 @@ JSON으로** 쌓인다 (ADR-008). `var/`는 `.gitignore` 대상이라 커밋되�
 | [023](docs/adr/ADR-023-ontology-filter-arms-postprocess.md) | 온톨로지 필터는 **프로브 후처리 arm**, 필터 값은 골든셋 선언에서만 (= 오라클) | 14 |
 | [024](docs/adr/ADR-024-citation-ontology-metadata-rendered-by-code.md) | **인용의 온톨로지 메타는 코드가 렌더링한다** — LLM 입력에 넣지 않는다 | 16 |
 | [025](docs/adr/ADR-025-researcher-candidate-score-exposure.md) | **Researcher 후보에서 유사도 점수를 뺀다** — 순위만 남긴다. S0c 판정 무해 확인 | 17–19 |
+| [026](docs/adr/ADR-026-node-internal-concurrent-calls.md) | **Researcher·Verifier 노드 안 LLM 호출 동시 실행** (그래프 불변, 검색 직렬, 상한 4, 기본 꺼짐) — 동시간 대조 wall p95 20.83 → 14.40s, 로직 동일(입력 해시 99/99), 인용·pass/fail 차이 0 | 20 |
 
 ADR 작성은 별도 스킬로 분리해 두었다 — **[clickshn/adr-skill](https://github.com/clickshn/adr-skill)**.
 결정 발화(`"~쓰기로 했다"`)나 의존성 파일 변경에 반응해 템플릿을 채우고, **대화에 없는
