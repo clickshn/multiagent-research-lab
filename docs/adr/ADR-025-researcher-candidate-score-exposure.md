@@ -1,11 +1,14 @@
 # ADR-025: Researcher 후보 프롬프트의 유사도 점수 노출 — 제거 / 정규화 / 경고 중 택일
 
-- **Status:** Proposed
+- **Status:** Accepted (2026-09-30, session-19 — S0c 판정 **무해 확인**)
 - **Date:** 2026-09-30
-- **Decision:** **(가) 제거로 결정 (session-18). 적용은 S0c.** Researcher 후보 프롬프트의
+- **Decision:** **(가) 제거 — 적용 완료 (`PROMPT_VERSION 2026-09-30.1`).** Researcher 후보 프롬프트의
   절대 유사도(`유사도 0.xxx`)를 빼고 순위(`[1]`~`[4]`)만 남긴다. 순서는 **점수 노출 상태의
-  기준선(S0b) → 적용·재측정(S0c)** 이다. Status는 효과 판정 전까지 Proposed로 둔다.
-  아래 "판정 기준"은 **S0b 측정 전에 등록한다**(이 커밋이 bench 코드 변경보다 먼저다).
+  기준선(S0b) → 적용·재측정(S0c)** 으로 진행했다. 판정 기준은 S0b 측정 전에 등록했고,
+  S0c 측정 전에 Amendment(session-19)로 교체했다.
+- **Result:** **무해 확인.** 1회차 Researcher 짝 비교 순감소 **0** (적격 15쌍, hit 14 → 14),
+  pass/fail 순 뒤집힘 **0** (A 0/14 · B 0/9 · C 0/7). **효과 입증은 주장하지 않는다** — 개선 여지가
+  최대 1건인 설계였다. 상세는 아래 "Evaluation".
 - **Scope:** multiagent-research-lab (`src/orchestrator/nodes.py` `_format_candidates` / `prompts.py` Researcher 프롬프트)
 - **Decision Source:** Human
 
@@ -245,13 +248,15 @@ nodes.py:197    f"[{index}] doc_id={chunk.doc_id} (유사도 {chunk.score:.3f})\
 ## Implementation
 
 - [x] 사용자 결정: **(가) 제거**, 순서 = 점수 노출 기준선(S0b) → 적용·재측정(S0c) (session-18)
-- [ ] S0b: 점수 노출 상태 기준선 30건 × 2회 + 자연 변동 (위 판정 기준의 before)
-- [ ] S0c: `_format_candidates` 변경 + `PROMPT_VERSION` 갱신
-- [ ] 테스트: 후보 블록에 절대 점수 문자열이 없는지(가·나) / 경고 문구가 있는지(다) 고정
-- [ ] 효과 측정: 위 top-4 위험군 6건(GS-011·013·015·017·018·021)을 전/후 비교 — Researcher가
-      정답을 `supporting`에 넣었는지(조건부 선택률, 위 판정 기준). 자연 변동 폭(S0b) 측정 후에만 판정
-- [ ] S0c 판정 후 Status → Accepted (해악이 아니면)
-- [ ] 문서: 결정 시 이 ADR의 Selected 갱신, session-13 §6.2 결정 대기 ① 종료 표기
+- [x] S0b: 점수 노출 상태 기준선 30건 × 2회 + 자연 변동 (session-18)
+- [x] 판정 규칙 Amendment — S0c 측정 전 커밋 (`d855242`, session-19)
+- [x] 동시간 대조 run3 — 기존 프롬프트 30건 × 1회, 프롬프트 변경 전 커밋 (`74d01e7`)
+- [x] 판정 계산 스크립트 `scripts/compare_adr025_pairs.py` — S0c 측정 전 커밋 (`457758f`)
+- [x] S0c: `_format_candidates` 변경 + `PROMPT_VERSION` `2026-09-16.1` → `2026-09-30.1` (`77e60bf`)
+- [x] 테스트: 렌더링된 Researcher 프롬프트에 점수 문자열·"유사도"가 없음 (`tests/test_nodes.py`)
+- [x] 효과 측정: S0c 30건 × 1회, run3 대비 짝 비교 → **무해 확인**
+- [x] Status → Accepted
+- [x] 문서: Selected 갱신. session-13 §6.2 결정 대기 ①은 이 ADR의 Accepted로 종료 (session-19 핸드오프에 표기)
 
 ## Reversibility
 
@@ -278,6 +283,37 @@ nodes.py:197    f"[{index}] doc_id={chunk.doc_id} (유사도 {chunk.score:.3f})\
 
 ### Evaluation
 
-| Metric | Before | After | Target |
-| ------ | -----: | ----: | -----: |
-| 위험군 6건 조건부 선택률 (정답이 후보 top-4에 있던 Researcher 호출 중 `supporting` 포함) | S0b에서 측정 | S0c | 해악 아님 (판정 기준) |
+**조건 (전 회차 공통):** 골든셋 2.0 (n=30, 층 A 14 · B 9 · C 7) · 코퍼스 37 · `index_check` clean ·
+`cache_enabled: false` · `max_revisions=2` · `top_k=4` · temperature 0 · `--require-trace` (트레이스 없는 행 0) ·
+`endpoint_fp=1897f0ecc081`. **Before = run3** (`v1.2-s0c-run3-old`, 점수 노출, `2026-09-16.1`, 14:14 KST),
+**After = S0c** (`v1.2-s0c`, 점수 제거, `2026-09-30.1`, 14:35 KST). run1(S0b, 13:47)은 병기만 한다.
+
+| Metric | Before (run3) | After (S0c) | run1 병기 | 판정 문턱 | 결과 |
+| ------ | -----: | ----: | ----: | -----: | --- |
+| **1차** 위험군 1회차 짝 — 적격 쌍 / hit | 15 / 14 | 15 / 14 | 15 / 14 | — | 1회차 항목·후보 **30건 전부 일치** (짝 성립) |
+| **1차** 감소 · 증가 · **순감소** | — | 0 · 0 · **0** | 0 · 0 · 0 | ≥ 2 = 해악 | 해악 아님 |
+| **2차** 전 회차 조건부 선택률 (분자/분모) | 15/17 | 15/17 | 15/17 | 판정 안 함 | 분모 변화 없음 |
+| pass/fail 순 뒤집힘 (층 A · B · C) | — | 0 (0/14 · 0/9 · 0/7) | 0 | ≥ 2 = 해악 | 해악 아님 |
+| 인용 집합(`cited_doc_ids`) 차이 | — | 0 / 30 | 0 / 30 | 판정 안 함 | |
+| 논리 호출 | 296 | 297 | 296 | 판정 안 함 | Verifier 75 → 76 |
+| 청구 토큰 합 | 319,458 | 313,047 (−2.0%) | 319,456 | 판정 안 함 | 입력 −6,461 (점수 문자열 제거분) · 출력 +50 |
+| 파이프라인 wall p50 / p95 | 12.03s / 21.86s | 11.95s / 21.08s | 11.93s / 21.80s | 판정 안 함 | |
+
+- **판정: 무해 확인.** 1건 차이도 없어 "관찰" 항목도 없다.
+- **1회차 Researcher 호출은 99건 전부(위험군 밖 포함) `supporting`이 run3과 같다.** 점수 문자열을 빼도
+  1회차 선택은 한 건도 바뀌지 않았다.
+- **재시도 호출(revision ≥ 1)은 62건 중 3건이 달랐다** — 전부 위험군 밖: GS-001(`[]` → 정답 1건),
+  GS-003(`[]` → 정답 1건), GS-016(정답 1건 → `[]`). Verifier 호출이 +1 / +1 / −1 변했지만 세 케이스 모두
+  `uncovered_count`·인용 집합·pass/fail이 같다(재시도 선택이 Verifier에서 걸렀거나 이미 인용된 문서였다).
+  재시도 호출은 판정 지표 밖이며 이 3건은 기록만 한다.
+- **GS-011 "모델의 보상 속임수(reward hacking/gaming) 정의 및 사례"** — 정답 `arXiv:2609.19101v1`이
+  1회차·재시도 모두 후보 **1위**인데, 점수 노출(run1·run2·run3)과 제거(S0c) **네 번 모두** `supporting = []`.
+  **점수를 빼도 고르지 않는다** — 미선택의 원인은 점수가 아니라, 문서가 "정의" 항목을 뒷받침하지 않는다고
+  모델이 읽는 쪽일 가능성이 크다(이 데이터로 확정하지는 않는다).
+- **시간 간 변동(run1 ↔ run3, 약 27분 간격·별도 프로세스):** pass/fail 뒤집힘 0, 인용 차이 0, T·revision·
+  호출 수 변화 0, 토큰 차이 1건(GS-013 2토큰). 연속 실행 변동(run1 ↔ run2)과 같은 폭이다. **같은 날 30분
+  안의 두 시점**이라 다른 날·다른 부하의 변동은 여전히 재지 않았다.
+- **한계:** 기준선 1회차가 14/15라 개선 여지가 최대 1건이다. 이 실험은 **"무해"까지만** 판정한다.
+- 원자료: `docs/eval/bench-v1.2-s0c-run3-old.json` · `bench-v1.2-s0c.json` · `bench-v1.2-s0c-pathcheck.json` ·
+  `adr025-pairs-s0c-vs-run3.json`(판정) · `adr025-pairs-s0c-vs-s0b-run1.json`(병기) ·
+  `bench-compare-v1.2-s0b-run1-vs-s0c-run3.json`(시간 간 변동)

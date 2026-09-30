@@ -1,0 +1,890 @@
+{
+  "label": "v1.2-s0c-pathcheck",
+  "run_index": 1,
+  "runs_in_process": 1,
+  "generated_at": "2026-09-30T14:25:05+0900",
+  "n_cases": 3,
+  "golden_set_version": "2.0",
+  "cache_enabled": false,
+  "candidate_score_exposed": false,
+  "prompt_version": "2026-09-30.1",
+  "model": "gemma-4-31B-it",
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "corpus_docs": 37,
+  "index_check": {
+    "queue_rows": 37,
+    "distinct_ids": 37,
+    "indexed_docs": 37,
+    "operations": {
+      "2": 37
+    },
+    "clean": true
+  },
+  "max_revisions": 2,
+  "top_k": 4,
+  "warmup": {
+    "embedding_cold_load_s": 28.026,
+    "embedding_warm_encode_ms": 41.79,
+    "chroma_first_query_s": 5.395,
+    "litellm_import_s": 9.481,
+    "note": "기동 1회 비용이며 아래 지연 수치에 포함되지 않는다."
+  },
+  "latency": {
+    "wall": {
+      "n": 3,
+      "mean": 9.273,
+      "p50": 7.672,
+      "p95": 15.815,
+      "max": 15.815
+    },
+    "llm": {
+      "n": 3,
+      "mean": 8.956,
+      "p50": 7.25,
+      "p95": 15.596,
+      "max": 15.596
+    },
+    "other": {
+      "n": 3,
+      "mean": 0.049,
+      "p50": 0.051,
+      "p95": 0.053,
+      "max": 0.053
+    },
+    "retrieval": {
+      "n": 3,
+      "mean": 0.267,
+      "p50": 0.255,
+      "p95": 0.371,
+      "max": 0.371
+    },
+    "llm_per_call_mean_s": 0.843,
+    "percentile_method": "nearest-rank (관측값만 돌려준다)",
+    "note": "워밍업(임베딩·Chroma·litellm 임포트)은 측정 전에 끝나 여기 포함되지 않는다."
+  },
+  "tokens": {
+    "prompt_total": 31361,
+    "completion_total": 1328,
+    "billed_total": 32689,
+    "per_request": {
+      "n": 3,
+      "mean": 10896.333,
+      "p50": 11424,
+      "p95": 11869,
+      "max": 11869
+    }
+  },
+  "calls": {
+    "total": 30,
+    "cache_hits": 0,
+    "by_node": {
+      "outliner": 3,
+      "researcher": 18,
+      "verifier": 6,
+      "writer": 3
+    },
+    "per_request": {
+      "n": 3,
+      "mean": 10.0,
+      "p50": 10,
+      "p95": 12,
+      "max": 12
+    },
+    "per_item": {
+      "n": 3,
+      "mean": 3.056,
+      "p50": 2.667,
+      "p95": 4.0,
+      "max": 4.0
+    },
+    "endpoint_requests_upper_bound": 90
+  },
+  "topic_count_distribution": {
+    "3": 2,
+    "4": 1
+  },
+  "revision_distribution": {
+    "2": 3
+  },
+  "retry_loop": {
+    "runs_with_retry": 3,
+    "retry_citations_total": 1,
+    "new_citations_total": 0
+  },
+  "scoring_by_stratum": {
+    "A": {
+      "n": 1,
+      "passed": 1,
+      "failed": 0,
+      "unscored": 0
+    },
+    "B": {
+      "n": 1,
+      "passed": 0,
+      "failed": 1,
+      "unscored": 0
+    },
+    "C": {
+      "n": 1,
+      "passed": 1,
+      "failed": 0,
+      "unscored": 0
+    }
+  },
+  "min_citations_unmet": [
+    "GS-006"
+  ],
+  "risk_selection": {
+    "risk_cases": [
+      "GS-011",
+      "GS-013",
+      "GS-015",
+      "GS-017",
+      "GS-018",
+      "GS-021"
+    ],
+    "selected": 4,
+    "eligible": 4,
+    "rate": 1.0,
+    "first_pass_selected": 3,
+    "first_pass_eligible": 3,
+    "first_pass_rate": 1.0,
+    "per_case": {
+      "GS-013": {
+        "calls": 4,
+        "eligible": 4,
+        "selected": 4,
+        "first_pass_eligible": 3,
+        "first_pass_selected": 3
+      }
+    },
+    "missing_items": []
+  },
+  "rows_without_local_trace": [],
+  "bench_wall_clock_s": 27.89,
+  "rows": [
+    {
+      "case_id": "GS-006",
+      "stratum": "B",
+      "query": "LLM의 성능을 평가하기 위해 멀티에이전트 구조를 사용하는 접근이 있는가?",
+      "run_id": "20260930-142437-c8a056",
+      "topic_count": 4,
+      "revisions": 2,
+      "wall_clock_s": 7.672,
+      "llm_latency_s": 7.25,
+      "retrieval_latency_s": 0.371,
+      "other_latency_s": 0.051,
+      "llm_calls": 10,
+      "cache_hits": 0,
+      "retrieval_calls": 8,
+      "prompt_tokens": 11573,
+      "completion_tokens": 296,
+      "billed_tokens": 11869,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 278,
+          "completion": 85,
+          "latency_s": 2.687,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 8,
+          "prompt": 10702,
+          "completion": 112,
+          "latency_s": 2.7791,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 593,
+          "completion": 99,
+          "latency_s": 1.7835,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": false,
+          "expected_doc_cited": false
+        },
+        "passed": false,
+        "topic_count": 4,
+        "uncovered_count": 4,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [
+          "arXiv:2404.01023v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": false,
+        "must_mention_manual": [
+          "LLM 평가를 위한 멀티에이전트 모델"
+        ]
+      },
+      "items": [
+        {
+          "topic": "LLM 성능 평가를 위한 멀티에이전트 구조의 정의 및 개념",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 1,
+              "score": 0.8527
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8409
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 3,
+              "score": 0.8407
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8379
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 기반 LLM 평가 프레임워크의 종류 및 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8643
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 2,
+              "score": 0.8593
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8525
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 4,
+              "score": 0.8493
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 구조를 활용한 LLM 평가 방식의 작동 원리",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8547
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8467
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8455
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.8413
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "기존 단일 모델 평가 방식 대비 멀티에이전트 평가 방식의 차이점 및 장점",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8501
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8491
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 3,
+              "score": 0.8408
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 4,
+              "score": 0.8405
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 성능 평가를 위한 멀티에이전트 구조의 정의 및 개념",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 1,
+              "score": 0.8527
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8409
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 3,
+              "score": 0.8407
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8379
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 기반 LLM 평가 프레임워크의 종류 및 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8643
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 2,
+              "score": 0.8593
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8525
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 4,
+              "score": 0.8493
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 구조를 활용한 LLM 평가 방식의 작동 원리",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8547
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8467
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8455
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.8413
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "기존 단일 모델 평가 방식 대비 멀티에이전트 평가 방식의 차이점 및 장점",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8501
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8491
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 3,
+              "score": 0.8408
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 4,
+              "score": 0.8405
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 176
+    },
+    {
+      "case_id": "GS-013",
+      "stratum": "A",
+      "query": "시각-언어 모델을 교육 맥락의 예술 이미지 이해로 평가한 벤치마크가 있는가?",
+      "run_id": "20260930-142445-b20ec7",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 15.815,
+      "llm_latency_s": 15.596,
+      "retrieval_latency_s": 0.176,
+      "other_latency_s": 0.043,
+      "llm_calls": 12,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 10584,
+      "completion_tokens": 840,
+      "billed_tokens": 11424,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 282,
+          "completion": 63,
+          "latency_s": 1.1395,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 5643,
+          "completion": 215,
+          "latency_s": 4.2805,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 6,
+          "prompt": 3752,
+          "completion": 332,
+          "latency_s": 6.059,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 907,
+          "completion": 230,
+          "latency_s": 4.1169,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 1,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 1,
+        "cited_doc_ids": [
+          "arXiv:2609.19088v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2609.19088v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "예술 이미지 이해 벤치마크",
+          "정서적 해석·구성적 추론의 취약"
+        ]
+      },
+      "items": [
+        {
+          "topic": "교육 맥락의 예술 이미지 이해를 평가하는 시각-언어 모델 벤치마크 목록",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19088v1",
+              "rank": 1,
+              "score": 0.8474
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8392
+            },
+            {
+              "doc_id": "arXiv:2609.19143v1",
+              "rank": 3,
+              "score": 0.8306
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 4,
+              "score": 0.8254
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19088v1"
+          ]
+        },
+        {
+          "topic": "예술 이미지 이해 벤치마크의 교육적 활용 사례 및 평가 지표",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19088v1",
+              "rank": 1,
+              "score": 0.8411
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8291
+            },
+            {
+              "doc_id": "arXiv:2609.19143v1",
+              "rank": 3,
+              "score": 0.8209
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 4,
+              "score": 0.8122
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19088v1"
+          ]
+        },
+        {
+          "topic": "시각-언어 모델의 예술 도메인 이해도 측정 방법론",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19088v1",
+              "rank": 1,
+              "score": 0.8525
+            },
+            {
+              "doc_id": "arXiv:2609.19143v1",
+              "rank": 2,
+              "score": 0.8309
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8277
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.8252
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19088v1"
+          ]
+        },
+        {
+          "topic": "예술 이미지 이해 벤치마크의 교육적 활용 사례 및 평가 지표",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19088v1",
+              "rank": 1,
+              "score": 0.8411
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8291
+            },
+            {
+              "doc_id": "arXiv:2609.19143v1",
+              "rank": 3,
+              "score": 0.8209
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 4,
+              "score": 0.8122
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19088v1"
+          ]
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 789
+    },
+    {
+      "case_id": "GS-028",
+      "stratum": "C",
+      "query": "배치 크기나 KV 캐시 같은 추론 서버 설정값을 바꿔가며 처리량을 측정한 실험이 있는가?",
+      "run_id": "20260930-142501-fda917",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 4.331,
+      "llm_latency_s": 4.023,
+      "retrieval_latency_s": 0.255,
+      "other_latency_s": 0.053,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 6,
+      "prompt_tokens": 9204,
+      "completion_tokens": 192,
+      "billed_tokens": 9396,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 281,
+          "completion": 49,
+          "latency_s": 0.8729,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 6,
+          "prompt": 8381,
+          "completion": 84,
+          "latency_s": 2.0711,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 542,
+          "completion": 59,
+          "latency_s": 1.0789,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "negative_case_held": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 3,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [],
+        "min_citations": 0,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "근거 없음"
+        ]
+      },
+      "items": [
+        {
+          "topic": "배치 크기 변화에 따른 추론 처리량 측정 실험 결과",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8393
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8379
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8289
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8206
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "KV 캐시 설정 변경에 따른 추론 처리량 측정 실험 결과",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8384
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8335
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8262
+            },
+            {
+              "doc_id": "arXiv:2609.19093v1",
+              "rank": 4,
+              "score": 0.817
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "추론 서버 설정값과 처리량 간의 상관관계 분석 실험",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8373
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8307
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8249
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 4,
+              "score": 0.8209
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "배치 크기 변화에 따른 추론 처리량 측정 실험 결과",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8393
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8379
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8289
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8206
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "KV 캐시 설정 변경에 따른 추론 처리량 측정 실험 결과",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8384
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8335
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8262
+            },
+            {
+              "doc_id": "arXiv:2609.19093v1",
+              "rank": 4,
+              "score": 0.817
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "추론 서버 설정값과 처리량 간의 상관관계 분석 실험",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8373
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8307
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8249
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 4,
+              "score": 0.8209
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 118
+    }
+  ]
+}

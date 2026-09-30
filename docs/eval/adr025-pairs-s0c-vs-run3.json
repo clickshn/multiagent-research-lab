@@ -1,0 +1,287 @@
+{
+  "base": {
+    "label": "v1.2-s0c-run3-old",
+    "prompt_version": "2026-09-16.1",
+    "candidate_score_exposed": true,
+    "generated_at": "2026-09-30T14:14:18+0900"
+  },
+  "after": {
+    "label": "v1.2-s0c",
+    "prompt_version": "2026-09-30.1",
+    "candidate_score_exposed": false,
+    "generated_at": "2026-09-30T14:35:00+0900"
+  },
+  "rule": "ADR-025 Amendment(session-19): 해악 = 1차 순감소 ≥2 또는 pass/fail 순 뒤집힘 ≥2",
+  "verdict": "무해 확인",
+  "observations": [],
+  "first_pass_mismatch": [],
+  "primary": {
+    "eligible_pairs": 15,
+    "base_hits": 14,
+    "after_hits": 14,
+    "decrease": 0,
+    "increase": 0,
+    "net_decrease": 0,
+    "supporting_changed": [],
+    "pairs": [
+      {
+        "case_id": "GS-011",
+        "topic": "모델의 보상 속임수(reward hacking/gaming) 정의 및 사례",
+        "expected_ranks": [
+          1
+        ],
+        "base_hit": false,
+        "after_hit": false,
+        "base_supporting": [],
+        "after_supporting": []
+      },
+      {
+        "case_id": "GS-011",
+        "topic": "모델의 내부 표현(internal representations)을 통한 행동 탐지 연구",
+        "expected_ranks": [
+          1
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19101v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19101v1"
+        ]
+      },
+      {
+        "case_id": "GS-011",
+        "topic": "보상 속임수 행동과 내부 표현 간의 상관관계 분석 연구",
+        "expected_ranks": [
+          1
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19101v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19101v1"
+        ]
+      },
+      {
+        "case_id": "GS-011",
+        "topic": "내부 표현 기반의 보상 속임수 탐지 방법론 및 성능",
+        "expected_ranks": [
+          1
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19101v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19101v1"
+        ]
+      },
+      {
+        "case_id": "GS-013",
+        "topic": "교육 맥락의 예술 이미지 이해를 평가하는 시각-언어 모델 벤치마크 목록",
+        "expected_ranks": [
+          1
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19088v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19088v1"
+        ]
+      },
+      {
+        "case_id": "GS-013",
+        "topic": "예술 이미지 이해 벤치마크의 교육적 활용 사례 및 평가 지표",
+        "expected_ranks": [
+          1
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19088v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19088v1"
+        ]
+      },
+      {
+        "case_id": "GS-013",
+        "topic": "시각-언어 모델의 예술 도메인 이해도 측정 방법론",
+        "expected_ranks": [
+          1
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19088v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19088v1"
+        ]
+      },
+      {
+        "case_id": "GS-015",
+        "topic": "벤치마크 논문 내 평가 환경 및 설정 정보의 투명성 분석 자료",
+        "expected_ranks": [
+          2
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2605.21404v1"
+        ],
+        "after_supporting": [
+          "arXiv:2605.21404v1"
+        ]
+      },
+      {
+        "case_id": "GS-017",
+        "topic": "기울기 계산 없는 모델 정렬 기법의 작동 원리",
+        "expected_ranks": [
+          4
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19144v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19144v1"
+        ]
+      },
+      {
+        "case_id": "GS-017",
+        "topic": "비교 기반 모델 정렬 방식의 특징 및 조건",
+        "expected_ranks": [
+          2
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19144v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19144v1"
+        ]
+      },
+      {
+        "case_id": "GS-018",
+        "topic": "방사선 판독문 생성 모델의 평가 점수와 참조 보고서 작성 방식 간의 상관관계 연구",
+        "expected_ranks": [
+          2
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19093v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19093v1"
+        ]
+      },
+      {
+        "case_id": "GS-018",
+        "topic": "참조 보고서의 스타일이나 형식이 모델 평가 지표에 미치는 영향",
+        "expected_ranks": [
+          2
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19093v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19093v1"
+        ]
+      },
+      {
+        "case_id": "GS-018",
+        "topic": "방사선 판독문 생성 모델 평가 시 참조 보고서의 가변성 및 일관성 분석",
+        "expected_ranks": [
+          2
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19093v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19093v1"
+        ]
+      },
+      {
+        "case_id": "GS-021",
+        "topic": "이미지 캡션 구절과 픽셀 마스크 연결 관련 연구 사례",
+        "expected_ranks": [
+          4
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19143v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19143v1"
+        ]
+      },
+      {
+        "case_id": "GS-021",
+        "topic": "캡션-픽셀 정렬(Caption-to-Pixel Alignment) 기술 및 방법론",
+        "expected_ranks": [
+          2
+        ],
+        "base_hit": true,
+        "after_hit": true,
+        "base_supporting": [
+          "arXiv:2609.19143v1"
+        ],
+        "after_supporting": [
+          "arXiv:2609.19143v1"
+        ]
+      }
+    ]
+  },
+  "secondary_risk_selection": {
+    "base": {
+      "selected": 15,
+      "eligible": 17,
+      "first_pass_selected": 14,
+      "first_pass_eligible": 15
+    },
+    "after": {
+      "selected": 15,
+      "eligible": 17,
+      "first_pass_selected": 14,
+      "first_pass_eligible": 15
+    }
+  },
+  "pass_fail": {
+    "by_stratum": {
+      "A": {
+        "n": 14,
+        "pass_to_fail": [],
+        "fail_to_pass": []
+      },
+      "B": {
+        "n": 9,
+        "pass_to_fail": [],
+        "fail_to_pass": []
+      },
+      "C": {
+        "n": 7,
+        "pass_to_fail": [],
+        "fail_to_pass": []
+      }
+    },
+    "pass_to_fail": 0,
+    "fail_to_pass": 0,
+    "net_flip": 0
+  },
+  "cited_doc_ids_changed": []
+}
