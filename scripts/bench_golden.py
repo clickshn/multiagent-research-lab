@@ -808,7 +808,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument(
         "--parallel", choices=("on", "off"), default=None,
-        help="노드 안 동시 호출 (ADR-026). 생략하면 RESEARCH_PARALLEL",
+        help="노드 안 동시 호출 (ADR-026). 생략하면 RESEARCH_PARALLEL (비워두면 on)",
     )
     parser.add_argument(
         "--max-concurrency", type=int, default=None,

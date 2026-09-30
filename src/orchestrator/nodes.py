@@ -15,8 +15,9 @@
 
 **노드 안 동시 호출 (v1.2-P1, ADR-026).** Researcher·Verifier는 `max_concurrency`가
 2 이상이면 항목별 호출을 스레드 풀로 동시에 보낸다. 그래프 구조·프롬프트·판정 로직은
-그대로이고, 결과는 **원래 항목 순서로** 합친다. 1(기본)이면 풀을 만들지 않고 순차
-루프를 그대로 돈다. 검색은 동시 실행에서도 **항상 직렬**이다(`_RETRIEVAL_LOCK`).
+그대로이고, 결과는 **원래 항목 순서로** 합친다. 1이면 풀을 만들지 않고 순차
+루프를 그대로 돈다. 팩토리 인자의 기본은 1이고, 실행 진입점(bench·`run_research.py`)이
+`load_concurrency_settings()`(기본 켜짐, 상한 4)를 읽어 넘긴다. 검색은 동시 실행에서도 **항상 직렬**이다(`_RETRIEVAL_LOCK`).
 """
 
 from __future__ import annotations
@@ -56,7 +57,8 @@ DEFAULT_MIN_CITATIONS = 1
 # 1,000~1,500자라 4건이면 프롬프트가 길어진다.
 _SNIPPET_LIMIT = 900
 
-# 노드 안 동시 호출 상한. 1 = 순차 (ADR-026). 켜는 값은 `ConcurrencySettings`가 정한다.
+# 노드 팩토리의 동시 호출 상한 기본값. 1 = 순차 (ADR-026). 노드를 직접 만드는 코드(테스트)가
+# 스레드 순서에 기대지 않게 1로 둔다. **실행 기본값은 `ConcurrencySettings`가 정한다(켜짐, 4).**
 DEFAULT_MAX_CONCURRENCY = 1
 
 # 검색 직렬화. Chroma 질의가 인덱스 파일을 쓰므로(v1.1 Session 3.5) 같은 프로세스 안에서

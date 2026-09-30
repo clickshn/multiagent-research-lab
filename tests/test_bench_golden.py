@@ -573,3 +573,13 @@ def test_trace_output_compare_pairs_off_and_on_calls(bench, tmp_path) -> None:
     assert result["unpaired_cases"] == []
     assert result["calls_paired"] == sum(r["llm_calls"] for r in off["rows"])
     assert result["input_differs"] == 0 and result["same_input_text_differs"] == 0
+
+
+def test_bench_runs_parallel_by_default(bench, monkeypatch) -> None:
+    """ADR-026 Accepted: 플래그·환경변수 없이 돌리면 on(상한 4)이다."""
+    monkeypatch.delenv("RESEARCH_PARALLEL", raising=False)
+    monkeypatch.delenv("RESEARCH_MAX_CONCURRENCY", raising=False)
+    _build_index(bench.persist_dir, "bench_test")
+    assert bench.run("--label", "p1-default", "--only", "GS-013") == 0
+    result = _load(bench.out_dir / "bench-p1-default.json")
+    assert (result["parallel"], result["effective_concurrency"]) == (True, 4)

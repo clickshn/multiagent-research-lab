@@ -353,15 +353,17 @@ def load_cache_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> CacheSettin
 class ConcurrencySettings:
     """노드 안 LLM 호출의 동시 실행 (v1.2-P1, ADR-026).
 
-    기본값이 **꺼짐**인 이유: 캐시와 같다(ADR-008). 동시 실행은 서버 배칭을 바꿔 greedy
-    출력이 흔들릴 수 있고, 켠 채로 측정하면 "하네스 변경"과 "배칭 차이"가 섞인다.
-    측정에서는 명시적으로 켠다.
+    기본값이 **켜짐**(상한 4)인 이유 (ADR-026 Accepted, session-20): off/on 동시간 대조에서
+    판정 지표 차이 0, 입력 동일 297/297, wall p95 −31%였다. 그리고 기본을 켜 두면 이후 측정
+    (T2·T3, 기준 `v1.2-p1-on`)에서 플래그 누락으로 조건이 섞일 위험이 없다.
+    끄려면 `RESEARCH_PARALLEL=off`(또는 0/false/no), bench는 `--parallel off`.
+    그 외 값은 오타로 보고 거부한다 — 조용히 한쪽으로 해석하면 측정 조건이 흔들린다.
 
     상한이 프로바이더 설정에 있는 이유: 이 값이 묶인 것은 오케스트레이션 구조가 아니라
     **엔드포인트가 동시에 받아주는 요청 수**다. 할당 GPU를 바꾸면 이 값을 다시 정한다.
     """
 
-    parallel: bool = False
+    parallel: bool = True
     max_concurrency: int = 4
 
     @property
@@ -382,8 +384,11 @@ def load_concurrency_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> Concu
         raise ConfigError(f"RESEARCH_MAX_CONCURRENCY는 정수여야 한다: {raw_cap!r}") from exc
     if cap < 1:
         raise ConfigError(f"RESEARCH_MAX_CONCURRENCY는 1 이상이어야 한다: {cap}")
-    return ConcurrencySettings(
-        parallel=(os.getenv("RESEARCH_PARALLEL") or "").strip().lower()
-        in {"1", "true", "yes", "on"},
-        max_concurrency=cap,
-    )
+    raw_parallel = (os.getenv("RESEARCH_PARALLEL") or "").strip().lower()
+    if raw_parallel in {"", "1", "true", "yes", "on"}:
+        parallel = True
+    elif raw_parallel in {"0", "false", "no", "off"}:
+        parallel = False
+    else:
+        raise ConfigError(f"RESEARCH_PARALLEL은 on/off여야 한다: {raw_parallel!r}")
+    return ConcurrencySettings(parallel=parallel, max_concurrency=cap)

@@ -156,9 +156,11 @@ def test_off_uses_no_pool_and_interleaves_retrieve_then_call_in_order(monkeypatc
     verifier(_state(TOPICS, findings=out["findings"]))  # 풀을 만들면 위 forbidden이 터진다
 
 
-def test_default_is_off() -> None:
+def test_node_factory_default_is_sequential_but_run_default_is_on() -> None:
+    """팩토리 인자는 1(순차), 실행 기본값은 켜짐·상한 4 (ADR-026 Accepted, session-20)."""
     assert nodes.DEFAULT_MAX_CONCURRENCY == 1
-    assert ConcurrencySettings().effective == 1
+    assert ConcurrencySettings().effective == 4
+    assert ConcurrencySettings(parallel=False).effective == 1
 
 
 def test_off_and_on_send_identical_inputs() -> None:
@@ -356,10 +358,22 @@ def test_concurrency_settings_from_env(monkeypatch) -> None:
     settings = load_concurrency_settings(env_file=None)
     assert (settings.parallel, settings.max_concurrency, settings.effective) == (True, 3, 3)
 
+    # 비워두면 켜짐(상한 4)
     monkeypatch.setenv("RESEARCH_PARALLEL", "")
     monkeypatch.delenv("RESEARCH_MAX_CONCURRENCY")
     settings = load_concurrency_settings(env_file=None)
-    assert (settings.parallel, settings.max_concurrency, settings.effective) == (False, 4, 1)
+    assert (settings.parallel, settings.max_concurrency, settings.effective) == (True, 4, 4)
+
+    for raw in ("off", "0", "false", "NO"):
+        monkeypatch.setenv("RESEARCH_PARALLEL", raw)
+        settings = load_concurrency_settings(env_file=None)
+        assert (settings.parallel, settings.effective) == (False, 1)
+
+
+def test_parallel_flag_typo_is_rejected(monkeypatch) -> None:
+    monkeypatch.setenv("RESEARCH_PARALLEL", "of")
+    with pytest.raises(ConfigError):
+        load_concurrency_settings(env_file=None)
 
 
 @pytest.mark.parametrize("raw", ["0", "-1", "four"])
