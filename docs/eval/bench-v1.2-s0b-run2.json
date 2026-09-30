@@ -1,0 +1,7026 @@
+{
+  "label": "v1.2-s0b-run2",
+  "run_index": 2,
+  "runs_in_process": 2,
+  "generated_at": "2026-09-30T13:53:27+0900",
+  "n_cases": 30,
+  "golden_set_version": "2.0",
+  "cache_enabled": false,
+  "candidate_score_exposed": true,
+  "prompt_version": "2026-09-16.1",
+  "model": "gemma-4-31B-it",
+  "embedding_model": "intfloat/multilingual-e5-small",
+  "corpus_docs": 37,
+  "index_check": {
+    "queue_rows": 37,
+    "distinct_ids": 37,
+    "indexed_docs": 37,
+    "operations": {
+      "2": 37
+    },
+    "clean": true
+  },
+  "max_revisions": 2,
+  "top_k": 4,
+  "warmup": {
+    "note": "1회차에서 이미 워밍업됨"
+  },
+  "latency": {
+    "wall": {
+      "n": 30,
+      "mean": 11.561,
+      "p50": 11.925,
+      "p95": 21.935,
+      "max": 25.707
+    },
+    "llm": {
+      "n": 30,
+      "mean": 11.295,
+      "p50": 11.829,
+      "p95": 21.601,
+      "max": 25.509
+    },
+    "other": {
+      "n": 30,
+      "mean": 0.033,
+      "p50": 0.03,
+      "p95": 0.047,
+      "max": 0.05
+    },
+    "retrieval": {
+      "n": 30,
+      "mean": 0.233,
+      "p50": 0.192,
+      "p95": 0.46,
+      "max": 0.769
+    },
+    "llm_per_call_mean_s": 1.1,
+    "percentile_method": "nearest-rank (관측값만 돌려준다)",
+    "note": "워밍업(임베딩·Chroma·litellm 임포트)은 측정 전에 끝나 여기 포함되지 않는다."
+  },
+  "tokens": {
+    "prompt_total": 301501,
+    "completion_total": 17957,
+    "billed_total": 319458,
+    "per_request": {
+      "n": 30,
+      "mean": 10648.6,
+      "p50": 9933,
+      "p95": 14626,
+      "max": 16085
+    }
+  },
+  "calls": {
+    "total": 296,
+    "cache_hits": 0,
+    "by_node": {
+      "outliner": 30,
+      "researcher": 161,
+      "verifier": 75,
+      "writer": 30
+    },
+    "per_request": {
+      "n": 30,
+      "mean": 9.867,
+      "p50": 9,
+      "p95": 13,
+      "max": 16
+    },
+    "per_item": {
+      "n": 30,
+      "mean": 2.983,
+      "p50": 2.667,
+      "p95": 4.0,
+      "max": 4.0
+    },
+    "endpoint_requests_upper_bound": 888
+  },
+  "topic_count_distribution": {
+    "3": 21,
+    "4": 9
+  },
+  "revision_distribution": {
+    "1": 4,
+    "2": 26
+  },
+  "retry_loop": {
+    "runs_with_retry": 26,
+    "retry_citations_total": 8,
+    "new_citations_total": 0
+  },
+  "scoring_by_stratum": {
+    "A": {
+      "n": 14,
+      "passed": 12,
+      "failed": 2,
+      "unscored": 0
+    },
+    "B": {
+      "n": 9,
+      "passed": 5,
+      "failed": 4,
+      "unscored": 0
+    },
+    "C": {
+      "n": 7,
+      "passed": 7,
+      "failed": 0,
+      "unscored": 0
+    }
+  },
+  "min_citations_unmet": [
+    "GS-006",
+    "GS-010",
+    "GS-020",
+    "GS-023"
+  ],
+  "risk_selection": {
+    "risk_cases": [
+      "GS-011",
+      "GS-013",
+      "GS-015",
+      "GS-017",
+      "GS-018",
+      "GS-021"
+    ],
+    "selected": 15,
+    "eligible": 17,
+    "rate": 0.8824,
+    "first_pass_selected": 14,
+    "first_pass_eligible": 15,
+    "first_pass_rate": 0.9333,
+    "per_case": {
+      "GS-011": {
+        "calls": 5,
+        "eligible": 5,
+        "selected": 3,
+        "first_pass_eligible": 4,
+        "first_pass_selected": 3
+      },
+      "GS-013": {
+        "calls": 4,
+        "eligible": 4,
+        "selected": 4,
+        "first_pass_eligible": 3,
+        "first_pass_selected": 3
+      },
+      "GS-015": {
+        "calls": 5,
+        "eligible": 1,
+        "selected": 1,
+        "first_pass_eligible": 1,
+        "first_pass_selected": 1
+      },
+      "GS-017": {
+        "calls": 4,
+        "eligible": 2,
+        "selected": 2,
+        "first_pass_eligible": 2,
+        "first_pass_selected": 2
+      },
+      "GS-018": {
+        "calls": 3,
+        "eligible": 3,
+        "selected": 3,
+        "first_pass_eligible": 3,
+        "first_pass_selected": 3
+      },
+      "GS-021": {
+        "calls": 4,
+        "eligible": 2,
+        "selected": 2,
+        "first_pass_eligible": 2,
+        "first_pass_selected": 2
+      }
+    },
+    "missing_items": []
+  },
+  "rows_without_local_trace": [],
+  "bench_wall_clock_s": 347.39,
+  "rows": [
+    {
+      "case_id": "GS-001",
+      "stratum": "A",
+      "query": "LLM 멀티에이전트 협업 시스템을 설계하고 평가할 때 어떤 어려움이 보고되는가?",
+      "run_id": "20260930-134739-88ca9b",
+      "topic_count": 4,
+      "revisions": 2,
+      "wall_clock_s": 25.707,
+      "llm_latency_s": 25.509,
+      "retrieval_latency_s": 0.155,
+      "other_latency_s": 0.043,
+      "llm_calls": 13,
+      "cache_hits": 0,
+      "retrieval_calls": 5,
+      "prompt_tokens": 12747,
+      "completion_tokens": 1388,
+      "billed_tokens": 14135,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 281,
+          "completion": 79,
+          "latency_s": 1.4101,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 5,
+          "prompt": 6944,
+          "completion": 258,
+          "latency_s": 5.1845,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 6,
+          "prompt": 4186,
+          "completion": 490,
+          "latency_s": 8.9048,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 1336,
+          "completion": 561,
+          "latency_s": 10.0095,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 1,
+        "cited_doc_ids": [
+          "arXiv:2412.05449v1",
+          "arXiv:2602.03128v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2412.05449v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "협업 프로토콜 설계",
+          "평가의 어려움"
+        ]
+      },
+      "items": [
+        {
+          "topic": "LLM 멀티에이전트 협업 시스템 설계 시 발생하는 기술적 어려움",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 1,
+              "score": 0.8573
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 2,
+              "score": 0.8439
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8413
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8392
+            }
+          ],
+          "supporting": [
+            "arXiv:2602.03128v1"
+          ]
+        },
+        {
+          "topic": "LLM 멀티에이전트 협업 시스템의 성능 평가 방법 및 한계",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 1,
+              "score": 0.8508
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 2,
+              "score": 0.8503
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 3,
+              "score": 0.8465
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8451
+            }
+          ],
+          "supporting": [
+            "arXiv:2602.03128v1",
+            "arXiv:2412.05449v1"
+          ]
+        },
+        {
+          "topic": "에이전트 간 상호작용 및 통신 과정에서 보고되는 문제점",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 1,
+              "score": 0.8506
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 2,
+              "score": 0.8489
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8468
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.843
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 시스템의 평가 지표 설정 시의 어려움",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 1,
+              "score": 0.8463
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 2,
+              "score": 0.8462
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8456
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8427
+            }
+          ],
+          "supporting": [
+            "arXiv:2602.03128v1"
+          ]
+        },
+        {
+          "topic": "에이전트 간 상호작용 및 통신 과정에서 보고되는 문제점",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 1,
+              "score": 0.8506
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 2,
+              "score": 0.8489
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8468
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.843
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 1513
+    },
+    {
+      "case_id": "GS-002",
+      "stratum": "B",
+      "query": "멀티에이전트 LLM 프레임워크의 아키텍처 선택은 시스템 성능에 어떤 영향을 주는가?",
+      "run_id": "20260930-134805-7d53ef",
+      "topic_count": 4,
+      "revisions": 2,
+      "wall_clock_s": 16.955,
+      "llm_latency_s": 16.793,
+      "retrieval_latency_s": 0.137,
+      "other_latency_s": 0.025,
+      "llm_calls": 13,
+      "cache_hits": 0,
+      "retrieval_calls": 5,
+      "prompt_tokens": 11721,
+      "completion_tokens": 898,
+      "billed_tokens": 12619,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 283,
+          "completion": 71,
+          "latency_s": 1.2751,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 5,
+          "prompt": 6537,
+          "completion": 232,
+          "latency_s": 4.6746,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 6,
+          "prompt": 3770,
+          "completion": 348,
+          "latency_s": 6.3886,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 1131,
+          "completion": 247,
+          "latency_s": 4.4548,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 1,
+        "cited_doc_ids": [
+          "arXiv:2602.03128v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2602.03128v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "지연 시간 또는 처리량",
+          "아키텍처 선택의 영향"
+        ]
+      },
+      "items": [
+        {
+          "topic": "멀티에이전트 LLM 프레임워크의 주요 아키텍처 유형",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 1,
+              "score": 0.8556
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8527
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8517
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8505
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "아키텍처별 시스템 성능 측정 지표",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 1,
+              "score": 0.8575
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 2,
+              "score": 0.8464
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 3,
+              "score": 0.8441
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8412
+            }
+          ],
+          "supporting": [
+            "arXiv:2602.03128v1"
+          ]
+        },
+        {
+          "topic": "아키텍처 선택에 따른 추론 속도 및 지연 시간 변화",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8623
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 2,
+              "score": 0.8617
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8535
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8493
+            }
+          ],
+          "supporting": [
+            "arXiv:2602.03128v1"
+          ]
+        },
+        {
+          "topic": "에이전트 간 협업 구조가 결과물 정확도에 미치는 영향",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 1,
+              "score": 0.8634
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8469
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8454
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8426
+            }
+          ],
+          "supporting": [
+            "arXiv:2602.03128v1"
+          ]
+        },
+        {
+          "topic": "멀티에이전트 LLM 프레임워크의 주요 아키텍처 유형",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 1,
+              "score": 0.8556
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8527
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8517
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8505
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 769
+    },
+    {
+      "case_id": "GS-003",
+      "stratum": "B",
+      "query": "제조 현장에 LLM 기반 멀티에이전트 시스템을 적용한 연구에는 어떤 것이 있는가?",
+      "run_id": "20260930-134822-4c4f74",
+      "topic_count": 4,
+      "revisions": 2,
+      "wall_clock_s": 17.764,
+      "llm_latency_s": 17.546,
+      "retrieval_latency_s": 0.189,
+      "other_latency_s": 0.029,
+      "llm_calls": 13,
+      "cache_hits": 0,
+      "retrieval_calls": 7,
+      "prompt_tokens": 13686,
+      "completion_tokens": 940,
+      "billed_tokens": 14626,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 279,
+          "completion": 80,
+          "latency_s": 1.4274,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 7,
+          "prompt": 9739,
+          "completion": 273,
+          "latency_s": 5.5696,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 4,
+          "prompt": 2900,
+          "completion": 262,
+          "latency_s": 4.8185,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 768,
+          "completion": 325,
+          "latency_s": 5.73,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 2,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 3,
+        "cited_doc_ids": [
+          "arXiv:2405.16887v2",
+          "arXiv:2406.01893v2"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2405.16887v2",
+          "arXiv:2406.01893v2"
+        ],
+        "min_citations": 2,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "제조 시스템",
+          "자연어 기반 에이전트 협상 또는 조정"
+        ]
+      },
+      "items": [
+        {
+          "topic": "제조 현장 LLM 기반 멀티에이전트 시스템 적용 연구 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.856
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8516
+            },
+            {
+              "doc_id": "arXiv:2405.16887v2",
+              "rank": 3,
+              "score": 0.8487
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.8399
+            }
+          ],
+          "supporting": [
+            "arXiv:2405.16887v2"
+          ]
+        },
+        {
+          "topic": "제조 공정 내 LLM 멀티에이전트의 역할 및 구조",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2405.16887v2",
+              "rank": 1,
+              "score": 0.8472
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.839
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8374
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8371
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 멀티에이전트 시스템의 제조 현장 적용 성과 및 한계",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2405.16887v2",
+              "rank": 1,
+              "score": 0.8465
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8399
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 3,
+              "score": 0.8387
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 4,
+              "score": 0.8366
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "제조 분야 LLM 멀티에이전트 시스템의 주요 활용 시나리오",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8518
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8489
+            },
+            {
+              "doc_id": "arXiv:2405.16887v2",
+              "rank": 3,
+              "score": 0.8456
+            },
+            {
+              "doc_id": "arXiv:2406.01893v2",
+              "rank": 4,
+              "score": 0.8383
+            }
+          ],
+          "supporting": [
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2"
+          ]
+        },
+        {
+          "topic": "제조 공정 내 LLM 멀티에이전트의 역할 및 구조",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2405.16887v2",
+              "rank": 1,
+              "score": 0.8472
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.839
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8374
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8371
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 멀티에이전트 시스템의 제조 현장 적용 성과 및 한계",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2405.16887v2",
+              "rank": 1,
+              "score": 0.8465
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8399
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 3,
+              "score": 0.8387
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 4,
+              "score": 0.8366
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "제조 분야 LLM 멀티에이전트 시스템의 주요 활용 시나리오",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8518
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8489
+            },
+            {
+              "doc_id": "arXiv:2405.16887v2",
+              "rank": 3,
+              "score": 0.8456
+            },
+            {
+              "doc_id": "arXiv:2406.01893v2",
+              "rank": 4,
+              "score": 0.8383
+            }
+          ],
+          "supporting": [
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2"
+          ]
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 943
+    },
+    {
+      "case_id": "GS-004",
+      "stratum": "B",
+      "query": "LLM 에이전트의 정렬(alignment)을 재학습 없이 조정하는 접근이 있는가?",
+      "run_id": "20260930-134840-ce24a7",
+      "topic_count": 4,
+      "revisions": 2,
+      "wall_clock_s": 11.138,
+      "llm_latency_s": 10.868,
+      "retrieval_latency_s": 0.241,
+      "other_latency_s": 0.028,
+      "llm_calls": 11,
+      "cache_hits": 0,
+      "retrieval_calls": 7,
+      "prompt_tokens": 11712,
+      "completion_tokens": 566,
+      "billed_tokens": 12278,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 280,
+          "completion": 73,
+          "latency_s": 1.309,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 7,
+          "prompt": 9400,
+          "completion": 146,
+          "latency_s": 3.3331,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 2,
+          "prompt": 1264,
+          "completion": 128,
+          "latency_s": 2.3494,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 768,
+          "completion": 219,
+          "latency_s": 3.8768,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 3,
+        "cited_doc_ids": [
+          "arXiv:2512.06196v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2512.06196v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "재학습 없이 조정",
+          "해석 가능한 보상 모델"
+        ]
+      },
+      "items": [
+        {
+          "topic": "재학습 없는 LLM 에이전트 정렬 조정 기법",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.865
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8613
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8443
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 4,
+              "score": 0.8398
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "프롬프트 엔지니어링을 통한 에이전트 정렬 방법",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.86
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8584
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8495
+            },
+            {
+              "doc_id": "arXiv:2512.06196v1",
+              "rank": 4,
+              "score": 0.841
+            }
+          ],
+          "supporting": [
+            "arXiv:2512.06196v1"
+          ]
+        },
+        {
+          "topic": "외부 피드백 루프 및 가드레일을 이용한 정렬 제어",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8501
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 2,
+              "score": 0.8428
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 3,
+              "score": 0.8422
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.8392
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "컨텍스트 학습(In-context Learning) 기반의 정렬 조정 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8588
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8525
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8509
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 4,
+              "score": 0.8497
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "재학습 없는 LLM 에이전트 정렬 조정 기법",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.865
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8613
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8443
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 4,
+              "score": 0.8398
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "외부 피드백 루프 및 가드레일을 이용한 정렬 제어",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8501
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 2,
+              "score": 0.8428
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 3,
+              "score": 0.8422
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.8392
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "컨텍스트 학습(In-context Learning) 기반의 정렬 조정 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8588
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8525
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8509
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 4,
+              "score": 0.8497
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 744
+    },
+    {
+      "case_id": "GS-005",
+      "stratum": "B",
+      "query": "금융 트레이딩에 멀티에이전트 LLM을 적용한 프레임워크가 있는가?",
+      "run_id": "20260930-134851-69ceb9",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 12.047,
+      "llm_latency_s": 11.896,
+      "retrieval_latency_s": 0.133,
+      "other_latency_s": 0.019,
+      "llm_calls": 9,
+      "cache_hits": 0,
+      "retrieval_calls": 5,
+      "prompt_tokens": 9242,
+      "completion_tokens": 635,
+      "billed_tokens": 9877,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 280,
+          "completion": 63,
+          "latency_s": 1.1473,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 5,
+          "prompt": 6945,
+          "completion": 119,
+          "latency_s": 2.6798,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 2,
+          "prompt": 1274,
+          "completion": 136,
+          "latency_s": 2.483,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 743,
+          "completion": 317,
+          "latency_s": 5.5859,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 2,
+        "cited_doc_ids": [
+          "arXiv:2412.20138v7"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2412.20138v7"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "트레이딩 회사의 협업 구조 모방"
+        ]
+      },
+      "items": [
+        {
+          "topic": "금융 트레이딩 적용 멀티에이전트 LLM 프레임워크 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.87
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8676
+            },
+            {
+              "doc_id": "arXiv:2412.20138v7",
+              "rank": 3,
+              "score": 0.8487
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8471
+            }
+          ],
+          "supporting": [
+            "arXiv:2412.20138v7"
+          ]
+        },
+        {
+          "topic": "금융 트레이딩용 멀티에이전트 LLM의 구조 및 작동 방식",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.858
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8563
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 3,
+              "score": 0.846
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.8457
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 LLM 프레임워크의 금융 트레이딩 성능 평가 결과",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8645
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8583
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8495
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.8493
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "금융 트레이딩용 멀티에이전트 LLM의 구조 및 작동 방식",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.858
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8563
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 3,
+              "score": 0.846
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.8457
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 LLM 프레임워크의 금융 트레이딩 성능 평가 결과",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8645
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8583
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8495
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.8493
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 966
+    },
+    {
+      "case_id": "GS-006",
+      "stratum": "B",
+      "query": "LLM의 성능을 평가하기 위해 멀티에이전트 구조를 사용하는 접근이 있는가?",
+      "run_id": "20260930-134903-0efe52",
+      "topic_count": 4,
+      "revisions": 2,
+      "wall_clock_s": 6.911,
+      "llm_latency_s": 6.116,
+      "retrieval_latency_s": 0.769,
+      "other_latency_s": 0.026,
+      "llm_calls": 10,
+      "cache_hits": 0,
+      "retrieval_calls": 8,
+      "prompt_tokens": 11925,
+      "completion_tokens": 296,
+      "billed_tokens": 12221,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 278,
+          "completion": 85,
+          "latency_s": 1.5185,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 8,
+          "prompt": 11054,
+          "completion": 112,
+          "latency_s": 2.8225,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 593,
+          "completion": 99,
+          "latency_s": 1.7753,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": false,
+          "expected_doc_cited": false
+        },
+        "passed": false,
+        "topic_count": 4,
+        "uncovered_count": 4,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [
+          "arXiv:2404.01023v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": false,
+        "must_mention_manual": [
+          "LLM 평가를 위한 멀티에이전트 모델"
+        ]
+      },
+      "items": [
+        {
+          "topic": "LLM 성능 평가를 위한 멀티에이전트 구조의 정의 및 개념",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 1,
+              "score": 0.8527
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8409
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 3,
+              "score": 0.8407
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8379
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 기반 LLM 평가 프레임워크의 종류 및 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8643
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 2,
+              "score": 0.8593
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8525
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 4,
+              "score": 0.8493
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 구조를 활용한 LLM 평가 방식의 작동 원리",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8547
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8467
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8455
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.8413
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "기존 단일 모델 평가 방식 대비 멀티에이전트 평가 방식의 차이점 및 장점",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8501
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8491
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 3,
+              "score": 0.8408
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 4,
+              "score": 0.8405
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 성능 평가를 위한 멀티에이전트 구조의 정의 및 개념",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 1,
+              "score": 0.8527
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8409
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 3,
+              "score": 0.8407
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8379
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 기반 LLM 평가 프레임워크의 종류 및 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8643
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 2,
+              "score": 0.8593
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8525
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 4,
+              "score": 0.8493
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 구조를 활용한 LLM 평가 방식의 작동 원리",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8547
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8467
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8455
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.8413
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "기존 단일 모델 평가 방식 대비 멀티에이전트 평가 방식의 차이점 및 장점",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8501
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8491
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 3,
+              "score": 0.8408
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 4,
+              "score": 0.8405
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 176
+    },
+    {
+      "case_id": "GS-007",
+      "stratum": "B",
+      "query": "과학 연구 자동화에서 LLM 멀티에이전트가 자율적으로 추론한 사례가 있는가?",
+      "run_id": "20260930-134910-6942af",
+      "topic_count": 4,
+      "revisions": 2,
+      "wall_clock_s": 14.136,
+      "llm_latency_s": 13.887,
+      "retrieval_latency_s": 0.221,
+      "other_latency_s": 0.029,
+      "llm_calls": 11,
+      "cache_hits": 0,
+      "retrieval_calls": 7,
+      "prompt_tokens": 11967,
+      "completion_tokens": 737,
+      "billed_tokens": 12704,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 281,
+          "completion": 89,
+          "latency_s": 1.5869,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 7,
+          "prompt": 9597,
+          "completion": 161,
+          "latency_s": 3.6118,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 2,
+          "prompt": 1294,
+          "completion": 140,
+          "latency_s": 2.555,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 795,
+          "completion": 347,
+          "latency_s": 6.1332,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": false
+        },
+        "passed": false,
+        "topic_count": 4,
+        "uncovered_count": 3,
+        "cited_doc_ids": [
+          "arXiv:2401.07324v3"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2512.13930v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "원자 단위 시뮬레이션 설계·실행·해석",
+          "계층적 구조"
+        ]
+      },
+      "items": [
+        {
+          "topic": "과학 연구 자동화 분야의 LLM 멀티에이전트 활용 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.87
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8636
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 3,
+              "score": 0.8411
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.8402
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 멀티에이전트의 자율적 추론 수행 방식 및 메커니즘",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.872
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8492
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 3,
+              "score": 0.8398
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 4,
+              "score": 0.8356
+            }
+          ],
+          "supporting": [
+            "arXiv:2401.07324v3"
+          ]
+        },
+        {
+          "topic": "자율적 추론을 통해 과학적 발견이나 가설을 도출한 구체적 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8636
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8472
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8339
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.8324
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "과학 연구 자동화에서 LLM 멀티에이전트의 추론 결과에 대한 검증 방법",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8636
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8587
+            },
+            {
+              "doc_id": "arXiv:2404.01023v1",
+              "rank": 3,
+              "score": 0.8446
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.844
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "과학 연구 자동화 분야의 LLM 멀티에이전트 활용 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.87
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8636
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 3,
+              "score": 0.8411
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.8402
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "자율적 추론을 통해 과학적 발견이나 가설을 도출한 구체적 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8636
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8472
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8339
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.8324
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "과학 연구 자동화에서 LLM 멀티에이전트의 추론 결과에 대한 검증 방법",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8636
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8587
+            },
+            {
+              "doc_id": "arXiv:2404.01023v1",
+              "rank": 3,
+              "score": 0.8446
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.844
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 997
+    },
+    {
+      "case_id": "GS-008",
+      "stratum": "C",
+      "query": "한국 개인정보보호법상 가명정보를 처리할 때 충족해야 하는 요건은 무엇인가?",
+      "run_id": "20260930-134924-0abe29",
+      "topic_count": 4,
+      "revisions": 2,
+      "wall_clock_s": 5.676,
+      "llm_latency_s": 5.186,
+      "retrieval_latency_s": 0.46,
+      "other_latency_s": 0.029,
+      "llm_calls": 10,
+      "cache_hits": 0,
+      "retrieval_calls": 8,
+      "prompt_tokens": 11462,
+      "completion_tokens": 241,
+      "billed_tokens": 11703,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 280,
+          "completion": 57,
+          "latency_s": 1.0357,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 8,
+          "prompt": 10614,
+          "completion": 112,
+          "latency_s": 2.8412,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 568,
+          "completion": 72,
+          "latency_s": 1.3095,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "negative_case_held": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 4,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [],
+        "min_citations": 0,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "근거 없음"
+        ]
+      },
+      "items": [
+        {
+          "topic": "가명정보 처리의 법적 정의 및 범위",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.7908
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 2,
+              "score": 0.7869
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 3,
+              "score": 0.786
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 4,
+              "score": 0.7807
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "가명정보 처리 시 준수해야 할 안전성 확보 조치",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.8105
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 2,
+              "score": 0.8074
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 3,
+              "score": 0.8029
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8022
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "가명정보 처리의 허용 목적 및 요건",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.7964
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 2,
+              "score": 0.7958
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.7943
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.7928
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "가명정보 처리 시 금지되는 행위 및 제한 사항",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.8032
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 2,
+              "score": 0.8009
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.7988
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.7886
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "가명정보 처리의 법적 정의 및 범위",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.7908
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 2,
+              "score": 0.7869
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 3,
+              "score": 0.786
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 4,
+              "score": 0.7807
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "가명정보 처리 시 준수해야 할 안전성 확보 조치",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.8105
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 2,
+              "score": 0.8074
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 3,
+              "score": 0.8029
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8022
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "가명정보 처리의 허용 목적 및 요건",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.7964
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 2,
+              "score": 0.7958
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.7943
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.7928
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "가명정보 처리 시 금지되는 행위 및 제한 사항",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.8032
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 2,
+              "score": 0.8009
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.7988
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.7886
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 131
+    },
+    {
+      "case_id": "GS-009",
+      "stratum": "C",
+      "query": "LLM 멀티에이전트 시스템 운영 시 GPU 비용을 얼마나 절감할 수 있는지 실측 수치가 있는가?",
+      "run_id": "20260930-134930-78b7b1",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 4.834,
+      "llm_latency_s": 4.638,
+      "retrieval_latency_s": 0.175,
+      "other_latency_s": 0.021,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 6,
+      "prompt_tokens": 9392,
+      "completion_tokens": 223,
+      "billed_tokens": 9615,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 283,
+          "completion": 64,
+          "latency_s": 1.1549,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 6,
+          "prompt": 8549,
+          "completion": 84,
+          "latency_s": 2.1202,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 560,
+          "completion": 75,
+          "latency_s": 1.3632,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "negative_case_held": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 3,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [],
+        "min_citations": 0,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "근거 없음"
+        ]
+      },
+      "items": [
+        {
+          "topic": "LLM 멀티에이전트 시스템의 GPU 비용 절감 관련 실측 수치",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.8417
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.837
+            },
+            {
+              "doc_id": "arXiv:2404.01023v1",
+              "rank": 3,
+              "score": 0.8355
+            },
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 4,
+              "score": 0.8305
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "단일 LLM 시스템 대비 멀티에이전트 시스템의 GPU 자원 사용량 비교",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.8395
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8379
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 3,
+              "score": 0.8353
+            },
+            {
+              "doc_id": "arXiv:2404.01023v1",
+              "rank": 4,
+              "score": 0.8327
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 시스템 운영을 통한 인프라 비용 최적화 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8436
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 2,
+              "score": 0.8411
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8375
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 4,
+              "score": 0.8355
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 멀티에이전트 시스템의 GPU 비용 절감 관련 실측 수치",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.8417
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.837
+            },
+            {
+              "doc_id": "arXiv:2404.01023v1",
+              "rank": 3,
+              "score": 0.8355
+            },
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 4,
+              "score": 0.8305
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "단일 LLM 시스템 대비 멀티에이전트 시스템의 GPU 자원 사용량 비교",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.8395
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8379
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 3,
+              "score": 0.8353
+            },
+            {
+              "doc_id": "arXiv:2404.01023v1",
+              "rank": 4,
+              "score": 0.8327
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 시스템 운영을 통한 인프라 비용 최적화 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8436
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 2,
+              "score": 0.8411
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8375
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 4,
+              "score": 0.8355
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 135
+    },
+    {
+      "case_id": "GS-010",
+      "stratum": "A",
+      "query": "두 언어모델이 서로 질문과 답을 주고받으며 후보를 좁혀가는 능력을 측정한 연구가 있는가?",
+      "run_id": "20260930-134935-456e36",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 4.981,
+      "llm_latency_s": 4.766,
+      "retrieval_latency_s": 0.191,
+      "other_latency_s": 0.023,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 6,
+      "prompt_tokens": 10211,
+      "completion_tokens": 225,
+      "billed_tokens": 10436,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 284,
+          "completion": 65,
+          "latency_s": 1.1801,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 6,
+          "prompt": 9365,
+          "completion": 84,
+          "latency_s": 2.2148,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 562,
+          "completion": 76,
+          "latency_s": 1.3716,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": false,
+          "expected_doc_cited": false
+        },
+        "passed": false,
+        "topic_count": 3,
+        "uncovered_count": 3,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [
+          "arXiv:2609.19113v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": false,
+        "must_mention_manual": [
+          "질문자와 답변자로 나뉜 2에이전트 게임",
+          "집합 크기에 따른 승률 변화"
+        ]
+      },
+      "items": [
+        {
+          "topic": "두 언어모델 간의 상호 질의응답을 통한 후보군 축소 능력 측정 연구",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 1,
+              "score": 0.8408
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 2,
+              "score": 0.8389
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 3,
+              "score": 0.8298
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 4,
+              "score": 0.824
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "언어모델 간의 협력적 추론 및 필터링 성능 평가 방법론",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 1,
+              "score": 0.8453
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 2,
+              "score": 0.8404
+            },
+            {
+              "doc_id": "arXiv:2404.01023v1",
+              "rank": 3,
+              "score": 0.834
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 4,
+              "score": 0.8289
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "다중 모델 간의 대화를 통한 정답 도출 및 후보 압축 관련 논문",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 1,
+              "score": 0.8405
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 2,
+              "score": 0.8344
+            },
+            {
+              "doc_id": "arXiv:2404.01023v1",
+              "rank": 3,
+              "score": 0.8315
+            },
+            {
+              "doc_id": "arXiv:2609.19088v1",
+              "rank": 4,
+              "score": 0.8311
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "두 언어모델 간의 상호 질의응답을 통한 후보군 축소 능력 측정 연구",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 1,
+              "score": 0.8408
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 2,
+              "score": 0.8389
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 3,
+              "score": 0.8298
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 4,
+              "score": 0.824
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "언어모델 간의 협력적 추론 및 필터링 성능 평가 방법론",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 1,
+              "score": 0.8453
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 2,
+              "score": 0.8404
+            },
+            {
+              "doc_id": "arXiv:2404.01023v1",
+              "rank": 3,
+              "score": 0.834
+            },
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 4,
+              "score": 0.8289
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "다중 모델 간의 대화를 통한 정답 도출 및 후보 압축 관련 논문",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 1,
+              "score": 0.8405
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 2,
+              "score": 0.8344
+            },
+            {
+              "doc_id": "arXiv:2404.01023v1",
+              "rank": 3,
+              "score": 0.8315
+            },
+            {
+              "doc_id": "arXiv:2609.19088v1",
+              "rank": 4,
+              "score": 0.8311
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 133
+    },
+    {
+      "case_id": "GS-011",
+      "stratum": "A",
+      "query": "모델이 보상을 속이는 행동을 내부 표현으로 탐지할 수 있다는 연구가 있는가?",
+      "run_id": "20260930-134940-274729",
+      "topic_count": 4,
+      "revisions": 2,
+      "wall_clock_s": 21.042,
+      "llm_latency_s": 20.822,
+      "retrieval_latency_s": 0.191,
+      "other_latency_s": 0.029,
+      "llm_calls": 13,
+      "cache_hits": 0,
+      "retrieval_calls": 5,
+      "prompt_tokens": 12425,
+      "completion_tokens": 1130,
+      "billed_tokens": 13555,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 277,
+          "completion": 70,
+          "latency_s": 1.2561,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 5,
+          "prompt": 6938,
+          "completion": 220,
+          "latency_s": 4.4832,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 6,
+          "prompt": 3982,
+          "completion": 386,
+          "latency_s": 6.9847,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 1228,
+          "completion": 454,
+          "latency_s": 8.0979,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 1,
+        "cited_doc_ids": [
+          "arXiv:2609.19101v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2609.19101v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "내부 표현 기반 탐지 (difference of means 벡터)",
+          "LLM 모니터 대비 비용"
+        ]
+      },
+      "items": [
+        {
+          "topic": "모델의 보상 속임수(reward hacking/gaming) 정의 및 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8549
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 2,
+              "score": 0.8426
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 3,
+              "score": 0.8395
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8376
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "모델의 내부 표현(internal representations)을 통한 행동 탐지 연구",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8396
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8361
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8332
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8277
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19101v1"
+          ]
+        },
+        {
+          "topic": "보상 속임수 행동과 내부 표현 간의 상관관계 분석 연구",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8401
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8242
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 3,
+              "score": 0.8222
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8215
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19101v1"
+          ]
+        },
+        {
+          "topic": "내부 표현 기반의 보상 속임수 탐지 방법론 및 성능",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8465
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8413
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8322
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 4,
+              "score": 0.8249
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19101v1"
+          ]
+        },
+        {
+          "topic": "모델의 보상 속임수(reward hacking/gaming) 정의 및 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8549
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 2,
+              "score": 0.8426
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 3,
+              "score": 0.8395
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8376
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 1295
+    },
+    {
+      "case_id": "GS-012",
+      "stratum": "A",
+      "query": "토크나이저의 최적화 목표와 탐색 절차 중 어느 쪽이 언어모델 성능을 좌우하는가?",
+      "run_id": "20260930-135001-09610a",
+      "topic_count": 3,
+      "revisions": 1,
+      "wall_clock_s": 15.281,
+      "llm_latency_s": 14.945,
+      "retrieval_latency_s": 0.305,
+      "other_latency_s": 0.03,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 3,
+      "prompt_tokens": 7686,
+      "completion_tokens": 813,
+      "billed_tokens": 8499,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 285,
+          "completion": 59,
+          "latency_s": 1.0446,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 3,
+          "prompt": 4158,
+          "completion": 154,
+          "latency_s": 3.1251,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 3,
+          "prompt": 2017,
+          "completion": 214,
+          "latency_s": 3.8751,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 1226,
+          "completion": 386,
+          "latency_s": 6.9007,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 0,
+        "cited_doc_ids": [
+          "arXiv:2609.19145v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2609.19145v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "목표(압축 vs 로그우도)와 탐색(상향 병합 vs 하향 가지치기)의 분리",
+          "탐색 절차가 지배적"
+        ]
+      },
+      "items": [
+        {
+          "topic": "토크나이저 최적화 목표가 언어모델 성능에 미치는 영향",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.8529
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8524
+            },
+            {
+              "doc_id": "arXiv:2609.19145v1",
+              "rank": 3,
+              "score": 0.8498
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.8347
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19145v1"
+          ]
+        },
+        {
+          "topic": "토크나이저 탐색 절차가 언어모델 성능에 미치는 영향",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.851
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8503
+            },
+            {
+              "doc_id": "arXiv:2609.19145v1",
+              "rank": 3,
+              "score": 0.85
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.832
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19145v1"
+          ]
+        },
+        {
+          "topic": "최적화 목표와 탐색 절차 간의 성능 기여도 비교 분석",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.8499
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8492
+            },
+            {
+              "doc_id": "arXiv:2609.19145v1",
+              "rank": 3,
+              "score": 0.8491
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 4,
+              "score": 0.8296
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19145v1"
+          ]
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 1123
+    },
+    {
+      "case_id": "GS-013",
+      "stratum": "A",
+      "query": "시각-언어 모델을 교육 맥락의 예술 이미지 이해로 평가한 벤치마크가 있는가?",
+      "run_id": "20260930-135016-f344d4",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 15.445,
+      "llm_latency_s": 15.315,
+      "retrieval_latency_s": 0.106,
+      "other_latency_s": 0.023,
+      "llm_calls": 12,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 10760,
+      "completion_tokens": 825,
+      "billed_tokens": 11585,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 282,
+          "completion": 63,
+          "latency_s": 1.141,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 5819,
+          "completion": 200,
+          "latency_s": 4.0383,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 6,
+          "prompt": 3752,
+          "completion": 332,
+          "latency_s": 6.042,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 907,
+          "completion": 230,
+          "latency_s": 4.094,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 1,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 1,
+        "cited_doc_ids": [
+          "arXiv:2609.19088v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2609.19088v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "예술 이미지 이해 벤치마크",
+          "정서적 해석·구성적 추론의 취약"
+        ]
+      },
+      "items": [
+        {
+          "topic": "교육 맥락의 예술 이미지 이해를 평가하는 시각-언어 모델 벤치마크 목록",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19088v1",
+              "rank": 1,
+              "score": 0.8474
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8392
+            },
+            {
+              "doc_id": "arXiv:2609.19143v1",
+              "rank": 3,
+              "score": 0.8306
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 4,
+              "score": 0.8254
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19088v1"
+          ]
+        },
+        {
+          "topic": "예술 이미지 이해 벤치마크의 교육적 활용 사례 및 평가 지표",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19088v1",
+              "rank": 1,
+              "score": 0.8411
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8291
+            },
+            {
+              "doc_id": "arXiv:2609.19143v1",
+              "rank": 3,
+              "score": 0.8209
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 4,
+              "score": 0.8122
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19088v1"
+          ]
+        },
+        {
+          "topic": "시각-언어 모델의 예술 도메인 이해도 측정 방법론",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19088v1",
+              "rank": 1,
+              "score": 0.8525
+            },
+            {
+              "doc_id": "arXiv:2609.19143v1",
+              "rank": 2,
+              "score": 0.8309
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8277
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.8252
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19088v1"
+          ]
+        },
+        {
+          "topic": "예술 이미지 이해 벤치마크의 교육적 활용 사례 및 평가 지표",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19088v1",
+              "rank": 1,
+              "score": 0.8411
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8291
+            },
+            {
+              "doc_id": "arXiv:2609.19143v1",
+              "rank": 3,
+              "score": 0.8209
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 4,
+              "score": 0.8122
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19088v1"
+          ]
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 789
+    },
+    {
+      "case_id": "GS-014",
+      "stratum": "A",
+      "query": "AI 하드웨어의 초점이 대규모 학습에서 추론 수요 대응으로 옮겨가고 있다는 설명이 있는가?",
+      "run_id": "20260930-135031-eb0ac6",
+      "topic_count": 3,
+      "revisions": 1,
+      "wall_clock_s": 11.925,
+      "llm_latency_s": 11.829,
+      "retrieval_latency_s": 0.083,
+      "other_latency_s": 0.013,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 3,
+      "prompt_tokens": 6699,
+      "completion_tokens": 639,
+      "billed_tokens": 7338,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 282,
+          "completion": 59,
+          "latency_s": 1.042,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 3,
+          "prompt": 3765,
+          "completion": 178,
+          "latency_s": 3.4927,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 3,
+          "prompt": 1723,
+          "completion": 147,
+          "latency_s": 2.7308,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 929,
+          "completion": 255,
+          "latency_s": 4.5639,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 0,
+        "cited_doc_ids": [
+          "news:42f467857601213c"
+        ],
+        "expected_doc_ids": [
+          "news:42f467857601213c"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "학습에서 추론으로의 하드웨어 중심 이동"
+        ]
+      },
+      "items": [
+        {
+          "topic": "AI 하드웨어의 초점이 대규모 학습에서 추론 수요 대응으로 이동했다는 설명 여부",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8957
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 2,
+              "score": 0.8597
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 3,
+              "score": 0.8434
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 4,
+              "score": 0.8433
+            }
+          ],
+          "supporting": [
+            "news:42f467857601213c"
+          ]
+        },
+        {
+          "topic": "AI 하드웨어 시장의 학습 및 추론 수요 변화 추이",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.9007
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 2,
+              "score": 0.8479
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 3,
+              "score": 0.8371
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 4,
+              "score": 0.8353
+            }
+          ],
+          "supporting": [
+            "news:42f467857601213c"
+          ]
+        },
+        {
+          "topic": "추론 수요 대응을 위한 AI 하드웨어의 기술적 변화 및 특징",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.9009
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 2,
+              "score": 0.8529
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 3,
+              "score": 0.8365
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 4,
+              "score": 0.8337
+            }
+          ],
+          "supporting": [
+            "news:42f467857601213c"
+          ]
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 843
+    },
+    {
+      "case_id": "GS-015",
+      "stratum": "A",
+      "query": "LLM 에이전트 벤치마크 논문들이 평가 실행 조건을 얼마나 공개하는지 조사한 것이 있는가?",
+      "run_id": "20260930-135043-770205",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 12.269,
+      "llm_latency_s": 12.053,
+      "retrieval_latency_s": 0.192,
+      "other_latency_s": 0.024,
+      "llm_calls": 9,
+      "cache_hits": 0,
+      "retrieval_calls": 5,
+      "prompt_tokens": 9428,
+      "completion_tokens": 645,
+      "billed_tokens": 10073,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 283,
+          "completion": 64,
+          "latency_s": 1.1564,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 5,
+          "prompt": 7061,
+          "completion": 121,
+          "latency_s": 2.7061,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 2,
+          "prompt": 1316,
+          "completion": 140,
+          "latency_s": 2.5501,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 768,
+          "completion": 320,
+          "latency_s": 5.6408,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 2,
+        "cited_doc_ids": [
+          "arXiv:2605.21404v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2605.21404v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "공개 수준 감사 스키마",
+          "에이전트 논문과 고전 벤치마크의 점수 차"
+        ]
+      },
+      "items": [
+        {
+          "topic": "LLM 에이전트 벤치마크 논문의 평가 실행 조건 공개 여부 조사 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8556
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8529
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 3,
+              "score": 0.8392
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 4,
+              "score": 0.839
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 에이전트 벤치마크의 실행 조건 공개 범위 및 항목",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8544
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8513
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 3,
+              "score": 0.845
+            },
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 4,
+              "score": 0.8436
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "벤치마크 논문 내 평가 환경 및 설정 정보의 투명성 분석 자료",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 1,
+              "score": 0.8544
+            },
+            {
+              "doc_id": "arXiv:2605.21404v1",
+              "rank": 2,
+              "score": 0.8539
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8537
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8465
+            }
+          ],
+          "supporting": [
+            "arXiv:2605.21404v1"
+          ]
+        },
+        {
+          "topic": "LLM 에이전트 벤치마크 논문의 평가 실행 조건 공개 여부 조사 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8556
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8529
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 3,
+              "score": 0.8392
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 4,
+              "score": 0.839
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 에이전트 벤치마크의 실행 조건 공개 범위 및 항목",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8544
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8513
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 3,
+              "score": 0.845
+            },
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 4,
+              "score": 0.8436
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 938
+    },
+    {
+      "case_id": "GS-016",
+      "stratum": "A",
+      "query": "과학 코드 저장소를 에이전트가 학습할 수 있는 실행 환경으로 바꾸는 접근이 있는가?",
+      "run_id": "20260930-135056-bbc179",
+      "topic_count": 4,
+      "revisions": 2,
+      "wall_clock_s": 21.935,
+      "llm_latency_s": 21.601,
+      "retrieval_latency_s": 0.299,
+      "other_latency_s": 0.035,
+      "llm_calls": 16,
+      "cache_hits": 0,
+      "retrieval_calls": 7,
+      "prompt_tokens": 14919,
+      "completion_tokens": 1166,
+      "billed_tokens": 16085,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 279,
+          "completion": 55,
+          "latency_s": 1.0024,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 7,
+          "prompt": 9436,
+          "completion": 345,
+          "latency_s": 6.7968,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 7,
+          "prompt": 4447,
+          "completion": 394,
+          "latency_s": 7.2458,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 757,
+          "completion": 372,
+          "latency_s": 6.5558,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 3,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 4,
+        "uncovered_count": 3,
+        "cited_doc_ids": [
+          "arXiv:2609.19134v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2609.19134v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "과학 코드 저장소를 실행 가능한 환경으로 전환",
+          "검증된 상호작용 궤적으로 학습"
+        ]
+      },
+      "items": [
+        {
+          "topic": "과학 코드 저장소의 실행 환경 구축 방법",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8645
+            },
+            {
+              "doc_id": "arXiv:2609.19134v1",
+              "rank": 2,
+              "score": 0.8545
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8444
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8379
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19134v1"
+          ]
+        },
+        {
+          "topic": "에이전트 학습을 위한 코드 실행 환경의 요구사항",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8701
+            },
+            {
+              "doc_id": "arXiv:2609.19134v1",
+              "rank": 2,
+              "score": 0.8564
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8472
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8453
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "코드 저장소를 학습 환경으로 변환하는 기존 접근 방식",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8729
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8594
+            },
+            {
+              "doc_id": "arXiv:2609.19134v1",
+              "rank": 3,
+              "score": 0.8572
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8519
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19134v1"
+          ]
+        },
+        {
+          "topic": "과학 코드 실행 환경의 에이전트 학습 적용 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8799
+            },
+            {
+              "doc_id": "arXiv:2609.19134v1",
+              "rank": 2,
+              "score": 0.8577
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8555
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8532
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19134v1"
+          ]
+        },
+        {
+          "topic": "과학 코드 저장소의 실행 환경 구축 방법",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8645
+            },
+            {
+              "doc_id": "arXiv:2609.19134v1",
+              "rank": 2,
+              "score": 0.8545
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8444
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8379
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19134v1"
+          ]
+        },
+        {
+          "topic": "에이전트 학습을 위한 코드 실행 환경의 요구사항",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8701
+            },
+            {
+              "doc_id": "arXiv:2609.19134v1",
+              "rank": 2,
+              "score": 0.8564
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8472
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8453
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19134v1"
+          ]
+        },
+        {
+          "topic": "코드 저장소를 학습 환경으로 변환하는 기존 접근 방식",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8729
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8594
+            },
+            {
+              "doc_id": "arXiv:2609.19134v1",
+              "rank": 3,
+              "score": 0.8572
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8519
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19134v1"
+          ]
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 1152
+    },
+    {
+      "case_id": "GS-017",
+      "stratum": "A",
+      "query": "선호 쌍의 차이가 작을 때 기울기 계산 없이 비교만으로 모델을 정렬하는 방법이 있는가?",
+      "run_id": "20260930-135118-38153b",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 14.311,
+      "llm_latency_s": 14.105,
+      "retrieval_latency_s": 0.173,
+      "other_latency_s": 0.033,
+      "llm_calls": 10,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 8950,
+      "completion_tokens": 759,
+      "billed_tokens": 9709,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 282,
+          "completion": 51,
+          "latency_s": 0.9368,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 5264,
+          "completion": 153,
+          "latency_s": 3.1631,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 4,
+          "prompt": 2498,
+          "completion": 254,
+          "latency_s": 4.6486,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 906,
+          "completion": 301,
+          "latency_s": 5.3565,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 1,
+        "cited_doc_ids": [
+          "arXiv:2609.19144v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2609.19144v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "비교 오라클 기반 0차(zeroth-order) 정렬",
+          "미분 가능한 선호 손실을 직접 최적화하지 않음"
+        ]
+      },
+      "items": [
+        {
+          "topic": "선호 쌍의 차이가 작을 때 기울기 계산 없이 모델을 정렬하는 방법",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.8378
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8362
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8307
+            },
+            {
+              "doc_id": "news:c45b8926d7935cd2",
+              "rank": 4,
+              "score": 0.8182
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "기울기 계산 없는 모델 정렬 기법의 작동 원리",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.8273
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 2,
+              "score": 0.8242
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8218
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 4,
+              "score": 0.8164
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19144v1"
+          ]
+        },
+        {
+          "topic": "비교 기반 모델 정렬 방식의 특징 및 조건",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8302
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 2,
+              "score": 0.8301
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 3,
+              "score": 0.8271
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8194
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19144v1"
+          ]
+        },
+        {
+          "topic": "선호 쌍의 차이가 작을 때 기울기 계산 없이 모델을 정렬하는 방법",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.8378
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8362
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8307
+            },
+            {
+              "doc_id": "news:c45b8926d7935cd2",
+              "rank": 4,
+              "score": 0.8182
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 1066
+    },
+    {
+      "case_id": "GS-018",
+      "stratum": "A",
+      "query": "방사선 판독문 생성 모델의 평가 점수가 참조 보고서의 작성 방식에 따라 흔들린다는 연구가 있는가?",
+      "run_id": "20260930-135132-9935e3",
+      "topic_count": 3,
+      "revisions": 1,
+      "wall_clock_s": 14.953,
+      "llm_latency_s": 14.8,
+      "retrieval_latency_s": 0.117,
+      "other_latency_s": 0.036,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 3,
+      "prompt_tokens": 7562,
+      "completion_tokens": 800,
+      "billed_tokens": 8362,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 285,
+          "completion": 69,
+          "latency_s": 1.244,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 3,
+          "prompt": 4250,
+          "completion": 187,
+          "latency_s": 3.7341,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 3,
+          "prompt": 1909,
+          "completion": 205,
+          "latency_s": 3.759,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 1118,
+          "completion": 339,
+          "latency_s": 6.0624,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 0,
+        "cited_doc_ids": [
+          "arXiv:2609.19093v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2609.19093v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "참조 보고서 작성 관행에 대한 평가 지표의 민감도",
+          "모델 순위가 뒤바뀜"
+        ]
+      },
+      "items": [
+        {
+          "topic": "방사선 판독문 생성 모델의 평가 점수와 참조 보고서 작성 방식 간의 상관관계 연구",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.836
+            },
+            {
+              "doc_id": "arXiv:2609.19093v1",
+              "rank": 2,
+              "score": 0.8321
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 3,
+              "score": 0.8187
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8181
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19093v1"
+          ]
+        },
+        {
+          "topic": "참조 보고서의 스타일이나 형식이 모델 평가 지표에 미치는 영향",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.8311
+            },
+            {
+              "doc_id": "arXiv:2609.19093v1",
+              "rank": 2,
+              "score": 0.829
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8131
+            },
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 4,
+              "score": 0.8109
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19093v1"
+          ]
+        },
+        {
+          "topic": "방사선 판독문 생성 모델 평가 시 참조 보고서의 가변성 및 일관성 분석",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.8451
+            },
+            {
+              "doc_id": "arXiv:2609.19093v1",
+              "rank": 2,
+              "score": 0.8363
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8245
+            },
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 4,
+              "score": 0.8202
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19093v1"
+          ]
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 1030
+    },
+    {
+      "case_id": "GS-019",
+      "stratum": "B",
+      "query": "작은 모델을 계획·호출·요약 역할로 나눠 도구 사용 성능을 끌어올린 연구가 있는가?",
+      "run_id": "20260930-135147-f20b45",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 15.825,
+      "llm_latency_s": 15.519,
+      "retrieval_latency_s": 0.26,
+      "other_latency_s": 0.046,
+      "llm_calls": 11,
+      "cache_hits": 0,
+      "retrieval_calls": 5,
+      "prompt_tokens": 10219,
+      "completion_tokens": 845,
+      "billed_tokens": 11064,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 283,
+          "completion": 72,
+          "latency_s": 1.2661,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 5,
+          "prompt": 6595,
+          "completion": 239,
+          "latency_s": 4.7139,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 4,
+          "prompt": 2582,
+          "completion": 266,
+          "latency_s": 4.8131,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 759,
+          "completion": 268,
+          "latency_s": 4.726,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 1,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 2,
+        "cited_doc_ids": [
+          "arXiv:2401.07324v3"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2401.07324v3"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "planner / caller / summarizer 분해",
+          "단일 LLM 대비 성능 향상"
+        ]
+      },
+      "items": [
+        {
+          "topic": "작은 모델을 계획, 호출, 요약 역할로 분리하여 도구 사용 성능을 개선한 연구 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8413
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8378
+            },
+            {
+              "doc_id": "news:c45b8926d7935cd2",
+              "rank": 3,
+              "score": 0.8372
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8368
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "역할 분담 기반의 소형 모델 도구 사용 프레임워크의 구조 및 작동 방식",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 1,
+              "score": 0.8514
+            },
+            {
+              "doc_id": "news:c45b8926d7935cd2",
+              "rank": 2,
+              "score": 0.8428
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 3,
+              "score": 0.8338
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8321
+            }
+          ],
+          "supporting": [
+            "arXiv:2401.07324v3"
+          ]
+        },
+        {
+          "topic": "역할 분리 방식이 소형 모델의 도구 사용 성능에 미치는 영향 및 결과",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 1,
+              "score": 0.8369
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.828
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 3,
+              "score": 0.8274
+            },
+            {
+              "doc_id": "news:c45b8926d7935cd2",
+              "rank": 4,
+              "score": 0.8199
+            }
+          ],
+          "supporting": [
+            "arXiv:2401.07324v3"
+          ]
+        },
+        {
+          "topic": "작은 모델을 계획, 호출, 요약 역할로 분리하여 도구 사용 성능을 개선한 연구 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8413
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8378
+            },
+            {
+              "doc_id": "news:c45b8926d7935cd2",
+              "rank": 3,
+              "score": 0.8372
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8368
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "역할 분리 방식이 소형 모델의 도구 사용 성능에 미치는 영향 및 결과",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2401.07324v3",
+              "rank": 1,
+              "score": 0.8369
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.828
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 3,
+              "score": 0.8274
+            },
+            {
+              "doc_id": "news:c45b8926d7935cd2",
+              "rank": 4,
+              "score": 0.8199
+            }
+          ],
+          "supporting": [
+            "arXiv:2401.07324v3"
+          ]
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 865
+    },
+    {
+      "case_id": "GS-020",
+      "stratum": "B",
+      "query": "에이전트가 병렬로 진행되거나 중단되는 장기 과제를 비동기적으로 계획하는 능력을 측정한 벤치마크가 있는가?",
+      "run_id": "20260930-135203-e38f41",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 4.636,
+      "llm_latency_s": 4.375,
+      "retrieval_latency_s": 0.231,
+      "other_latency_s": 0.03,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 6,
+      "prompt_tokens": 9588,
+      "completion_tokens": 211,
+      "billed_tokens": 9799,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 293,
+          "completion": 58,
+          "latency_s": 1.0316,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 6,
+          "prompt": 8731,
+          "completion": 84,
+          "latency_s": 2.0931,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 564,
+          "completion": 69,
+          "latency_s": 1.25,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": false,
+          "expected_doc_cited": false
+        },
+        "passed": false,
+        "topic_count": 3,
+        "uncovered_count": 3,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [
+          "arXiv:2502.05227v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": false,
+        "must_mention_manual": [
+          "비동기 계획 벤치마크",
+          "동기 과제 대비 비동기 과제의 성능 급락"
+        ]
+      },
+      "items": [
+        {
+          "topic": "에이전트의 비동기적 계획 능력 측정 벤치마크",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8527
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 2,
+              "score": 0.8392
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8273
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 4,
+              "score": 0.8269
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "병렬 과제 수행 및 중단 가능 과제 처리 측정 지표",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8472
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 2,
+              "score": 0.8452
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 3,
+              "score": 0.8316
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 4,
+              "score": 0.8311
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "장기 과제 계획 능력을 평가하는 에이전트 벤치마크 목록",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8615
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 2,
+              "score": 0.8382
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8324
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 4,
+              "score": 0.8311
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "에이전트의 비동기적 계획 능력 측정 벤치마크",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8527
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 2,
+              "score": 0.8392
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8273
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 4,
+              "score": 0.8269
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "병렬 과제 수행 및 중단 가능 과제 처리 측정 지표",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8472
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 2,
+              "score": 0.8452
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 3,
+              "score": 0.8316
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 4,
+              "score": 0.8311
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "장기 과제 계획 능력을 평가하는 에이전트 벤치마크 목록",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8615
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 2,
+              "score": 0.8382
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8324
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 4,
+              "score": 0.8311
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 113
+    },
+    {
+      "case_id": "GS-021",
+      "stratum": "A",
+      "query": "이미지 캡션의 각 구절을 픽셀 마스크에 연결하는 문제를 다룬 연구가 있는가?",
+      "run_id": "20260930-135207-70347e",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 16.628,
+      "llm_latency_s": 16.42,
+      "retrieval_latency_s": 0.166,
+      "other_latency_s": 0.042,
+      "llm_calls": 10,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 9035,
+      "completion_tokens": 898,
+      "billed_tokens": 9933,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 281,
+          "completion": 60,
+          "latency_s": 1.0877,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 5261,
+          "completion": 164,
+          "latency_s": 3.3051,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 4,
+          "prompt": 2560,
+          "completion": 291,
+          "latency_s": 5.2326,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 933,
+          "completion": 383,
+          "latency_s": 6.7944,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 1,
+        "cited_doc_ids": [
+          "arXiv:2609.19143v1"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2609.19143v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "구절-마스크 연결(phrase grounding)",
+          "마스크 후보에서의 선택"
+        ]
+      },
+      "items": [
+        {
+          "topic": "이미지 캡션 구절과 픽셀 마스크 연결 관련 연구 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.8395
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 2,
+              "score": 0.8359
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 3,
+              "score": 0.8306
+            },
+            {
+              "doc_id": "arXiv:2609.19143v1",
+              "rank": 4,
+              "score": 0.8284
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19143v1"
+          ]
+        },
+        {
+          "topic": "캡션-픽셀 정렬(Caption-to-Pixel Alignment) 기술 및 방법론",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.8351
+            },
+            {
+              "doc_id": "arXiv:2609.19143v1",
+              "rank": 2,
+              "score": 0.8342
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 3,
+              "score": 0.824
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 4,
+              "score": 0.8219
+            }
+          ],
+          "supporting": [
+            "arXiv:2609.19143v1"
+          ]
+        },
+        {
+          "topic": "이미지 캡션의 구절 단위 세그멘테이션 연구 현황",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.8394
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 2,
+              "score": 0.8392
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 3,
+              "score": 0.8286
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8254
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "이미지 캡션의 구절 단위 세그멘테이션 연구 현황",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 1,
+              "score": 0.8394
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 2,
+              "score": 0.8392
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 3,
+              "score": 0.8286
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8254
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 1083
+    },
+    {
+      "case_id": "GS-022",
+      "stratum": "A",
+      "query": "코딩 에이전트의 탐색 전략을 과거 시도 기록 위에서 시험해 개선하는 프레임워크가 있는가?",
+      "run_id": "20260930-135224-390f40",
+      "topic_count": 3,
+      "revisions": 1,
+      "wall_clock_s": 9.998,
+      "llm_latency_s": 9.855,
+      "retrieval_latency_s": 0.109,
+      "other_latency_s": 0.034,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 3,
+      "prompt_tokens": 6646,
+      "completion_tokens": 524,
+      "billed_tokens": 7170,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 285,
+          "completion": 55,
+          "latency_s": 1.0175,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 3,
+          "prompt": 3782,
+          "completion": 167,
+          "latency_s": 3.3157,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 3,
+          "prompt": 1685,
+          "completion": 161,
+          "latency_s": 2.9818,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 894,
+          "completion": 141,
+          "latency_s": 2.54,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 0,
+        "cited_doc_ids": [
+          "news:3dd7208e3f2a1dde"
+        ],
+        "expected_doc_ids": [
+          "news:3dd7208e3f2a1dde"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "과거 시도·결과 기록 위에서 전략을 시험",
+          "코드 재생성·재실행 비용 회피"
+        ]
+      },
+      "items": [
+        {
+          "topic": "코딩 에이전트의 탐색 전략 개선 프레임워크",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.9204
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8645
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8485
+            },
+            {
+              "doc_id": "news:c45b8926d7935cd2",
+              "rank": 4,
+              "score": 0.8426
+            }
+          ],
+          "supporting": [
+            "news:3dd7208e3f2a1dde"
+          ]
+        },
+        {
+          "topic": "과거 시도 기록을 활용한 에이전트 성능 최적화 방법",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.9187
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8498
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8495
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 4,
+              "score": 0.8373
+            }
+          ],
+          "supporting": [
+            "news:3dd7208e3f2a1dde"
+          ]
+        },
+        {
+          "topic": "코딩 에이전트의 탐색 전략 시험 및 검증 체계",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.9108
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8539
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8418
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 4,
+              "score": 0.8363
+            }
+          ],
+          "supporting": [
+            "news:3dd7208e3f2a1dde"
+          ]
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 618
+    },
+    {
+      "case_id": "GS-023",
+      "stratum": "A",
+      "query": "모델의 오정렬 사례를 추적·조사·공개하는 운영 체계를 제시한 곳이 있는가?",
+      "run_id": "20260930-135234-7021a8",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 4.18,
+      "llm_latency_s": 3.925,
+      "retrieval_latency_s": 0.205,
+      "other_latency_s": 0.05,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 6,
+      "prompt_tokens": 8532,
+      "completion_tokens": 187,
+      "billed_tokens": 8719,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 282,
+          "completion": 46,
+          "latency_s": 0.8463,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 6,
+          "prompt": 7709,
+          "completion": 84,
+          "latency_s": 2.0328,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 541,
+          "completion": 57,
+          "latency_s": 1.0458,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": false,
+          "expected_doc_cited": false
+        },
+        "passed": false,
+        "topic_count": 3,
+        "uncovered_count": 3,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [
+          "news:f3899afd4d6a0a2d"
+        ],
+        "min_citations": 1,
+        "min_citations_met": false,
+        "must_mention_manual": [
+          "오정렬 추적·조사·공개 프레임워크",
+          "예상 밖 모델 행동 보고"
+        ]
+      },
+      "items": [
+        {
+          "topic": "모델 오정렬 사례 추적 및 조사 운영 체계 제시 기관",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8205
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 2,
+              "score": 0.8182
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8166
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8158
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "모델 오정렬 사례 공개 프로세스 및 가이드라인",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.8264
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 2,
+              "score": 0.8224
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8214
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8199
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "오정렬 사례 수집 및 보고 체계의 구성 요소",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8185
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 2,
+              "score": 0.8091
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 3,
+              "score": 0.8086
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8085
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "모델 오정렬 사례 추적 및 조사 운영 체계 제시 기관",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8205
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 2,
+              "score": 0.8182
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8166
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8158
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "모델 오정렬 사례 공개 프로세스 및 가이드라인",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 1,
+              "score": 0.8264
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 2,
+              "score": 0.8224
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8214
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8199
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "오정렬 사례 수집 및 보고 체계의 구성 요소",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8185
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 2,
+              "score": 0.8091
+            },
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 3,
+              "score": 0.8086
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 4,
+              "score": 0.8085
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 109
+    },
+    {
+      "case_id": "GS-024",
+      "stratum": "A",
+      "query": "광고를 클릭하면 기업이 후원하는 에이전트와 대화하는 기능이 시험되고 있는가?",
+      "run_id": "20260930-135238-614a5f",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 13.818,
+      "llm_latency_s": 13.639,
+      "retrieval_latency_s": 0.134,
+      "other_latency_s": 0.046,
+      "llm_calls": 12,
+      "cache_hits": 0,
+      "retrieval_calls": 4,
+      "prompt_tokens": 9475,
+      "completion_tokens": 731,
+      "billed_tokens": 10206,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 280,
+          "completion": 49,
+          "latency_s": 0.898,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 4,
+          "prompt": 5058,
+          "completion": 189,
+          "latency_s": 3.7632,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 6,
+          "prompt": 3366,
+          "completion": 302,
+          "latency_s": 5.5837,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 771,
+          "completion": 191,
+          "latency_s": 3.3944,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 1,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 1,
+        "cited_doc_ids": [
+          "news:14d2c76967ca2b60"
+        ],
+        "expected_doc_ids": [
+          "news:14d2c76967ca2b60"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "후원 에이전트와의 대화 기능 시험",
+          "독립 답변과의 분리 표시"
+        ]
+      },
+      "items": [
+        {
+          "topic": "광고 클릭 시 기업 후원 에이전트와 대화하는 기능의 시험 여부",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 1,
+              "score": 0.9183
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8522
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8454
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 4,
+              "score": 0.8302
+            }
+          ],
+          "supporting": [
+            "news:14d2c76967ca2b60"
+          ]
+        },
+        {
+          "topic": "광고 기반 에이전트 대화 기능의 작동 방식",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 1,
+              "score": 0.9222
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.86
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8424
+            },
+            {
+              "doc_id": "news:c45b8926d7935cd2",
+              "rank": 4,
+              "score": 0.8312
+            }
+          ],
+          "supporting": [
+            "news:14d2c76967ca2b60"
+          ]
+        },
+        {
+          "topic": "해당 기능의 테스트 대상 및 적용 범위",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 1,
+              "score": 0.9157
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8485
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.833
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 4,
+              "score": 0.8219
+            }
+          ],
+          "supporting": [
+            "news:14d2c76967ca2b60"
+          ]
+        },
+        {
+          "topic": "광고 기반 에이전트 대화 기능의 작동 방식",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:14d2c76967ca2b60",
+              "rank": 1,
+              "score": 0.9222
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.86
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8424
+            },
+            {
+              "doc_id": "news:c45b8926d7935cd2",
+              "rank": 4,
+              "score": 0.8312
+            }
+          ],
+          "supporting": [
+            "news:14d2c76967ca2b60"
+          ]
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 740
+    },
+    {
+      "case_id": "GS-025",
+      "stratum": "B",
+      "query": "한 번의 요청으로는 불가능한 목표를, 에이전트와 여러 턴을 주고받으며 달성하는 공격에 대한 취약성을 측정한 벤치마크가 있는가?",
+      "run_id": "20260930-135252-18ee38",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 11.717,
+      "llm_latency_s": 11.466,
+      "retrieval_latency_s": 0.219,
+      "other_latency_s": 0.032,
+      "llm_calls": 9,
+      "cache_hits": 0,
+      "retrieval_calls": 5,
+      "prompt_tokens": 9747,
+      "completion_tokens": 616,
+      "billed_tokens": 10363,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 299,
+          "completion": 56,
+          "latency_s": 0.9995,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 5,
+          "prompt": 7332,
+          "completion": 116,
+          "latency_s": 2.5824,
+          "cached": 0
+        },
+        "verifier": {
+          "calls": 2,
+          "prompt": 1332,
+          "completion": 170,
+          "latency_s": 3.0456,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 784,
+          "completion": 274,
+          "latency_s": 4.8389,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "some_topic_covered": true,
+          "expected_doc_cited": false
+        },
+        "passed": false,
+        "topic_count": 3,
+        "uncovered_count": 2,
+        "cited_doc_ids": [
+          "arXiv:2410.09024v3"
+        ],
+        "expected_doc_ids": [
+          "arXiv:2602.16901v1"
+        ],
+        "min_citations": 1,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "다중 턴 상호작용을 악용하는 공격",
+          "단일 턴용 방어의 실패"
+        ]
+      },
+      "items": [
+        {
+          "topic": "다회차 상호작용을 통한 목표 달성 공격 방식의 정의",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:509053e1f8b378dd",
+              "rank": 1,
+              "score": 0.8413
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8397
+            },
+            {
+              "doc_id": "arXiv:2410.09024v3",
+              "rank": 3,
+              "score": 0.8372
+            },
+            {
+              "doc_id": "arXiv:2410.09114v2",
+              "rank": 4,
+              "score": 0.8367
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "에이전트의 다턴 공격 취약성 측정 벤치마크 목록",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:509053e1f8b378dd",
+              "rank": 1,
+              "score": 0.862
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.859
+            },
+            {
+              "doc_id": "arXiv:2410.09024v3",
+              "rank": 3,
+              "score": 0.8424
+            },
+            {
+              "doc_id": "arXiv:2410.09114v2",
+              "rank": 4,
+              "score": 0.8407
+            }
+          ],
+          "supporting": [
+            "arXiv:2410.09024v3"
+          ]
+        },
+        {
+          "topic": "다턴 공격 벤치마크의 평가 지표 및 측정 방법",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:509053e1f8b378dd",
+              "rank": 1,
+              "score": 0.8513
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8458
+            },
+            {
+              "doc_id": "arXiv:2410.09114v2",
+              "rank": 3,
+              "score": 0.8434
+            },
+            {
+              "doc_id": "arXiv:2410.09024v3",
+              "rank": 4,
+              "score": 0.8364
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "다회차 상호작용을 통한 목표 달성 공격 방식의 정의",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:509053e1f8b378dd",
+              "rank": 1,
+              "score": 0.8413
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8397
+            },
+            {
+              "doc_id": "arXiv:2410.09024v3",
+              "rank": 3,
+              "score": 0.8372
+            },
+            {
+              "doc_id": "arXiv:2410.09114v2",
+              "rank": 4,
+              "score": 0.8367
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "다턴 공격 벤치마크의 평가 지표 및 측정 방법",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:509053e1f8b378dd",
+              "rank": 1,
+              "score": 0.8513
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8458
+            },
+            {
+              "doc_id": "arXiv:2410.09114v2",
+              "rank": 3,
+              "score": 0.8434
+            },
+            {
+              "doc_id": "arXiv:2410.09024v3",
+              "rank": 4,
+              "score": 0.8364
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 830
+    },
+    {
+      "case_id": "GS-026",
+      "stratum": "C",
+      "query": "국내 기업이 사내 문서로 한국어 LLM을 파인튜닝해 얻은 성능 수치가 있는가?",
+      "run_id": "20260930-135304-18746e",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 4.627,
+      "llm_latency_s": 4.276,
+      "retrieval_latency_s": 0.311,
+      "other_latency_s": 0.04,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 6,
+      "prompt_tokens": 8866,
+      "completion_tokens": 212,
+      "billed_tokens": 9078,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 281,
+          "completion": 59,
+          "latency_s": 1.0458,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 6,
+          "prompt": 8033,
+          "completion": 84,
+          "latency_s": 1.9938,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 552,
+          "completion": 69,
+          "latency_s": 1.2365,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "negative_case_held": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 3,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [],
+        "min_citations": 0,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "근거 없음"
+        ]
+      },
+      "items": [
+        {
+          "topic": "국내 기업의 사내 문서 활용 한국어 LLM 파인튜닝 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 1,
+              "score": 0.8365
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8323
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.832
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 4,
+              "score": 0.8296
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "사내 문서 파인튜닝 전후의 LLM 성능 비교 수치",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 1,
+              "score": 0.8472
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.84
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.84
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8373
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "파인튜닝 성능 측정을 위해 사용된 평가 지표 및 벤치마크",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 1,
+              "score": 0.8345
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 2,
+              "score": 0.8299
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 3,
+              "score": 0.8293
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8268
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "국내 기업의 사내 문서 활용 한국어 LLM 파인튜닝 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 1,
+              "score": 0.8365
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8323
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.832
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 4,
+              "score": 0.8296
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "사내 문서 파인튜닝 전후의 LLM 성능 비교 수치",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 1,
+              "score": 0.8472
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.84
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.84
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8373
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "파인튜닝 성능 측정을 위해 사용된 평가 지표 및 벤치마크",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 1,
+              "score": 0.8345
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 2,
+              "score": 0.8299
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 3,
+              "score": 0.8293
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8268
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 120
+    },
+    {
+      "case_id": "GS-027",
+      "stratum": "C",
+      "query": "LLM 에이전트를 실제 공장 설비에 붙였을 때 발생한 안전 사고가 보고돼 있는가?",
+      "run_id": "20260930-135309-8012ad",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 4.332,
+      "llm_latency_s": 4.018,
+      "retrieval_latency_s": 0.269,
+      "other_latency_s": 0.045,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 6,
+      "prompt_tokens": 8437,
+      "completion_tokens": 197,
+      "billed_tokens": 8634,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 282,
+          "completion": 51,
+          "latency_s": 0.9149,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 6,
+          "prompt": 7609,
+          "completion": 84,
+          "latency_s": 1.9848,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 546,
+          "completion": 62,
+          "latency_s": 1.1183,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "negative_case_held": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 3,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [],
+        "min_citations": 0,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "근거 없음"
+        ]
+      },
+      "items": [
+        {
+          "topic": "LLM 에이전트 기반 공장 설비 제어 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8419
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8398
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8373
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8289
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 에이전트 적용 설비의 안전 사고 보고 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8368
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8334
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8313
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8239
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 에이전트 오작동으로 인한 산업 현장 피해 기록",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 1,
+              "score": 0.8356
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8246
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8224
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 4,
+              "score": 0.822
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 에이전트 기반 공장 설비 제어 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8419
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8398
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8373
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8289
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 에이전트 적용 설비의 안전 사고 보고 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8368
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 2,
+              "score": 0.8334
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 3,
+              "score": 0.8313
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8239
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 에이전트 오작동으로 인한 산업 현장 피해 기록",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 1,
+              "score": 0.8356
+            },
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 2,
+              "score": 0.8246
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 3,
+              "score": 0.8224
+            },
+            {
+              "doc_id": "news:1047cd7bf162d6e0",
+              "rank": 4,
+              "score": 0.822
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 110
+    },
+    {
+      "case_id": "GS-028",
+      "stratum": "C",
+      "query": "배치 크기나 KV 캐시 같은 추론 서버 설정값을 바꿔가며 처리량을 측정한 실험이 있는가?",
+      "run_id": "20260930-135313-2cfa2e",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 4.445,
+      "llm_latency_s": 4.084,
+      "retrieval_latency_s": 0.331,
+      "other_latency_s": 0.03,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 6,
+      "prompt_tokens": 9468,
+      "completion_tokens": 192,
+      "billed_tokens": 9660,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 281,
+          "completion": 49,
+          "latency_s": 0.879,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 6,
+          "prompt": 8645,
+          "completion": 84,
+          "latency_s": 2.1247,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 542,
+          "completion": 59,
+          "latency_s": 1.0805,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "negative_case_held": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 3,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [],
+        "min_citations": 0,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "근거 없음"
+        ]
+      },
+      "items": [
+        {
+          "topic": "배치 크기 변화에 따른 추론 처리량 측정 실험 결과",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8393
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8379
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8289
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8206
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "KV 캐시 설정 변경에 따른 추론 처리량 측정 실험 결과",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8384
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8335
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8262
+            },
+            {
+              "doc_id": "arXiv:2609.19093v1",
+              "rank": 4,
+              "score": 0.817
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "추론 서버 설정값과 처리량 간의 상관관계 분석 실험",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8373
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8307
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8249
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 4,
+              "score": 0.8209
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "배치 크기 변화에 따른 추론 처리량 측정 실험 결과",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8393
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8379
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8289
+            },
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 4,
+              "score": 0.8206
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "KV 캐시 설정 변경에 따른 추론 처리량 측정 실험 결과",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8384
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8335
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8262
+            },
+            {
+              "doc_id": "arXiv:2609.19093v1",
+              "rank": 4,
+              "score": 0.817
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "추론 서버 설정값과 처리량 간의 상관관계 분석 실험",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2609.19101v1",
+              "rank": 1,
+              "score": 0.8373
+            },
+            {
+              "doc_id": "news:587009bd5b1aa4ce",
+              "rank": 2,
+              "score": 0.8307
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.8249
+            },
+            {
+              "doc_id": "arXiv:2609.19144v1",
+              "rank": 4,
+              "score": 0.8209
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 118
+    },
+    {
+      "case_id": "GS-029",
+      "stratum": "C",
+      "query": "LLM 에이전트가 임상시험에서 전문의의 진단 정확도를 넘었다는 결과가 있는가?",
+      "run_id": "20260930-135317-01cfa0",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 4.701,
+      "llm_latency_s": 4.322,
+      "retrieval_latency_s": 0.333,
+      "other_latency_s": 0.046,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 6,
+      "prompt_tokens": 9681,
+      "completion_tokens": 209,
+      "billed_tokens": 9890,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 282,
+          "completion": 57,
+          "latency_s": 1.0379,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 6,
+          "prompt": 8847,
+          "completion": 84,
+          "latency_s": 2.0634,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 552,
+          "completion": 68,
+          "latency_s": 1.2204,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "negative_case_held": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 3,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [],
+        "min_citations": 0,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "근거 없음"
+        ]
+      },
+      "items": [
+        {
+          "topic": "LLM 에이전트의 임상시험 진단 정확도 관련 연구 결과",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8327
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 2,
+              "score": 0.8319
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 3,
+              "score": 0.829
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.8258
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "전문의의 임상시험 진단 정확도 벤치마크 데이터",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2605.21404v1",
+              "rank": 1,
+              "score": 0.8454
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 2,
+              "score": 0.8449
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 3,
+              "score": 0.8422
+            },
+            {
+              "doc_id": "arXiv:2602.16901v1",
+              "rank": 4,
+              "score": 0.84
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 에이전트와 전문의의 진단 정확도 비교 분석 사례",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8355
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 2,
+              "score": 0.8304
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 3,
+              "score": 0.8276
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.827
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 에이전트의 임상시험 진단 정확도 관련 연구 결과",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8327
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 2,
+              "score": 0.8319
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 3,
+              "score": 0.829
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 4,
+              "score": 0.8258
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "전문의의 임상시험 진단 정확도 벤치마크 데이터",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "arXiv:2605.21404v1",
+              "rank": 1,
+              "score": 0.8454
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 2,
+              "score": 0.8449
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 3,
+              "score": 0.8422
+            },
+            {
+              "doc_id": "arXiv:2602.16901v1",
+              "rank": 4,
+              "score": 0.84
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "LLM 에이전트와 전문의의 진단 정확도 비교 분석 사례",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:42f467857601213c",
+              "rank": 1,
+              "score": 0.8355
+            },
+            {
+              "doc_id": "news:c076df17a63066ea",
+              "rank": 2,
+              "score": 0.8304
+            },
+            {
+              "doc_id": "arXiv:2406.00215v3",
+              "rank": 3,
+              "score": 0.8276
+            },
+            {
+              "doc_id": "arXiv:2512.02230v1",
+              "rank": 4,
+              "score": 0.827
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 116
+    },
+    {
+      "case_id": "GS-030",
+      "stratum": "C",
+      "query": "멀티에이전트 시스템 운영의 전력 소비량이나 탄소 배출량을 측정한 연구가 있는가?",
+      "run_id": "20260930-135322-b77bde",
+      "topic_count": 3,
+      "revisions": 2,
+      "wall_clock_s": 4.611,
+      "llm_latency_s": 4.28,
+      "retrieval_latency_s": 0.284,
+      "other_latency_s": 0.047,
+      "llm_calls": 8,
+      "cache_hits": 0,
+      "retrieval_calls": 6,
+      "prompt_tokens": 9313,
+      "completion_tokens": 209,
+      "billed_tokens": 9522,
+      "by_node": {
+        "outliner": {
+          "calls": 1,
+          "prompt": 282,
+          "completion": 57,
+          "latency_s": 1.0137,
+          "cached": 0
+        },
+        "researcher": {
+          "calls": 6,
+          "prompt": 8479,
+          "completion": 84,
+          "latency_s": 2.0411,
+          "cached": 0
+        },
+        "writer": {
+          "calls": 1,
+          "prompt": 552,
+          "completion": 68,
+          "latency_s": 1.2251,
+          "cached": 0
+        }
+      },
+      "retry_evidence": {
+        "retry_citations_total": 0,
+        "new_citations": 0,
+        "topics_gained": []
+      },
+      "score": {
+        "checks": {
+          "negative_case_held": true
+        },
+        "passed": true,
+        "topic_count": 3,
+        "uncovered_count": 3,
+        "cited_doc_ids": [],
+        "expected_doc_ids": [],
+        "min_citations": 0,
+        "min_citations_met": true,
+        "must_mention_manual": [
+          "근거 없음"
+        ]
+      },
+      "items": [
+        {
+          "topic": "멀티에이전트 시스템 운영의 전력 소비량 측정 연구",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8211
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 2,
+              "score": 0.8112
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8052
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 4,
+              "score": 0.8034
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 시스템의 탄소 배출량 산출 및 분석 연구",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8186
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 2,
+              "score": 0.808
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.806
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 4,
+              "score": 0.8045
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 시스템의 에너지 효율성 평가 지표 및 방법론",
+          "revision": 0,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8162
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 2,
+              "score": 0.8107
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 3,
+              "score": 0.8102
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8047
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 시스템 운영의 전력 소비량 측정 연구",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8211
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 2,
+              "score": 0.8112
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 3,
+              "score": 0.8052
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 4,
+              "score": 0.8034
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 시스템의 탄소 배출량 산출 및 분석 연구",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8186
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 2,
+              "score": 0.808
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 3,
+              "score": 0.806
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 4,
+              "score": 0.8045
+            }
+          ],
+          "supporting": []
+        },
+        {
+          "topic": "멀티에이전트 시스템의 에너지 효율성 평가 지표 및 방법론",
+          "revision": 1,
+          "retrieval_error": false,
+          "candidates": [
+            {
+              "doc_id": "news:3dd7208e3f2a1dde",
+              "rank": 1,
+              "score": 0.8162
+            },
+            {
+              "doc_id": "arXiv:2602.03128v1",
+              "rank": 2,
+              "score": 0.8107
+            },
+            {
+              "doc_id": "arXiv:2412.05449v1",
+              "rank": 3,
+              "score": 0.8102
+            },
+            {
+              "doc_id": "news:0252e9379cd9f923",
+              "rank": 4,
+              "score": 0.8047
+            }
+          ],
+          "supporting": []
+        }
+      ],
+      "local_trace": true,
+      "draft_chars": 118
+    }
+  ]
+}
