@@ -1,0 +1,5495 @@
+{
+  "preregistration": "5122e97",
+  "run_label": "v1.2-t3-tool-on",
+  "run_file": "bench-v1.2-t3-tool-on.json",
+  "meta_less_docs": [
+    "arXiv:2401.07324v3",
+    "arXiv:2404.01023v1",
+    "arXiv:2405.16887v2",
+    "arXiv:2406.00215v3",
+    "arXiv:2406.01893v2",
+    "arXiv:2410.09024v3",
+    "arXiv:2410.09114v2",
+    "arXiv:2412.20138v7",
+    "arXiv:2502.05227v1",
+    "arXiv:2512.02230v1",
+    "arXiv:2512.06196v1",
+    "arXiv:2512.13930v1",
+    "arXiv:2602.03128v1",
+    "arXiv:2602.16901v1"
+  ],
+  "positive_control": {
+    "planted": {
+      "cases": [
+        "GS-001",
+        "GS-011"
+      ],
+      "eligible_items": [
+        "GS-001#1",
+        "GS-001#2",
+        "GS-011#0",
+        "GS-011#1",
+        "GS-011#2",
+        "GS-011#3"
+      ],
+      "control": "GS-010#0",
+      "values": {
+        "GS-001#0": "Application/Product",
+        "GS-001#1": "Application/Product",
+        "GS-001#2": "Application/Product",
+        "GS-001#3": "Application/Product",
+        "GS-011#0": "Agent",
+        "GS-011#1": "Agent",
+        "GS-011#2": "Agent",
+        "GS-011#3": "Agent",
+        "GS-010#0": "Agent"
+      }
+    },
+    "failures": [],
+    "passed": true,
+    "gate": {
+      "proceed_to_e2e": false,
+      "reasons": [
+        "층 A 해악 케이스 2건 ≥ 2"
+      ]
+    },
+    "harm_A": {
+      "k": 6,
+      "n": 33,
+      "pct": 18.2
+    }
+  },
+  "replay": {
+    "integrity_problems": [],
+    "gate": {
+      "proceed_to_e2e": true,
+      "reasons": []
+    },
+    "harm": {
+      "A": {
+        "harm_items": {
+          "k": 0,
+          "n": 33,
+          "pct": 0.0
+        },
+        "harm_cases": {
+          "k": 0,
+          "n": 12,
+          "pct": 0.0
+        },
+        "eligible_items": 33,
+        "eligible_cases": [
+          "GS-001",
+          "GS-011",
+          "GS-012",
+          "GS-013",
+          "GS-014",
+          "GS-015",
+          "GS-016",
+          "GS-017",
+          "GS-018",
+          "GS-021",
+          "GS-022",
+          "GS-024"
+        ],
+        "harm_detail": {},
+        "gain_items": 9,
+        "gain_detail": [
+          {
+            "case_id": "GS-001",
+            "item_index": 0,
+            "value": "Agent",
+            "expected_rank_recorded": 4
+          },
+          {
+            "case_id": "GS-001",
+            "item_index": 3,
+            "value": "Eval/Governance",
+            "expected_rank_recorded": 4
+          },
+          {
+            "case_id": "GS-015",
+            "item_index": 0,
+            "value": "Eval/Governance",
+            "expected_rank_recorded": 3
+          },
+          {
+            "case_id": "GS-015",
+            "item_index": 1,
+            "value": "Eval/Governance",
+            "expected_rank_recorded": 3
+          },
+          {
+            "case_id": "GS-017",
+            "item_index": 0,
+            "value": "Safety/Alignment",
+            "expected_rank_recorded": 1
+          },
+          {
+            "case_id": "GS-021",
+            "item_index": 2,
+            "value": "Multimodal",
+            "expected_rank_recorded": 1
+          },
+          {
+            "case_id": "GS-023",
+            "item_index": 0,
+            "value": "Safety/Alignment",
+            "expected_rank_recorded": 3
+          },
+          {
+            "case_id": "GS-023",
+            "item_index": 1,
+            "value": "Safety/Alignment",
+            "expected_rank_recorded": 4
+          },
+          {
+            "case_id": "GS-023",
+            "item_index": 2,
+            "value": "Safety/Alignment",
+            "expected_rank_recorded": 1
+          }
+        ]
+      },
+      "B": {
+        "harm_items": {
+          "k": 0,
+          "n": 12,
+          "pct": 0.0
+        },
+        "harm_cases": {
+          "k": 0,
+          "n": 5,
+          "pct": 0.0
+        },
+        "eligible_items": 12,
+        "eligible_cases": [
+          "GS-002",
+          "GS-003",
+          "GS-004",
+          "GS-005",
+          "GS-019"
+        ],
+        "harm_detail": {},
+        "gain_items": 8,
+        "gain_detail": [
+          {
+            "case_id": "GS-004",
+            "item_index": 0,
+            "value": "Safety/Alignment",
+            "expected_rank_recorded": 3
+          },
+          {
+            "case_id": "GS-004",
+            "item_index": 3,
+            "value": "Safety/Alignment",
+            "expected_rank_recorded": 3
+          },
+          {
+            "case_id": "GS-005",
+            "item_index": 1,
+            "value": "Agent",
+            "expected_rank_recorded": 4
+          },
+          {
+            "case_id": "GS-005",
+            "item_index": 2,
+            "value": "Agent",
+            "expected_rank_recorded": 4
+          },
+          {
+            "case_id": "GS-007",
+            "item_index": 2,
+            "value": "Agent",
+            "expected_rank_recorded": 4
+          },
+          {
+            "case_id": "GS-019",
+            "item_index": 0,
+            "value": "Agent",
+            "expected_rank_recorded": 3
+          },
+          {
+            "case_id": "GS-025",
+            "item_index": 1,
+            "value": "Agent",
+            "expected_rank_recorded": 4
+          },
+          {
+            "case_id": "GS-025",
+            "item_index": 2,
+            "value": "Eval/Governance",
+            "expected_rank_recorded": 4
+          }
+        ]
+      }
+    },
+    "strict_harm_t3a_view": {
+      "A": {
+        "harm_items": {
+          "k": 0,
+          "n": 33,
+          "pct": 0.0
+        },
+        "harm_cases": {
+          "k": 0,
+          "n": 12,
+          "pct": 0.0
+        },
+        "eligible_items": 33,
+        "eligible_cases": [
+          "GS-001",
+          "GS-011",
+          "GS-012",
+          "GS-013",
+          "GS-014",
+          "GS-015",
+          "GS-016",
+          "GS-017",
+          "GS-018",
+          "GS-021",
+          "GS-022",
+          "GS-024"
+        ],
+        "harm_detail": {},
+        "gain_items": 12,
+        "gain_detail": [
+          {
+            "case_id": "GS-001",
+            "item_index": 0,
+            "value": "Agent",
+            "expected_rank_recorded": 3
+          },
+          {
+            "case_id": "GS-001",
+            "item_index": 3,
+            "value": "Eval/Governance",
+            "expected_rank_recorded": 1
+          },
+          {
+            "case_id": "GS-010",
+            "item_index": 0,
+            "value": "Reasoning",
+            "expected_rank_recorded": 1
+          },
+          {
+            "case_id": "GS-010",
+            "item_index": 1,
+            "value": "Reasoning",
+            "expected_rank_recorded": 1
+          },
+          {
+            "case_id": "GS-010",
+            "item_index": 2,
+            "value": "Reasoning",
+            "expected_rank_recorded": 1
+          },
+          {
+            "case_id": "GS-015",
+            "item_index": 0,
+            "value": "Eval/Governance",
+            "expected_rank_recorded": 2
+          },
+          {
+            "case_id": "GS-015",
+            "item_index": 1,
+            "value": "Eval/Governance",
+            "expected_rank_recorded": 2
+          },
+          {
+            "case_id": "GS-017",
+            "item_index": 0,
+            "value": "Safety/Alignment",
+            "expected_rank_recorded": 1
+          },
+          {
+            "case_id": "GS-021",
+            "item_index": 2,
+            "value": "Multimodal",
+            "expected_rank_recorded": 1
+          },
+          {
+            "case_id": "GS-023",
+            "item_index": 0,
+            "value": "Safety/Alignment",
+            "expected_rank_recorded": 3
+          },
+          {
+            "case_id": "GS-023",
+            "item_index": 1,
+            "value": "Safety/Alignment",
+            "expected_rank_recorded": 3
+          },
+          {
+            "case_id": "GS-023",
+            "item_index": 2,
+            "value": "Safety/Alignment",
+            "expected_rank_recorded": 1
+          }
+        ]
+      },
+      "B": {
+        "harm_items": {
+          "k": 12,
+          "n": 12,
+          "pct": 100.0
+        },
+        "harm_cases": {
+          "k": 5,
+          "n": 5,
+          "pct": 100.0
+        },
+        "eligible_items": 12,
+        "eligible_cases": [
+          "GS-002",
+          "GS-003",
+          "GS-004",
+          "GS-005",
+          "GS-019"
+        ],
+        "harm_detail": {
+          "GS-002": [
+            {
+              "item_index": 0,
+              "topic": "멀티에이전트 LLM 프레임워크의 주요 아키텍처 유형",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 1,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "arXiv:2602.03128v1",
+                "news:3dd7208e3f2a1dde",
+                "news:c076df17a63066ea",
+                "news:42f467857601213c"
+              ],
+              "recorded": [
+                "news:3dd7208e3f2a1dde",
+                "arXiv:2412.05449v1",
+                "news:0252e9379cd9f923",
+                "arXiv:2605.21404v1"
+              ]
+            },
+            {
+              "item_index": 1,
+              "topic": "아키텍처별 시스템 성능 측정 지표",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 1,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "arXiv:2602.03128v1",
+                "news:c076df17a63066ea",
+                "news:3dd7208e3f2a1dde",
+                "news:42f467857601213c"
+              ],
+              "recorded": [
+                "news:3dd7208e3f2a1dde",
+                "arXiv:2412.05449v1",
+                "news:0252e9379cd9f923",
+                "arXiv:2605.21404v1"
+              ]
+            },
+            {
+              "item_index": 2,
+              "topic": "아키텍처 선택에 따른 추론 속도 및 지연 시간 변화",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 2,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "news:42f467857601213c",
+                "arXiv:2602.03128v1",
+                "news:c076df17a63066ea",
+                "news:3dd7208e3f2a1dde"
+              ],
+              "recorded": [
+                "news:3dd7208e3f2a1dde",
+                "arXiv:2412.05449v1",
+                "news:0252e9379cd9f923",
+                "arXiv:2605.21404v1"
+              ]
+            },
+            {
+              "item_index": 3,
+              "topic": "에이전트 간 협업 구조가 결과물 정확도에 미치는 영향",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 1,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "arXiv:2602.03128v1",
+                "news:3dd7208e3f2a1dde",
+                "news:c076df17a63066ea",
+                "news:42f467857601213c"
+              ],
+              "recorded": [
+                "news:3dd7208e3f2a1dde",
+                "arXiv:2412.05449v1",
+                "news:0252e9379cd9f923",
+                "arXiv:2605.21404v1"
+              ]
+            }
+          ],
+          "GS-003": [
+            {
+              "item_index": 0,
+              "topic": "제조 현장 LLM 기반 멀티에이전트 시스템 적용 연구 사례",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 3,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "news:3dd7208e3f2a1dde",
+                "news:42f467857601213c",
+                "arXiv:2405.16887v2",
+                "news:c076df17a63066ea"
+              ],
+              "recorded": [
+                "news:3dd7208e3f2a1dde",
+                "arXiv:2412.05449v1",
+                "news:0252e9379cd9f923",
+                "news:14d2c76967ca2b60"
+              ]
+            },
+            {
+              "item_index": 1,
+              "topic": "제조 공정 내 LLM 멀티에이전트의 역할 및 구조",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 1,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "arXiv:2405.16887v2",
+                "news:42f467857601213c",
+                "arXiv:2602.03128v1",
+                "news:3dd7208e3f2a1dde"
+              ],
+              "recorded": [
+                "news:3dd7208e3f2a1dde",
+                "arXiv:2412.05449v1",
+                "news:0252e9379cd9f923",
+                "arXiv:2605.21404v1"
+              ]
+            },
+            {
+              "item_index": 2,
+              "topic": "LLM 멀티에이전트 시스템의 제조 현장 적용 성과 및 한계",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 1,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "arXiv:2405.16887v2",
+                "news:42f467857601213c",
+                "arXiv:2412.05449v1",
+                "arXiv:2602.03128v1"
+              ],
+              "recorded": [
+                "arXiv:2412.05449v1",
+                "news:3dd7208e3f2a1dde",
+                "news:0252e9379cd9f923",
+                "arXiv:2605.21404v1"
+              ]
+            },
+            {
+              "item_index": 3,
+              "topic": "제조 분야 LLM 멀티에이전트 시스템의 주요 활용 시나리오",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 3,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "news:42f467857601213c",
+                "news:3dd7208e3f2a1dde",
+                "arXiv:2405.16887v2",
+                "arXiv:2406.01893v2"
+              ],
+              "recorded": [
+                "news:3dd7208e3f2a1dde",
+                "arXiv:2412.05449v1",
+                "news:0252e9379cd9f923",
+                "news:14d2c76967ca2b60"
+              ]
+            }
+          ],
+          "GS-004": [
+            {
+              "item_index": 1,
+              "topic": "프롬프트 엔지니어링을 통한 에이전트 정렬 방법",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 4,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "news:42f467857601213c",
+                "news:3dd7208e3f2a1dde",
+                "arXiv:2602.03128v1",
+                "arXiv:2512.06196v1"
+              ],
+              "recorded": [
+                "news:3dd7208e3f2a1dde",
+                "news:0252e9379cd9f923",
+                "news:14d2c76967ca2b60",
+                "arXiv:2412.05449v1"
+              ]
+            }
+          ],
+          "GS-005": [
+            {
+              "item_index": 0,
+              "topic": "금융 트레이딩 적용 멀티에이전트 LLM 프레임워크 사례",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 3,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "news:3dd7208e3f2a1dde",
+                "news:42f467857601213c",
+                "arXiv:2412.20138v7",
+                "news:0252e9379cd9f923"
+              ],
+              "recorded": [
+                "news:3dd7208e3f2a1dde",
+                "news:0252e9379cd9f923",
+                "news:14d2c76967ca2b60",
+                "arXiv:2412.05449v1"
+              ]
+            }
+          ],
+          "GS-019": [
+            {
+              "item_index": 1,
+              "topic": "역할 분담 기반의 소형 모델 도구 사용 프레임워크의 구조 및 작동 방식",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 1,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "arXiv:2401.07324v3",
+                "news:c45b8926d7935cd2",
+                "news:3dd7208e3f2a1dde",
+                "news:0252e9379cd9f923"
+              ],
+              "recorded": [
+                "news:3dd7208e3f2a1dde",
+                "news:0252e9379cd9f923",
+                "arXiv:2412.05449v1",
+                "news:14d2c76967ca2b60"
+              ]
+            },
+            {
+              "item_index": 2,
+              "topic": "역할 분리 방식이 소형 모델의 도구 사용 성능에 미치는 영향 및 결과",
+              "value": "Agent",
+              "outcome": "chosen",
+              "filter_survivors": null,
+              "expected_rank_unfiltered": 1,
+              "expected_rank_recorded": null,
+              "expected_doc_domains": [],
+              "unfiltered": [
+                "arXiv:2401.07324v3",
+                "news:42f467857601213c",
+                "news:587009bd5b1aa4ce",
+                "news:c45b8926d7935cd2"
+              ],
+              "recorded": [
+                "news:3dd7208e3f2a1dde",
+                "arXiv:2412.05449v1",
+                "news:0252e9379cd9f923",
+                "news:1047cd7bf162d6e0"
+              ]
+            }
+          ]
+        },
+        "gain_items": 0,
+        "gain_detail": []
+      }
+    },
+    "t3a_comparison": {
+      "A_gain_items": {
+        "strict": 12,
+        "null_pass": 9
+      },
+      "A_gain_cases": {
+        "strict": [
+          "GS-001",
+          "GS-010",
+          "GS-015",
+          "GS-017",
+          "GS-021",
+          "GS-023"
+        ],
+        "null_pass": [
+          "GS-001",
+          "GS-015",
+          "GS-017",
+          "GS-021",
+          "GS-023"
+        ],
+        "lost": [
+          "GS-010"
+        ]
+      },
+      "B_harm_items": {
+        "strict": {
+          "k": 12,
+          "n": 12,
+          "pct": 100.0
+        },
+        "null_pass": {
+          "k": 0,
+          "n": 12,
+          "pct": 0.0
+        }
+      }
+    },
+    "observations": {
+      "A": {
+        "first_pass_items": 45,
+        "items_with_meta_less_in_top_k": 35,
+        "meta_less_docs_in_top_k_total": 66,
+        "meta_less_answers_in_top_k_total": 0,
+        "meta_less_non_answers_in_top_k_total": 66,
+        "pushed_out_by_meta_less": [
+          {
+            "case_id": "GS-010",
+            "item_index": 0,
+            "value": "Reasoning",
+            "expected_rank_strict": 1,
+            "expected_rank_unfiltered": null,
+            "meta_less_above": [
+              "arXiv:2406.00215v3",
+              "arXiv:2401.07324v3",
+              "arXiv:2404.01023v1",
+              "arXiv:2406.01893v2"
+            ]
+          },
+          {
+            "case_id": "GS-010",
+            "item_index": 1,
+            "value": "Reasoning",
+            "expected_rank_strict": 1,
+            "expected_rank_unfiltered": null,
+            "meta_less_above": [
+              "arXiv:2406.00215v3",
+              "arXiv:2404.01023v1",
+              "arXiv:2401.07324v3",
+              "arXiv:2406.01893v2"
+            ]
+          },
+          {
+            "case_id": "GS-010",
+            "item_index": 2,
+            "value": "Reasoning",
+            "expected_rank_strict": 1,
+            "expected_rank_unfiltered": null,
+            "meta_less_above": [
+              "arXiv:2406.00215v3",
+              "arXiv:2404.01023v1",
+              "arXiv:2401.07324v3",
+              "arXiv:2602.03128v1"
+            ]
+          }
+        ]
+      },
+      "B": {
+        "first_pass_items": 32,
+        "items_with_meta_less_in_top_k": 32,
+        "meta_less_docs_in_top_k_total": 80,
+        "meta_less_answers_in_top_k_total": 24,
+        "meta_less_non_answers_in_top_k_total": 56
+      },
+      "C": {
+        "first_pass_items": 22,
+        "items_with_meta_less_in_top_k": 20,
+        "meta_less_docs_in_top_k_total": 41,
+        "meta_less_answers_in_top_k_total": 0,
+        "meta_less_non_answers_in_top_k_total": 41
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "GS-001",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2412.05449v1"
+      ],
+      "expected_doc_domains": [
+        "Agent",
+        "Eval/Governance",
+        "LLM"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "LLM 멀티에이전트 협업 시스템 설계 시 발생하는 기술적 어려움",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 4,
+          "unfiltered": [
+            "news:c076df17a63066ea",
+            "arXiv:2602.03128v1",
+            "news:42f467857601213c",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "arXiv:2602.03128v1",
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": 3,
+          "strict": [
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "LLM 멀티에이전트 협업 시스템의 성능 평가 방법 및 한계",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 3,
+          "expected_rank_recorded": 2,
+          "unfiltered": [
+            "arXiv:2602.03128v1",
+            "news:c076df17a63066ea",
+            "arXiv:2412.05449v1",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "recorded": [
+            "arXiv:2602.03128v1",
+            "arXiv:2412.05449v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2412.05449v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2605.21404v1",
+            "news:dfff960c99b416b4"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "에이전트 간 상호작용 및 통신 과정에서 보고되는 문제점",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 2,
+          "expected_rank_recorded": 2,
+          "unfiltered": [
+            "arXiv:2406.00215v3",
+            "arXiv:2412.05449v1",
+            "arXiv:2602.03128v1",
+            "news:c076df17a63066ea"
+          ],
+          "recorded": [
+            "arXiv:2406.00215v3",
+            "arXiv:2412.05449v1",
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2412.05449v1",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 3,
+          "topic": "멀티에이전트 시스템의 평가 지표 설정 시의 어려움",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 4,
+          "unfiltered": [
+            "arXiv:2602.03128v1",
+            "news:c076df17a63066ea",
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "recorded": [
+            "arXiv:2602.03128v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2412.05449v1",
+            "arXiv:2605.21404v1",
+            "news:dfff960c99b416b4",
+            "news:509053e1f8b378dd"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-002",
+      "stratum": "B",
+      "expected_doc_ids": [
+        "arXiv:2602.03128v1"
+      ],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "멀티에이전트 LLM 프레임워크의 주요 아키텍처 유형",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde",
+            "news:c076df17a63066ea",
+            "news:42f467857601213c"
+          ],
+          "recorded": [
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2401.07324v3",
+            "arXiv:2405.16887v2"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "arXiv:2605.21404v1"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2405.16887v2"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2602.03128v1"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2405.16887v2"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "아키텍처별 시스템 성능 측정 지표",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2602.03128v1",
+            "news:c076df17a63066ea",
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c"
+          ],
+          "recorded": [
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2602.16901v1",
+            "arXiv:2512.02230v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "arXiv:2605.21404v1"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2602.16901v1",
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2602.03128v1"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2602.16901v1",
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "아키텍처 선택에 따른 추론 속도 및 지연 시간 변화",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 2,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "arXiv:2602.03128v1",
+            "news:c076df17a63066ea",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "recorded": [
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2512.02230v1",
+            "arXiv:2502.05227v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "arXiv:2605.21404v1"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2502.05227v1"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2602.03128v1"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2502.05227v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 3,
+          "topic": "에이전트 간 협업 구조가 결과물 정확도에 미치는 영향",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde",
+            "news:c076df17a63066ea",
+            "news:42f467857601213c"
+          ],
+          "recorded": [
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2512.02230v1",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "arXiv:2605.21404v1"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2602.03128v1"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-003",
+      "stratum": "B",
+      "expected_doc_ids": [
+        "arXiv:2405.16887v2",
+        "arXiv:2406.01893v2"
+      ],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "제조 현장 LLM 기반 멀티에이전트 시스템 적용 연구 사례",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 3,
+          "expected_rank_recorded": 2,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "arXiv:2405.16887v2",
+            "news:c076df17a63066ea"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "제조 공정 내 LLM 멀티에이전트의 역할 및 구조",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2405.16887v2",
+            "news:42f467857601213c",
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "recorded": [
+            "arXiv:2405.16887v2",
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2406.01893v2"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "arXiv:2605.21404v1"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2405.16887v2",
+            "arXiv:2602.03128v1",
+            "arXiv:2406.01893v2"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2405.16887v2",
+            "arXiv:2602.03128v1",
+            "arXiv:2406.01893v2"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "LLM 멀티에이전트 시스템의 제조 현장 적용 성과 및 한계",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2405.16887v2",
+            "news:42f467857601213c",
+            "arXiv:2412.05449v1",
+            "arXiv:2602.03128v1"
+          ],
+          "recorded": [
+            "arXiv:2405.16887v2",
+            "arXiv:2412.05449v1",
+            "arXiv:2602.03128v1",
+            "arXiv:2406.01893v2"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "arXiv:2412.05449v1",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2605.21404v1"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2405.16887v2",
+            "arXiv:2602.03128v1",
+            "arXiv:2406.01893v2"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2405.16887v2",
+            "arXiv:2602.03128v1",
+            "arXiv:2406.01893v2"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 3,
+          "topic": "제조 분야 LLM 멀티에이전트 시스템의 주요 활용 시나리오",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 3,
+          "expected_rank_recorded": 2,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2405.16887v2",
+            "arXiv:2406.01893v2"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-004",
+      "stratum": "B",
+      "expected_doc_ids": [
+        "arXiv:2512.06196v1"
+      ],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "재학습 없는 LLM 에이전트 정렬 조정 기법",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 3,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "news:c076df17a63066ea",
+            "arXiv:2609.19144v1"
+          ],
+          "recorded": [
+            "arXiv:2609.19144v1",
+            "arXiv:2602.03128v1",
+            "arXiv:2512.06196v1",
+            "arXiv:2401.07324v3"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "arXiv:2609.19144v1",
+            "arXiv:2609.19101v1",
+            "news:509053e1f8b378dd",
+            "news:f3899afd4d6a0a2d"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.06196v1",
+            "arXiv:2401.07324v3"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2512.06196v1"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.06196v1",
+            "arXiv:2401.07324v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "프롬프트 엔지니어링을 통한 에이전트 정렬 방법",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 4,
+          "expected_rank_recorded": 3,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2602.03128v1",
+            "arXiv:2512.06196v1"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2602.03128v1",
+            "arXiv:2512.06196v1",
+            "arXiv:2512.02230v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.06196v1",
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2512.06196v1"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.06196v1",
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "외부 피드백 루프 및 가드레일을 이용한 정렬 제어",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "arXiv:2609.19144v1",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2512.02230v1"
+          ],
+          "recorded": [
+            "arXiv:2609.19144v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2502.05227v1",
+            "arXiv:2602.03128v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "arXiv:2609.19144v1",
+            "arXiv:2609.19101v1",
+            "news:509053e1f8b378dd",
+            "news:f3899afd4d6a0a2d"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1",
+            "arXiv:2502.05227v1",
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1",
+            "arXiv:2502.05227v1",
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 3,
+          "topic": "컨텍스트 학습(In-context Learning) 기반의 정렬 조정 사례",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 3,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:3dd7208e3f2a1dde",
+            "news:c076df17a63066ea",
+            "arXiv:2609.19144v1"
+          ],
+          "recorded": [
+            "arXiv:2609.19144v1",
+            "arXiv:2602.03128v1",
+            "arXiv:2512.06196v1",
+            "arXiv:2401.07324v3"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "arXiv:2609.19144v1",
+            "arXiv:2609.19101v1",
+            "news:509053e1f8b378dd",
+            "news:f3899afd4d6a0a2d"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.06196v1",
+            "arXiv:2401.07324v3"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2512.06196v1"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.06196v1",
+            "arXiv:2401.07324v3"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-005",
+      "stratum": "B",
+      "expected_doc_ids": [
+        "arXiv:2412.20138v7"
+      ],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "금융 트레이딩 적용 멀티에이전트 LLM 프레임워크 사례",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 3,
+          "expected_rank_recorded": 2,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "arXiv:2412.20138v7",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.20138v7",
+            "news:0252e9379cd9f923",
+            "arXiv:2401.07324v3"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2412.20138v7",
+            "arXiv:2401.07324v3"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2412.20138v7"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2412.20138v7",
+            "arXiv:2401.07324v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "금융 트레이딩용 멀티에이전트 LLM의 구조 및 작동 방식",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 4,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "arXiv:2401.07324v3",
+            "arXiv:2512.02230v1"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2401.07324v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2412.20138v7"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2412.05449v1",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2401.07324v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2412.20138v7"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2412.20138v7"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2401.07324v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2412.20138v7"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "멀티에이전트 LLM 프레임워크의 금융 트레이딩 성능 평가 결과",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 4,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "arXiv:2602.03128v1",
+            "arXiv:2512.02230v1"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2602.03128v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2412.20138v7"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "arXiv:2605.21404v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2412.20138v7"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2412.20138v7"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2412.20138v7"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-006",
+      "stratum": "B",
+      "expected_doc_ids": [
+        "arXiv:2404.01023v1"
+      ],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "LLM 성능 평가를 위한 멀티에이전트 구조의 정의 및 개념",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2401.07324v3",
+            "news:42f467857601213c"
+          ],
+          "recorded": [
+            "arXiv:2602.03128v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2412.05449v1",
+            "arXiv:2512.02230v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "arXiv:2412.05449v1",
+            "arXiv:2605.21404v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19088v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "멀티에이전트 기반 LLM 평가 프레임워크의 종류 및 사례",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2602.03128v1",
+            "news:42f467857601213c",
+            "arXiv:2401.07324v3"
+          ],
+          "recorded": [
+            "arXiv:2602.03128v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2412.05449v1",
+            "arXiv:2512.02230v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "arXiv:2412.05449v1",
+            "arXiv:2605.21404v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2609.19101v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "멀티에이전트 구조를 활용한 LLM 평가 방식의 작동 원리",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "arXiv:2602.03128v1",
+            "news:c076df17a63066ea"
+          ],
+          "recorded": [
+            "arXiv:2602.03128v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "arXiv:2412.05449v1",
+            "arXiv:2605.21404v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2609.19101v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 3,
+          "topic": "기존 단일 모델 평가 방식 대비 멀티에이전트 평가 방식의 차이점 및 장점",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1"
+          ],
+          "recorded": [
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1",
+            "arXiv:2412.05449v1",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "arXiv:2412.05449v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2605.21404v1",
+            "news:dfff960c99b416b4"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1",
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1",
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-007",
+      "stratum": "B",
+      "expected_doc_ids": [
+        "arXiv:2512.13930v1"
+      ],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "과학 연구 자동화 분야의 LLM 멀티에이전트 활용 사례",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "arXiv:2512.02230v1"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "arXiv:2512.02230v1",
+            "news:0252e9379cd9f923"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "LLM 멀티에이전트의 자율적 추론 수행 방식 및 메커니즘",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2512.02230v1",
+            "arXiv:2401.07324v3"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2512.02230v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1",
+            "arXiv:2401.07324v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1",
+            "arXiv:2401.07324v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "자율적 추론을 통해 과학적 발견이나 가설을 도출한 구체적 사례",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 4,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:c076df17a63066ea"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "arXiv:2512.13930v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "news:1047cd7bf162d6e0"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.13930v1"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2512.13930v1"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.13930v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 3,
+          "topic": "과학 연구 자동화에서 LLM 멀티에이전트의 추론 결과에 대한 검증 방법",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2404.01023v1",
+            "arXiv:2512.02230v1"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2404.01023v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:14d2c76967ca2b60",
+            "news:0252e9379cd9f923"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2404.01023v1",
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2404.01023v1",
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-008",
+      "stratum": "C",
+      "expected_doc_ids": [],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "가명정보 처리의 법적 정의 및 범위",
+          "value": null,
+          "outcome": "abstain",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0",
+            "news:587009bd5b1aa4ce",
+            "arXiv:2406.00215v3"
+          ],
+          "recorded": [
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0",
+            "news:587009bd5b1aa4ce",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0",
+            "news:587009bd5b1aa4ce",
+            "arXiv:2406.00215v3"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "가명정보 처리 시 준수해야 할 안전성 확보 조치",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:587009bd5b1aa4ce",
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "recorded": [
+            "news:509053e1f8b378dd",
+            "arXiv:2406.00215v3",
+            "arXiv:2412.05449v1",
+            "arXiv:2609.19093v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:509053e1f8b378dd",
+            "arXiv:2412.05449v1",
+            "arXiv:2609.19093v1",
+            "news:dfff960c99b416b4"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "가명정보 처리의 허용 목적 및 요건",
+          "value": null,
+          "outcome": "abstain",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:587009bd5b1aa4ce",
+            "news:1047cd7bf162d6e0",
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "recorded": [
+            "news:587009bd5b1aa4ce",
+            "news:1047cd7bf162d6e0",
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:587009bd5b1aa4ce",
+            "news:1047cd7bf162d6e0",
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 3,
+          "topic": "가명정보 처리 시 금지되는 행위 및 제한 사항",
+          "value": null,
+          "outcome": "abstain",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:587009bd5b1aa4ce",
+            "news:1047cd7bf162d6e0",
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "recorded": [
+            "news:587009bd5b1aa4ce",
+            "news:1047cd7bf162d6e0",
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:587009bd5b1aa4ce",
+            "news:1047cd7bf162d6e0",
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-009",
+      "stratum": "C",
+      "expected_doc_ids": [],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "LLM 멀티에이전트 시스템의 GPU 비용 절감 관련 실측 수치",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2404.01023v1",
+            "arXiv:2609.19101v1"
+          ],
+          "recorded": [
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2404.01023v1",
+            "news:1047cd7bf162d6e0"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde",
+            "news:1047cd7bf162d6e0",
+            "arXiv:2605.21404v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2404.01023v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2404.01023v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "단일 LLM 시스템 대비 멀티에이전트 시스템의 GPU 자원 사용량 비교",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:0252e9379cd9f923",
+            "news:42f467857601213c",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2404.01023v1"
+          ],
+          "recorded": [
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2404.01023v1",
+            "news:1047cd7bf162d6e0"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde",
+            "news:1047cd7bf162d6e0",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2404.01023v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2404.01023v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "멀티에이전트 시스템 운영을 통한 인프라 비용 최적화 사례",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2602.03128v1",
+            "arXiv:2412.05449v1"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2602.03128v1",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2412.05449v1",
+            "news:1047cd7bf162d6e0"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-010",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19113v1"
+      ],
+      "expected_doc_domains": [
+        "Eval/Governance",
+        "LLM",
+        "Reasoning"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "두 언어모델 간의 상호 질의응답을 통한 후보군 축소 능력 측정 연구",
+          "value": "Reasoning",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2406.00215v3",
+            "news:0252e9379cd9f923",
+            "arXiv:2412.05449v1",
+            "arXiv:2401.07324v3"
+          ],
+          "recorded": [
+            "arXiv:2406.00215v3",
+            "arXiv:2401.07324v3",
+            "arXiv:2404.01023v1",
+            "arXiv:2406.01893v2"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19113v1",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2401.07324v3",
+            "arXiv:2404.01023v1",
+            "arXiv:2406.01893v2"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": true,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2401.07324v3",
+            "arXiv:2404.01023v1",
+            "arXiv:2406.01893v2"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "언어모델 간의 협력적 추론 및 필터링 성능 평가 방법론",
+          "value": "Reasoning",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2406.00215v3",
+            "arXiv:2412.05449v1",
+            "arXiv:2404.01023v1",
+            "arXiv:2401.07324v3"
+          ],
+          "recorded": [
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2406.01893v2"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19113v1",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2406.01893v2"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": true,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2406.01893v2"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "다중 모델 간의 대화를 통한 정답 도출 및 후보 압축 관련 논문",
+          "value": "Reasoning",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2406.00215v3",
+            "arXiv:2412.05449v1",
+            "arXiv:2404.01023v1",
+            "arXiv:2609.19088v1"
+          ],
+          "recorded": [
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19113v1",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": true,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-011",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19101v1"
+      ],
+      "expected_doc_domains": [
+        "Eval/Governance",
+        "LLM",
+        "Safety/Alignment"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "모델의 보상 속임수(reward hacking/gaming) 정의 및 사례",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2609.19101v1",
+            "news:1047cd7bf162d6e0",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "arXiv:2609.19101v1",
+            "news:1047cd7bf162d6e0",
+            "news:509053e1f8b378dd",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19101v1",
+            "news:1047cd7bf162d6e0",
+            "news:509053e1f8b378dd",
+            "arXiv:2609.19144v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "모델의 내부 표현(internal representations)을 통한 행동 탐지 연구",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2609.19101v1",
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "arXiv:2609.19101v1",
+            "news:1047cd7bf162d6e0",
+            "arXiv:2609.19144v1",
+            "arXiv:2512.13930v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19101v1",
+            "news:1047cd7bf162d6e0",
+            "arXiv:2609.19144v1",
+            "news:f3899afd4d6a0a2d"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.13930v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.13930v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "보상 속임수 행동과 내부 표현 간의 상관관계 분석 연구",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2609.19101v1",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19144v1",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19144v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19144v1",
+            "news:1047cd7bf162d6e0",
+            "news:509053e1f8b378dd"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 3,
+          "topic": "내부 표현 기반의 보상 속임수 탐지 방법론 및 성능",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2609.19101v1",
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "arXiv:2609.19144v1"
+          ],
+          "recorded": [
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19144v1",
+            "news:1047cd7bf162d6e0",
+            "arXiv:2512.02230v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19144v1",
+            "news:1047cd7bf162d6e0",
+            "news:509053e1f8b378dd"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-012",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19145v1"
+      ],
+      "expected_doc_domains": [
+        "Eval/Governance",
+        "LLM",
+        "Training/Finetuning"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "토크나이저 최적화 목표가 언어모델 성능에 미치는 영향",
+          "value": "LLM",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 3,
+          "expected_rank_recorded": 3,
+          "unfiltered": [
+            "news:587009bd5b1aa4ce",
+            "news:42f467857601213c",
+            "arXiv:2609.19145v1",
+            "news:c076df17a63066ea"
+          ],
+          "recorded": [
+            "news:587009bd5b1aa4ce",
+            "news:42f467857601213c",
+            "arXiv:2609.19145v1",
+            "news:c076df17a63066ea"
+          ],
+          "expected_rank_strict": 3,
+          "strict": [
+            "news:587009bd5b1aa4ce",
+            "news:42f467857601213c",
+            "arXiv:2609.19145v1",
+            "news:c076df17a63066ea"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "토크나이저 탐색 절차가 언어모델 성능에 미치는 영향",
+          "value": "LLM",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 3,
+          "expected_rank_recorded": 3,
+          "unfiltered": [
+            "news:587009bd5b1aa4ce",
+            "news:42f467857601213c",
+            "arXiv:2609.19145v1",
+            "news:c076df17a63066ea"
+          ],
+          "recorded": [
+            "news:587009bd5b1aa4ce",
+            "news:42f467857601213c",
+            "arXiv:2609.19145v1",
+            "news:c076df17a63066ea"
+          ],
+          "expected_rank_strict": 3,
+          "strict": [
+            "news:587009bd5b1aa4ce",
+            "news:42f467857601213c",
+            "arXiv:2609.19145v1",
+            "news:c076df17a63066ea"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "최적화 목표와 탐색 절차 간의 성능 기여도 비교 분석",
+          "value": "LLM",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 3,
+          "expected_rank_recorded": 3,
+          "unfiltered": [
+            "news:587009bd5b1aa4ce",
+            "news:42f467857601213c",
+            "arXiv:2609.19145v1",
+            "arXiv:2412.05449v1"
+          ],
+          "recorded": [
+            "news:587009bd5b1aa4ce",
+            "news:42f467857601213c",
+            "arXiv:2609.19145v1",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": 3,
+          "strict": [
+            "news:587009bd5b1aa4ce",
+            "news:42f467857601213c",
+            "arXiv:2609.19145v1",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-013",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19088v1"
+      ],
+      "expected_doc_domains": [
+        "Eval/Governance",
+        "Multimodal"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "교육 맥락의 예술 이미지 이해를 평가하는 시각-언어 모델 벤치마크 목록",
+          "value": "Multimodal",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2609.19088v1",
+            "news:42f467857601213c",
+            "arXiv:2609.19143v1",
+            "news:587009bd5b1aa4ce"
+          ],
+          "recorded": [
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19143v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19093v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "예술 이미지 이해 벤치마크의 교육적 활용 사례 및 평가 지표",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2609.19088v1",
+            "news:42f467857601213c",
+            "arXiv:2609.19143v1",
+            "arXiv:2406.00215v3"
+          ],
+          "recorded": [
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19143v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2602.03128v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19093v1",
+            "arXiv:2609.19113v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "시각-언어 모델의 예술 도메인 이해도 측정 방법론",
+          "value": "Multimodal",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19143v1",
+            "news:42f467857601213c",
+            "arXiv:2512.02230v1"
+          ],
+          "recorded": [
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19143v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19093v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-014",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "news:42f467857601213c"
+      ],
+      "expected_doc_domains": [
+        "Hardware/Chip",
+        "Inference/Serving",
+        "LLM"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "AI 하드웨어의 초점이 대규모 학습에서 추론 수요 대응으로 이동했다는 설명 여부",
+          "value": "Hardware/Chip",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:c076df17a63066ea",
+            "news:3dd7208e3f2a1dde",
+            "news:1047cd7bf162d6e0"
+          ],
+          "recorded": [
+            "news:42f467857601213c",
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1",
+            "arXiv:2404.01023v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "news:42f467857601213c"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1",
+            "arXiv:2404.01023v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1",
+            "arXiv:2404.01023v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "AI 하드웨어 시장의 학습 및 추론 수요 변화 추이",
+          "value": "Hardware/Chip",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:c076df17a63066ea",
+            "news:1047cd7bf162d6e0",
+            "news:587009bd5b1aa4ce"
+          ],
+          "recorded": [
+            "news:42f467857601213c",
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1",
+            "arXiv:2405.16887v2"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "news:42f467857601213c"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1",
+            "arXiv:2405.16887v2"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1",
+            "arXiv:2405.16887v2"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "추론 수요 대응을 위한 AI 하드웨어의 기술적 변화 및 특징",
+          "value": "Hardware/Chip",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:c076df17a63066ea",
+            "news:1047cd7bf162d6e0",
+            "news:587009bd5b1aa4ce"
+          ],
+          "recorded": [
+            "news:42f467857601213c",
+            "arXiv:2401.07324v3",
+            "arXiv:2405.16887v2",
+            "arXiv:2512.13930v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "news:42f467857601213c"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2401.07324v3",
+            "arXiv:2405.16887v2",
+            "arXiv:2512.13930v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2401.07324v3",
+            "arXiv:2405.16887v2",
+            "arXiv:2512.13930v1"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-015",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2605.21404v1"
+      ],
+      "expected_doc_domains": [
+        "Agent",
+        "Eval/Governance"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "LLM 에이전트 벤치마크 논문의 평가 실행 조건 공개 여부 조사 사례",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 3,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "arXiv:2512.02230v1",
+            "news:587009bd5b1aa4ce"
+          ],
+          "recorded": [
+            "arXiv:2512.02230v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2605.21404v1",
+            "arXiv:2602.03128v1"
+          ],
+          "expected_rank_strict": 2,
+          "strict": [
+            "arXiv:2609.19101v1",
+            "arXiv:2605.21404v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1",
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1",
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "LLM 에이전트 벤치마크의 실행 조건 공개 범위 및 항목",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 3,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "arXiv:2512.02230v1",
+            "arXiv:2609.19101v1"
+          ],
+          "recorded": [
+            "arXiv:2512.02230v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2605.21404v1",
+            "arXiv:2602.03128v1"
+          ],
+          "expected_rank_strict": 2,
+          "strict": [
+            "arXiv:2609.19101v1",
+            "arXiv:2605.21404v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1",
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1",
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "벤치마크 논문 내 평가 환경 및 설정 정보의 투명성 분석 자료",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 2,
+          "expected_rank_recorded": 2,
+          "unfiltered": [
+            "arXiv:2512.02230v1",
+            "arXiv:2605.21404v1",
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "recorded": [
+            "arXiv:2512.02230v1",
+            "arXiv:2605.21404v1",
+            "arXiv:2602.03128v1",
+            "arXiv:2410.09024v3"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2605.21404v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2412.05449v1",
+            "news:509053e1f8b378dd"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1",
+            "arXiv:2602.03128v1",
+            "arXiv:2410.09024v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1",
+            "arXiv:2602.03128v1",
+            "arXiv:2410.09024v3"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-016",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19134v1"
+      ],
+      "expected_doc_domains": [
+        "Agent",
+        "Infra/MLOps",
+        "Training/Finetuning"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "과학 코드 저장소의 실행 환경 구축 방법",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 2,
+          "expected_rank_recorded": 2,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19134v1",
+            "news:0252e9379cd9f923",
+            "news:42f467857601213c"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19134v1",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "expected_rank_strict": 2,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19134v1",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "에이전트 학습을 위한 코드 실행 환경의 요구사항",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 2,
+          "expected_rank_recorded": 2,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19134v1",
+            "news:0252e9379cd9f923",
+            "news:42f467857601213c"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19134v1",
+            "news:0252e9379cd9f923",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": 2,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19134v1",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "코드 저장소를 학습 환경으로 변환하는 기존 접근 방식",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 3,
+          "expected_rank_recorded": 2,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "arXiv:2609.19134v1",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19134v1",
+            "news:0252e9379cd9f923",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": 2,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19134v1",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 3,
+          "topic": "과학 코드 실행 환경의 에이전트 학습 적용 사례",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 2,
+          "expected_rank_recorded": 2,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19134v1",
+            "news:42f467857601213c",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19134v1",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "expected_rank_strict": 2,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2609.19134v1",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-017",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19144v1"
+      ],
+      "expected_doc_domains": [
+        "LLM",
+        "Safety/Alignment",
+        "Training/Finetuning"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "선호 쌍의 차이가 작을 때 기울기 계산 없이 모델을 정렬하는 방법",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:0252e9379cd9f923",
+            "news:587009bd5b1aa4ce",
+            "news:42f467857601213c",
+            "news:c45b8926d7935cd2"
+          ],
+          "recorded": [
+            "arXiv:2609.19144v1",
+            "arXiv:2609.19101v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2401.07324v3"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19144v1",
+            "arXiv:2609.19101v1",
+            "news:509053e1f8b378dd",
+            "news:f3899afd4d6a0a2d"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [
+            "arXiv:2401.07324v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2401.07324v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "기울기 계산 없는 모델 정렬 기법의 작동 원리",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 4,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:587009bd5b1aa4ce",
+            "news:0252e9379cd9f923",
+            "news:42f467857601213c",
+            "arXiv:2609.19144v1"
+          ],
+          "recorded": [
+            "arXiv:2609.19144v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2401.07324v3",
+            "news:509053e1f8b378dd"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19144v1",
+            "arXiv:2609.19101v1",
+            "news:509053e1f8b378dd",
+            "news:f3899afd4d6a0a2d"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2401.07324v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2401.07324v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "비교 기반 모델 정렬 방식의 특징 및 조건",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 2,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "arXiv:2609.19144v1",
+            "news:587009bd5b1aa4ce",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "arXiv:2609.19144v1",
+            "arXiv:2401.07324v3",
+            "arXiv:2405.16887v2",
+            "arXiv:2609.19101v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19144v1",
+            "arXiv:2609.19101v1",
+            "news:509053e1f8b378dd",
+            "news:f3899afd4d6a0a2d"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2401.07324v3",
+            "arXiv:2405.16887v2"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2401.07324v3",
+            "arXiv:2405.16887v2"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-018",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19093v1"
+      ],
+      "expected_doc_domains": [
+        "Data/Synthetic",
+        "Eval/Governance",
+        "Multimodal"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "방사선 판독문 생성 모델의 평가 점수와 참조 보고서 작성 방식 간의 상관관계 연구",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 2,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:587009bd5b1aa4ce",
+            "arXiv:2609.19093v1",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "arXiv:2609.19093v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2609.19113v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19093v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19113v1",
+            "arXiv:2609.19143v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "참조 보고서의 스타일이나 형식이 모델 평가 지표에 미치는 영향",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 2,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:587009bd5b1aa4ce",
+            "arXiv:2609.19093v1",
+            "news:42f467857601213c",
+            "arXiv:2609.19101v1"
+          ],
+          "recorded": [
+            "arXiv:2609.19093v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19113v1",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19093v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19113v1",
+            "arXiv:2609.19143v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "방사선 판독문 생성 모델 평가 시 참조 보고서의 가변성 및 일관성 분석",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 2,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:587009bd5b1aa4ce",
+            "arXiv:2609.19093v1",
+            "news:0252e9379cd9f923",
+            "arXiv:2609.19101v1"
+          ],
+          "recorded": [
+            "arXiv:2609.19093v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2609.19113v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19093v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19113v1",
+            "arXiv:2609.19143v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-019",
+      "stratum": "B",
+      "expected_doc_ids": [
+        "arXiv:2401.07324v3"
+      ],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "작은 모델을 계획, 호출, 요약 역할로 분리하여 도구 사용 성능을 개선한 연구 사례",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 3,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:587009bd5b1aa4ce",
+            "news:c45b8926d7935cd2",
+            "news:42f467857601213c"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2401.07324v3",
+            "news:1047cd7bf162d6e0"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2401.07324v3"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2401.07324v3"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2401.07324v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "역할 분담 기반의 소형 모델 도구 사용 프레임워크의 구조 및 작동 방식",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2401.07324v3",
+            "news:c45b8926d7935cd2",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "arXiv:2401.07324v3",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2412.05449v1",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2401.07324v3"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2401.07324v3"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2401.07324v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "역할 분리 방식이 소형 모델의 도구 사용 성능에 미치는 영향 및 결과",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2401.07324v3",
+            "news:42f467857601213c",
+            "news:587009bd5b1aa4ce",
+            "news:c45b8926d7935cd2"
+          ],
+          "recorded": [
+            "arXiv:2401.07324v3",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "arXiv:2406.01893v2"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0"
+          ],
+          "strict_harm": true,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2401.07324v3",
+            "arXiv:2406.01893v2"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2401.07324v3"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2401.07324v3",
+            "arXiv:2406.01893v2"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-020",
+      "stratum": "B",
+      "expected_doc_ids": [
+        "arXiv:2502.05227v1"
+      ],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "에이전트의 비동기적 계획 능력 측정 벤치마크",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2512.02230v1",
+            "news:42f467857601213c",
+            "arXiv:2406.00215v3"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2410.09024v3"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:14d2c76967ca2b60",
+            "news:0252e9379cd9f923",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2410.09024v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2410.09024v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "병렬 과제 수행 및 중단 가능 과제 처리 측정 지표",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2602.03128v1"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2602.03128v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "arXiv:2605.21404v1",
+            "news:0252e9379cd9f923"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "장기 과제 계획 능력을 평가하는 에이전트 벤치마크 목록",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2512.02230v1",
+            "news:42f467857601213c",
+            "arXiv:2406.00215v3"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "news:14d2c76967ca2b60"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:14d2c76967ca2b60",
+            "news:0252e9379cd9f923",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-021",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19143v1"
+      ],
+      "expected_doc_domains": [
+        "Eval/Governance",
+        "Multimodal"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "이미지 캡션 구절과 픽셀 마스크 연결 관련 연구 사례",
+          "value": "Multimodal",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 4,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0",
+            "news:14d2c76967ca2b60",
+            "arXiv:2609.19143v1"
+          ],
+          "recorded": [
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19088v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2609.19093v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19093v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "캡션-픽셀 정렬(Caption-to-Pixel Alignment) 기술 및 방법론",
+          "value": "Multimodal",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 2,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:0252e9379cd9f923",
+            "arXiv:2609.19143v1",
+            "news:14d2c76967ca2b60",
+            "news:1047cd7bf162d6e0"
+          ],
+          "recorded": [
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19088v1",
+            "arXiv:2512.06196v1",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19093v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.06196v1",
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.06196v1",
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "이미지 캡션의 구절 단위 세그멘테이션 연구 현황",
+          "value": "Multimodal",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0",
+            "news:14d2c76967ca2b60",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "recorded": [
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19088v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19093v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2404.01023v1"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-022",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "news:3dd7208e3f2a1dde"
+      ],
+      "expected_doc_domains": [
+        "Agent",
+        "Reasoning"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "코딩 에이전트의 탐색 전략 개선 프레임워크",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "news:0252e9379cd9f923",
+            "news:c45b8926d7935cd2"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "과거 시도 기록을 활용한 에이전트 성능 최적화 방법",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "코딩 에이전트의 탐색 전략 시험 및 검증 체계",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-023",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "news:f3899afd4d6a0a2d"
+      ],
+      "expected_doc_domains": [
+        "Eval/Governance",
+        "Safety/Alignment"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "모델 오정렬 사례 추적 및 조사 운영 체계 제시 기관",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 3,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:14d2c76967ca2b60",
+            "news:0252e9379cd9f923",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "recorded": [
+            "news:1047cd7bf162d6e0",
+            "arXiv:2609.19144v1",
+            "news:f3899afd4d6a0a2d",
+            "arXiv:2609.19101v1"
+          ],
+          "expected_rank_strict": 3,
+          "strict": [
+            "news:1047cd7bf162d6e0",
+            "arXiv:2609.19144v1",
+            "news:f3899afd4d6a0a2d",
+            "arXiv:2609.19101v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "모델 오정렬 사례 공개 프로세스 및 가이드라인",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 4,
+          "unfiltered": [
+            "news:587009bd5b1aa4ce",
+            "news:14d2c76967ca2b60",
+            "news:42f467857601213c",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "news:1047cd7bf162d6e0",
+            "arXiv:2609.19144v1",
+            "arXiv:2405.16887v2",
+            "news:f3899afd4d6a0a2d"
+          ],
+          "expected_rank_strict": 3,
+          "strict": [
+            "news:1047cd7bf162d6e0",
+            "arXiv:2609.19144v1",
+            "news:f3899afd4d6a0a2d",
+            "arXiv:2609.19101v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [
+            "arXiv:2405.16887v2"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2405.16887v2"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "오정렬 사례 수집 및 보고 체계의 구성 요소",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "news:3dd7208e3f2a1dde"
+          ],
+          "recorded": [
+            "news:f3899afd4d6a0a2d",
+            "news:1047cd7bf162d6e0",
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19144v1"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "news:f3899afd4d6a0a2d",
+            "news:1047cd7bf162d6e0",
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19144v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": true,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-024",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "news:14d2c76967ca2b60"
+      ],
+      "expected_doc_domains": [
+        "Agent",
+        "Application/Product"
+      ],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "광고 클릭 시 기업 후원 에이전트와 대화하는 기능의 시험 여부",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:14d2c76967ca2b60",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0"
+          ],
+          "recorded": [
+            "news:14d2c76967ca2b60",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "news:14d2c76967ca2b60",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "광고 기반 에이전트 대화 기능의 작동 방식",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:14d2c76967ca2b60",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:c45b8926d7935cd2"
+          ],
+          "recorded": [
+            "news:14d2c76967ca2b60",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "news:14d2c76967ca2b60",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "해당 기능의 테스트 대상 및 적용 범위",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "news:14d2c76967ca2b60",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0"
+          ],
+          "recorded": [
+            "news:14d2c76967ca2b60",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0"
+          ],
+          "expected_rank_strict": 1,
+          "strict": [
+            "news:14d2c76967ca2b60",
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:1047cd7bf162d6e0"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-025",
+      "stratum": "B",
+      "expected_doc_ids": [
+        "arXiv:2602.16901v1"
+      ],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "다회차 상호작용을 통한 목표 달성 공격 방식의 정의",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:509053e1f8b378dd",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2410.09024v3",
+            "arXiv:2410.09114v2"
+          ],
+          "recorded": [
+            "news:509053e1f8b378dd",
+            "arXiv:2410.09024v3",
+            "arXiv:2410.09114v2",
+            "arXiv:2512.02230v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:509053e1f8b378dd",
+            "arXiv:2609.19101v1",
+            "news:1047cd7bf162d6e0",
+            "arXiv:2609.19144v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2410.09024v3",
+            "arXiv:2410.09114v2",
+            "arXiv:2512.02230v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2410.09024v3",
+            "arXiv:2410.09114v2",
+            "arXiv:2512.02230v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "에이전트의 다턴 공격 취약성 측정 벤치마크 목록",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 4,
+          "unfiltered": [
+            "news:509053e1f8b378dd",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2410.09024v3",
+            "arXiv:2410.09114v2"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2410.09024v3",
+            "arXiv:2410.09114v2",
+            "arXiv:2602.16901v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:14d2c76967ca2b60",
+            "news:0252e9379cd9f923",
+            "arXiv:2605.21404v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2410.09024v3",
+            "arXiv:2410.09114v2",
+            "arXiv:2602.16901v1"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2602.16901v1"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2410.09024v3",
+            "arXiv:2410.09114v2",
+            "arXiv:2602.16901v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "다턴 공격 벤치마크의 평가 지표 및 측정 방법",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": true,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": 4,
+          "unfiltered": [
+            "news:509053e1f8b378dd",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2410.09114v2",
+            "arXiv:2410.09024v3"
+          ],
+          "recorded": [
+            "news:509053e1f8b378dd",
+            "arXiv:2410.09114v2",
+            "arXiv:2410.09024v3",
+            "arXiv:2602.16901v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:509053e1f8b378dd",
+            "arXiv:2605.21404v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2410.09114v2",
+            "arXiv:2410.09024v3",
+            "arXiv:2602.16901v1"
+          ],
+          "meta_less_answers_in_null_pass": [
+            "arXiv:2602.16901v1"
+          ],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2410.09114v2",
+            "arXiv:2410.09024v3",
+            "arXiv:2602.16901v1"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-026",
+      "stratum": "C",
+      "expected_doc_ids": [],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "국내 기업의 사내 문서 활용 한국어 LLM 파인튜닝 사례",
+          "value": "Training/Finetuning",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:c076df17a63066ea",
+            "news:42f467857601213c",
+            "news:0252e9379cd9f923",
+            "news:587009bd5b1aa4ce"
+          ],
+          "recorded": [
+            "news:587009bd5b1aa4ce",
+            "arXiv:2406.00215v3",
+            "arXiv:2401.07324v3",
+            "arXiv:2404.01023v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:587009bd5b1aa4ce",
+            "arXiv:2609.19145v1",
+            "news:dfff960c99b416b4",
+            "arXiv:2609.19144v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2401.07324v3",
+            "arXiv:2404.01023v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2401.07324v3",
+            "arXiv:2404.01023v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "사내 문서 파인튜닝 전후의 LLM 성능 비교 수치",
+          "value": "Training/Finetuning",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:c076df17a63066ea",
+            "news:587009bd5b1aa4ce",
+            "news:42f467857601213c",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "news:587009bd5b1aa4ce",
+            "arXiv:2406.00215v3",
+            "arXiv:2401.07324v3",
+            "arXiv:2404.01023v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:587009bd5b1aa4ce",
+            "arXiv:2609.19145v1",
+            "news:dfff960c99b416b4",
+            "arXiv:2609.19144v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2401.07324v3",
+            "arXiv:2404.01023v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2401.07324v3",
+            "arXiv:2404.01023v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "파인튜닝 성능 측정을 위해 사용된 평가 지표 및 벤치마크",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2406.00215v3",
+            "news:c076df17a63066ea",
+            "arXiv:2512.02230v1",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2404.01023v1",
+            "arXiv:2410.09114v2"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "arXiv:2605.21404v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2609.19113v1",
+            "arXiv:2609.19101v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2404.01023v1",
+            "arXiv:2410.09114v2"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2404.01023v1",
+            "arXiv:2410.09114v2"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-027",
+      "stratum": "C",
+      "expected_doc_ids": [],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "LLM 에이전트 기반 공장 설비 제어 사례",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "news:c076df17a63066ea",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "arXiv:2405.16887v2"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2405.16887v2"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2405.16887v2"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "LLM 에이전트 적용 설비의 안전 사고 보고 사례",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "news:c076df17a63066ea",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "arXiv:2602.16901v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2410.09024v3",
+            "news:1047cd7bf162d6e0"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:509053e1f8b378dd",
+            "news:1047cd7bf162d6e0",
+            "arXiv:2609.19101v1",
+            "news:f3899afd4d6a0a2d"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.16901v1",
+            "arXiv:2410.09024v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.16901v1",
+            "arXiv:2410.09024v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "LLM 에이전트 오작동으로 인한 산업 현장 피해 기록",
+          "value": "Safety/Alignment",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:c076df17a63066ea",
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "news:1047cd7bf162d6e0"
+          ],
+          "recorded": [
+            "news:1047cd7bf162d6e0",
+            "news:509053e1f8b378dd",
+            "arXiv:2602.16901v1",
+            "arXiv:2410.09024v3"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:1047cd7bf162d6e0",
+            "news:509053e1f8b378dd",
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19144v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.16901v1",
+            "arXiv:2410.09024v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.16901v1",
+            "arXiv:2410.09024v3"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-028",
+      "stratum": "C",
+      "expected_doc_ids": [],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "배치 크기 변화에 따른 추론 처리량 측정 실험 결과",
+          "value": "Inference/Serving",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2609.19101v1",
+            "news:587009bd5b1aa4ce",
+            "news:0252e9379cd9f923",
+            "news:42f467857601213c"
+          ],
+          "recorded": [
+            "news:42f467857601213c",
+            "arXiv:2602.03128v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2410.09114v2"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:42f467857601213c"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2410.09114v2"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2410.09114v2"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "KV 캐시 설정 변경에 따른 추론 처리량 측정 실험 결과",
+          "value": "Inference/Serving",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2609.19101v1",
+            "news:587009bd5b1aa4ce",
+            "news:0252e9379cd9f923",
+            "arXiv:2609.19093v1"
+          ],
+          "recorded": [
+            "news:42f467857601213c",
+            "arXiv:2602.03128v1",
+            "arXiv:2410.09114v2",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:42f467857601213c"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2410.09114v2",
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2410.09114v2",
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "추론 서버 설정값과 처리량 간의 상관관계 분석 실험",
+          "value": "Inference/Serving",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2609.19101v1",
+            "news:587009bd5b1aa4ce",
+            "news:0252e9379cd9f923",
+            "arXiv:2609.19144v1"
+          ],
+          "recorded": [
+            "news:42f467857601213c",
+            "arXiv:2602.03128v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:42f467857601213c"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-029",
+      "stratum": "C",
+      "expected_doc_ids": [],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "LLM 에이전트의 임상시험 진단 정확도 관련 연구 결과",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1",
+            "news:c076df17a63066ea"
+          ],
+          "recorded": [
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2602.16901v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2605.21404v1",
+            "news:14d2c76967ca2b60",
+            "arXiv:2412.05449v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2602.16901v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2602.16901v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "전문의의 임상시험 진단 정확도 벤치마크 데이터",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2605.21404v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2602.16901v1"
+          ],
+          "recorded": [
+            "arXiv:2605.21404v1",
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2602.16901v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "arXiv:2605.21404v1",
+            "arXiv:2609.19101v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2609.19093v1"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2602.16901v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2512.02230v1",
+            "arXiv:2406.00215v3",
+            "arXiv:2602.16901v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "LLM 에이전트와 전문의의 진단 정확도 비교 분석 사례",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:c076df17a63066ea",
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1"
+          ],
+          "recorded": [
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2404.01023v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:14d2c76967ca2b60",
+            "arXiv:2605.21404v1",
+            "news:0252e9379cd9f923"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2404.01023v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2406.00215v3",
+            "arXiv:2512.02230v1",
+            "arXiv:2404.01023v1"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    },
+    {
+      "case_id": "GS-030",
+      "stratum": "C",
+      "expected_doc_ids": [],
+      "expected_doc_domains": [],
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "멀티에이전트 시스템 운영의 전력 소비량 측정 연구",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2602.03128v1",
+            "arXiv:2412.05449v1"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2602.03128v1",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2412.05449v1",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 1,
+          "topic": "멀티에이전트 시스템의 탄소 배출량 산출 및 분석 연구",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2602.03128v1",
+            "news:0252e9379cd9f923",
+            "arXiv:2412.05449v1"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2602.03128v1",
+            "news:0252e9379cd9f923",
+            "arXiv:2412.05449v1"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "news:0252e9379cd9f923",
+            "arXiv:2412.05449v1",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        },
+        {
+          "item_index": 2,
+          "topic": "멀티에이전트 시스템의 에너지 효율성 평가 지표 및 방법론",
+          "value": "Agent",
+          "outcome": "chosen",
+          "filter_survivors": null,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2602.03128v1",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923"
+          ],
+          "recorded": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2602.03128v1",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923"
+          ],
+          "expected_rank_strict": null,
+          "strict": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2412.05449v1",
+            "news:0252e9379cd9f923",
+            "news:14d2c76967ca2b60"
+          ],
+          "strict_harm": false,
+          "strict_gain": false,
+          "meta_less_in_null_pass": [
+            "arXiv:2602.03128v1"
+          ],
+          "meta_less_answers_in_null_pass": [],
+          "pushed_out_by_meta_less": false,
+          "entered_vs_strict": [
+            "arXiv:2602.03128v1"
+          ],
+          "integrity": [],
+          "planted": false
+        }
+      ]
+    }
+  ],
+  "elapsed_s": 40.4
+}
