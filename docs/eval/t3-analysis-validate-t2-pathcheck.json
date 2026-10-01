@@ -1,0 +1,611 @@
+{
+  "preregistration": "ce86b04",
+  "run_label": "v1.2-t2-pathcheck",
+  "baseline_label": "v1.2-p1-on",
+  "run_conditions": {
+    "tech_domain_tool": true,
+    "parallel": true,
+    "max_concurrency": 4,
+    "effective_concurrency": 4,
+    "cache_enabled": false,
+    "prompt_version": "2026-10-01.1",
+    "model": "gemma-4-31B-it",
+    "corpus_docs": 37,
+    "index_check": {
+      "queue_rows": 37,
+      "distinct_ids": 37,
+      "indexed_docs": 37,
+      "operations": {
+        "2": 37
+      },
+      "clean": true
+    },
+    "endpoint_errors": {
+      "total": 0,
+      "rate_limit": 0,
+      "timeout": 0,
+      "other": 0
+    },
+    "n_cases": 3
+  },
+  "baseline_conditions": {
+    "tech_domain_tool": null,
+    "parallel": true,
+    "max_concurrency": 4,
+    "cache_enabled": false,
+    "prompt_version": "2026-09-30.1"
+  },
+  "validity_problems": [],
+  "judgment": {
+    "verdict": "무해 확인",
+    "observations": []
+  },
+  "harm": {
+    "A": {
+      "harm_items": {
+        "k": 0,
+        "n": 3,
+        "pct": 0.0
+      },
+      "harm_cases": {
+        "k": 0,
+        "n": 1,
+        "pct": 0.0
+      },
+      "eligible_items": 3,
+      "eligible_cases": [
+        "GS-013"
+      ],
+      "harm_detail": {},
+      "gain_items": 0,
+      "gain_detail": []
+    },
+    "B": {
+      "harm_items": {
+        "k": 0,
+        "n": 0,
+        "pct": null
+      },
+      "harm_cases": {
+        "k": 0,
+        "n": 0,
+        "pct": null
+      },
+      "eligible_items": 0,
+      "eligible_cases": [],
+      "harm_detail": {},
+      "gain_items": 0,
+      "gain_detail": []
+    }
+  },
+  "baseline_eligible_items": {
+    "A": 33,
+    "B": 12
+  },
+  "selection": {
+    "A": {
+      "cases": 1,
+      "first_pass_items": 3,
+      "selection_error_items": 0,
+      "selection_error_cases": [],
+      "tool_on": true,
+      "abstain": {
+        "k": 0,
+        "n": 3,
+        "pct": 0.0
+      },
+      "value_counts": {
+        "Multimodal": 2,
+        "Eval/Governance": 1
+      },
+      "exact": {
+        "items_pooled": {
+          "k": 2,
+          "n": 3,
+          "pct": 66.7
+        },
+        "case_majority_observation": {
+          "k": 1,
+          "n": 1,
+          "pct": 100.0
+        }
+      },
+      "compatible": {
+        "items_pooled": {
+          "k": 3,
+          "n": 3,
+          "pct": 100.0
+        },
+        "case_majority_observation": {
+          "k": 1,
+          "n": 1,
+          "pct": 100.0
+        }
+      },
+      "incompatible_non_abstain": []
+    },
+    "B": {
+      "cases": 1,
+      "first_pass_items": 4,
+      "selection_error_items": 0,
+      "selection_error_cases": [],
+      "tool_on": true,
+      "abstain": {
+        "k": 0,
+        "n": 4,
+        "pct": 0.0
+      },
+      "value_counts": {
+        "Eval/Governance": 4
+      }
+    },
+    "C": {
+      "cases": 1,
+      "first_pass_items": 3,
+      "selection_error_items": 0,
+      "selection_error_cases": [],
+      "tool_on": true,
+      "abstain": {
+        "k": 0,
+        "n": 3,
+        "pct": 0.0
+      },
+      "value_counts": {
+        "Inference/Serving": 3
+      }
+    }
+  },
+  "selection_error_total": 0,
+  "e2e": {
+    "A": {
+      "n": 1,
+      "passed": 1,
+      "baseline_passed": 1,
+      "delta": 0,
+      "pass_to_fail": [],
+      "fail_to_pass": []
+    },
+    "B": {
+      "n": 1,
+      "passed": 0,
+      "baseline_passed": 0,
+      "delta": 0,
+      "pass_to_fail": [],
+      "fail_to_pass": []
+    },
+    "C": {
+      "n": 1,
+      "passed": 1,
+      "baseline_passed": 1,
+      "delta": 0,
+      "pass_to_fail": [],
+      "fail_to_pass": [],
+      "negative_held": {
+        "held": 1,
+        "baseline_held": 1,
+        "drop": 0
+      }
+    }
+  },
+  "outline_drift_cases": [],
+  "cost": {
+    "run": {
+      "calls_total": 40,
+      "calls_by_node": {
+        "outliner": 3,
+        "researcher": 18,
+        "researcher_select": 10,
+        "verifier": 6,
+        "writer": 3
+      },
+      "calls_per_request_mean": 13.333,
+      "prompt_tokens": 32733,
+      "completion_tokens": 1463,
+      "billed_tokens": 34196,
+      "wall_mean_s": 6.54,
+      "wall_p50_s": 5.691,
+      "wall_p95_s": 10.444,
+      "llm_mean_s": 10.836,
+      "retrieval_mean_s": 0.33,
+      "bench_wall_clock_s": 19.7,
+      "revision_distribution": {
+        "2": 3
+      }
+    },
+    "baseline": {
+      "calls_total": 297,
+      "calls_by_node": {
+        "outliner": 30,
+        "researcher": 161,
+        "verifier": 76,
+        "writer": 30
+      },
+      "calls_per_request_mean": 9.9,
+      "prompt_tokens": 295040,
+      "completion_tokens": 18001,
+      "billed_tokens": 313041,
+      "wall_mean_s": 8.45,
+      "wall_p50_s": 9.558,
+      "wall_p95_s": 14.396,
+      "llm_mean_s": 12.27,
+      "retrieval_mean_s": 0.207,
+      "bench_wall_clock_s": 254.03,
+      "revision_distribution": {
+        "1": 4,
+        "2": 26
+      }
+    },
+    "delta": {
+      "calls_total": -257,
+      "calls_per_request_mean": 3.433,
+      "prompt_tokens": -262307,
+      "completion_tokens": -16538,
+      "billed_tokens": -278845,
+      "wall_mean_s": -1.91,
+      "wall_p50_s": -3.867,
+      "wall_p95_s": -3.952,
+      "llm_mean_s": -1.434,
+      "retrieval_mean_s": 0.123,
+      "bench_wall_clock_s": -234.33,
+      "calls_by_node": {
+        "outliner": -27,
+        "researcher": -143,
+        "researcher_select": 10,
+        "verifier": -70,
+        "writer": -27
+      }
+    },
+    "same_cases": {
+      "run": {
+        "cases": 3,
+        "llm_calls": 40,
+        "billed_tokens": 34196,
+        "wall_clock_s": 19.62
+      },
+      "baseline": {
+        "cases": 3,
+        "llm_calls": 30,
+        "billed_tokens": 32690,
+        "wall_clock_s": 17.982
+      },
+      "delta": {
+        "llm_calls": 10,
+        "billed_tokens": 1506,
+        "wall_clock_s": 1.638
+      }
+    }
+  },
+  "cases": [
+    {
+      "case_id": "GS-006",
+      "stratum": "B",
+      "passed": false,
+      "negative_case_held": null,
+      "oracle": null,
+      "expected_doc_ids": [
+        "arXiv:2404.01023v1"
+      ],
+      "expected_doc_domains": [],
+      "topics": [
+        "LLM 성능 평가를 위한 멀티에이전트 구조의 정의 및 개념",
+        "멀티에이전트 기반 LLM 평가 프레임워크의 종류 및 사례",
+        "멀티에이전트 구조를 활용한 LLM 평가 방식의 작동 원리",
+        "기존 단일 모델 평가 방식 대비 멀티에이전트 평가 방식의 차이점 및 장점"
+      ],
+      "selection_errors": 0,
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "LLM 성능 평가를 위한 멀티에이전트 구조의 정의 및 개념",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "searched_with": "Eval/Governance",
+          "filter_survivors": 13,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2602.03128v1",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2401.07324v3",
+            "news:42f467857601213c"
+          ],
+          "recorded": [
+            "arXiv:2412.05449v1",
+            "arXiv:2605.21404v1",
+            "arXiv:2609.19101v1",
+            "arXiv:2609.19088v1"
+          ],
+          "integrity": [],
+          "exact": null,
+          "compatible": null
+        },
+        {
+          "item_index": 1,
+          "topic": "멀티에이전트 기반 LLM 평가 프레임워크의 종류 및 사례",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "searched_with": "Eval/Governance",
+          "filter_survivors": 13,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2602.03128v1",
+            "news:42f467857601213c",
+            "arXiv:2401.07324v3"
+          ],
+          "recorded": [
+            "arXiv:2412.05449v1",
+            "arXiv:2605.21404v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2609.19101v1"
+          ],
+          "integrity": [],
+          "exact": null,
+          "compatible": null
+        },
+        {
+          "item_index": 2,
+          "topic": "멀티에이전트 구조를 활용한 LLM 평가 방식의 작동 원리",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "searched_with": "Eval/Governance",
+          "filter_survivors": 13,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:3dd7208e3f2a1dde",
+            "news:42f467857601213c",
+            "arXiv:2602.03128v1",
+            "news:c076df17a63066ea"
+          ],
+          "recorded": [
+            "arXiv:2412.05449v1",
+            "arXiv:2605.21404v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2609.19101v1"
+          ],
+          "integrity": [],
+          "exact": null,
+          "compatible": null
+        },
+        {
+          "item_index": 3,
+          "topic": "기존 단일 모델 평가 방식 대비 멀티에이전트 평가 방식의 차이점 및 장점",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "searched_with": "Eval/Governance",
+          "filter_survivors": 13,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "news:42f467857601213c",
+            "news:3dd7208e3f2a1dde",
+            "arXiv:2401.07324v3",
+            "arXiv:2602.03128v1"
+          ],
+          "recorded": [
+            "arXiv:2412.05449v1",
+            "news:509053e1f8b378dd",
+            "arXiv:2605.21404v1",
+            "news:dfff960c99b416b4"
+          ],
+          "integrity": [],
+          "exact": null,
+          "compatible": null
+        }
+      ]
+    },
+    {
+      "case_id": "GS-013",
+      "stratum": "A",
+      "passed": true,
+      "negative_case_held": null,
+      "oracle": "Multimodal",
+      "expected_doc_ids": [
+        "arXiv:2609.19088v1"
+      ],
+      "expected_doc_domains": [
+        "Eval/Governance",
+        "Multimodal"
+      ],
+      "topics": [
+        "교육 맥락의 예술 이미지 이해를 평가하는 시각-언어 모델 벤치마크 목록",
+        "예술 이미지 이해 벤치마크의 교육적 활용 사례 및 평가 지표",
+        "시각-언어 모델의 예술 도메인 이해도 측정 방법론"
+      ],
+      "selection_errors": 0,
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "교육 맥락의 예술 이미지 이해를 평가하는 시각-언어 모델 벤치마크 목록",
+          "value": "Multimodal",
+          "outcome": "chosen",
+          "searched_with": "Multimodal",
+          "filter_survivors": 3,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2609.19088v1",
+            "news:42f467857601213c",
+            "arXiv:2609.19143v1",
+            "news:587009bd5b1aa4ce"
+          ],
+          "recorded": [
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19093v1"
+          ],
+          "integrity": [],
+          "exact": true,
+          "compatible": true
+        },
+        {
+          "item_index": 1,
+          "topic": "예술 이미지 이해 벤치마크의 교육적 활용 사례 및 평가 지표",
+          "value": "Eval/Governance",
+          "outcome": "chosen",
+          "searched_with": "Eval/Governance",
+          "filter_survivors": 13,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2609.19088v1",
+            "news:42f467857601213c",
+            "arXiv:2609.19143v1",
+            "arXiv:2406.00215v3"
+          ],
+          "recorded": [
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19093v1",
+            "arXiv:2609.19113v1"
+          ],
+          "integrity": [],
+          "exact": false,
+          "compatible": true
+        },
+        {
+          "item_index": 2,
+          "topic": "시각-언어 모델의 예술 도메인 이해도 측정 방법론",
+          "value": "Multimodal",
+          "outcome": "chosen",
+          "searched_with": "Multimodal",
+          "filter_survivors": 3,
+          "eligible": true,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": 1,
+          "expected_rank_recorded": 1,
+          "unfiltered": [
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19143v1",
+            "news:42f467857601213c",
+            "arXiv:2512.02230v1"
+          ],
+          "recorded": [
+            "arXiv:2609.19088v1",
+            "arXiv:2609.19143v1",
+            "arXiv:2609.19093v1"
+          ],
+          "integrity": [],
+          "exact": true,
+          "compatible": true
+        }
+      ]
+    },
+    {
+      "case_id": "GS-028",
+      "stratum": "C",
+      "passed": true,
+      "negative_case_held": true,
+      "oracle": null,
+      "expected_doc_ids": [],
+      "expected_doc_domains": [],
+      "topics": [
+        "배치 크기 변화에 따른 추론 처리량 측정 실험 결과",
+        "KV 캐시 설정 변경에 따른 추론 처리량 측정 실험 결과",
+        "추론 서버 설정값과 처리량 간의 상관관계 분석 실험"
+      ],
+      "selection_errors": 0,
+      "items": [
+        {
+          "item_index": 0,
+          "topic": "배치 크기 변화에 따른 추론 처리량 측정 실험 결과",
+          "value": "Inference/Serving",
+          "outcome": "chosen",
+          "searched_with": "Inference/Serving",
+          "filter_survivors": 1,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2609.19101v1",
+            "news:587009bd5b1aa4ce",
+            "news:0252e9379cd9f923",
+            "news:42f467857601213c"
+          ],
+          "recorded": [
+            "news:42f467857601213c"
+          ],
+          "integrity": [],
+          "exact": null,
+          "compatible": null
+        },
+        {
+          "item_index": 1,
+          "topic": "KV 캐시 설정 변경에 따른 추론 처리량 측정 실험 결과",
+          "value": "Inference/Serving",
+          "outcome": "chosen",
+          "searched_with": "Inference/Serving",
+          "filter_survivors": 1,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2609.19101v1",
+            "news:587009bd5b1aa4ce",
+            "news:0252e9379cd9f923",
+            "arXiv:2609.19093v1"
+          ],
+          "recorded": [
+            "news:42f467857601213c"
+          ],
+          "integrity": [],
+          "exact": null,
+          "compatible": null
+        },
+        {
+          "item_index": 2,
+          "topic": "추론 서버 설정값과 처리량 간의 상관관계 분석 실험",
+          "value": "Inference/Serving",
+          "outcome": "chosen",
+          "searched_with": "Inference/Serving",
+          "filter_survivors": 1,
+          "eligible": false,
+          "harm": false,
+          "gain": false,
+          "expected_rank_unfiltered": null,
+          "expected_rank_recorded": null,
+          "unfiltered": [
+            "arXiv:2609.19101v1",
+            "news:587009bd5b1aa4ce",
+            "news:0252e9379cd9f923",
+            "arXiv:2609.19144v1"
+          ],
+          "recorded": [
+            "news:42f467857601213c"
+          ],
+          "integrity": [],
+          "exact": null,
+          "compatible": null
+        }
+      ]
+    }
+  ],
+  "run_file": "bench-v1.2-t2-pathcheck.json",
+  "baseline_file": "bench-v1.2-p1-on.json",
+  "elapsed_s": 15.7
+}
