@@ -7,7 +7,7 @@ Orchestrator와 Sub-agent는 이 모듈의 `LLMProvider` 인터페이스에만 �
 from __future__ import annotations
 
 import time
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any, Literal, Protocol, runtime_checkable
 
@@ -82,7 +82,15 @@ class LLMProvider(Protocol):
         temperature: float = 0.0,
         max_tokens: int | None = None,
         stop: Sequence[str] | None = None,
-    ) -> LLMResponse: ...
+        response_format: Mapping[str, Any] | None = None,
+    ) -> LLMResponse:
+        """`response_format`은 OpenAI 호환 형식 그대로다(예: `{"type": "json_schema", ...}`).
+
+        None이면 payload에 **키 자체를 넣지 않는다** — 기존 호출의 요청 본문·캐시 키·입력 해시가
+        한 바이트도 바뀌지 않게 하기 위함이다(v1.2-T2). 구현체는 None일 때 이 인자가 없던
+        옛 시그니처와 같은 동작을 해야 한다.
+        """
+        ...
 
 
 # 호출 1건이 끝날 때마다 불리는 관측 훅. Langfuse 연동 자리를 미리 열어둔다.
@@ -112,6 +120,7 @@ class LiteLLMProvider:
         temperature: float = 0.0,
         max_tokens: int | None = None,
         stop: Sequence[str] | None = None,
+        response_format: Mapping[str, Any] | None = None,
     ) -> LLMResponse:
         # litellm은 임포트가 무거워 모듈 로드 시점이 아니라 호출 시점에 가져온다.
         import litellm
@@ -129,6 +138,10 @@ class LiteLLMProvider:
             payload["max_tokens"] = max_tokens
         if stop:
             payload["stop"] = list(stop)
+        if response_format is not None:
+            # LiteLLM 1.101.0은 `openai/` 경로에서 이 값을 **변형 없이** 요청 본문에 싣는다
+            # (session-22, 로컬 가짜 서버로 본문 확인). 서버가 존중하는지는 별개다.
+            payload["response_format"] = dict(response_format)
 
         started = time.perf_counter()
         try:

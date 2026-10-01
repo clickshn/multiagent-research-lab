@@ -13,6 +13,10 @@
 정해진 뒤에 볼 문제다 (ADR-008 Alternatives).
 
 **캐시 키의 전제.** 키는 (모델, 메시지, temperature, max_tokens, stop)의 해시다.
+`response_format`(스키마 강제)이 있으면 그것도 키에 들어간다 — 같은 메시지라도 스키마가
+다르면 다른 출력이 나와야 하는데, 키에서 빠지면 스키마만 다른 호출이 서로의 응답을 돌려받는다
+(session-17 §5.4의 `tools` 누락과 같은 함정, v1.2-T2). 없을 때는 키에 필드를 **넣지 않아**
+기존 키가 그대로다.
 `temperature=0.0`이 파이프라인 전 구간의 기본값이라 같은 입력에 같은 출력을
 기대할 수 있다는 것이 전제다. temperature > 0 호출은 캐시하지 않는다 — 샘플링
 다양성을 캐시가 조용히 없애면 실험 결과가 달라진다.
@@ -26,9 +30,10 @@ from __future__ import annotations
 import hashlib
 import json
 import time
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 from .config import CacheSettings, load_cache_settings
 from .llm import ChatMessage, LLMProvider, LLMResponse
@@ -77,6 +82,7 @@ def make_cache_key(
     temperature: float,
     max_tokens: int | None,
     stop: Sequence[str] | None,
+    response_format: Mapping[str, Any] | None = None,
 ) -> str:
     """호출을 식별하는 해시.
 
@@ -91,6 +97,9 @@ def make_cache_key(
         "stop": list(stop) if stop else None,
         "messages": [[m.role, m.content] for m in messages],
     }
+    if response_format is not None:
+        # None일 때 키를 넣지 않는다 — `"response_format": null`을 넣어도 해시가 바뀐다.
+        payload["response_format"] = response_format
     blob = json.dumps(payload, sort_keys=True, ensure_ascii=False)
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
@@ -174,11 +183,18 @@ class CachingLLMProvider:
         temperature: float = 0.0,
         max_tokens: int | None = None,
         stop: Sequence[str] | None = None,
+        response_format: Mapping[str, Any] | None = None,
     ) -> LLMResponse:
+        # `response_format`이 없으면 안쪽에도 넘기지 않는다 — 이 인자를 모르는 구현체가
+        # 기존과 똑같이 불린다.
+        extra: dict[str, Any] = {}
+        if response_format is not None:
+            extra["response_format"] = response_format
+
         # 샘플링이 켜진 호출은 캐시하지 않는다 (모듈 독스트링 참조).
         if temperature != 0.0:
             return self.inner.complete(
-                messages, temperature=temperature, max_tokens=max_tokens, stop=stop
+                messages, temperature=temperature, max_tokens=max_tokens, stop=stop, **extra
             )
 
         model = getattr(getattr(self.inner, "settings", None), "model", "") or ""
@@ -188,6 +204,7 @@ class CachingLLMProvider:
             temperature=temperature,
             max_tokens=max_tokens,
             stop=stop,
+            response_format=response_format,
         )
 
         hit = self._read(key)
@@ -200,7 +217,7 @@ class CachingLLMProvider:
 
         self.stats.misses += 1
         response = self.inner.complete(
-            messages, temperature=temperature, max_tokens=max_tokens, stop=stop
+            messages, temperature=temperature, max_tokens=max_tokens, stop=stop, **extra
         )
         self._write(key, response)
         return response

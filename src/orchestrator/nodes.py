@@ -109,20 +109,27 @@ def _extract_json(text: str) -> object | None:
 
 
 def _input_hash(
-    messages: Sequence[ChatMessage], *, temperature: float, max_tokens: int | None
+    messages: Sequence[ChatMessage],
+    *,
+    temperature: float,
+    max_tokens: int | None,
+    response_format: dict | None = None,
 ) -> str:
     """호출 입력(메시지·파라미터)의 지문 (ADR-026).
 
     동시 실행이 "같은 입력을 보냈는가"를 트레이스만으로 답하려고 둔다. span의 `input`은
     `_safe()`가 4,000자에서 자르므로 원문 대조로는 답할 수 없다. 모델명은 넣지 않는다 —
     호출 지점이 모르는 값이고 실행 1건 안에서 고정이다(`LLMResponse.model`로 따로 남는다).
-    직렬화 규칙은 캐시 키(`make_cache_key`)와 같다.
+    직렬화 규칙은 캐시 키(`make_cache_key`)와 같다. `response_format`은 있을 때만 넣는다 —
+    없는 호출의 해시는 v1.2-P1과 같아야 한다(도구 off = p1-on 입력 동일, v1.2-T2).
     """
     payload = {
         "messages": [[m.role, m.content] for m in messages],
         "temperature": temperature,
         "max_tokens": max_tokens,
     }
+    if response_format is not None:
+        payload["response_format"] = response_format
     blob = json.dumps(payload, sort_keys=True, ensure_ascii=False)
     return hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
@@ -167,6 +174,7 @@ def _call(
     max_tokens: int,
     span_name: str | None = None,
     span_metadata: dict | None = None,
+    response_format: dict | None = None,
 ) -> LLMResponse | None:
     """모델 호출 + span 기록을 한 곳에 모은다.
 
@@ -178,7 +186,11 @@ def _call(
     그 사실을 볼 수 있다.
     """
     messages = [ChatMessage("system", system), ChatMessage("user", user)]
-    input_hash = _input_hash(messages, temperature=0.0, max_tokens=max_tokens)
+    input_hash = _input_hash(
+        messages, temperature=0.0, max_tokens=max_tokens, response_format=response_format
+    )
+    # 스키마가 없으면 프로바이더에 인자를 넘기지 않는다 — 기존 호출은 요청 본문까지 그대로다.
+    extra = {"response_format": response_format} if response_format is not None else {}
     span = None
     if trace is not None:
         span = trace.span(
@@ -188,7 +200,9 @@ def _call(
         )
 
     try:
-        response = provider.complete(messages, temperature=0.0, max_tokens=max_tokens)
+        response = provider.complete(
+            messages, temperature=0.0, max_tokens=max_tokens, **extra
+        )
     except LLMError as exc:
         if span is not None:
             span.end(
