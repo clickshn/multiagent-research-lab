@@ -5,7 +5,7 @@
   - 바뀐 변수는 필터 정책(strict → null-통과) 하나다.
   - 선택 프롬프트는 바꾸지 않았다. 프롬프트의 "검색이 **제한된다**"는 null-통과에서 엄밀하지 않다. 이 점은 ADR-030 Constraints에 적었다.
   - 선택 프롬프트, governance.md, `.claude/rules/`, 훅은 바꾸지 않았다. README는 수치 한 줄만 넣었다(최종 정리는 T3b).
-- **ADR:** ADR-030 신규 → **Proposed**(§7 ①)
+- **ADR:** ADR-030 신규 → **Accepted** · ADR-027 Amendment(`filter_policy`) (§9)
 - **테스트:** `python -m pytest tests/ -q -rf` → **340 passed, 실패 0**
   - 315 → +25. 신규 `tests/test_filter_policy.py` 25건이다. 기존 bench 결과 테스트에는 `filter_policy` assert 1줄을 추가했다.
   - 전체 실행은 2회 했고, 두 번 다 실패 0이었다.
@@ -148,5 +148,17 @@
   - strict / null-통과 위험 대비
   - ADR 수
 - 필터 경로를 다시 열려면 정책보다 **데이터 쪽**(층 B 메타 보강)이 다음 변수 후보다. 이것도 새 변수이므로 새 사전 등록이 먼저다(ADR-002).
+
+---
+
+## 9. 결정 반영 (같은 세션, 사용자 결정 · **LLM 호출 0건**, `d23678e`)
+
+| # | 결정 | 결과 |
+|---|---|---|
+| ① | **ADR-030 Accepted** | Status를 `Accepted (2026-10-01, session-24 — 사용자 결정)`로 바꿨다. 재측정은 없고 §5 결과 그대로다 |
+| ③ | **ADR-027에 Amendment를 남긴다** | `filter_policy` 인자(`strict` 기본 · `null_pass`, v1.2-N1)를 Amendment로 적었다. 헤더 `Amended:` 줄, strict 불변 확인(T1 바이트 동일 · p1 재생 340/340), N1 판정(해악 D5)에 따른 기본 strict 유지, Review Trigger 추가, References에 ADR-029·030을 넣었다. 결정 자체(strict 전수 후처리)는 그대로다 |
+| — | **GS-002 재현 여부 (사용자 요청 — 재현 여부만, 원인 분석 안 함)** | **재현되지 않았다.** null-통과 e2e에서 GS-002는 **pass**다. 인용은 정답 `arXiv:2602.03128v1`이고, `some_topic_covered=true` · `expected_doc_cited=true`다. 1회차 4항목 중 3항목(#1·#2·#3)이 정답을 supporting으로 골랐다(#0은 supporting 없음). T3a(strict)의 "인용은 있는데(`arXiv:2412.05449v1`) 전 항목 근거 없음" 형태는 null-통과에서 나오지 않았다 |
+
+§7 갱신: ①③ 해소. ②는 해당 없음(기본값 결정 대기 없음). ④⑤⑥은 그대로 열려 있다. ⑥(GS-002 T3a 원인)은 미확인으로 남는다 — null-통과에서 재현되지 않는다는 사실만 추가됐다.
 
 세션 종료. push 하지 않았다.
