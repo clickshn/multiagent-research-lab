@@ -1,0 +1,70 @@
+{
+  "measured_at": "2026-10-01T10:33:59+0900",
+  "endpoint_fp": "1897f0ecc081",
+  "model": "gemma-4-31B-it",
+  "parameter": "response_format={type: json_schema, json_schema: {name, strict, schema}}",
+  "cache_enabled": false,
+  "llm_calls": 3,
+  "enum": [
+    "Agent",
+    "Application/Product",
+    "Data/Synthetic",
+    "Embodied/Robotics",
+    "Eval/Governance",
+    "Hardware/Chip",
+    "Inference/Serving",
+    "Infra/MLOps",
+    "LLM",
+    "Multimodal",
+    "RAG",
+    "Reasoning",
+    "Safety/Alignment",
+    "Training/Finetuning",
+    "없음"
+  ],
+  "status": "강제 확인",
+  "results": [
+    {
+      "label": "control",
+      "topic": "여러 LLM 에이전트가 역할을 나눠 협업하는 프로토콜 설계",
+      "response_format": null,
+      "raw_text": "Agent. 여러 에이전트 간의 역할 분담과 협업 체계를 설계하는 내용은 에이전트 시스템의 핵심 구성 요소에 해당합니다.",
+      "finish_reason": "stop",
+      "prompt_tokens": 185,
+      "completion_tokens": 34,
+      "latency_s": 1.03,
+      "strict_json": false,
+      "contains_json": false,
+      "schema_ok": false,
+      "value": null
+    },
+    {
+      "label": "enforce1",
+      "topic": "여러 LLM 에이전트가 역할을 나눠 협업하는 프로토콜 설계",
+      "response_format": "json_schema",
+      "raw_text": "{\n  \"tech_domain\": \"Agent\"\n}",
+      "finish_reason": "stop",
+      "prompt_tokens": 185,
+      "completion_tokens": 16,
+      "latency_s": 0.327,
+      "strict_json": true,
+      "contains_json": true,
+      "schema_ok": true,
+      "value": "Agent"
+    },
+    {
+      "label": "enforce2",
+      "topic": "도심 교차로 신호 주기를 바꿨을 때의 보행자 대기 시간",
+      "response_format": "json_schema",
+      "raw_text": "{\n  \"tech_domain\": \"없음\"\n}",
+      "finish_reason": "stop",
+      "prompt_tokens": 188,
+      "completion_tokens": 17,
+      "latency_s": 0.354,
+      "strict_json": true,
+      "contains_json": true,
+      "schema_ok": true,
+      "value": "없음"
+    }
+  ]
+}

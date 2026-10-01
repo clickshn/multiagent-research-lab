@@ -250,3 +250,23 @@ def test_call_helper_passes_schema_only_when_given():
     assert inner.kwargs[1]["response_format"] == SCHEMA
     # 옛 시그니처 프로바이더도 스키마 없이는 그대로 불린다.
     nodes._call(_LegacyInner(), node="x", trace=None, system="s", user="u", max_tokens=8)
+
+
+# ---------------------------------------------------------------------------
+# 선택 스키마 (ADR-028)
+# ---------------------------------------------------------------------------
+
+
+def test_tech_domain_schema_is_order_independent_and_ends_with_abstain():
+    a = nodes.tech_domain_schema(["RAG", "Agent", "LLM"])
+    b = nodes.tech_domain_schema(["LLM", "RAG", "Agent", "Agent"])
+    assert a == b
+    enum = a["json_schema"]["schema"]["properties"]["tech_domain"]["enum"]
+    assert enum == ["Agent", "LLM", "RAG", nodes.TECH_DOMAIN_ABSTAIN]
+    assert a["json_schema"]["strict"] is True
+    assert a["json_schema"]["schema"]["additionalProperties"] is False
+
+
+def test_tech_domain_schema_rejects_abstain_inside_vocab():
+    with pytest.raises(ValueError):
+        nodes.tech_domain_schema(["Agent", nodes.TECH_DOMAIN_ABSTAIN])

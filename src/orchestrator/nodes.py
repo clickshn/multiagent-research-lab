@@ -27,7 +27,7 @@ import json
 import re
 import threading
 import time
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Iterable, Sequence
 from concurrent.futures import ThreadPoolExecutor
 from typing import TypeVar
 
@@ -67,6 +67,35 @@ DEFAULT_MAX_CONCURRENCY = 1
 _RETRIEVAL_LOCK = threading.Lock()
 
 _T = TypeVar("_T")
+
+# `tech_domain` 선택 호출의 기권 값 (v1.2-T2). 통제어휘에 없는 문자열이어야 한다.
+TECH_DOMAIN_ABSTAIN = "없음"
+
+
+def tech_domain_schema(vocab: Iterable[str]) -> dict:
+    """선택 호출의 `response_format` — enum = 통제어휘(정렬) + `"없음"` (v1.2-T2, ADR-028).
+
+    어휘를 코드에 복제하지 않고 인자로 받는다(계약 §5). 정렬하는 이유: manifest 순회 순서가
+    바뀌어도 스키마가 같아야 캐시 키·입력 해시가 흔들리지 않는다.
+    """
+    values = sorted(set(vocab))
+    if TECH_DOMAIN_ABSTAIN in values:
+        raise ValueError(f"통제어휘에 기권 값 {TECH_DOMAIN_ABSTAIN!r}이 들어 있다")
+    return {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "tech_domain_choice",
+            "strict": True,
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "tech_domain": {"type": "string", "enum": [*values, TECH_DOMAIN_ABSTAIN]},
+                },
+                "required": ["tech_domain"],
+                "additionalProperties": False,
+            },
+        },
+    }
 
 
 # ---------------------------------------------------------------------------
