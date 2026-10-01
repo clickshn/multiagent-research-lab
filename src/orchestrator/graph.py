@@ -10,7 +10,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence
 
 from langgraph.graph import END, START, StateGraph
 
@@ -47,6 +47,7 @@ def build_graph(
     sources: Sequence[str] | None = None,
     scope: ToolScope | None = None,
     max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
+    tech_domain_vocab: Iterable[str] | None = None,
 ) -> StateGraph:
     """그래프를 구성한다 (컴파일 전).
 
@@ -65,6 +66,10 @@ def build_graph(
     `max_concurrency`는 Researcher·Verifier **노드 안** 동시 호출 상한이다(1 = 순차).
     그래프 구조는 이 값과 무관하게 같다 — 팬아웃(`Send`)을 쓰지 않는다 (ADR-026).
     환경변수로 켜는 값은 호출자가 `load_concurrency_settings().effective`로 넘긴다.
+
+    `tech_domain_vocab`을 주면 Researcher의 `tech_domain` 선택 도구가 켜진다(v1.2-T2, ADR-028).
+    None이면 꺼져 있고 그래프는 v1.2-P1과 같은 호출을 만든다. 켜는 것은 호출자가
+    `load_tool_settings()`를 읽어 정한다 — 노드가 환경변수를 직접 읽지 않는다.
     """
     llm = provider or get_provider()
 
@@ -82,7 +87,7 @@ def build_graph(
         RESEARCHER,
         make_researcher_node(
             llm, retriever=retriever, trace=trace, top_k=top_k, sources=sources,
-            max_concurrency=max_concurrency,
+            max_concurrency=max_concurrency, tech_domain_vocab=tech_domain_vocab,
         ),
     )
     graph.add_node(
@@ -120,6 +125,7 @@ def compile_graph(
     scope: ToolScope | None = None,
     checkpointer=None,
     max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
+    tech_domain_vocab: Iterable[str] | None = None,
 ):
     """실행 가능한 그래프.
 
@@ -135,4 +141,5 @@ def compile_graph(
         sources=sources,
         scope=scope,
         max_concurrency=max_concurrency,
+        tech_domain_vocab=tech_domain_vocab,
     ).compile(checkpointer=checkpointer)

@@ -56,7 +56,7 @@ sys.path.insert(0, str(REPO_ROOT))
 from src.obs import get_tracer  # noqa: E402
 from src.obs.tracer import NullTracer  # noqa: E402
 from src.orchestrator import compile_graph, initial_state  # noqa: E402
-from src.orchestrator.nodes import _format_candidates  # noqa: E402
+from src.orchestrator.nodes import TechDomainSelectionError, _format_candidates  # noqa: E402
 from src.orchestrator.prompts import PROMPT_VERSION  # noqa: E402
 from src.providers import get_provider  # noqa: E402
 from src.providers.cache import clear_cache  # noqa: E402
@@ -65,6 +65,7 @@ from src.providers.config import (  # noqa: E402
     load_concurrency_settings,
     load_embedding_settings,
     load_settings,
+    load_tool_settings,
     load_tracing_settings,
     load_vectorstore_settings,
 )
@@ -74,7 +75,7 @@ from src.tools.index_guard import (  # noqa: E402
     indexed_ids,
     read_write_log,
 )
-from src.tools.retrieval import ChromaRetriever, RetrievedChunk  # noqa: E402
+from src.tools.retrieval import ChromaRetriever, FilterValueError, RetrievedChunk  # noqa: E402
 
 GOLDEN_SET = REPO_ROOT / "docs" / "eval" / "golden-set.json"
 DEFAULT_OUT_DIR = REPO_ROOT / "docs" / "eval"
@@ -93,6 +94,10 @@ EXIT_EXISTS = 3
 EXIT_INDEX = 4
 EXIT_LOCKED = 5
 EXIT_TRACE = 6
+# 사전 등록 §4 정지 규칙 (v1.2-T2): 스키마 위반·어휘 밖 값·selection_error 누적.
+EXIT_SELECTION = 7
+# T3 본측정에서 이 건수에 닿으면 멈춘다 (사전 등록 §4, 사용자 결정 2026-10-01).
+SELECTION_ERROR_STOP = 3
 
 
 class BenchRefused(RuntimeError):
@@ -330,6 +335,17 @@ def item_records(findings: Sequence, trace_records: list[dict] | None) -> list[d
         for r in trace_records
         if r.get("name") == "researcher_call" and _item_key(r.get("metadata")) is not None
     }
+    # tech_domain 선택 도구 (v1.2-T2). 키가 겹치면 귀속 검사가 잡는다 — 여기서는 마지막 것을 쓴다.
+    selects = {
+        _item_key(r.get("metadata")): r
+        for r in trace_records
+        if r.get("name") == "researcher_select" and _item_key(r.get("metadata")) is not None
+    }
+    filters = {
+        _item_key(r.get("input")): r
+        for r in trace_records
+        if r.get("name") == "retrieval_filter" and _item_key(r.get("input")) is not None
+    }
 
     items = []
     for finding, span in zip(findings, spans, strict=True):
@@ -346,18 +362,78 @@ def item_records(findings: Sequence, trace_records: list[dict] | None) -> list[d
         for citation in finding.citations:
             if citation.doc_id not in supporting:
                 supporting.append(citation.doc_id)
-        items.append(
-            {
-                "topic": finding.topic,
-                "revision": finding.revision,
-                "item_index": (span.get("input") or {}).get("item_index"),
-                "retrieval_error": span.get("output") is None,
-                "candidates": candidates,
-                "supporting": supporting,
-                "input_hash": call_hashes.get(_item_key(span.get("input"))),
+        item = {
+            "topic": finding.topic,
+            "revision": finding.revision,
+            "item_index": (span.get("input") or {}).get("item_index"),
+            "retrieval_error": span.get("output") is None,
+            "candidates": candidates,
+            "supporting": supporting,
+            "input_hash": call_hashes.get(_item_key(span.get("input"))),
+        }
+        span_input = span.get("input") or {}
+        if "tech_domain_source" in span_input:
+            # 도구가 켜진 행에만 붙인다 — off 행의 항목 기록은 v1.2-P1과 같은 모양이어야 한다.
+            key = _item_key(span_input)
+            select = selects.get(key) or {}
+            select_meta = select.get("metadata") or {}
+            filt = filters.get(key) or {}
+            filt_meta = filt.get("metadata") or {}
+            item["tech_domain"] = {
+                "value": finding.tech_domain,
+                "outcome": finding.tech_domain_outcome,
+                "source": span_input.get("tech_domain_source"),
+                # 검색 span이 실제로 받은 필터 값. `value`(Finding)와 같아야 한다 — 귀속 검사가 본다.
+                "searched_with": span_input.get("tech_domain"),
+                # 1회차만 선택 호출이 있다. 재시도는 그 값을 재사용한다(사전 등록 D1).
+                "selected": select_meta.get("selected"),
+                "raw_response": select.get("output"),
+                "select_input_hash": select_meta.get("input_hash"),
+                # 필터 후 결과 수 — 검색 계층 `retrieval_filter` span (ADR-027).
+                "filter_survivors": filt_meta.get("survivors"),
+                "filter_returned": filt_meta.get("returned"),
+                "filter_expected": filt_meta.get("expected"),
             }
-        )
+        items.append(item)
     return items
+
+
+def tech_domain_selection_summary(rows: Sequence[dict]) -> dict | None:
+    """선택 도구 집계 (v1.2-T2) — **1회차 항목만**, 층별. 도구가 꺼진 회차는 None.
+
+    사전 등록의 판정 지표(정확·호환 일치, 해악)는 이 집계가 아니라 T3 분석 스크립트가 낸다.
+    여기는 경로 기록용 건수다. `selection_error`는 선택 지표 분모에서 빼므로 따로 센다.
+    """
+    by_stratum: dict[str, Counter] = defaultdict(Counter)
+    seen = False
+    for row in rows:
+        for item in row.get("items") or []:
+            choice = item.get("tech_domain")
+            if choice is None:
+                continue
+            seen = True
+            if item.get("revision") != 0:
+                by_stratum[str(row.get("stratum"))]["reused"] += 1
+                continue
+            bucket = by_stratum[str(row.get("stratum"))]
+            bucket["first_pass_items"] += 1
+            bucket[choice.get("outcome") or "unknown"] += 1
+    if not seen:
+        return None
+    return {
+        stratum: dict(sorted(counts.items())) for stratum, counts in sorted(by_stratum.items())
+    }
+
+
+def selection_errors(findings: Sequence) -> int:
+    """1회차 `selection_error` 항목 수 (사전 등록 §4 정지 규칙).
+
+    span이 아니라 Finding에서 센다 — 트레이스가 꺼져 있어도 정지 규칙은 걸려야 한다.
+    """
+    return sum(
+        1 for f in findings
+        if f.revision == 0 and getattr(f, "tech_domain_outcome", None) == "selection_error"
+    )
 
 
 def _item_key(fields: dict | None) -> tuple[int, int] | None:
@@ -431,6 +507,122 @@ def attribution_problems(items: Sequence[dict], trace_records: list[dict] | None
     extra = set(calls) - expected_keys
     if extra:
         problems.append(f"후보 없는 항목에 호출 span {sorted(extra)}")
+    problems.extend(selection_attribution_problems(items, trace_records))
+    return problems
+
+
+ABSTAIN = "없음"  # src.orchestrator.nodes.TECH_DOMAIN_ABSTAIN — 트레이스 값과 대조하므로 문자열로 고정
+
+
+def selection_attribution_problems(
+    items: Sequence[dict], trace_records: list[dict] | None
+) -> list[str]:
+    """선택 호출·필터 span의 귀속 검사 (v1.2-T2). `attribution_problems`가 부른다.
+
+    T3의 선택 지표(선택값·필터 후 결과 수)는 전부 span에서 되읽는다. 동시 실행에서 span이
+    다른 항목의 것과 짝지어지면 지표가 틀린 짝 위에서 계산되므로 `researcher_call`과 같은 검사를 한다.
+
+    - `researcher_select`·`retrieval_filter` span의 `(revision, item_index)`가 중복되지 않는다
+    - 도구가 켜진 **1회차** 항목마다 선택 span이 정확히 하나, 재시도 항목에는 없다
+    - 선택 span의 topic이 항목과 같고, 선택값·결과가 Finding·검색 span 입력과 맞는다
+    - 재시도 항목은 `reused`이고 값·결과가 같은 topic의 1회차와 같다
+    - 필터 값이 있고 검색이 성공한 항목마다 필터 span이 정확히 하나, 값이 같고 `returned` == 후보 수.
+      값이 없는 항목에는 필터 span이 없다
+    - 도구가 꺼진 행에는 선택·필터 span이 하나도 없다
+    """
+    problems: list[str] = []
+    selects: dict[tuple[int, int], dict] = {}
+    filters: dict[tuple[int, int], dict] = {}
+    for record in trace_records or []:
+        name = record.get("name")
+        if name == "researcher_select":
+            key, bucket, label = _item_key(record.get("metadata")), selects, "선택"
+        elif name == "retrieval_filter":
+            key, bucket, label = _item_key(record.get("input")), filters, "필터"
+        else:
+            continue
+        if key is None:
+            problems.append(f"{label} span에 revision·item_index 없음")
+            continue
+        if key in bucket:
+            problems.append(f"{label} span 키 중복 {key}")
+        bucket[key] = record
+
+    tool_items = [item for item in items if item.get("tech_domain") is not None]
+    if not tool_items:
+        if selects or filters:
+            problems.append(f"도구 off 행에 선택 span {len(selects)}개 · 필터 span {len(filters)}개")
+        return problems
+    if len(tool_items) != len(items):
+        problems.append("같은 행에 도구 기록이 있는 항목과 없는 항목이 섞여 있다")
+
+    first_pass = {item["topic"]: item for item in tool_items if item.get("revision") == 0}
+    expected_selects: set[tuple[int, int]] = set()
+    expected_filters: set[tuple[int, int]] = set()
+    for item in tool_items:
+        choice = item["tech_domain"]
+        key = (item.get("revision"), item.get("item_index"))
+        label = f"{item.get('topic')!r} (rev {item.get('revision')}, #{item.get('item_index')})"
+        value, outcome = choice.get("value"), choice.get("outcome")
+        if choice.get("searched_with") != value:
+            problems.append(f"{label}: 검색 span 필터 값 {choice.get('searched_with')!r} ≠ {value!r}")
+        if (value is not None) != (outcome == "chosen"):
+            problems.append(f"{label}: 결과 {outcome!r}와 필터 값 {value!r}이 맞지 않는다")
+
+        if item.get("revision") == 0:
+            expected_selects.add(key)
+            if choice.get("source") != "selected":
+                problems.append(f"{label}: 1회차인데 source={choice.get('source')!r}")
+            select = selects.get(key)
+            if select is None:
+                problems.append(f"{label}: 선택 span 없음")
+            else:
+                meta = select.get("metadata") or {}
+                if meta.get("topic") != item.get("topic"):
+                    problems.append(f"{label}: 선택 span topic {meta.get('topic')!r}")
+                if outcome == "selection_error":
+                    if not meta.get("error"):
+                        problems.append(f"{label}: selection_error인데 선택 span에 오류가 없다")
+                elif outcome == "abstain":
+                    if meta.get("selected") != ABSTAIN:
+                        problems.append(f"{label}: 기권인데 선택 span 값 {meta.get('selected')!r}")
+                elif meta.get("selected") != value:
+                    problems.append(f"{label}: 선택 span 값 {meta.get('selected')!r} ≠ {value!r}")
+        else:
+            origin = first_pass.get(item.get("topic"))
+            if choice.get("source") != "reused":
+                problems.append(f"{label}: 재시도인데 source={choice.get('source')!r}")
+            if origin is None:
+                problems.append(f"{label}: 재사용할 1회차 항목이 없다")
+            elif (origin["tech_domain"].get("value"), origin["tech_domain"].get("outcome")) != (
+                value, outcome
+            ):
+                problems.append(f"{label}: 재사용 값이 1회차와 다르다")
+
+        if value is not None and not item.get("retrieval_error"):
+            expected_filters.add(key)
+            filt = filters.get(key)
+            if filt is None:
+                problems.append(f"{label}: 필터 span 없음")
+                continue
+            if (filt.get("input") or {}).get("tech_domain") != value:
+                problems.append(f"{label}: 필터 span 값 {(filt.get('input') or {}).get('tech_domain')!r}")
+            returned = (filt.get("metadata") or {}).get("returned")
+            if returned != len(item.get("candidates") or []):
+                problems.append(f"{label}: 필터 returned={returned} ≠ 후보 {len(item.get('candidates') or [])}")
+
+    if set(selects) - expected_selects:
+        problems.append(f"1회차 항목이 아닌 곳에 선택 span {sorted(set(selects) - expected_selects)}")
+    if set(filters) - expected_filters:
+        stray = set(filters) - expected_filters
+        # 필터 검색이 실패한 항목(retrieval_error)도 span을 남긴다 — 그건 귀속 불일치가 아니다.
+        failed = {
+            (item.get("revision"), item.get("item_index"))
+            for item in tool_items
+            if item.get("retrieval_error") and item["tech_domain"].get("value") is not None
+        }
+        if stray - failed:
+            problems.append(f"필터 값이 없는 항목에 필터 span {sorted(stray - failed)}")
     return problems
 
 
@@ -721,11 +913,15 @@ def _run_case(case, *, args, label, run_index, provider, retriever, tracer, trac
             "top_k": args.top_k,
             "parallel": args.parallel == "on",
             "max_concurrency": args.max_concurrency,
+            "tech_domain_tool": args.tech_domain_tool == "on",
         },
     )
     app = compile_graph(
         provider, retriever=retriever, trace=trace, top_k=args.top_k,
         max_concurrency=effective_concurrency(args),
+        tech_domain_vocab=(
+            retriever.tech_domain_vocab() if args.tech_domain_tool == "on" else None
+        ),
     )
 
     started = time.perf_counter()
@@ -808,6 +1004,7 @@ def _run_case(case, *, args, label, run_index, provider, retriever, tracer, trac
             attribution_problems(items, trace_records) if items is not None else None
         ),
         "endpoint_errors": endpoint_errors(trace_records),
+        "selection_errors": selection_errors(findings),
         "local_trace": trace_records is not None,
         "draft_chars": len(state.get("draft", "")),
     }
@@ -883,7 +1080,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--max-concurrency", type=int, default=None,
         help="동시 호출 상한. 생략하면 RESEARCH_MAX_CONCURRENCY (기본 4)",
     )
+    parser.add_argument(
+        "--tech-domain-tool", choices=("on", "off"), default=None,
+        help="Researcher tech_domain 선택 도구 (v1.2-T2, ADR-028). 생략하면 RESEARCH_TECH_DOMAIN_TOOL (비워두면 off)",
+    )
     args = parser.parse_args(argv)
+    if args.tech_domain_tool is None:
+        args.tech_domain_tool = "on" if load_tool_settings().tech_domain_tool else "off"
     concurrency = load_concurrency_settings()
     if args.parallel is None:
         args.parallel = "on" if concurrency.parallel else "off"
@@ -921,6 +1124,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "동시 호출  :",
         f"{args.parallel.upper()} (상한 {args.max_concurrency}, 실효 {effective_concurrency(args)})",
     )
+    print("도구       :", f"tech_domain 선택 {args.tech_domain_tool.upper()}")
     print("골든셋     :", golden.get("version"), f"({len(cases)}건)")
     score_exposed = candidate_score_exposed()
     print("후보 점수  :", "노출 (ADR-025 적용 전)" if score_exposed else "미노출")
@@ -995,14 +1199,30 @@ def _bench(args, cases, golden, labels, out_paths, index_check, score_exposed, *
         print(f"\n[3/3] {label}: 케이스 {len(cases)}건 실행\n")
         bench_started = time.perf_counter()
         rows: list[dict] = []
+        selection_error_total = 0
         for case in cases:
-            row = _run_case(
-                case, args=args, label=label, run_index=run_index, provider=provider,
-                retriever=retriever, tracer=tracer, tracing_settings=tracing_settings,
-                llm_settings=llm_settings, embedding_settings=embedding_settings,
-            )
+            try:
+                row = _run_case(
+                    case, args=args, label=label, run_index=run_index, provider=provider,
+                    retriever=retriever, tracer=tracer, tracing_settings=tracing_settings,
+                    llm_settings=llm_settings, embedding_settings=embedding_settings,
+                )
+            except (TechDomainSelectionError, FilterValueError) as exc:
+                # 사전 등록 §4: 강제가 깨졌다. "근거 없음"으로 삼키지 않고, 부분 결과도 남기지 않는다.
+                tracer.flush()
+                raise BenchRefused(
+                    f"{case['id']}: {type(exc).__name__} — {exc}. 사전 등록 §4 정지 규칙.",
+                    EXIT_SELECTION,
+                ) from exc
             rows.append(row)
             _print_row(row)
+            selection_error_total += row["selection_errors"]
+            if selection_error_total >= SELECTION_ERROR_STOP:
+                raise BenchRefused(
+                    f"{row['case_id']}까지 selection_error 누적 {selection_error_total}건 "
+                    f"(상한 {SELECTION_ERROR_STOP}). 사전 등록 §4 정지 규칙.",
+                    EXIT_SELECTION,
+                )
             if args.require_trace and (not row["local_trace"] or row["items"] is None):
                 # 부분 결과는 저장하지 않는다 — before 값이 빠진 회차를 기준선으로 남기지 않는다.
                 raise BenchRefused(
@@ -1041,6 +1261,9 @@ def _bench(args, cases, golden, labels, out_paths, index_check, score_exposed, *
             "parallel": args.parallel == "on",
             "max_concurrency": args.max_concurrency,
             "effective_concurrency": effective_concurrency(args),
+            # tech_domain 선택 도구 (v1.2-T2). off면 v1.2-P1과 같은 경로다.
+            "tech_domain_tool": args.tech_domain_tool == "on",
+            "tech_domain_selection": tech_domain_selection_summary(rows),
             "endpoint_errors": {
                 key: sum(r["endpoint_errors"][key] for r in rows)
                 for key in ("total", "rate_limit", "timeout", "other")

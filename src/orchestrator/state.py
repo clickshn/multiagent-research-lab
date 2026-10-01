@@ -53,6 +53,12 @@ class Finding:
     # 한다. session-03에서 "재검색 2회를 돌았지만 새 근거 0건"이라는 관찰이
     # 나왔는데, 그때는 이 값이 없어 로그를 손으로 대조해야 했다.
     revision: int = 0
+    # --- tech_domain 선택 (v1.2-T2) — 도구 off면 둘 다 None ---
+    # 검색에 건 필터 값. None = 무필터(기권·선택 실패·도구 off).
+    tech_domain: str | None = None
+    # 1회차 선택의 결과: "chosen" | "abstain" | "selection_error". 재시도 Finding은 1회차 값을
+    # 그대로 옮긴다(사전 등록 D1 — 재시도에서 다시 고르지 않는다).
+    tech_domain_outcome: str | None = None
 
     @property
     def coverage(self) -> Coverage:

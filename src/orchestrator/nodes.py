@@ -33,7 +33,7 @@ from typing import TypeVar
 
 from src.obs import RunTrace
 from src.providers import ChatMessage, LLMError, LLMProvider, LLMResponse
-from src.tools.retrieval import RetrievalError, RetrievedChunk, Retriever
+from src.tools.retrieval import FilterValueError, RetrievalError, RetrievedChunk, Retriever
 from src.tools.sanitize import wrap_untrusted
 
 from . import prompts
@@ -96,6 +96,109 @@ def tech_domain_schema(vocab: Iterable[str]) -> dict:
             },
         },
     }
+
+
+class TechDomainSelectionError(RuntimeError):
+    """선택 호출의 출력이 스키마를 어겼다 — json_schema 강제가 깨졌다 (ADR-028).
+
+    **실행을 멈춘다.** 무필터로 폴백하면 강제 실패가 기권처럼 보이고, 사전 등록의 기권율·해악률이
+    틀린 분모 위에서 계산된다(사전 등록 §4). 엔드포인트 오류(`LLMError`)는 이것이 아니다 —
+    그쪽은 `selection_error`로 세고 무필터로 진행한다.
+    """
+
+
+def _parse_tech_domain(text: str, enum: Sequence[str]) -> tuple[str | None, str | None]:
+    """(선택값, 위반 사유). 스키마가 강제되므로 **관대하게 파싱하지 않는다** — `_extract_json`의
+    코드펜스·머리말 흡수를 쓰지 않는다. 흡수하면 강제가 꺼진 출력도 통과한다."""
+    try:
+        parsed = json.loads(text)
+    except json.JSONDecodeError:
+        return None, "JSON이 아니다"
+    if not isinstance(parsed, dict) or set(parsed) != {"tech_domain"}:
+        return None, "키가 스키마와 다르다"
+    value = parsed["tech_domain"]
+    if value not in enum:
+        return None, f"enum 밖의 값 {value!r}"
+    return value, None
+
+
+def _select_tech_domain(
+    provider: LLMProvider,
+    *,
+    schema: dict,
+    query: str,
+    topic: str,
+    trace: RunTrace | None,
+    revision: int,
+    item_index: int,
+) -> tuple[str | None, str, LLMCallRecord | None]:
+    """선택 호출 1회 → (검색에 걸 값 또는 None, 결과, 호출 기록).
+
+    결과는 "chosen" | "abstain" | "selection_error". span(`researcher_select`)에는 원문 응답
+    (output), 선택값·결과(metadata), 그리고 Researcher 호출과 같은 `(revision, item_index)`가 남는다.
+    """
+    enum = schema["json_schema"]["schema"]["properties"]["tech_domain"]["enum"]
+    vocab = [value for value in enum if value != TECH_DOMAIN_ABSTAIN]
+
+    def judged(response: LLMResponse) -> dict:
+        value, problem = _parse_tech_domain(response.text, enum)
+        if problem is not None:
+            return {"selection_outcome": "violation", "violation": problem}
+        return {
+            "selected": value,
+            "selection_outcome": "abstain" if value == TECH_DOMAIN_ABSTAIN else "chosen",
+        }
+
+    response = _call(
+        provider,
+        node="researcher_select",
+        trace=trace,
+        system=prompts.TECH_DOMAIN_SELECT_SYSTEM.format(
+            vocab=", ".join(vocab), abstain=TECH_DOMAIN_ABSTAIN
+        ),
+        user=prompts.TECH_DOMAIN_SELECT_USER.format(query=query, topic=topic),
+        max_tokens=64,
+        span_name="researcher_select",
+        span_metadata={"topic": topic, "revision": revision, "item_index": item_index},
+        response_format=schema,
+        response_metadata=judged,
+    )
+    if response is None:
+        return None, "selection_error", None
+
+    value, problem = _parse_tech_domain(response.text, enum)
+    if problem is not None:
+        raise TechDomainSelectionError(
+            f"선택 호출 출력이 스키마를 어겼다({problem}) — 항목 {topic!r}, "
+            f"응답 {response.text[:200]!r}. json_schema 강제가 깨졌으므로 멈춘다 (ADR-028)"
+        )
+    record = _record("researcher_select", response, revision)
+    if value == TECH_DOMAIN_ABSTAIN:
+        return None, "abstain", record
+    return value, "chosen", record
+
+
+class _KeyedTrace:
+    """검색 계층이 여는 span에 항목 키를 붙인다 (v1.2-T2).
+
+    `retrieval_filter` span은 검색 계층이 만들고, 검색 계층은 어느 항목의 검색인지 모른다.
+    동시 실행에서는 span이 완료 순서로 쓰이므로 키 없이는 귀속을 검사할 수 없다.
+    """
+
+    def __init__(self, inner: RunTrace, *, revision: int, item_index: int) -> None:
+        self._inner = inner
+        self._key = {"revision": revision, "item_index": item_index}
+
+    @property
+    def run_id(self) -> str:
+        return self._inner.run_id
+
+    def span(self, name, *, kind="span", input=None):  # noqa: A002 - RunTrace 프로토콜 이름
+        merged = {**input, **self._key} if isinstance(input, dict) else {"value": input, **self._key}
+        return self._inner.span(name, kind=kind, input=merged)
+
+    def end(self, **kwargs) -> None:  # pragma: no cover - 검색 계층은 trace를 닫지 않는다
+        raise RuntimeError("_KeyedTrace는 span만 연다")
 
 
 # ---------------------------------------------------------------------------
@@ -204,6 +307,7 @@ def _call(
     span_name: str | None = None,
     span_metadata: dict | None = None,
     response_format: dict | None = None,
+    response_metadata: Callable[[LLMResponse], dict] | None = None,
 ) -> LLMResponse | None:
     """모델 호출 + span 기록을 한 곳에 모은다.
 
@@ -261,6 +365,8 @@ def _call(
                 "prompt_version": prompts.PROMPT_VERSION,
                 "input_hash": input_hash,
                 **(span_metadata or {}),
+                # 응답을 읽어야 정해지는 값(선택 호출의 선택값·판정). span을 닫기 전에 붙인다.
+                **(response_metadata(response) if response_metadata is not None else {}),
             },
             usage={
                 "input": response.prompt_tokens,
@@ -392,6 +498,7 @@ def make_researcher_node(
     top_k: int = DEFAULT_TOP_K,
     sources: Sequence[str] | None = None,
     max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
+    tech_domain_vocab: Iterable[str] | None = None,
 ) -> NodeFn:
     """조사 항목별로 근거 문서를 검색·추출한다.
 
@@ -405,8 +512,16 @@ def make_researcher_node(
     `max_concurrency` ≥ 2면 항목들을 동시에 처리한다(검색은 직렬, LLM 호출만 겹친다).
     `findings`·`trace`는 항목 순서 그대로다 (ADR-026).
 
+    **`tech_domain` 선택 도구 (v1.2-T2, ADR-028).** `tech_domain_vocab`을 주면 도구가 켜진다.
+    1회차 항목마다 검색 **전에** 선택 호출 1회(json_schema, enum = 어휘 + "없음")를 하고,
+    고른 값으로 strict 필터 검색을 한다(ADR-027). "없음"이면 무필터다. 재시도 회차는 다시
+    고르지 않고 1회차 값을 쓴다(사전 등록 D1). 선택 호출은 항목 처리 안에 있으므로 동시 실행
+    경로를 그대로 탄다 — 검색 락은 그대로다. None이면(기본) 선택 호출도, 검색 인자도, span
+    입력도 v1.2-P1과 같다.
+
     반환 키: `findings`(누적), `revision`, `trace`
     """
+    schema = tech_domain_schema(tech_domain_vocab) if tech_domain_vocab is not None else None
 
     def researcher(state: ResearchState) -> ResearchState:
         query = state.get("query", "")
@@ -418,13 +533,48 @@ def make_researcher_node(
         is_retry = revision > 0 and bool(uncovered)
         topics = uncovered if is_retry else outline
 
-        def research_one(index: int, topic: str) -> tuple[Finding, LLMCallRecord | None]:
+        # 재시도 회차가 재사용할 1회차 선택. Finding에 실려 있으므로 State 키를 새로 만들지 않는다.
+        first_choice = {
+            f.topic: (f.tech_domain, f.tech_domain_outcome)
+            for f in state.get("findings") or []
+            if f.revision == 0 and f.tech_domain_outcome is not None
+        }
+
+        def research_one(index: int, topic: str) -> tuple[Finding, list[LLMCallRecord]]:
+            records: list[LLMCallRecord] = []
+            tech_domain: str | None = None
+            outcome: str | None = None
+            source: str | None = None  # span 기록용: "selected" | "reused"
+            if schema is not None and retriever is not None:
+                if is_retry:
+                    if topic not in first_choice:
+                        raise TechDomainSelectionError(
+                            f"재시도 항목 {topic!r}의 1회차 선택이 없다 — 재사용할 값이 없다"
+                        )
+                    tech_domain, outcome = first_choice[topic]
+                    source = "reused"
+                else:
+                    tech_domain, outcome, record = _select_tech_domain(
+                        provider, schema=schema, query=query, topic=topic, trace=trace,
+                        revision=revision, item_index=index,
+                    )
+                    source = "selected"
+                    if record is not None:
+                        records.append(record)
+
+            def finding(citations: tuple[Citation, ...] = ()) -> Finding:
+                return Finding(
+                    topic=topic, citations=citations, revision=revision,
+                    tech_domain=tech_domain, tech_domain_outcome=outcome,
+                )
+
             chunks = _retrieve(
                 retriever, topic, query=query, top_k=top_k, sources=sources, trace=trace,
                 revision=revision, item_index=index,
+                tech_domain=tech_domain, tech_domain_source=source, tech_domain_outcome=outcome,
             )
             if not chunks:
-                return Finding(topic=topic, citations=(), revision=revision), None
+                return finding(), records
 
             user = prompts.RESEARCHER_USER.format(
                 query=query, topic=topic, candidates=_format_candidates(chunks)
@@ -448,20 +598,14 @@ def make_researcher_node(
                 },
             )
             if response is None:
-                return Finding(topic=topic, citations=(), revision=revision), None
+                return finding(), records
 
-            return (
-                Finding(
-                    topic=topic,
-                    citations=_select_citations(response.text, chunks),
-                    revision=revision,
-                ),
-                _record("researcher", response, revision),
-            )
+            records.append(_record("researcher", response, revision))
+            return finding(_select_citations(response.text, chunks)), records
 
         results = _map_ordered(research_one, topics, max_concurrency)
         findings = [finding for finding, _ in results]
-        records = [record for _, record in results if record is not None]
+        records = [record for _, item_records in results for record in item_records]
 
         return ResearchState(
             findings=findings,
@@ -482,6 +626,9 @@ def _retrieve(
     trace: RunTrace | None,
     revision: int = 0,
     item_index: int = 0,
+    tech_domain: str | None = None,
+    tech_domain_source: str | None = None,
+    tech_domain_outcome: str | None = None,
 ) -> list[RetrievedChunk]:
     """검색 툴 호출 + span 기록.
 
@@ -492,30 +639,52 @@ def _retrieve(
     재고, 락을 기다린 시간은 `lock_wait_s`로 따로 남긴다. span에 `revision`·`item_index`를
     싣는 이유: 동시 실행에서는 span이 파일에 **완료 순서로** 쓰이므로, bench가 span을
     Finding과 짝지을 때 쓰기 순서가 아니라 이 키로 정렬한다.
+
+    **필터 (v1.2-T2).** `tech_domain_source`가 None이면(도구 off) span 입력과 검색 호출이
+    v1.2-P1과 같다. 도구가 켜져 있으면 span 입력에 필터 값·출처(selected/reused)·1회차 결과를
+    싣고, 값이 있을 때만 `tech_domain`·`trace`를 검색에 넘긴다. 검색 계층이 남기는
+    `retrieval_filter` span에도 같은 `(revision, item_index)`를 붙인다 — 그 span은 필터 후
+    결과 수를 담는데, 키가 없으면 동시 실행에서 어느 항목의 것인지 알 수 없다.
+    `FilterValueError`는 삼키지 않는다 — span에 남기고 다시 던진다(ADR-027, 사전 등록 §4).
     """
     if retriever is None:
         return []
 
     search_text = f"{query} {topic}".strip()
+    span_input = {
+        "topic": topic,
+        "search_text": search_text,
+        "k": top_k,
+        "revision": revision,
+        "item_index": item_index,
+    }
+    filter_kwargs: dict = {}
+    if tech_domain_source is not None:
+        span_input.update(
+            tech_domain=tech_domain,
+            tech_domain_source=tech_domain_source,
+            tech_domain_outcome=tech_domain_outcome,
+        )
+        if tech_domain is not None:
+            filter_kwargs = {
+                "tech_domain": tech_domain,
+                "trace": _KeyedTrace(trace, revision=revision, item_index=item_index)
+                if trace is not None else None,
+            }
     wait_started = time.perf_counter()
     with _RETRIEVAL_LOCK:
         lock_wait_s = round(time.perf_counter() - wait_started, 4)
         span = None
         if trace is not None:
-            span = trace.span(
-                "researcher_retrieve",
-                kind="span",
-                input={
-                    "topic": topic,
-                    "search_text": search_text,
-                    "k": top_k,
-                    "revision": revision,
-                    "item_index": item_index,
-                },
-            )
+            span = trace.span("researcher_retrieve", kind="span", input=span_input)
 
         try:
-            chunks = retriever.search(search_text, k=top_k, sources=sources)
+            chunks = retriever.search(search_text, k=top_k, sources=sources, **filter_kwargs)
+        except FilterValueError as exc:
+            if span is not None:
+                span.end(output=None, metadata={"error": f"FilterValueError: {exc}",
+                                                "lock_wait_s": lock_wait_s})
+            raise
         except RetrievalError as exc:
             if span is not None:
                 span.end(output=None, metadata={"error": str(exc), "lock_wait_s": lock_wait_s})

@@ -392,3 +392,31 @@ def load_concurrency_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> Concu
     else:
         raise ConfigError(f"RESEARCH_PARALLEL은 on/off여야 한다: {raw_parallel!r}")
     return ConcurrencySettings(parallel=parallel, max_concurrency=cap)
+
+
+@dataclass(frozen=True)
+class ToolSettings:
+    """Researcher 도구 설정 (v1.2-T2, ADR-028).
+
+    `tech_domain_tool` — 항목마다 `tech_domain` 필터 값을 고르는 선택 호출을 켠다.
+    **기본은 꺼짐**이다. 켜면 호출 수가 늘고(1회차 항목당 1회) 검색 후보가 바뀐다 — 그것이
+    T3에서 재는 "바뀐 변수 하나"다(ADR-002). 꺼져 있을 때 파이프라인은 v1.2-P1(p1-on)과
+    입력 해시까지 같다(`tests/test_tech_domain_tool.py`).
+    켜려면 `RESEARCH_TECH_DOMAIN_TOOL=on`(또는 1/true/yes), bench는 `--tech-domain-tool on`.
+    그 외 값은 오타로 보고 거부한다 — `ConcurrencySettings`와 같은 이유다.
+    """
+
+    tech_domain_tool: bool = False
+
+    def redacted(self) -> dict[str, object]:
+        return {"tech_domain_tool": self.tech_domain_tool}
+
+
+def load_tool_settings(env_file: Path | None = DEFAULT_ENV_FILE) -> ToolSettings:
+    _ensure_env_loaded(env_file)
+    raw = (os.getenv("RESEARCH_TECH_DOMAIN_TOOL") or "").strip().lower()
+    if raw in {"", "0", "false", "no", "off"}:
+        return ToolSettings(tech_domain_tool=False)
+    if raw in {"1", "true", "yes", "on"}:
+        return ToolSettings(tech_domain_tool=True)
+    raise ConfigError(f"RESEARCH_TECH_DOMAIN_TOOL은 on/off여야 한다: {raw!r}")

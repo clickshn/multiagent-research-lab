@@ -27,6 +27,7 @@ from src.providers.config import (  # noqa: E402
     load_concurrency_settings,
     load_embedding_settings,
     load_settings,
+    load_tool_settings,
 )
 from src.tools.retrieval import ChromaRetriever  # noqa: E402
 
@@ -79,6 +80,7 @@ def main() -> int:
     llm_settings = load_settings()
     embedding_settings = load_embedding_settings()
     concurrency = load_concurrency_settings()
+    tools = load_tool_settings()
 
     print("=" * 72)
     print("리서치 실행")
@@ -88,6 +90,7 @@ def main() -> int:
     print("임베딩     :", embedding_settings.model_name)
     print("프롬프트   :", PROMPT_VERSION)
     print("동시 호출  :", concurrency.redacted())
+    print("도구       :", tools.redacted())
     print("질의       :", args.query)
     print()
 
@@ -105,6 +108,7 @@ def main() -> int:
             "max_revisions": args.max_revisions,
             "top_k": args.top_k,
             "concurrency": concurrency.redacted(),
+            "tools": tools.redacted(),
         },
     )
     print("run_id        :", trace.run_id)
@@ -116,6 +120,8 @@ def main() -> int:
         trace=trace,
         top_k=args.top_k,
         max_concurrency=concurrency.effective,
+        # 통제어휘는 export manifest에서 읽는다(계약 §5). 끄면 None — v1.2-P1 경로.
+        tech_domain_vocab=retriever.tech_domain_vocab() if tools.tech_domain_tool else None,
     )
 
     started = time.perf_counter()

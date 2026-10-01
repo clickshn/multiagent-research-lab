@@ -105,8 +105,17 @@ class ScopedRetriever:
         self.denied: list[str] = []
 
     def search(
-        self, query: str, *, k: int = 4, sources: Sequence[str] | None = None
+        self,
+        query: str,
+        *,
+        k: int = 4,
+        sources: Sequence[str] | None = None,
+        tech_domain: str | None = None,
+        trace=None,
     ) -> list[RetrievedChunk]:
+        # `tech_domain`·`trace`는 스코프 판정과 무관하게 그대로 내려보낸다(ADR-027). 필터는 결과를
+        # **좁히기만** 하므로 스코프를 넓힐 수 없다. 값이 없으면 넘기지 않는다 — 도구 off 경로의
+        # 안쪽 호출이 v1.2-P1과 같아야 한다.
         # --- ingress: 요청 자체를 검사한다 ---------------------------------
         if len(query) > self.scope.max_query_chars:
             self._deny(
@@ -129,7 +138,8 @@ class ScopedRetriever:
                 )
             effective = sorted(set(sources))
 
-        chunks = self.inner.search(query, k=k, sources=effective)
+        extra = {"tech_domain": tech_domain, "trace": trace} if tech_domain is not None else {}
+        chunks = self.inner.search(query, k=k, sources=effective, **extra)
 
         # --- egress: 돌아온 결과도 검사한다 --------------------------------
         # 인덱스가 이미 오염돼 있을 수 있다. 여기서 조용히 떨어뜨리되 기록은 남긴다
