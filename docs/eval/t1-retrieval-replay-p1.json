@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-10-01T09:00:18+0900",
+  "tolerance": 0,
+  "runs": [
+    {
+      "bench": "bench-v1.2-p1-on.json",
+      "label": "v1.2-p1-on",
+      "spans": 161,
+      "matched": 161,
+      "error_spans": 0,
+      "expected_calls": 161
+    },
+    {
+      "bench": "bench-v1.2-p1-off.json",
+      "label": "v1.2-p1-off",
+      "spans": 161,
+      "matched": 161,
+      "error_spans": 0,
+      "expected_calls": 161
+    },
+    {
+      "bench": "bench-v1.2-p1-pathcheck.json",
+      "label": "v1.2-p1-pathcheck",
+      "spans": 18,
+      "matched": 18,
+      "error_spans": 0,
+      "expected_calls": 18
+    }
+  ],
+  "replayed": 340,
+  "matched": 340,
+  "mismatches": [],
+  "unchecked": [],
+  "elapsed_s": 35.4
+}
