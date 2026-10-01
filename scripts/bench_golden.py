@@ -75,7 +75,12 @@ from src.tools.index_guard import (  # noqa: E402
     indexed_ids,
     read_write_log,
 )
-from src.tools.retrieval import ChromaRetriever, FilterValueError, RetrievedChunk  # noqa: E402
+from src.tools.retrieval import (  # noqa: E402
+    FILTER_POLICY_STRICT,
+    ChromaRetriever,
+    FilterValueError,
+    RetrievedChunk,
+)
 
 GOLDEN_SET = REPO_ROOT / "docs" / "eval" / "golden-set.json"
 DEFAULT_OUT_DIR = REPO_ROOT / "docs" / "eval"
@@ -394,6 +399,12 @@ def item_records(findings: Sequence, trace_records: list[dict] | None) -> list[d
                 "filter_returned": filt_meta.get("returned"),
                 "filter_expected": filt_meta.get("expected"),
             }
+            if "filter_policy" in span_input:
+                # null_pass 행에만 붙는다(v1.2-N1) — strict 행의 항목 기록은 T3a와 같은 모양이어야 한다.
+                item["tech_domain"]["filter_policy"] = span_input["filter_policy"]
+                item["tech_domain"]["filter_returned_without_meta"] = filt_meta.get(
+                    "returned_without_meta"
+                )
         items.append(item)
     return items
 
@@ -607,6 +618,12 @@ def selection_attribution_problems(
                 continue
             if (filt.get("input") or {}).get("tech_domain") != value:
                 problems.append(f"{label}: 필터 span 값 {(filt.get('input') or {}).get('tech_domain')!r}")
+            # 필터 정책 (v1.2-N1). 항목 기록에 없으면 strict다(T3a까지의 기록).
+            policy = choice.get("filter_policy", FILTER_POLICY_STRICT)
+            if (filt.get("input") or {}).get("null_policy") != policy:
+                problems.append(
+                    f"{label}: 필터 span 정책 {(filt.get('input') or {}).get('null_policy')!r} ≠ {policy!r}"
+                )
             returned = (filt.get("metadata") or {}).get("returned")
             if returned != len(item.get("candidates") or []):
                 problems.append(f"{label}: 필터 returned={returned} ≠ 후보 {len(item.get('candidates') or [])}")
@@ -914,6 +931,7 @@ def _run_case(case, *, args, label, run_index, provider, retriever, tracer, trac
             "parallel": args.parallel == "on",
             "max_concurrency": args.max_concurrency,
             "tech_domain_tool": args.tech_domain_tool == "on",
+            "filter_policy": args.filter_policy,
         },
     )
     app = compile_graph(
@@ -922,6 +940,7 @@ def _run_case(case, *, args, label, run_index, provider, retriever, tracer, trac
         tech_domain_vocab=(
             retriever.tech_domain_vocab() if args.tech_domain_tool == "on" else None
         ),
+        filter_policy=args.filter_policy,
     )
 
     started = time.perf_counter()
@@ -1088,9 +1107,18 @@ def main(argv: Sequence[str] | None = None) -> int:
         "--tech-domain-tool", choices=("on", "off"), default=None,
         help="Researcher tech_domain 선택 도구 (v1.2-T2, ADR-028). 생략하면 RESEARCH_TECH_DOMAIN_TOOL (비워두면 off)",
     )
+    parser.add_argument(
+        "--filter-policy", choices=("strict", "null-pass"), default="strict",
+        help="tech_domain 필터가 메타 없는 문서를 다루는 방식 (v1.2-N1). 기본 strict = T3a(ADR-027). "
+             "null-pass는 --tech-domain-tool on에서만 쓴다",
+    )
     args = parser.parse_args(argv)
     if args.tech_domain_tool is None:
         args.tech_domain_tool = "on" if load_tool_settings().tech_domain_tool else "off"
+    # CLI는 하이픈, 결과·트레이스·검색 인자는 retrieval의 정책 이름(`null_pass`)을 쓴다.
+    args.filter_policy = args.filter_policy.replace("-", "_")
+    if args.filter_policy != FILTER_POLICY_STRICT and args.tech_domain_tool != "on":
+        parser.error("--filter-policy null-pass는 --tech-domain-tool on에서만 쓴다 (도구 off면 필터가 없다)")
     concurrency = load_concurrency_settings()
     if args.parallel is None:
         args.parallel = "on" if concurrency.parallel else "off"
@@ -1128,7 +1156,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         "동시 호출  :",
         f"{args.parallel.upper()} (상한 {args.max_concurrency}, 실효 {effective_concurrency(args)})",
     )
-    print("도구       :", f"tech_domain 선택 {args.tech_domain_tool.upper()}")
+    print("도구       :", f"tech_domain 선택 {args.tech_domain_tool.upper()} · 필터 정책 {args.filter_policy}")
     print("골든셋     :", golden.get("version"), f"({len(cases)}건)")
     score_exposed = candidate_score_exposed()
     print("후보 점수  :", "노출 (ADR-025 적용 전)" if score_exposed else "미노출")
@@ -1267,6 +1295,8 @@ def _bench(args, cases, golden, labels, out_paths, index_check, score_exposed, *
             "effective_concurrency": effective_concurrency(args),
             # tech_domain 선택 도구 (v1.2-T2). off면 v1.2-P1과 같은 경로다.
             "tech_domain_tool": args.tech_domain_tool == "on",
+            # 필터 정책 (v1.2-N1). 이 키가 없는 결과(T3a까지)는 strict다 — compare_bench_runs가 그렇게 읽는다.
+            "filter_policy": args.filter_policy,
             "tech_domain_selection": tech_domain_selection_summary(rows),
             "endpoint_errors": {
                 key: sum(r["endpoint_errors"][key] for r in rows)

@@ -35,7 +35,17 @@ class FilterValueError(ValueError):
 
     `RetrievalError`와 따로 둔다. Researcher는 `RetrievalError`를 "근거 없음"으로 삼키는데,
     오타 난 필터 값이 그렇게 삼켜지면 strict 필터의 "생존자 0"과 구별되지 않는다.
+    알 수 없는 필터 정책(`filter_policy`)도 같은 이유로 이 예외다.
     """
+
+
+# `tech_domain` 필터 정책 (v1.2-N1). 메타(`tech_domains`)가 **없는** 문서를 어떻게 다루는가.
+#   strict    — 탈락시킨다 (ADR-027, 기본값).
+#   null_pass — 통과시킨다. v1.1 프로브 `--null-policy pass`와 같은 정의다 (ADR-023).
+# 메타가 있는 문서는 두 정책 모두 `값 ∈ tech_domains`로 판정하고, 생존자 순서는 무필터 순위 그대로다.
+FILTER_POLICY_STRICT = "strict"
+FILTER_POLICY_NULL_PASS = "null_pass"
+FILTER_POLICIES: tuple[str, ...] = (FILTER_POLICY_STRICT, FILTER_POLICY_NULL_PASS)
 
 
 @dataclass(frozen=True)
@@ -89,6 +99,7 @@ class Retriever(Protocol):
         sources: Sequence[str] | None = None,
         tech_domain: str | None = None,
         trace: RunTrace | None = None,
+        filter_policy: str = FILTER_POLICY_STRICT,
     ) -> list[RetrievedChunk]: ...
 
 
@@ -211,6 +222,7 @@ class ChromaRetriever:
         sources: Sequence[str] | None = None,
         tech_domain: str | None = None,
         trace: RunTrace | None = None,
+        filter_policy: str = FILTER_POLICY_STRICT,
     ) -> list[RetrievedChunk]:
         """질의와 유사한 청크를 반환한다.
 
@@ -220,6 +232,9 @@ class ChromaRetriever:
         `tech_domain`을 주면 그 도메인을 가진 문서만 남긴다 (ADR-027, strict — 온톨로지
         메타가 없는 문서는 탈락). **None이면 아래 무필터 경로를 그대로 탄다** — 필터 경로는
         별도 메서드이고 `trace`도 거기서만 쓴다.
+
+        `filter_policy`는 메타가 없는 문서의 처리다(`FILTER_POLICIES`, v1.2-N1). 기본값 strict는
+        ADR-027 경로 그대로다. `tech_domain`이 None이면 정책은 쓰이지 않는다(무필터).
         """
         if not query.strip():
             return []
@@ -230,9 +245,14 @@ class ChromaRetriever:
                 assert_allowed_source(source)
             where = {"source": {"$in": list(sources)}}
 
+        if filter_policy not in FILTER_POLICIES:
+            raise FilterValueError(
+                f"알 수 없는 필터 정책: {filter_policy!r} (허용: {', '.join(FILTER_POLICIES)})"
+            )
         if tech_domain is not None:
             return self._search_tech_domain(
-                query, k=k, where=where, tech_domain=tech_domain, trace=trace
+                query, k=k, where=where, tech_domain=tech_domain, trace=trace,
+                filter_policy=filter_policy,
             )
 
         collection = self._get_collection(create=False)
@@ -270,6 +290,7 @@ class ChromaRetriever:
         where: dict | None,
         tech_domain: str,
         trace: RunTrace | None,
+        filter_policy: str = FILTER_POLICY_STRICT,
     ) -> list[RetrievedChunk]:
         """전수를 순위로 받아 `tech_domain`으로 거른 뒤 상위 `k`건을 돌려준다.
 
@@ -282,6 +303,10 @@ class ChromaRetriever:
         ⚠️ **전수가 오지 않으면 예외다.** HNSW는 근사 검색이라 N건을 물어도 N-1건만 오는
         실행이 있다 (ADR-005 Amendment 3). 빠진 문서가 필터 생존자일 수 있으므로 조용히
         넘기지 않는다.
+
+        `filter_policy=null_pass`면 메타(`tech_domains`)가 없는 문서도 생존자로 남긴다(v1.2-N1).
+        메타가 있는 문서의 판정과 생존자 순서는 strict와 같다 — 생존 집합이 메타 없는 문서만큼
+        늘어날 뿐이다.
         """
         if tech_domain not in self.tech_domain_vocab():
             raise FilterValueError(
@@ -300,7 +325,7 @@ class ChromaRetriever:
             span = trace.span(
                 "retrieval_filter",
                 kind="span",
-                input={"tech_domain": tech_domain, "null_policy": "strict", "k": k},
+                input={"tech_domain": tech_domain, "null_policy": filter_policy, "k": k},
             )
 
         vector = self.embeddings.embed_query(query)
@@ -331,7 +356,11 @@ class ChromaRetriever:
                 )
             raise RetrievalError(message)
 
-        survivors = [c for c in _to_chunks(raw) if tech_domain in c.tech_domains]
+        null_pass = filter_policy == FILTER_POLICY_NULL_PASS
+        survivors = [
+            c for c in _to_chunks(raw)
+            if tech_domain in c.tech_domains or (null_pass and not c.tech_domains)
+        ]
         result = survivors[:k]
         if span is not None:
             span.end(
@@ -341,6 +370,9 @@ class ChromaRetriever:
                     "fetched": fetched,
                     "survivors": len(survivors),
                     "returned": len(result),
+                    # null_pass일 때만 싣는다 — strict span은 ADR-027 그대로 둔다.
+                    **({"returned_without_meta": sum(not c.tech_domains for c in result)}
+                       if null_pass else {}),
                 },
             )
         return result

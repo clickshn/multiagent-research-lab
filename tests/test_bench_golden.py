@@ -162,6 +162,7 @@ def test_result_records_version_strata_items_and_no_combined_score(bench) -> Non
     assert result["golden_set_version"] == "9.9-test"
     assert result["cache_enabled"] is False
     assert result["candidate_score_exposed"] is False  # S0c(ADR-025) 이후 = 점수 제거
+    assert result["filter_policy"] == "strict"  # v1.2-N1 — 기본값이 결과에 남는다
     assert result["index_check"]["queue_rows"] == result["index_check"]["indexed_docs"] == 4
 
     # 합산 pass/fail 키가 없다. 층별만 있고 n이 붙는다.

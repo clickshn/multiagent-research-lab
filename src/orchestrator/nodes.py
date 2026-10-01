@@ -33,7 +33,14 @@ from typing import TypeVar
 
 from src.obs import RunTrace
 from src.providers import ChatMessage, LLMError, LLMProvider, LLMResponse
-from src.tools.retrieval import FilterValueError, RetrievalError, RetrievedChunk, Retriever
+from src.tools.retrieval import (
+    FILTER_POLICIES,
+    FILTER_POLICY_STRICT,
+    FilterValueError,
+    RetrievalError,
+    RetrievedChunk,
+    Retriever,
+)
 from src.tools.sanitize import wrap_untrusted
 
 from . import prompts
@@ -499,6 +506,7 @@ def make_researcher_node(
     sources: Sequence[str] | None = None,
     max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
     tech_domain_vocab: Iterable[str] | None = None,
+    filter_policy: str = FILTER_POLICY_STRICT,
 ) -> NodeFn:
     """조사 항목별로 근거 문서를 검색·추출한다.
 
@@ -519,8 +527,16 @@ def make_researcher_node(
     경로를 그대로 탄다 — 검색 락은 그대로다. None이면(기본) 선택 호출도, 검색 인자도, span
     입력도 v1.2-P1과 같다.
 
+    **필터 정책 (v1.2-N1).** `filter_policy`는 메타가 없는 문서의 처리다(strict | null_pass,
+    `src.tools.retrieval.FILTER_POLICIES`). strict(기본)면 검색 인자·span 입력이 T3a와 같다.
+    선택 프롬프트는 정책과 무관하게 같다 — 정책은 검색 인자로만 간다.
+
     반환 키: `findings`(누적), `revision`, `trace`
     """
+    if filter_policy not in FILTER_POLICIES:
+        raise FilterValueError(
+            f"알 수 없는 필터 정책: {filter_policy!r} (허용: {', '.join(FILTER_POLICIES)})"
+        )
     schema = tech_domain_schema(tech_domain_vocab) if tech_domain_vocab is not None else None
 
     def researcher(state: ResearchState) -> ResearchState:
@@ -572,6 +588,7 @@ def make_researcher_node(
                 retriever, topic, query=query, top_k=top_k, sources=sources, trace=trace,
                 revision=revision, item_index=index,
                 tech_domain=tech_domain, tech_domain_source=source, tech_domain_outcome=outcome,
+                filter_policy=filter_policy,
             )
             if not chunks:
                 return finding(), records
@@ -629,6 +646,7 @@ def _retrieve(
     tech_domain: str | None = None,
     tech_domain_source: str | None = None,
     tech_domain_outcome: str | None = None,
+    filter_policy: str = FILTER_POLICY_STRICT,
 ) -> list[RetrievedChunk]:
     """검색 툴 호출 + span 기록.
 
@@ -646,6 +664,9 @@ def _retrieve(
     `retrieval_filter` span에도 같은 `(revision, item_index)`를 붙인다 — 그 span은 필터 후
     결과 수를 담는데, 키가 없으면 동시 실행에서 어느 항목의 것인지 알 수 없다.
     `FilterValueError`는 삼키지 않는다 — span에 남기고 다시 던진다(ADR-027, 사전 등록 §4).
+
+    `filter_policy`가 strict가 아니면(v1.2-N1) 도구가 켜진 항목의 span 입력에 `filter_policy`를
+    싣고, 필터 값이 있을 때만 검색에 넘긴다. strict면 span 입력과 검색 인자가 T3a와 같다.
     """
     if retriever is None:
         return []
@@ -665,12 +686,16 @@ def _retrieve(
             tech_domain_source=tech_domain_source,
             tech_domain_outcome=tech_domain_outcome,
         )
+        if filter_policy != FILTER_POLICY_STRICT:
+            span_input["filter_policy"] = filter_policy
         if tech_domain is not None:
             filter_kwargs = {
                 "tech_domain": tech_domain,
                 "trace": _KeyedTrace(trace, revision=revision, item_index=item_index)
                 if trace is not None else None,
             }
+            if filter_policy != FILTER_POLICY_STRICT:
+                filter_kwargs["filter_policy"] = filter_policy
     wait_started = time.perf_counter()
     with _RETRIEVAL_LOCK:
         lock_wait_s = round(time.perf_counter() - wait_started, 4)

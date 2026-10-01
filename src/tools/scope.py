@@ -28,7 +28,7 @@ from collections.abc import Sequence
 from dataclasses import dataclass, field
 
 from .corpus import ALLOWED_SOURCES
-from .retrieval import RetrievedChunk, Retriever
+from .retrieval import FILTER_POLICY_STRICT, RetrievedChunk, Retriever
 
 
 class ToolScopeError(RuntimeError):
@@ -112,10 +112,13 @@ class ScopedRetriever:
         sources: Sequence[str] | None = None,
         tech_domain: str | None = None,
         trace=None,
+        filter_policy: str = FILTER_POLICY_STRICT,
     ) -> list[RetrievedChunk]:
         # `tech_domain`·`trace`는 스코프 판정과 무관하게 그대로 내려보낸다(ADR-027). 필터는 결과를
         # **좁히기만** 하므로 스코프를 넓힐 수 없다. 값이 없으면 넘기지 않는다 — 도구 off 경로의
-        # 안쪽 호출이 v1.2-P1과 같아야 한다.
+        # 안쪽 호출이 v1.2-P1과 같아야 한다. `filter_policy`(v1.2-N1)도 null_pass일 때만 넘긴다 —
+        # 메타 없는 문서를 통과시킬 뿐 출처 스코프는 그대로이고(아래 `sources`), strict 경로의
+        # 안쪽 호출은 T3a와 같아야 한다.
         # --- ingress: 요청 자체를 검사한다 ---------------------------------
         if len(query) > self.scope.max_query_chars:
             self._deny(
@@ -139,6 +142,8 @@ class ScopedRetriever:
             effective = sorted(set(sources))
 
         extra = {"tech_domain": tech_domain, "trace": trace} if tech_domain is not None else {}
+        if tech_domain is not None and filter_policy != FILTER_POLICY_STRICT:
+            extra["filter_policy"] = filter_policy
         chunks = self.inner.search(query, k=k, sources=effective, **extra)
 
         # --- egress: 돌아온 결과도 검사한다 --------------------------------

@@ -16,7 +16,7 @@ from langgraph.graph import END, START, StateGraph
 
 from src.obs import RunTrace
 from src.providers import LLMProvider, get_provider
-from src.tools.retrieval import Retriever
+from src.tools.retrieval import FILTER_POLICY_STRICT, Retriever
 from src.tools.scope import ScopedRetriever, ToolScope
 
 from .nodes import (
@@ -48,6 +48,7 @@ def build_graph(
     scope: ToolScope | None = None,
     max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
     tech_domain_vocab: Iterable[str] | None = None,
+    filter_policy: str = FILTER_POLICY_STRICT,
 ) -> StateGraph:
     """그래프를 구성한다 (컴파일 전).
 
@@ -70,6 +71,7 @@ def build_graph(
     `tech_domain_vocab`을 주면 Researcher의 `tech_domain` 선택 도구가 켜진다(v1.2-T2, ADR-028).
     None이면 꺼져 있고 그래프는 v1.2-P1과 같은 호출을 만든다. 켜는 것은 호출자가
     `load_tool_settings()`를 읽어 정한다 — 노드가 환경변수를 직접 읽지 않는다.
+    `filter_policy`(v1.2-N1)는 그 필터가 메타 없는 문서를 어떻게 다루는가다(기본 strict = T3a).
     """
     llm = provider or get_provider()
 
@@ -88,6 +90,7 @@ def build_graph(
         make_researcher_node(
             llm, retriever=retriever, trace=trace, top_k=top_k, sources=sources,
             max_concurrency=max_concurrency, tech_domain_vocab=tech_domain_vocab,
+            filter_policy=filter_policy,
         ),
     )
     graph.add_node(
@@ -126,6 +129,7 @@ def compile_graph(
     checkpointer=None,
     max_concurrency: int = DEFAULT_MAX_CONCURRENCY,
     tech_domain_vocab: Iterable[str] | None = None,
+    filter_policy: str = FILTER_POLICY_STRICT,
 ):
     """실행 가능한 그래프.
 
@@ -142,4 +146,5 @@ def compile_graph(
         scope=scope,
         max_concurrency=max_concurrency,
         tech_domain_vocab=tech_domain_vocab,
+        filter_policy=filter_policy,
     ).compile(checkpointer=checkpointer)

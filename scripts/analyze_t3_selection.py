@@ -20,6 +20,10 @@ span에서 실제 검색어(`search_text`)를 꺼내 **무필터로 재생**하�
     python scripts/analyze_t3_selection.py --positive-control \\
         --baseline docs/eval/bench-v1.2-p1-on.json --out <결과 JSON>
 
+`--filter-policy {strict,null-pass}` (v1.2-N1): 필터 항목의 **재생 무결성 대조**에 쓸 정책이다. 기본 strict(T3a).
+대상 회차에 기록된 `filter_policy`(없으면 strict)와 다르면 측정 무효다. **지표 정의와 임계값은 정책과 무관하게
+같다** — 해악·이득은 여전히 "무필터 재생 top-k 대 기록된 후보"다. `--preregistration`은 출력에 적을 사전 등록 해시다.
+
 `--positive-control`: 기준 회차의 **변조 사본**(층 A 해악 2케이스 · 층 B e2e −2 · 층 C 하락 1을 심음)을
 메모리에서 만들어 분석하고, 심은 것이 전부 검출되는지 확인한다. 검출되지 않으면 종료 코드 2.
 
@@ -386,8 +390,13 @@ def cost_deltas(run: dict, baseline: dict) -> dict:
 # --- 판정 (사전 등록 §4 · §6.1) -------------------------------------------
 
 
-def validity_problems(run: dict, baseline: dict, analysis: dict) -> list[str]:
+def validity_problems(
+    run: dict, baseline: dict, analysis: dict, *, filter_policy: str = "strict"
+) -> list[str]:
     problems = []
+    recorded_policy = run.get("filter_policy") or "strict"  # 키가 없으면(T3a까지) strict
+    if recorded_policy != filter_policy:
+        problems.append(f"필터 정책 불일치: 기록 {recorded_policy!r} ≠ 분석 {filter_policy!r}")
     if run.get("cache_enabled") is not False:
         problems.append(f"캐시 켜짐 또는 미기록 (cache_enabled={run.get('cache_enabled')!r})")
     if baseline.get("cache_enabled") is not False:
@@ -456,6 +465,8 @@ def evaluate(
     doc_domains: dict[str, tuple[str, ...]],
     oracle: dict[str, str],
     baseline_analysis: dict | None = None,
+    filter_policy: str = "strict",
+    preregistration: str = PREREGISTRATION,
 ) -> dict:
     analysis = analyze_run(run, trace_dir=trace_dir, searcher=searcher,
                            doc_domains=doc_domains, oracle=oracle)
@@ -464,12 +475,13 @@ def evaluate(
                                         doc_domains=doc_domains, oracle=oracle)
     harm = harm_metrics(analysis["cases"])
     e2e = e2e_metrics(analysis["cases"], baseline_analysis["cases"])
-    problems = validity_problems(run, baseline, analysis)
+    problems = validity_problems(run, baseline, analysis, filter_policy=filter_policy)
     base_eligible = {
         s: harm_metrics(baseline_analysis["cases"])[s]["eligible_items"] for s in ("A", "B")
     }
     return {
-        "preregistration": PREREGISTRATION,
+        "preregistration": preregistration,
+        "filter_policy": filter_policy,
         "run_label": run.get("label"),
         "baseline_label": baseline.get("label"),
         "run_conditions": {k: run.get(k) for k in (
@@ -567,13 +579,16 @@ def check_positive_control(report: dict, planted: dict) -> list[str]:
 # --- 실제 검색·메타 --------------------------------------------------------
 
 
-def make_searcher(retriever) -> Searcher:
+def make_searcher(retriever, filter_policy: str = "strict") -> Searcher:
+    """재생용 검색. `filter_policy`는 필터 값이 있을 때만 쓰인다(무필터 재생은 정책과 무관)."""
     cache: dict[tuple[str, int, str | None], list[str]] = {}
 
     def search(text: str, k: int, tech_domain: str | None) -> list[str]:
         key = (text, k, tech_domain)
         if key not in cache:
-            cache[key] = [c.doc_id for c in retriever.search(text, k=k, tech_domain=tech_domain)]
+            extra = {"filter_policy": filter_policy} if tech_domain is not None else {}
+            cache[key] = [c.doc_id for c in retriever.search(text, k=k, tech_domain=tech_domain,
+                                                             **extra)]
         return cache[key]
 
     return search
@@ -595,7 +610,8 @@ def load_doc_domains(retriever) -> dict[str, tuple[str, ...]]:
 
 def print_report(report: dict) -> None:
     j = report["judgment"]
-    print(f"대상 {report['run_label']} · 기준 {report['baseline_label']} · 사전 등록 {PREREGISTRATION}")
+    print(f"대상 {report['run_label']} · 기준 {report['baseline_label']} · "
+          f"사전 등록 {report['preregistration']} · 필터 정책 {report['filter_policy']}")
     print(f"판정: {j['verdict']}")
     for r in j.get("reasons", [])[:20]:
         print("  -", r)
@@ -646,7 +662,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--positive-control", action="store_true",
                         help="기준 회차의 변조 사본으로 검출기를 시험한다")
     parser.add_argument("--out", type=Path, default=None)
+    parser.add_argument("--filter-policy", choices=("strict", "null-pass"), default="strict",
+                        help="필터 재생 무결성 대조에 쓸 정책 (v1.2-N1). 지표 정의는 바뀌지 않는다")
+    parser.add_argument("--preregistration", default=PREREGISTRATION,
+                        help=f"출력에 적을 사전 등록 커밋 (기본 {PREREGISTRATION} = T3a)")
     args = parser.parse_args(argv)
+    filter_policy = args.filter_policy.replace("-", "_")
     if not args.positive_control and args.run is None:
         parser.error("대상 bench JSON 또는 --positive-control")
 
@@ -655,7 +676,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     trace_dir = load_tracing_settings().local_trace_dir
     retriever = ChromaRetriever()
-    searcher = make_searcher(retriever)
+    searcher = make_searcher(retriever, filter_policy)
     doc_domains = load_doc_domains(retriever)
     oracle = load_oracle()
     baseline = json.loads(args.baseline.read_text(encoding="utf-8"))
@@ -670,7 +691,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             run = json.loads(args.run.read_text(encoding="utf-8"))
         report = evaluate(run, baseline, trace_dir=trace_dir, searcher=searcher,
                           doc_domains=doc_domains, oracle=oracle,
-                          baseline_analysis=baseline_analysis)
+                          baseline_analysis=baseline_analysis,
+                          filter_policy=filter_policy, preregistration=args.preregistration)
     except Uncheckable as exc:
         print("대조 불가:", exc)
         return EXIT_UNCHECKABLE
