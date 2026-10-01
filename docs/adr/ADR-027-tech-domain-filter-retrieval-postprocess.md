@@ -5,6 +5,30 @@
 - **Decision:** `ChromaRetriever.search()`에 선택적 인자 `tech_domain`을 추가한다. 값을 주면 **항상 전수**(`collection.count()`, `sources`가 있으면 그 출처의 문서 수)를 순위로 받아 strict로 거른 뒤 상위 `k`건을 돌려준다. `None`이면 기존 경로를 그대로 탄다. 저장 형태와 인덱스는 바꾸지 않는다.
 - **Scope:** multiagent-research-lab (`src/tools/retrieval.py` · `scripts/probe_retrieval.py` · v1.2-T1)
 - **Decision Source:** Human
+- **Amended:** 2026-10-01 (session-24) — `search()`에 `filter_policy` 인자(`strict` 기본 | `null_pass`)를 추가했다(v1.2-N1). 기본값이 strict이므로 이 ADR의 결정은 그대로다. 아래 Amendment 참조.
+
+---
+
+## Amendment — 2026-10-01 (session-24): 필터 정책 인자 `filter_policy` (v1.2-N1)
+
+본 ADR의 Implementation 4는 "**strict.** 온톨로지 메타가 없는 문서는 탈락한다"였다. T3a(ADR-029)가 이 strict 정책과
+층 B 정답 문서의 메타 부재가 겹쳐 해악(D4)을 낸다는 것을 보였다. 그래서 N1에서 메타 없는 문서를 통과시키는 정책을
+측정하려고 인자를 추가했다.
+
+- **변경:** `search(..., filter_policy="strict" | "null_pass")`. `Retriever` 프로토콜과 `ScopedRetriever`도 같은 인자를 받는다.
+  - `strict`(**기본값**): 이 ADR 그대로다. 메타가 없는 문서는 탈락한다.
+  - `null_pass`: `tech_domain ∈ tech_domains` **또는** `tech_domains`가 빈 문서를 남긴다. v1.1 프로브 `--null-policy pass`와 같은 정의다(ADR-023).
+  - 두 정책 모두 전수 조회, 생존자의 무필터 순위 보존, 유실 시 예외(Implementation 3·6)는 같다.
+  - 알 수 없는 정책은 `FilterValueError`로 처리하고, 질의 전에 멈춘다(Implementation 5와 같은 이유).
+  - `retrieval_filter` span의 `null_policy`에 정책을 기록한다. `null_pass`일 때만 메타에 `returned_without_meta`를 싣는다.
+- **strict 불변 확인 (session-24, LLM 0건):**
+  - T1 프로브 strict(`--filter-impl retrieval`)와 무필터 결과가 커밋된 결과와 **바이트 동일**하다.
+  - p1-on · p1-off · p1-pathcheck 트레이스 재생은 **340/340**이다.
+  - 스코프와 노드는 `null_pass`일 때만 정책을 하위 호출에 넘긴다. 그래서 strict의 호출 인자와 span은 이전과 같다.
+- **측정 결과:** null-통과도 **해악(D5)** 이다(ADR-030).
+  - 층 C negative GS-027에서 메타 없는 무관 문서가 후보로 올라와 인용됐다.
+  - 그래서 **기본값은 strict로 둔다.** `null_pass`는 실험용(`bench --filter-policy null-pass`)이다.
+- **Review Trigger 추가:** 메타 없는 문서에 온톨로지 메타를 보강하거나 메타 없는 문서의 비율이 바뀌면 두 정책을 다시 잰다(ADR-030과 같다).
 
 ---
 
@@ -105,8 +129,9 @@ v1.1(ADR-023)은 `tech_domain` 필터를 **프로브 안의 후처리 arm**으�
 ## Review Trigger
 
 - 문서 수가 수천 단위로 늘 때, 또는 ADR-005 A3 유실을 해결할 때 A(불리언 키 + `where`)를 다시 검토한다.
+- (Amendment, session-24) 메타 없는 문서에 메타를 보강하거나 그 비율이 바뀌면 `filter_policy` strict·null_pass를 다시 잰다(ADR-030).
 
 ## References
 
-- **Related ADR:** ADR-023(프로브 후처리 arm · 오라클), ADR-020(Chroma 부분 일치 부재), ADR-005 Amendment 3·4(HNSW 유실 · 인덱스 상태), ADR-025(점수 비노출), ADR-026(p1-on 기준), ADR-002
+- **Related ADR:** ADR-023(프로브 후처리 arm · 오라클), ADR-020(Chroma 부분 일치 부재), ADR-005 Amendment 3·4(HNSW 유실 · 인덱스 상태), ADR-025(점수 비노출), ADR-026(p1-on 기준), ADR-002, ADR-029(T3a 판정 해악 D4), ADR-030(N1 null-통과 판정 해악 D5)
 - **Documentation:** `docs/handoff/session-21.md`, `docs/eval/probe-retrieval-v1.2-t1-nofilter.json`, `docs/eval/probe-retrieval-v1.2-t1-tech-domain-strict-retrieval.json`, `docs/eval/t1-retrieval-replay-p1.json`

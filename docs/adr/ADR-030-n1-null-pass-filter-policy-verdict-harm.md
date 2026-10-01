@@ -1,6 +1,6 @@
 # ADR-030: v1.2-N1 판정 — null-통과 필터 정책도 해악(D5)이다. 도구 기본값은 off를 유지하고 필터 기본 정책은 strict로 둔다
 
-- **Status:** Proposed (2026-10-01, session-24)
+- **Status:** Accepted (2026-10-01, session-24 — 사용자 결정)
 - **Date:** 2026-10-01
 - **Decision:** 사전 등록 판정은 **해악**이다(D5: 층 C "근거 없음 유지" 7/7 → 6/7, GS-027).
   그래서 Researcher `tech_domain` 선택 도구의 기본값을 **off로 유지**한다(ADR-029 결론 유지).
