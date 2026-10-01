@@ -399,3 +399,24 @@ def test_tool_settings_default_off_and_reject_typos(monkeypatch) -> None:
     with pytest.raises(ConfigError):
         load_tool_settings(env_file=None)
 
+
+# ---------------------------------------------------------------------------
+# 1'. off = p1-on — 실제 기준 회차 트레이스 대조 (로컬 트레이스가 있을 때만)
+# ---------------------------------------------------------------------------
+
+
+def _p1_on_traces_present() -> bool:
+    from src.providers.config import load_tracing_settings
+
+    bench = json.loads((REPO_ROOT / "docs/eval/bench-v1.2-p1-on.json").read_text(encoding="utf-8"))
+    trace_dir = load_tracing_settings().local_trace_dir
+    return all((trace_dir / f"{row['run_id']}.jsonl").exists() for row in bench["rows"])
+
+
+@pytest.mark.skipif(not _p1_on_traces_present(), reason="p1-on 로컬 트레이스 없음(var/traces는 커밋되지 않는다)")
+def test_tool_off_replays_p1_on_with_identical_input_hashes(monkeypatch) -> None:
+    """off 경로를 p1-on 응답으로 재생 → 30/30 케이스, 297/297 호출 입력 해시 동일 (LLM 호출 0)."""
+    from scripts import check_tool_off_parity
+
+    monkeypatch.setattr(sys, "argv", ["x", str(REPO_ROOT / "docs/eval/bench-v1.2-p1-on.json")])
+    assert check_tool_off_parity.main() == 0

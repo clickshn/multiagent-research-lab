@@ -1,0 +1,316 @@
+{
+  "generated_at": "2026-10-01T10:46:58+0900",
+  "baseline": "bench-v1.2-p1-on.json",
+  "baseline_prompt_version": "2026-09-30.1",
+  "tech_domain_tool": false,
+  "max_concurrency": 4,
+  "llm_calls": 0,
+  "cases_identical": 30,
+  "cases": 30,
+  "calls_identical": 297,
+  "baseline_calls_total": 297,
+  "unchecked": [],
+  "elapsed_s": 22.6,
+  "per_case": [
+    {
+      "case_id": "GS-001",
+      "stratum": "A",
+      "baseline_calls": 14,
+      "replayed_calls": 14,
+      "baseline_llm_calls_row": 14,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 1
+    },
+    {
+      "case_id": "GS-002",
+      "stratum": "B",
+      "baseline_calls": 13,
+      "replayed_calls": 13,
+      "baseline_llm_calls_row": 13,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-003",
+      "stratum": "B",
+      "baseline_calls": 14,
+      "replayed_calls": 14,
+      "baseline_llm_calls_row": 14,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-004",
+      "stratum": "B",
+      "baseline_calls": 11,
+      "replayed_calls": 11,
+      "baseline_llm_calls_row": 11,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-005",
+      "stratum": "B",
+      "baseline_calls": 9,
+      "replayed_calls": 9,
+      "baseline_llm_calls_row": 9,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-006",
+      "stratum": "B",
+      "baseline_calls": 10,
+      "replayed_calls": 10,
+      "baseline_llm_calls_row": 10,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-007",
+      "stratum": "B",
+      "baseline_calls": 11,
+      "replayed_calls": 11,
+      "baseline_llm_calls_row": 11,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 1
+    },
+    {
+      "case_id": "GS-008",
+      "stratum": "C",
+      "baseline_calls": 10,
+      "replayed_calls": 10,
+      "baseline_llm_calls_row": 10,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-009",
+      "stratum": "C",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-010",
+      "stratum": "A",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-011",
+      "stratum": "A",
+      "baseline_calls": 13,
+      "replayed_calls": 13,
+      "baseline_llm_calls_row": 13,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 1
+    },
+    {
+      "case_id": "GS-012",
+      "stratum": "A",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-013",
+      "stratum": "A",
+      "baseline_calls": 12,
+      "replayed_calls": 12,
+      "baseline_llm_calls_row": 12,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-014",
+      "stratum": "A",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-015",
+      "stratum": "A",
+      "baseline_calls": 9,
+      "replayed_calls": 9,
+      "baseline_llm_calls_row": 9,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-016",
+      "stratum": "A",
+      "baseline_calls": 15,
+      "replayed_calls": 15,
+      "baseline_llm_calls_row": 15,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 1
+    },
+    {
+      "case_id": "GS-017",
+      "stratum": "A",
+      "baseline_calls": 10,
+      "replayed_calls": 10,
+      "baseline_llm_calls_row": 10,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-018",
+      "stratum": "A",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-019",
+      "stratum": "B",
+      "baseline_calls": 11,
+      "replayed_calls": 11,
+      "baseline_llm_calls_row": 11,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-020",
+      "stratum": "B",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-021",
+      "stratum": "A",
+      "baseline_calls": 10,
+      "replayed_calls": 10,
+      "baseline_llm_calls_row": 10,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 1
+    },
+    {
+      "case_id": "GS-022",
+      "stratum": "A",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-023",
+      "stratum": "A",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-024",
+      "stratum": "A",
+      "baseline_calls": 12,
+      "replayed_calls": 12,
+      "baseline_llm_calls_row": 12,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-025",
+      "stratum": "B",
+      "baseline_calls": 9,
+      "replayed_calls": 9,
+      "baseline_llm_calls_row": 9,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-026",
+      "stratum": "C",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-027",
+      "stratum": "C",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-028",
+      "stratum": "C",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-029",
+      "stratum": "C",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    },
+    {
+      "case_id": "GS-030",
+      "stratum": "C",
+      "baseline_calls": 8,
+      "replayed_calls": 8,
+      "baseline_llm_calls_row": 8,
+      "identical": true,
+      "miss": null,
+      "hash_conflicts": 0
+    }
+  ]
+}
