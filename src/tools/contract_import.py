@@ -88,7 +88,9 @@ _LIST_JOIN = "|"
 """Chroma 메타데이터는 스칼라만 받는다. 리스트는 이 구분자로 이어 붙인다.
 
 ⚠️ 이어 붙인 문자열에는 **부분 일치 필터를 걸 수 없다** (Chroma에 LIKE가 없다).
-`tech_domains`로 필터를 걸어야 할 일이 생기면 저장 형태부터 다시 정해야 한다.
+그래서 `tech_domains` 필터는 DB `where`가 아니라 검색 계층의 전수 조회 + 후처리다
+(`ChromaRetriever.search(tech_domain=...)`, ADR-027). 저장 형태는 그대로 두었다 —
+불리언 키로 펼쳐 `where`로 거르는 안은 ADR-027 Alternatives에서 재검토 조건과 함께 기각됐다.
 `release_type`은 단일 값(스칼라)이라 이 제약을 받지 않는다 — Session 3이 그쪽을
 쓰기로 한 이유 중 하나다 (계약 §8.2).
 """

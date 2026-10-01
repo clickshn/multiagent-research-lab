@@ -11,12 +11,15 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Protocol, runtime_checkable
+from typing import TYPE_CHECKING, Protocol, runtime_checkable
 
 from src.providers.config import VectorStoreSettings, load_vectorstore_settings
 from src.providers.embeddings import EmbeddingProvider, get_embedding_provider
 
-from .corpus import CorpusDoc, CorpusScopeError, assert_allowed_source
+from .corpus import DEFAULT_CORPUS_DIR, CorpusDoc, CorpusScopeError, assert_allowed_source
+
+if TYPE_CHECKING:
+    from src.obs import RunTrace
 
 # 인덱스를 만든 임베딩 모델을 컬렉션 메타데이터에 남겨둘 키.
 # 모델이 바뀌면 벡터 공간이 달라져 검색 결과가 조용히 엉뚱해진다. 에러로 잡는다.
@@ -25,6 +28,14 @@ _META_EMBEDDING_MODEL = "embedding_model"
 
 class RetrievalError(RuntimeError):
     """검색·인덱싱 실패."""
+
+
+class FilterValueError(ValueError):
+    """필터 값이 통제어휘 밖이다 (ADR-027).
+
+    `RetrievalError`와 따로 둔다. Researcher는 `RetrievalError`를 "근거 없음"으로 삼키는데,
+    오타 난 필터 값이 그렇게 삼켜지면 strict 필터의 "생존자 0"과 구별되지 않는다.
+    """
 
 
 @dataclass(frozen=True)
@@ -71,7 +82,13 @@ class Retriever(Protocol):
     """Researcher 노드가 의존하는 유일한 검색 인터페이스."""
 
     def search(
-        self, query: str, *, k: int = 4, sources: Sequence[str] | None = None
+        self,
+        query: str,
+        *,
+        k: int = 4,
+        sources: Sequence[str] | None = None,
+        tech_domain: str | None = None,
+        trace: RunTrace | None = None,
     ) -> list[RetrievedChunk]: ...
 
 
@@ -87,11 +104,14 @@ class ChromaRetriever:
         self,
         embeddings: EmbeddingProvider | None = None,
         settings: VectorStoreSettings | None = None,
+        tech_domain_vocab: frozenset[str] | None = None,
     ) -> None:
         self.settings = settings or load_vectorstore_settings()
         self.embeddings = embeddings or get_embedding_provider()
         self._client = None
         self._collection = None
+        # 통제어휘. None이면 필터 검색을 처음 할 때 manifest에서 읽는다 (계약 §5 — 복제하지 않는다).
+        self._tech_domain_vocab = tech_domain_vocab
 
     # --- 내부 ---------------------------------------------------------------
 
@@ -184,12 +204,22 @@ class ChromaRetriever:
     # --- 검색 ---------------------------------------------------------------
 
     def search(
-        self, query: str, *, k: int = 4, sources: Sequence[str] | None = None
+        self,
+        query: str,
+        *,
+        k: int = 4,
+        sources: Sequence[str] | None = None,
+        tech_domain: str | None = None,
+        trace: RunTrace | None = None,
     ) -> list[RetrievedChunk]:
         """질의와 유사한 청크를 반환한다.
 
         `sources`를 주면 그 출처로만 좁힌다. 허용 목록 밖의 출처를 요구하면
         빈 결과가 아니라 예외다 (`.claude/rules/security.md`).
+
+        `tech_domain`을 주면 그 도메인을 가진 문서만 남긴다 (ADR-027, strict — 온톨로지
+        메타가 없는 문서는 탈락). **None이면 아래 무필터 경로를 그대로 탄다** — 필터 경로는
+        별도 메서드이고 `trace`도 거기서만 쓴다.
         """
         if not query.strip():
             return []
@@ -199,6 +229,11 @@ class ChromaRetriever:
             for source in sources:
                 assert_allowed_source(source)
             where = {"source": {"$in": list(sources)}}
+
+        if tech_domain is not None:
+            return self._search_tech_domain(
+                query, k=k, where=where, tech_domain=tech_domain, trace=trace
+            )
 
         collection = self._get_collection(create=False)
         vector = self.embeddings.embed_query(query)
@@ -213,6 +248,102 @@ class ChromaRetriever:
             raise RetrievalError(f"검색 실패: {exc}") from exc
 
         return list(_to_chunks(raw))
+
+    # --- 필터 검색 (ADR-027) ------------------------------------------------
+
+    def tech_domain_vocab(self) -> frozenset[str]:
+        """`tech_domain` 통제어휘 — export manifest들의 합집합."""
+        if self._tech_domain_vocab is None:
+            from .contract_import import discover_manifests  # noqa: PLC0415 (순환 참조 회피)
+
+            vocab: set[str] = set()
+            for manifest in discover_manifests(DEFAULT_CORPUS_DIR):
+                vocab |= manifest.tech_domain
+            self._tech_domain_vocab = frozenset(vocab)
+        return self._tech_domain_vocab
+
+    def _search_tech_domain(
+        self,
+        query: str,
+        *,
+        k: int,
+        where: dict | None,
+        tech_domain: str,
+        trace: RunTrace | None,
+    ) -> list[RetrievedChunk]:
+        """전수를 순위로 받아 `tech_domain`으로 거른 뒤 상위 `k`건을 돌려준다.
+
+        v1.1 프로브(ADR-023 `--arm tech_domain --null-policy strict`)의 후처리를 검색 계층으로
+        옮긴 것이다. `tech_domains`는 `|` 연결 문자열이라 Chroma `where`로 거를 수 없다
+        (ADR-020) — 그래서 DB에서 자르지 않고 여기서 거른다.
+
+        ⚠️ **받아오는 건수는 항상 전수다** (`sources`가 없으면 `collection.count()`).
+        k<N으로 받아 거르면 필터 뒤 상위 문서가 조용히 빠질 수 있다. 그 경로는 만들지 않는다.
+        ⚠️ **전수가 오지 않으면 예외다.** HNSW는 근사 검색이라 N건을 물어도 N-1건만 오는
+        실행이 있다 (ADR-005 Amendment 3). 빠진 문서가 필터 생존자일 수 있으므로 조용히
+        넘기지 않는다.
+        """
+        if tech_domain not in self.tech_domain_vocab():
+            raise FilterValueError(
+                f"tech_domain 값이 통제어휘 밖입니다: {tech_domain!r} "
+                f"(어휘: {', '.join(sorted(self.tech_domain_vocab()))})"
+            )
+
+        collection = self._get_collection(create=False)
+        if where is None:
+            expected = int(collection.count())
+        else:
+            expected = len(collection.get(where=where, include=[])["ids"])
+
+        span = None
+        if trace is not None:
+            span = trace.span(
+                "retrieval_filter",
+                kind="span",
+                input={"tech_domain": tech_domain, "null_policy": "strict", "k": k},
+            )
+
+        vector = self.embeddings.embed_query(query)
+        raw: dict = {}
+        if expected:
+            try:
+                raw = collection.query(
+                    query_embeddings=[vector],
+                    n_results=expected,
+                    where=where,
+                    include=["documents", "metadatas", "distances"],
+                )
+            except Exception as exc:  # noqa: BLE001
+                if span is not None:
+                    span.end(output=None, metadata={"error": str(exc)})
+                raise RetrievalError(f"검색 실패: {exc}") from exc
+
+        fetched = len((raw.get("ids") or [[]])[0])
+        if fetched < expected:
+            message = (
+                f"필터 검색이 전수를 받지 못했다: {expected}건을 물었는데 {fetched}건 "
+                "(HNSW 근사 검색 유실, ADR-005 Amendment 3)"
+            )
+            if span is not None:
+                span.end(
+                    output=None,
+                    metadata={"error": message, "expected": expected, "fetched": fetched},
+                )
+            raise RetrievalError(message)
+
+        survivors = [c for c in _to_chunks(raw) if tech_domain in c.tech_domains]
+        result = survivors[:k]
+        if span is not None:
+            span.end(
+                output=[{"doc_id": c.doc_id, "score": c.score} for c in result],
+                metadata={
+                    "expected": expected,
+                    "fetched": fetched,
+                    "survivors": len(survivors),
+                    "returned": len(result),
+                },
+            )
+        return result
 
 
 def _to_chunks(raw: dict) -> list[RetrievedChunk]:
