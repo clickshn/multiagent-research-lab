@@ -1,6 +1,6 @@
 # ADR-027: tech_domains 필터를 검색 계층에 배선한다 — 전수 조회 + 후처리 (재인덱싱 없음)
 
-- **Status:** Proposed
+- **Status:** Accepted (2026-10-01, session-21 — 사용자 결정)
 - **Date:** 2026-10-01
 - **Decision:** `ChromaRetriever.search()`에 선택적 인자 `tech_domain`을 추가한다. 값을 주면 **항상 전수**(`collection.count()`, `sources`가 있으면 그 출처의 문서 수)를 순위로 받아 strict로 거른 뒤 상위 `k`건을 돌려준다. `None`이면 기존 경로를 그대로 탄다. 저장 형태와 인덱스는 바꾸지 않는다.
 - **Scope:** multiagent-research-lab (`src/tools/retrieval.py` · `scripts/probe_retrieval.py` · v1.2-T1)
@@ -94,7 +94,7 @@ v1.1(ADR-023)은 `tech_domain` 필터를 **프로브 안의 후처리 arm**으�
 - [x] `scripts/replay_retrieval_trace.py` — 트레이스 검색어 재생 대조
 - [x] 테스트 `tests/test_retrieval_filter.py` 17건 — None 경로 인자 동일 · 항상 전수 · strict·순위 보존 · 어휘 밖 값 · 유실 예외 · 트레이스 생존자 수
 - [x] 동일성 결과 — `docs/eval/probe-retrieval-v1.2-t1-*.json`, `docs/eval/t1-retrieval-replay-p1.json`
-- [ ] 노드(Researcher)에서 필터 값 전달 + 플래너 — T2 이후
+- [ ] 노드(Researcher)에서 필터 값 전달 + 플래너(에이전트의 `tech_domain` 선택) — **다음 세션 T2** (사용자 결정, session-21)
 
 ## Reversibility
 

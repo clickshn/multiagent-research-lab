@@ -3,7 +3,7 @@
 - **날짜:** 2026-10-01
 - **범위:** v1.2-T1. 바뀐 것은 **검색 계층에 선택 필터 인자 하나**다. 에이전트·프롬프트·노드 배선은 그대로이고, LLM 호출은 0건이다.
   **인덱스는 다시 만들지 않았다.** governance.md · `.claude/rules/` · 훅 수정 없음.
-- **ADR:** ADR-027 신규(**Proposed**, 방식 B — 사용자 결정) · ADR-023 Amendment
+- **ADR:** ADR-027 신규 → **Accepted** (방식 B — 사용자 결정, §10) · ADR-023 Amendment
 - **테스트:** `python -m pytest tests/ -q` → **273 passed** (256 + 신규 17, `tests/test_retrieval_filter.py`)
 - **LLM 호출:** **0건.** 외부 벤더 0건, 유료 리소스·IaC 0건. 임베딩은 로컬, 인덱스는 읽기만 했다.
 - **시크릿 검사:** `scan_local_secrets.py` 0건(양성 대조 통과), 커밋 diff 대조 0건 (커밋마다)
@@ -133,3 +133,25 @@ python scripts/replay_retrieval_trace.py docs/eval/bench-v1.2-p1-on.json docs/ev
 - [ ] 노드에서 필터를 켜면 그것이 바뀐 변수 하나다(ADR-002). 판정 기준은 측정 전에 등록한다
 - [ ] 재인덱싱이 생기면 `replay_retrieval_trace.py`로 p1-on 재생 대조를 먼저 돌린다
 - [ ] 승인 게이트 6항목 — 1번 `VLLM_BASE`부터
+
+---
+
+## 10. 결정 반영 (같은 세션, 사용자 결정 · **LLM 호출 0건 · 코드 변경 0**)
+
+| # | 결정 | 결과 |
+|---|---|---|
+| ① | **ADR-027 Accepted** | Status를 `Accepted (2026-10-01, session-21)`로 바꿨다. 재측정은 없다 — §5 결과 그대로다 |
+| ② | **노드 배선 + 플래너(에이전트의 `tech_domain` 선택)는 다음 세션 T2에서 한다** | 이번 세션에는 넣지 않는다. ADR-027 Implementation의 미완 항목을 "다음 세션 T2"로 표시했다 |
+
+**§8 갱신:** ①은 **종료.** ②는 **T2 범위로 확정.** ③(`FilterValueError` 정책)은 T2에서 플래너가 값을 만들게 될 때 함께 본다.
+나머지 열린 항목은 그대로다.
+
+**§9 갱신 — 다음 세션(T2) 진입 조건**
+
+- [ ] T2 범위 = Researcher `_retrieve()`가 `tech_domain`·`trace`를 넘기는 배선 + 질의에서 값을 고르는 플래너. **바뀐 변수는 "필터를 켰다" 하나**다(ADR-002)
+- [ ] 비교 기준 = `docs/eval/bench-v1.2-p1-on.json` (유효, §6). 기본값(on, 상한 4)으로 잰다
+- [ ] 판정 기준은 측정 전에 등록한다. 플래너 값과 오라클 값(§5)의 차이가 "상한 대비 실제 이득"이다
+- [ ] 플래너가 어휘 밖 값을 내면 `FilterValueError`로 실행이 멈춘다 — 이 정책을 측정 전에 정한다(§8 ③)
+- [ ] 승인 게이트 6항목 — 1번 `VLLM_BASE`부터 (T2는 LLM 호출이 생긴다)
+
+세션 종료. push 하지 않았다.
