@@ -1,6 +1,6 @@
 # ADR-028: tech_domain 선택은 json_schema 강제 출력으로 받는다 — 네이티브 tool calling을 쓰지 않는다
 
-- **Status:** Proposed (2026-10-01, session-22)
+- **Status:** Accepted (2026-10-01, session-22 — 사용자 결정)
 - **Date:** 2026-10-01
 - **Decision:** Researcher가 항목마다 `tech_domain` 필터 값을 고르는 호출은 OpenAI 호환
   `response_format={"type": "json_schema", "json_schema": {name, strict, schema}}`로 보낸다.

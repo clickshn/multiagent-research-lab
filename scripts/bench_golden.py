@@ -1010,11 +1010,15 @@ def _run_case(case, *, args, label, run_index, provider, retriever, tracer, trac
     }
 
 
+# 행 출력의 노드 약칭. 앞 3글자만 쓰면 `researcher`와 `researcher_select`가 둘 다 `res`가 된다.
+_NODE_SHORT = {"researcher_select": "sel"}
+
+
 def _print_row(row: dict) -> None:
     verdict = row["score"]["passed"]
     mark = "PASS" if verdict else ("FAIL" if verdict is False else "----")
     nodes = " ".join(
-        f"{node[:3]}{b['calls']}/{b['prompt'] + b['completion']}"
+        f"{_NODE_SHORT.get(node, node[:3])}{b['calls']}/{b['prompt'] + b['completion']}"
         for node, b in sorted(row["by_node"].items())
     )
     print(
