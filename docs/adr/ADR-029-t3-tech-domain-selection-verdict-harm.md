@@ -1,6 +1,6 @@
 # ADR-029: v1.2-T3 판정 — 에이전트가 고른 tech_domain 필터는 해악(D4)이다. 도구 기본값은 off로 두고, 필터는 사용자가 명시할 때만 건다
 
-- **Status:** Proposed
+- **Status:** Accepted (2026-10-01, session-23 — 사용자 결정)
 - **Date:** 2026-10-01
 - **Decision:** 사전 등록 판정이 **해악**이다(D4: 층 B e2e 5/9 → 0/9, Δ −5건). 그래서 Researcher `tech_domain` 선택 도구의
   기본값을 **off로 유지**한다(`RESEARCH_TECH_DOMAIN_TOOL` 비움 = off). **`tech_domain` 필터는 사용자가 명시할 때만 건다.**
