@@ -1,6 +1,6 @@
 # ADR-014: IaC 도구는 Terraform으로 고정한다 (CDK 기각)
 
-- **Status:** Proposed
+- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
 - **Date:** 2026-09-16
 - **Decision:** 이 프로젝트의 모든 IaC 작업은 Terraform(HCL)으로 작성한다. AWS CDK는 쓰지 않는다. 판단 기준은 **이직 시장에서의 스킬 수요 폭**이다.
 - **Scope:** multiagent-research-lab (IaC 도구 선택)

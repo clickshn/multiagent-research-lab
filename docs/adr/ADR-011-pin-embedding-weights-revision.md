@@ -1,6 +1,6 @@
 # ADR-011: 임베딩 가중치를 리비전 해시로 고정하고 sha256으로 검증한다
 
-- **Status:** Proposed
+- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
 - **Date:** 2026-09-16
 - **Decision:** `intfloat/multilingual-e5-small`을 커밋 해시 `614241f622f53c4eeff9890bdc4f31cfecc418b3`에 고정하고, LFS 파일은 sha256까지 대조한다. 매니페스트는 `infra/model-pin.json` 한 곳에 둔다.
 - **Scope:** multiagent-research-lab (임베딩 공급망 / 재현성)

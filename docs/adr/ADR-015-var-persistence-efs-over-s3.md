@@ -1,6 +1,6 @@
 # ADR-015: 클라우드에서 `var/`(traces·llm_cache·chroma)는 EFS에 둔다
 
-- **Status:** Proposed
+- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
 - **Date:** 2026-09-16
 - **Decision:** ECS Fargate 태스크에 **Amazon EFS**를 마운트해 `var/traces`·`var/llm_cache`·`var/chroma`를 영속화한다. S3는 기각한다. 판단 기준은 **기존 코드를 고치지 않고 올릴 수 있는가**다.
 - **Scope:** multiagent-research-lab (배포 / 영속 저장소 / 세션 7)

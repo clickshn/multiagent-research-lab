@@ -1,7 +1,8 @@
 # ADR-023: 온톨로지 필터는 프로브 후처리 arm으로 배선하고, 필터 값은 골든셋 선언에서만 끌어온다
 
-- **Status:** Proposed
+- **Status:** Superseded by ADR-027 (2026-10-02, session-25 — v1.2 마감 시 소급 정리. 필터 배선 위치는 ADR-027, 값 선택은 ADR-028·029·030으로 대체. v1.1 프로브 결과는 기준값으로 유효)
 - **Date:** 2026-09-21
+- **Amended:** 2026-10-02 (session-25) — 전제가 ADR-027·028·029로 대체됐다. Status를 Superseded로 정리했다. 아래 Amendment 참조.
 - **Decision:** `release_type` / `tech_domain` 필터를 `scripts/probe_retrieval.py`의
   **후처리 arm**으로 배선한다(`--arm` × `--null-policy` 2×2). 각 케이스에 걸 **필터 값은
   골든셋 `targets_ontology`의 사전 선언에서 기계적으로 유도**하고 측정 시점에 고르지 않는다.
@@ -9,6 +10,17 @@
   (hardest / mean / n / golden_set_version)로 스크립트가 직접 낸다.
 - **Scope:** multiagent-research-lab (`scripts/probe_retrieval.py` / Session 3 필터 판정 설계)
 - **Decision Source:** Human
+
+---
+
+## Amendment — 2026-10-02 (session-25, v1.2 마감): 전제가 ADR-027·028·029로 대체됐다 — Superseded
+
+- **배선 위치:** 필터는 프로브 후처리가 아니라 검색 계층(`ChromaRetriever.search`)에 있다(ADR-027).
+- **값 선택:** 위 session-21 Amendment의 "플래너는 아직 없다"는 더 이상 맞지 않는다.
+  - 에이전트가 json_schema로 값을 고른다(ADR-028).
+  - 골든셋 전량 평가 판정은 해악이다. strict는 D4(ADR-029), null-통과는 D5(ADR-030)다. 그래서 도구는 기본 off다.
+  - 이 ADR의 오라클 값은 "상한"이었고, 에이전트 선택의 실제 결과는 ADR-029·030에 있다(층 A 호환 45/45).
+- **유효한 것:** v1.1 프로브 결과(층 A ko 14/14, 간격 0.0286/0.0502, 층 B strict 0/9)는 기준값으로 그대로 유효하다. T1에서 바이트 동일로 재현됐다.
 
 ---
 

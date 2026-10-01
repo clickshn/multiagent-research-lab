@@ -1,6 +1,6 @@
 # ADR-003: 모델 선택 및 서빙 구성 — 기존 KT Cloud AI Nexus vLLM 엔드포인트 재사용
 
-- **Status:** Proposed
+- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
 - **Date:** 2026-09-15
 - **Decision:** 로컬에서 vLLM을 새로 구축하지 않고, 이미 KT Cloud AI Nexus에 배포·운영 중인 vLLM 엔드포인트(`gemma-4-31B-it`)를 OpenAI 호환 API로 재사용한다.
 - **Scope:** multiagent-research-lab (모델 서빙 계층 + 프로바이더 추상화)

@@ -1,6 +1,6 @@
 # ADR-024: 인용의 온톨로지 메타데이터는 코드가 렌더링한다 — LLM 입력에 넣지 않는다
 
-- **Status:** Proposed
+- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
 - **Date:** 2026-09-21
 - **Decision:** 검색 결과의 온톨로지 메타(`release_type` / `tech_domains` / 발행일)를
   `RetrievedChunk` → `Citation`으로 실어 Writer 단계까지 보내되, **Writer의 LLM 입력

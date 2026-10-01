@@ -1,6 +1,6 @@
 # ADR-004: 샘플 코퍼스는 공개 자료로만 구성한다
 
-- **Status:** Proposed
+- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
 - **Date:** 2026-09-15
 - **Decision:** 이 프로젝트의 VectorDB에는 공개 자료(arXiv 논문 초록, 공개 AI/기술 뉴스)만 넣고, 실제 사내 기밀 문서는 넣지 않는다.
 - **Scope:** multiagent-research-lab (데이터 반입 범위 / 코퍼스)

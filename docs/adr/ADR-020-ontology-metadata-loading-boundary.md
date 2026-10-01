@@ -2,9 +2,19 @@
 
 - **Status:** Accepted
 - **Date:** 2026-09-17
+- **Amended:** 2026-10-02 (session-25) — "검색 경로는 Session 3까지 건드리지 않는다"는 경계가 ADR-027·028·029로 대체됐다. 아래 Amendment 참조.
 - **Decision:** 계약 v1의 온톨로지·provenance 필드를 `CorpusDoc.extra` → Chroma 메타데이터로 평탄화해 싣는다. 파생 텍스트는 `derived_` 접두어를 붙인다. **`src/tools/retrieval.py`는 이번 세션에서 한 줄도 바꾸지 않는다** — `release_type` 필터 배선은 Session 3의 단독 변경이다.
 - **Scope:** multiagent-research-lab (코퍼스 로더 / 인덱싱 메타데이터 / 세션 경계)
 - **Decision Source:** Human
+
+---
+
+## Amendment — 2026-10-02 (session-25, v1.2 마감): 검색 경로 경계가 ADR-027·028·029로 대체됐다
+
+- **"`src/tools/retrieval.py`는 Session 3까지 건드리지 않는다"는 경계는 끝났다.**
+  - 필터는 검색 계층에 배선됐다(ADR-027, session-21). 대상은 `release_type`이 아니라 `tech_domain`이다.
+  - 필터 값은 에이전트가 고를 수 있다(ADR-028, session-22). 판정은 해악이라 기본 off다(ADR-029, ADR-030).
+- **싣는 쪽의 결정(`as_metadata()` 평탄화, 인용 6키 보호, `derived_` 접두어)은 그대로 유효하다.** 검색 계층은 이 메타데이터를 읽기만 한다.
 
 ---
 
