@@ -12,6 +12,20 @@
 
 ---
 
+## Amendment — 2026-10-01 (session-21, v1.2-T1): 필터가 검색 계층으로 옮겨졌다 (ADR-027)
+
+- Constraints의 **"`src/tools/retrieval.py` 변경 0줄"은 더 이상 성립하지 않는다.** `tech_domain` 필터는
+  `ChromaRetriever.search(tech_domain=...)`로 배선됐다(ADR-027). 방식은 이 ADR과 **같은 후처리**다 —
+  전수를 받아 strict로 거른다. 재인덱싱·저장 형태 변경은 없다.
+- 이 ADR의 프로브 결과는 **기준값으로 그대로 유효하다.** `--filter-impl retrieval`로 다시 잰 결과가
+  `probe-retrieval-session-14-tech-domain-strict.json`과 바이트 단위로 같다(층 A ko 14/14 · 간격
+  0.0286/0.0502 · 층 B strict 0/9).
+- Alternatives "Chroma `where` 절" 의 Recheck if(220건 반입)는 ADR-027의 Review Trigger(문서 수
+  수천 단위 · A3 유실 해결)로 넘긴다.
+- 오라클 한계(Negative)는 그대로다 — 플래너는 아직 없다.
+
+---
+
 ## Context
 
 ### Problem

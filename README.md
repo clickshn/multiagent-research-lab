@@ -24,6 +24,8 @@
 > v1.0 수치는 [§4.6](#46-이력--v10-조건-코퍼스-16--골든셋-9-session-08)에 이력으로 남겼다.
 > **알려진 한계는 [§5](#5-알려진-한계)에 정직하게 적어 두었다** — 특히 재검색 루프는 현재 형태로
 > 실효성이 없다(v1.2 기준선에서도 새 근거 0건).
+>
+> **상태 (session-21 — v1.2-T1):** `tech_domains` **필터 배선 완료(오라클 검증)** — `ChromaRetriever.search(tech_domain=...)`, 전수 조회 + strict 후처리, 재인덱싱 없음(ADR-027). v1.1 프로브와 바이트 단위 동일(층 A ko 14/14 · 간격 0.0286/0.0502 · 층 B strict 0/9), p1 트레이스 검색어 340/340 재생 일치. **노드는 아직 필터를 넘기지 않는다**(플래너 없음 = 값은 오라클).
 
 > **데이터 범위 주의.** "사내 리서치 업무"를 가정하지만 실제로 투입하는 데이터는
 > **공개 자료로 한정한다** — **arXiv 논문 초록 24건**(`locator=abstract`)과
@@ -51,7 +53,7 @@
 | **보안** | 인젝션 10건 방어 전/후 실측 — 구조적 성립 **4 → 0**, 모델 의존 **1 → 0** | [§7](#7-보안--운영) |
 | **테스트** | **224건** (보안·게이트 63건 포함) — 호스트에서 통과 (컨테이너 재실행은 201건 시점) | `python -m pytest tests/ -q` |
 | **배포** | ECS Fargate 온디맨드, **27/27**, drift 0, 유휴 **~$0.14/월**, EFS 영속화·배포자 최소 권한 실측 확인 | [§6.2](#62-배포-아키텍처) |
-| **결정 기록** | **ADR 25건** (+ Amendment 14건) — [adr-skill](https://github.com/clickshn/adr-skill)로 작성 | [§8.1](#81-adr-목록) |
+| **결정 기록** | **ADR 27건** (+ Amendment 16건) — [adr-skill](https://github.com/clickshn/adr-skill)로 작성 | [§8.1](#81-adr-목록) |
 | **하네스** | `CLAUDE.md` / `docs/governance.md` / `.claude/rules/` / SessionStart 훅 | [§9](#9-하네스--컨텍스트-엔지니어링) |
 
 **측정값은 전부 실측이고 표본 수를 함께 적는다. 안 해본 것은 안 했다고 적는다** —
@@ -1202,7 +1204,7 @@ JSON으로** 쌓인다 (ADR-008). `var/`는 `.gitignore` 대상이라 커밋되�
 | `docs/problem-statement.md` | 문제·제약·목표·성공 기준 |
 | `docs/architecture.md` | 개념도, 구성 요소, 그래프 배선 |
 | `docs/governance.md` | 승인 게이트·ADR·시크릿 취급·측정 방법론 규칙 (에이전트 세션에 자동 로드) |
-| `docs/adr/` | 아키텍처 결정 기록 **ADR-001 ~ ADR-026** (아래 §8.1) |
+| `docs/adr/` | 아키텍처 결정 기록 **ADR-001 ~ ADR-027** (아래 §8.1) |
 | `docs/contracts/ai-news-ontology-export-v1.md` | **온톨로지 코퍼스 출력 계약 v1** — 생산자 레포와의 인터페이스 (ADR-018) |
 | `docs/security/owasp-notes.md` | **OWASP LLM Top 10 정리 + 인프라 수준 리스크** |
 | `docs/security/injection-results-session-05.md` | **인젝션 10건 방어 전/후 실측 원자료** |
@@ -1251,6 +1253,7 @@ JSON으로** 쌓인다 (ADR-008). `var/`는 `.gitignore` 대상이라 커밋되�
 | [024](docs/adr/ADR-024-citation-ontology-metadata-rendered-by-code.md) | **인용의 온톨로지 메타는 코드가 렌더링한다** — LLM 입력에 넣지 않는다 | 16 |
 | [025](docs/adr/ADR-025-researcher-candidate-score-exposure.md) | **Researcher 후보에서 유사도 점수를 뺀다** — 순위만 남긴다. S0c 판정 무해 확인 | 17–19 |
 | [026](docs/adr/ADR-026-node-internal-concurrent-calls.md) | **Researcher·Verifier 노드 안 LLM 호출 동시 실행** (그래프 불변, 검색 직렬, 상한 4, **기본 켜짐** — `--parallel off`로 끔) — 동시간 대조 wall p95 20.83 → 14.40s, 로직 동일(입력 해시 99/99), 인용·pass/fail 차이 0 | 20 |
+| [027](docs/adr/ADR-027-tech-domain-filter-retrieval-postprocess.md) | **`tech_domains` 필터를 검색 계층에 배선** — 전수 조회 + strict 후처리, 재인덱싱 없음(불리언 키 + `where` 기각). v1.1 오라클 프로브와 바이트 동일, p1 검색어 340/340 재생 일치 | 21 |
 
 ADR 작성은 별도 스킬로 분리해 두었다 — **[clickshn/adr-skill](https://github.com/clickshn/adr-skill)**.
 결정 발화(`"~쓰기로 했다"`)나 의존성 파일 변경에 반응해 템플릿을 채우고, **대화에 없는
