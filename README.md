@@ -18,18 +18,19 @@
 > 조용히 문서를 잃고 있었다는 사실, 승인 게이트를 통과한 규칙 위반 — 새로 확인된 것은
 > [§0.1](#01-v11에서-새로-확인된-것-발견-순)에 **발견 순으로** 적었다.
 >
-> **상태 (session-19 — v1.2 기준선 완료):** §4의 비용·지연·채점 수치를 **v1.1 조건(코퍼스 37건 ·
-> 골든셋 v2.0 30건)** 으로 다시 쟀다 — 점수 노출 상태 / 제거 후 / 자연 변동(연속·시간 간).
-> Researcher 후보의 유사도 점수를 뺐고(ADR-025, `PROMPT_VERSION 2026-09-30.1`) 판정은 **무해 확인**이다.
-> v1.0 수치는 [§4.6](#46-이력--v10-조건-코퍼스-16--골든셋-9-session-08)에 이력으로 남겼다.
-> **알려진 한계는 [§5](#5-알려진-한계)에 정직하게 적어 두었다** — 특히 재검색 루프는 현재 형태로
-> 실효성이 없다(v1.2 기준선에서도 새 근거 0건).
+> **상태 (session-25 — v1.2 마감):** v1.2는 **하네스 변수 하나씩**을 골든셋 v2.0 30건(층 A 14 · B 9 · C 7)
+> 위에서 사전 등록 판정으로 바꿔 본 세션들이다. 요약은 [§0.2](#02-v12에서-한-것과-판정), 수치는
+> [§4](#4-비용--지연-실측), 남긴 것은 [§5.11](#511-v12-마감--남긴-것과-다음-버전-후보)에 있다.
 >
-> **상태 (session-22 — v1.2-T2):** Researcher **`tech_domain` 선택 도구 배선 완료(기본 off)** — 1회차 항목마다 json_schema 강제 선택 호출(enum = 통제어휘 + "없음", ADR-028) → strict 필터 검색(ADR-027) → 기존 Researcher. 재시도는 1회차 값 재사용. off 경로는 p1-on과 입력 해시 297/297 동일(재생 대조). 판정 기준은 사전 등록(`docs/plans/v1.2-preregistration.md`, `ce86b04`). **골든셋 전량 평가(T3)는 아직이다.**
+> - **기준선(S0b·S0c):** v1.1 조건으로 파이프라인을 다시 쟀다(n=30). 자연 변동은 사실상 0이다(30건 × 3회 중 흔들린 것은 completion 2토큰 1건).
+>   Researcher 후보의 유사도 점수를 뺀 변경은 **무해 확인**이다(ADR-025).
+> - **동시 실행(P1):** 노드 안 LLM 호출을 동시에 보낸다. 같은 세션 off → on 대조에서 wall p95가 20.83s → **14.40s**로 줄었다(n=30). 인용·pass/fail 차이는 0이다. **기본 켜짐**(ADR-026).
+> - **필터 배선(T1):** `tech_domain` strict 필터를 검색 계층에 넣었다. v1.1 오라클 프로브를 바이트 동일로 재현했다(골든 30 × ko·en). 실제 검색어 340건 재생도 340/340 일치했다(ADR-027).
+> - **에이전트 선택(T3a)과 null-통과(N1):** 판정은 **둘 다 해악**이다. 층 B는 strict에서 5/9 → 0/9(D4, n=9)였다.
+>   층 C는 null-통과에서 7/7 → 6/7(D5, n=7)이었다. 선택기 자체는 정확했다(층 A 호환 45/45).
+>   **근본 원인은 온톨로지 메타가 없는 문서 14건(코퍼스 37건 중)이다.** 그래서 도구는 기본 off, 필터 기본 정책은 strict다(ADR-029·030).
 >
-> **v1.2-T3 (session-23, ADR-029):** 도구 on 30건 — **판정 해악(D4)**: 층 B e2e 5/9 → **0/9**(Δ −5건, 해악 항목 12/12) · 층 A 해악 0/33, e2e 12/14 → 14/14 · 층 C 7/7 유지 · 호출 297 → 388. **기본 off 유지 — 필터는 사용자가 명시할 때만 건다.**
->
-> **v1.2-N1 (session-24, ADR-030):** 도구 on + **null-통과** 필터 30건 — **판정 해악(D5)**: 층 C 근거 없음 유지 7/7 → **6/7**(GS-027, 메타 없는 문서 인용) · 층 B e2e 5/9 → 7/9(해악 항목 0/12) · 층 A 해악 0/33, e2e 12/14 → 13/14 · 호출 297 → 401. **기본 off · 필터 기본 strict 유지.**
+> **알려진 한계는 [§5](#5-알려진-한계)에 정직하게 적어 두었다.** 특히 재검색 루프는 v1.2 전 조건에서 새 근거가 0건이다.
 
 > **데이터 범위 주의.** "사내 리서치 업무"를 가정하지만 실제로 투입하는 데이터는
 > **공개 자료로 한정한다** — **arXiv 논문 초록 24건**(`locator=abstract`)과
@@ -45,19 +46,20 @@
 
 | | 결과 | 상세 |
 | --- | --- | --- |
-| **파이프라인** | Outliner → Researcher → Verifier ⇄ Researcher → Writer, LangGraph | [§2](#2-아키텍처) |
+| **파이프라인** | Outliner → Researcher → Verifier ⇄ Researcher → Writer, LangGraph **고정 그래프** — 노드 안 LLM 호출은 동시 실행(상한 4, 기본 켜짐) | [§2](#2-아키텍처) |
 | **모델** | `gemma-4-31B-it` (자체 호스팅 vLLM, 외부 벤더 비의존) — **고정** | ADR-002 / ADR-003 |
 | **코퍼스** | **37건** (arXiv 24 · news 13, 전부 공개 자료) — 그중 **온톨로지 메타 보유 23 / 결측 14** | ADR-004 / ADR-019 |
 | **골든셋** | **v2.0 30건** — positive 23(층 A 14 · 층 B 9) · negative 7, **ko/en 양방향** | ADR-022 |
-| **지연** | 파이프라인 p50 **11.95s** / p95 21.08s (n=30, 캐시 OFF, 코퍼스 37, nearest-rank) — v1.2 기준선, 점수 제거 후 | [§4](#4-비용--지연-실측) |
-| **비용** | **10,435 토큰/요청** 평균 · 항목당 호출 2.99 (금전 비용은 무료 할당 자원이라 $0) — 위와 같은 조건 | [§4.3](#43-호출-수--비용) |
-| **품질 (파이프라인)** | 골든셋 v2.0 30건 — **층 A 12/14 · 층 B 5/9 · 층 C(음성) 7/7** pass, **합산하지 않는다** | [§4.4](#44-골든셋-채점--층별-n-병기-합산하지-않는다-adr-022) |
+| **지연** | 파이프라인 p50 **9.56s** / p95 **14.40s** (n=30, 캐시 OFF, 코퍼스 37, 동시 실행 상한 4, nearest-rank) — 현재 기본 경로(`p1-on`). 순차는 같은 세션에서 p50 11.89s / p95 20.83s(n=30) | [§4.7](#47-노드-안-동시-실행-p1-adr-026) |
+| **비용** | **10,435 토큰/요청** 평균 · 항목당 호출 2.99 (n=30, 금전 비용은 무료 할당 자원이라 $0) — 위와 같은 조건 | [§4.3](#43-호출-수--비용) |
+| **품질 (파이프라인)** | 골든셋 v2.0 30건 — **층 A 12/14 · 층 B 5/9 · 층 C(음성) 7/7** pass, **합산하지 않는다** (기본 경로 = 필터 없음) | [§4.4](#44-골든셋-채점--층별-n-병기-합산하지-않는다-adr-022) |
 | **검색 재현율 (top-4, 무필터)** | **층 A ko 12/14 · 층 B ko 3/9** — **합산하지 않는다** (ADR-022). en은 층 A 12/14 · 층 B 7/9 | [§0.1](#01-v11에서-새로-확인된-것-발견-순) |
 | **점수 간격** | **0.0098(최난도) / 0.0268(평균)**, negative n=7 — **층 A 앵커로 재면 최난도가 −0.0052로 음수다** | ADR-005 Am.2 |
+| **필터 정책** | 에이전트가 고른 `tech_domain` 필터 — strict는 층 B 5/9 → **0/9**(n=9), null-통과는 층 C 7/7 → **6/7**(n=7). **둘 다 해악, 기본 off** | [§4.9](#49-에이전트-tech_domain-선택과-필터-정책--세-조건-t3a--n1-adr-029030) |
 | **보안** | 인젝션 10건 방어 전/후 실측 — 구조적 성립 **4 → 0**, 모델 의존 **1 → 0** | [§7](#7-보안--운영) |
-| **테스트** | **224건** (보안·게이트 63건 포함) — 호스트에서 통과 (컨테이너 재실행은 201건 시점) | `python -m pytest tests/ -q` |
+| **테스트** | **340건** — 호스트에서 통과 (컨테이너 재실행은 201건 시점) | `python -m pytest tests/ -q -rf` |
 | **배포** | ECS Fargate 온디맨드, **27/27**, drift 0, 유휴 **~$0.14/월**, EFS 영속화·배포자 최소 권한 실측 확인 | [§6.2](#62-배포-아키텍처) |
-| **결정 기록** | **ADR 28건** (+ Amendment 16건) — [adr-skill](https://github.com/clickshn/adr-skill)로 작성 | [§8.1](#81-adr-목록) |
+| **결정 기록** | **ADR 30건** (+ Amendment 20건) — [adr-skill](https://github.com/clickshn/adr-skill)로 작성 | [§8.1](#81-adr-목록) |
 | **하네스** | `CLAUDE.md` / `docs/governance.md` / `.claude/rules/` / SessionStart 훅 | [§9](#9-하네스--컨텍스트-엔지니어링) |
 
 **측정값은 전부 실측이고 표본 수를 함께 적는다. 안 해본 것은 안 했다고 적는다** —
@@ -165,6 +167,26 @@ session-16에서 **방아쇠가 만들어지는 곳**(검색이 아니라 빌드
 > **이 항목을 README에 남기는 이유:** 게이트가 있었는데 통과했다는 사실이
 > "게이트를 만들었다"보다 더 중요한 정보다.
 
+### 0.2 v1.2에서 한 것과 판정
+
+**v1.2의 규칙은 둘이다. 바뀐 변수는 한 번에 하나다(ADR-002). 판정 기준은 데이터를 보기 전에 커밋한다**
+(`docs/plans/v1.2-preregistration.md` `ce86b04`, `v1.2-n1-preregistration.md` `5122e97`).
+모든 측정의 공통 조건은 다음과 같다. 골든셋 v2.0 30건(층 A 14 · B 9 · C 7, 전부 한국어 질의), 코퍼스 37건, `gemma-4-31B-it`,
+temperature 0, 캐시 끔, `--require-trace`. 회차는 조건마다 1회다(S0b만 2회).
+
+| 단계 | 바뀐 변수 | 결과 (조건 n 병기) | 판정 · 결정 | ADR |
+|---|---|---|---|---|
+| **S0b** 기준선 | — (v1.1 하네스 그대로, 점수 노출) | 층 A 12/14 · B 5/9 · C 7/7. 연속 2회의 pass/fail 뒤집힘 0(n=30) | 비교 기준 | — |
+| **S0c** 점수 제거 | Researcher 후보의 유사도 점수 문자열 | 위험군 1회차 짝 15쌍 순감소 0. 1회차 `supporting` 99/99 동일. 뒤집힘 0(n=30). 토큰 −2.0% | **무해 확인** — 제거 유지 | 025 |
+| **P1** 동시 실행 | 노드 안 LLM 호출 동시 실행(상한 4) | wall p95 20.83 → **14.40s**, p50 11.89 → 9.56s(같은 세션 off → on, n=30). 입력 해시 297/297 동일. 인용·pass/fail 차이 0 | **기본 켬** | 026 |
+| **T1** 필터 배선 | 검색 계층 `tech_domain` 인자(strict, 전수 조회 후처리) | v1.1 오라클 프로브 **바이트 동일**(골든 30 × ko·en). 층 A ko 14/14(n=14) · 층 B 0/9(n=9). 실제 검색어 재생 340/340 | 배선 유지, LLM 0건 | 027 |
+| **T2** 선택 도구 | Researcher가 1회차 항목마다 값을 고름(json_schema enum) | 강제 판별 3/3(n=3). off 경로 = p1-on 입력 해시 297/297. 소표본 3건은 경로 확인만 | 도구 배선, 기본 off | 028 |
+| **T3a** 에이전트 선택 + strict | 도구 on | 층 B e2e **5/9 → 0/9**(n=9, 해악 항목 12/12). 층 A 12/14 → 14/14(n=14). 층 C 7/7(n=7) | **해악(D4)** — 기본 off, 필터는 사용자가 명시할 때만 | 029 |
+| **N1** 에이전트 선택 + null-통과 | 필터 정책 strict → null-통과 | 층 C 근거 없음 유지 **7/7 → 6/7**(n=7, GS-027). 층 B 5/9 → 7/9(n=9). 층 A 12/14 → 13/14(n=14) | **해악(D5)** — 기본 off · strict 유지 | 030 |
+
+비교 기준은 단계마다 다르다. S0c는 S0b와 동시간 대조 run3을, P1은 같은 세션 off를, T3a·N1은 `p1-on`을 기준으로 삼았다.
+세 조건 표와 원인은 [§4.9](#49-에이전트-tech_domain-선택과-필터-정책--세-조건-t3a--n1-adr-029030)에 있다.
+
 ---
 
 ## 1. 이 프로젝트가 검증하려는 것
@@ -216,6 +238,14 @@ session-16에서 **방아쇠가 만들어지는 곳**(검색이 아니라 빌드
                       초안 + 출처(doc_id + locator)
 ```
 
+v1.2에서 그래프 모양은 바뀌지 않았다. 바뀐 것은 노드 안쪽 두 가지다.
+
+- **Researcher·Verifier 노드 안 항목별 LLM 호출은 동시에 나간다**(상한 4, 기본 켜짐, `RESEARCH_PARALLEL=off`로 끔 — ADR-026).
+  검색은 락으로 직렬이다.
+- **선택 도구(기본 off, `RESEARCH_TECH_DOMAIN_TOOL=on`)를 켜면** Researcher 1회차 항목마다 `researcher_select` 호출이
+  하나 붙는다. 이 호출이 `tech_domain` 값을 고르고, 그 값으로 필터 검색을 한 뒤 기존 Researcher 호출로 간다.
+  재시도는 1회차 값을 재사용한다(ADR-028·029).
+
 모든 모델 호출과 검색 호출은 계층을 통과하면서 계측된다:
 
 ```
@@ -248,6 +278,21 @@ data/corpus/        공개 코퍼스 스냅샷 (커밋 대상 — 재현의 기�
 var/                인덱스 · 계측 로그 · LLM 캐시 (커밋 안 함, 재생성 가능)
 docs/               문제 정의 · 아키텍처 · 거버넌스 · ADR · 평가 · 세션 핸드오프
 ```
+
+### 2.3 설계 선택 — 동적 Orchestrator 대신 고정 그래프
+
+흔히 가르치는 멀티에이전트 구조는 **동적 Orchestrator**다. 상위 LLM이 실행 중에 어떤 하위 에이전트를 몇 번,
+어떤 순서로 부를지 정한다. 이 프로젝트는 그 대신 **노드와 간선이 코드로 고정된 LangGraph 그래프**를 택했다.
+Outliner → Researcher → Verifier ⇄ Researcher → Writer이고, 되돌림 조건도 코드가 정한다. 이유는 둘이다.
+첫째는 **재현성**이다. 같은 질의가 같은 경로를 타야 실행 간 차이를 모델 변동과 하네스 변경 중 하나로 돌릴 수 있다.
+v1.2는 그 덕에 자연 변동을 "30건 × 3회 중 2토큰 1건"으로 고정했고, 하네스를 바꾼 회차와 입력 해시를 호출 단위로
+맞대 볼 수 있었다(P1 297/297, T2 off 297/297). 둘째는 **대조 가능성**이다. 동적 오케스트레이터는 경로 선택 자체가
+모델 출력이라, 하네스를 하나 바꿔도 경로 분포가 함께 움직여 "무엇 때문에 달라졌는지"를 가를 수 없다(ADR-002 모델 고정
+원칙과 같은 이유). 대신 **고정된 그래프 위에서 에이전트 기능을 한 칸씩 늘렸다.** 하나는 **노드 안 동시 호출**이다
+(ADR-026). 그래프는 그대로 두고 Researcher·Verifier가 항목별 호출을 동시에 보낸다. 다른 하나는 **검색 인자 선택**이다
+(ADR-028). Researcher가 1회차 항목마다 `tech_domain` 필터 값을 json_schema enum 안에서 고른다. 둘 다 끄면 이전
+경로와 입력이 바이트 단위로 같도록 만들었다. 그래서 켰을 때의 차이가 그 기능 하나의 효과다.
+포기한 것은 **유연성**이다. 질의마다 다른 조사 전략, 다단계 도구 루프, 웹 검색 같은 동적 경로는 없다([§5.11](#511-v12-마감--남긴-것과-다음-버전-후보)).
 
 ---
 
@@ -317,23 +362,24 @@ docs/               문제 정의 · 아키텍처 · 거버넌스 · ADR · 평�
 
 ## 4. 비용 · 지연 실측
 
-> **v1.2 기준선 (session-18·19).** 이 절의 수치는 **v1.1 조건**에서 파이프라인 전체를 다시 잰
-> 값이다. v1.0 수치(코퍼스 16 · 골든셋 9, session-08)는 [§4.6](#46-이력--v10-조건-코퍼스-16--골든셋-9-session-08)에
+> **v1.2 (session-18~24).** §4.1~4.5는 **v1.1 조건**에서 파이프라인 전체를 다시 잰 기준선(S0b·S0c)이다.
+> **순차 실행**이다(동시 실행이 생기기 전). §4.7~4.9는 그 위에서 바꾼 하네스 변수(동시 실행 · 필터 배선 ·
+> 에이전트 필터 선택)의 측정이다. **현재 기본 경로는 §4.7의 `p1-on`(동시 실행 켬, 필터 없음)이다.** v1.0 수치(코퍼스 16 · 골든셋 9, session-08)는 [§4.6](#46-이력--v10-조건-코퍼스-16--골든셋-9-session-08)에
 > **이력으로만** 남긴다 — 조건이 달라 아래 값과 직접 비교할 수 없다.
 
 **측정 조건 (아래 모든 표 공통):** 모델 `gemma-4-31B-it` (`endpoint_fp=1897f0ecc081`) / 임베딩
 `multilingual-e5-small` / 코퍼스 **37건** (`index_check` queue 37 == 문서 37) / 골든셋 **v2.0 n=30**
 (층 A 14 · B 9 · C 7, 전부 한국어 질의) / `top_k=4`, `min_citations=1`, `max_revisions=2`,
 temperature 0 / **캐시 OFF** / 단일 상주 프로세스 · 호스트 / `--require-trace` (트레이스 없는 행 0) /
-2026-09-30 측정.
+2026-09-30 ~ 10-01 측정. §4.1~4.5는 순차, §4.7~4.9는 동시 실행 상한 4다.
 
-조건은 세 가지이고, **바뀐 변수는 Researcher 후보의 유사도 점수 노출 하나다** (ADR-025).
+§4.1~4.5의 조건은 세 가지이고, **바뀐 변수는 Researcher 후보의 유사도 점수 노출 하나다** (ADR-025).
 
 | 조건 | 라벨 | `PROMPT_VERSION` | 후보 점수 | 측정 시각 (KST) |
 | --- | --- | --- | --- | --- |
 | **점수 노출** (기준선) | `v1.2-s0b-run1` · `-run2` | `2026-09-16.1` | 노출 | 13:47 · 13:53 (같은 프로세스) |
 | **점수 노출** (동시간 대조) | `v1.2-s0c-run3-old` | `2026-09-16.1` | 노출 | 14:14 (별도 프로세스) |
-| **제거 후** (현재 코드) | `v1.2-s0c` | **`2026-09-30.1`** | **제거** | 14:35 |
+| **제거 후** (현재 프롬프트, 순차) | `v1.2-s0c` | **`2026-09-30.1`** | **제거** | 14:35 |
 
 재현: `python scripts/bench_golden.py --label <라벨> --require-trace` (`--cache` 미지정)
 원자료: `docs/eval/bench-v1.2-s0b-run{1,2}.json` · `bench-v1.2-s0c-run3-old.json` · `bench-v1.2-s0c.json`
@@ -352,7 +398,9 @@ temperature 0 / **캐시 OFF** / 단일 상주 프로세스 · 호스트 / `--re
 워밍업 분리 덕에 첫 케이스 wall에 콜드 로딩이 섞이지 않는다 — 그래프·파싱 오버헤드(`other`)가
 p50 **0.03~0.05s**다.
 
-### 4.2 지연 — 현재 코드(제거 후) 기준, n=30
+### 4.2 지연 — 순차 실행 · 점수 제거 후(S0c) 기준, n=30
+
+> 현재 기본 경로(동시 실행 켬)의 지연은 [§4.7](#47-노드-안-동시-실행-p1-adr-026)이다. 호출 수(297)와 층별 채점은 순차와 같다. 토큰은 313,047 → 313,041로 6 차이다(자유 문장 필드의 배칭 비결정성).
 
 | 지표 | 평균 | p50 | **p95** | 최대 |
 | --- | ---: | ---: | ---: | ---: |
@@ -487,6 +535,72 @@ v1.0과 같은 구조다 — **토큰은 Researcher가, 지연은 Writer·Verifi
   그대로 금액이 된다 — **비용 최적화를 할 때 첫 번째로 볼 곳이 여기다.**
 - ⚠️ n=9 / 조건당 1회다. v1.1 조건에서 방어 전/후를 재측정하지 않았다.
 
+### 4.7 노드 안 동시 실행 (P1, ADR-026)
+
+**바뀐 변수는 Researcher·Verifier 노드 안 항목별 LLM 호출의 동시 실행 하나다.** 상한은 4다.
+그래프·프롬프트·판정 로직은 그대로이고 검색은 락으로 직렬이다. 같은 세션에서 off(16:03) → on(16:09)으로 연달아 쟀다(n=30, 2026-09-30).
+
+| 지표 (n=30, nearest-rank) | **off** (순차) | **on** (상한 4) |
+| --- | ---: | ---: |
+| wall p50 | 11.89s | **9.56s** (−20%) |
+| wall p95 | 20.83s | **14.40s** (−31%) |
+| 평균 · 최대 | 11.50 · 28.09s | 8.45 · 18.52s |
+| 케이스별 on/off 비 중앙값 (범위) | — | 0.731 (0.617 – 0.932) |
+| Researcher · Verifier 호출당 지연 | 0.60 · 1.15s | 0.76 · 1.22s |
+| 논리 호출 · 청구 토큰 | 297 · 313,047 | 297 · 313,041 |
+| 층별 pass (A n=14 · B n=9 · C n=7) | 12 · 5 · 7 | 12 · 5 · 7 |
+
+- **로직 동일:** 전 호출 입력 해시가 297/297 같다. 인용 집합 차이 0/30, pass/fail 뒤집힘 0, 1회차 `supporting` 차이 0/99다.
+- **남는 직렬 구간:** Outliner·Writer는 항목 루프가 아니라 질의당 1회라 동시 실행이 줄이지 못한다.
+  질의당 약 5.1s다. Researcher 호출당 지연 +26%는 서버 경합으로 본다.
+- **관찰(판정 밖):** 입력이 같은데 자유 문장(`note`·`reason`) 텍스트가 다른 호출이 off ↔ on에서 15/297이다(시간 간 대조 S0c ↔ off는 2/297).
+  구조 필드(`supporting`·`verdict`) 차이는 0이다. 원인(서버 배칭 / prefix 캐시)은 확정하지 않았다.
+- **엔드포인트 오류 0**(429·타임아웃 포함, 상한 4, 한 시점). LiteLLM 내부 재시도로 흡수된 429는 계측되지 않는다.
+- 원자료: `docs/eval/bench-v1.2-p1-{off,on}.json` · 판정 `p1-concurrency-off-vs-on.json`
+
+### 4.8 `tech_domain` 필터 배선 (T1, ADR-027 — LLM 0건)
+
+v1.1에서 프로브 스크립트 안의 후처리였던 필터를 **검색 계층 인자**(`ChromaRetriever.search(tech_domain=…)`)로 옮겼다.
+방식은 전수 조회 + strict 후처리이고 재인덱싱은 없다. 허용오차 0으로 대조했다.
+
+| 대조 | 결과 |
+| --- | --- |
+| 무필터 프로브(골든 30 × ko·en, k=37 전 순위) vs v1.1 | **바이트 동일** |
+| 오라클 strict 프로브 vs v1.1 `session-14-tech-domain-strict` | **바이트 동일** — 층 A ko 14/14(n=14), 간격 0.0286 / 0.0502, 층 B 0/9(n=9) |
+| p1-on·off·pathcheck의 실제 검색어 재생(무필터, k=4) | **340/340** 일치(ID·순위·점수) |
+
+→ 무필터 경로가 바뀌지 않았으므로 **`p1-on`은 T2 이후의 비교 기준으로 유효하다.** 범위는 현재 인덱스·코퍼스 37건·임베딩 핀이다.
+
+### 4.9 에이전트 `tech_domain` 선택과 필터 정책 — 세 조건 (T3a · N1, ADR-029·030)
+
+**질문:** 에이전트(Researcher 선택 호출, ADR-028)가 고른 필터를 켜 두면 결과를 해치는가.
+판정 기준(D3 층 A 해악 케이스 ≥ 2 · D4 층 B e2e −2건 이상 · D5 층 C 근거 없음 유지 1건이라도 하락)은 측정 전에 커밋했다.
+세 조건 모두 30건 × 1회, 동시 실행 상한 4, 캐시 끔, 1회차 Outliner 항목이 30/30 같다.
+
+| 지표 | **p1-on** (필터 없음) | **T3a** (도구 + strict) | **N1** (도구 + null-통과) |
+| --- | ---: | ---: | ---: |
+| 층 A e2e pass (n=14) | 12/14 | **14/14** | 13/14 |
+| 층 B e2e pass (n=9) | 5/9 | **0/9** | 7/9 |
+| 층 C 근거 없음 유지 (n=7) | 7/7 | 7/7 | **6/7** |
+| 검색 해악 항목 — 층 A (적격 33) | — | 0/33 | 0/33 |
+| 검색 해악 항목 — 층 B (적격 12) | — | **12/12** | 0/12 |
+| 뒤집힘 (p1-on 대비) | — | A f→p GS-010·023 / **B p→f GS-002·003·004·005·019** | A f→p GS-023 · B f→p GS-007·025 / **C p→f GS-027** |
+| 논리 호출 · 청구 토큰 | 297 · 313,041 | 388 · 348,270 | 401 · 373,250 |
+| **판정** | 기준 | **해악 (D4)** | **해악 (D5)** |
+
+- **선택기 자체는 정확했다.** 층 A에서 고른 값이 정답 문서의 도메인과 **호환 45/45**(14/14 케이스)이고,
+  정확 일치는 20/45(기록만)다. 선택 오류·스키마 위반·`FilterValueError`는 0건이다. 기권("없음")은 층 A 0/45, 층 B 0/32, 층 C 3/22다.
+- **두 정책의 해악은 층이 다르다.**
+  - strict는 **메타 없는 정답을 지운다**(층 B). 층 B 정답 문서는 전부 메타가 없어서, 어떤 도메인을 골라도 탈락한다. 해악 12항목은 전부 `Agent`를 골랐고 생존 문서는 7건이었다.
+  - null-통과는 **메타 없는 무관 문서를 끌어올린다**(층 C, 층 A GS-010). 필터가 다른 도메인의 메타 있는 문서를 지우면, 그 빈자리로 메타 없는 문서가 올라온다. 예를 들어 negative GS-027 #0 항목은 `Agent`를 골랐다. 그러자 층 B GS-003의 정답 `arXiv:2405.16887v2`가 4위로 올라와 근거로 인용됐다.
+- **결론: 어느 정책도 우세하지 않다.** strict는 층 B를, null-통과는 층 C를 깎는다.
+  **근본 원인은 정책이 아니라 데이터다 — 온톨로지 메타가 없는 문서 14건(코퍼스 37건 중, 전부 스냅샷 arXiv)이다.**
+  층 B 9케이스의 정답이 전부 그 안에 있고, 14건 모두 에이전트·멀티에이전트 계열이라 `Agent` 선택에서 희석이 크다.
+- **결정:** 선택 도구는 **기본 off**(`RESEARCH_TECH_DOMAIN_TOOL`)다. 필터 기본 정책은 **strict**다. null-통과는 실험용(`bench --filter-policy null-pass`)으로만 둔다.
+  "필터는 사용자가 명시할 때만 건다"(ADR-029). 그 경로의 위험은 [§6의 경고](#6-시작하기)에 적었다.
+- **효과는 주장하지 않는다.** n=14/9/7이고 조건당 1회다. 층 C 하락은 1건이다. 결론은 현재 인덱스·코퍼스 구성에 강하게 의존한다(ADR-030 Risks).
+- 원자료: `docs/eval/bench-v1.2-{t3-tool-on,n1-null-pass}.json` · 판정 `t3-analysis-v1.2-t3-tool-on.json` · `n1-analysis-v1.2-n1-null-pass.json` · N1 검색 재생 `n1-replay-null-pass.json`
+
 ---
 
 ## 5. 알려진 한계
@@ -538,9 +652,9 @@ Writer가 받는 입력 토큰도 8,582로 **양쪽이 같다.** 즉 **재검색
   모르는" 상태가 되어 이 프로젝트의 목적과 어긋난다.
 - **임시 완충:** LLM 응답 캐시(ADR-008)가 중복 호출의 청구를 없앤다. 다만 이것은
   **증상 완화지 원인 제거가 아니다** — 루프는 여전히 새 근거를 찾지 못한다.
-- ⚠️ **위 수치는 전부 코퍼스 16건 조건이다.** 코퍼스는 v1.1에서 **37건**이 됐지만
-  **파이프라인을 재측정하지 않았다.** 코퍼스가 커지면 재검색이 새 문서를 물어올 여지가
-  생기므로, 이 진단이 37건에서도 그대로인지는 **확인되지 않았다.**
+- ⚠️ **위 대조(`max_revisions=0`)는 코퍼스 16건 조건이다.** v1.2에서 코퍼스 37건 · 골든셋 30건으로 파이프라인을 다시 쟀다.
+  **재검색이 가져온 새 근거는 전 조건에서 0건이다**(S0b · S0c · P1 · T3a · N1, 각 n=30, 재시도가 돈 실행 23~26건).
+  진단은 37건에서도 그대로다. 37건 조건의 `max_revisions=0` 대조는 하지 않았다.
 
 ### 5.2 검색 재현율 — 코퍼스에 있는 문서를 못 찾는다 (GS-006)
 
@@ -614,8 +728,7 @@ v2.0에서 갖춰졌다(아래 5.3). 교체 자체는 여전히 범위 밖이며
 | 골든셋 | 9건, 전부 ko 질의 | **v2.0 30건, ko/en 양방향** (session-13, ADR-022) |
 | 언어 효과 | 측정 불가(상수) | **측정됨** — [§0.1 ②](#01-v11에서-새로-확인된-것-발견-순) |
 
-⚠️ **남은 것:** 코퍼스가 커졌지만 **§4의 파이프라인 수치는 16건 조건 그대로다.** 재측정하지
-않았고, 그래서 "코퍼스가 커지면 달라지는가"는 여전히 미확인이다.
+**[v1.2 해소]** §4의 파이프라인 수치는 v1.2에서 코퍼스 37건 · 골든셋 v2.0 30건 조건으로 다시 쟀다(session-18·19).
 
 ### 5.4 모델 라우팅 실험은 보류 — 엔드포인트가 하나뿐
 
@@ -678,7 +791,11 @@ session-06에서 `docker compose --profile langfuse`로 self-host 서버를 띄�
 굽거나 **읽기 전용 마운트로 두는 선택지가 성립하지 않을 수 있다** — 질의가 쓰기를 하므로
 읽기 전용에서는 아예 실패할 수도 있다. **미확인.**
 
-### 5.8 🆕 온톨로지 필터가 파이프라인에 배선돼 있지 않다 — 그리고 플래너가 없다
+### 5.8 ~~온톨로지 필터가 파이프라인에 배선돼 있지 않다 — 그리고 플래너가 없다~~ → **배선·선택 완료, 그러나 기본 off (v1.2)**
+
+> **v1.2에서 둘 다 만들었다.** 필터는 검색 계층에 배선됐다(T1, ADR-027). 질의 항목에서 값을 고르는 선택기도 붙었다(T2, ADR-028).
+> 골든셋 전량 평가 판정은 **strict 해악(D4) · null-통과 해악(D5)** 이라 선택 도구는 **기본 off**다([§4.9](#49-에이전트-tech_domain-선택과-필터-정책--세-조건-t3a--n1-adr-029030)).
+> **메타 결측 14/37은 그대로이고, 이것이 남은 한계의 근본 원인이다.** 아래는 제기 당시(v1.1) 기록이다.
 
 [§0.1 ③](#01-v11에서-새로-확인된-것-발견-순)의
 필터 측정은 **`probe_retrieval.py`의 후처리**다 (ADR-023). k=전수를 받아 스크립트 안에서
@@ -738,8 +855,6 @@ session-06에서 `docker compose --profile langfuse`로 self-host 서버를 띄�
 - **v1.1 목표값이 아직 굳지 않았다** — 근거 수치는 유효하지만(session-15에서 세 인덱스
   상태의 60레코드 전건 일치로 확인), 위 2차 방어 항목이 목표값을 바꿀 수 있는지부터
   판단한 뒤 굳힌다.
-- **파이프라인을 v1.1 조건(코퍼스 37 · 골든셋 v2.0 30건)에서 재측정하지 않았다** —
-  §4의 지연·토큰·채점은 전부 v1.0 조건이다.
 - **`min_citations=1` / `max_revisions=2` / `top_k=4`는 여전히 근거 없이 정한 출발점이다.**
   session-08에서 `max_revisions`만 대조 측정했고(§5.1) 나머지 둘은 안 했다.
 - **배포자 권한에 관리형 정책 1개가 남아 있다** (ADR-017) —
@@ -752,6 +867,55 @@ session-06에서 `docker compose --profile langfuse`로 self-host 서버를 띄�
 - **`detach` 순서에 잠재 위험이 남아 있다** — IAM 관련 정책을 중간에 떼면 그 시점 이후의
   분리 권한이 사라진다. 이번엔 IAM 전파 지연 덕에 통과했다 — **설계가 옳아서가 아니다.**
 
+### 5.11 v1.2 마감 — 남긴 것과 다음 버전 후보
+
+**v1.2에서 하지 않은 것과 확인하지 못한 것이다.** 각 항목에 이유를 붙였다. 하네스 변경은 전부 새 변수라,
+하려면 사전 등록이 먼저다(ADR-002).
+
+#### 다음 버전 후보 1순위
+
+| 후보 | 이유 |
+| --- | --- |
+| **층 B 메타 채우기** — 메타 없는 14건에 온톨로지 메타 보강(생산자 레포 스냅샷 export) | **strict / null-통과 딜레마의 근본 해결이다.** strict는 메타 없는 정답을 지우고(층 B 5/9 → 0/9, n=9), null-통과는 메타 없는 무관 문서를 끌어올린다(층 C 7/7 → 6/7, n=7). 정책을 바꿔서는 둘 중 하나를 고를 수밖에 없다. 메타가 채워지면 두 해악의 원인이 함께 사라진다. 보강 후 strict·null-통과를 다시 잰다(ADR-030 Review Trigger) |
+| **Verifier 통과 항목 재판정 제거** | Verifier는 매 회차 outline **전체**를 다시 판정한다. 1회차에 covered였고 근거가 그대로인 항목도 같은 프롬프트로 다시 부른다. 그래서 **불필요한 호출**이 생기고, 텍스트 층 비결정성([§4.7](#47-노드-안-동시-실행-p1-adr-026))과 겹치면 **covered가 uncovered로 뒤집혀** "근거 없음"으로 나갈 수 있다. 관측된 적은 없지만 구조상 가능하다. Verifier 동작 변경이라 ADR-006 사안이다 |
+
+#### 원인을 확인하지 않은 관찰
+
+- **GS-027 (N1) — 근거 없는 질의에서 메타 없는 문서가 인용됐다.** 후보 진입 경로는 트레이스로 봤다. 필터가 무필터 2·3위(메타 있는 무관 문서)를 지웠고, 메타 없는 `arXiv:2405.16887v2`가 4위로 올라왔다.
+  무관 문서가 근거로 채택된 기제는 **추정이고 확인하지 않았다.**
+- **GS-002 (T3a) — 인용(`arXiv:2412.05449v1`)은 있는데 전 항목이 근거 없음이다.** strict 해악의 부수 증상으로 **추정**한다. 확인하지 않았다.
+  null-통과(N1)에서는 재현되지 않았다(pass, 정답 인용).
+
+#### 설계상 미룬 것
+
+| 항목 | 이유 |
+| --- | --- |
+| **항목별 `Send` 분기 + Verifier 항목 단위화** | `revision`·`uncovered`·`outline`이 reducer 없는 덮어쓰기라 병렬 분기가 같은 스텝에 쓰면 `InvalidUpdateError`가 난다. 회차 증가를 합류 노드로 옮겨야 하고(**revision reducer 부재**), Verifier 단위화는 판정 **동작 변경**이다. v1.2는 그래프를 그대로 두고 노드 안 동시 호출로 대신했다(ADR-026) |
+| **네이티브 tool calling** | 프로바이더가 `tools`를 **전달하지 않는다.** 시그니처·payload·`tool_calls` 파싱·캐시 키가 미구현이다. 서버(vLLM)의 auto tool choice 기동 옵션은 우리가 엔드포인트를 소유하지 않아 **지원 여부를 확인하지 못했다.** 검색 인자 선택은 json_schema(`response_format`) 강제 출력으로 대신했다(ADR-028) |
+| **항목 수 T 상한이 프롬프트뿐** | "3~5개"는 Outliner 프롬프트 지시일 뿐 코드가 자르지 않는다. 질의당 호출이 2T+2 ~ 4T+2(도구 on이면 +T)라 **실행마다 총 호출 수가 T에 따라 변동한다.** v1.2 측정에서는 전 조건 T=3 21건 · T=4 9건(n=30)이었지만 보장은 아니다 |
+| **3-arm e2e 보존율 · 되돌림 옵션 · 규칙 기반 대조군 · 다단계 에이전트 루프** | v1.2 범위에서 하지 않았다. 각각 새 변수(또는 새 지표)라 사전 등록과 별도 회차가 필요하다. 다단계 에이전트 루프는 고정 그래프 선택([§2.3](#23-설계-선택--동적-orchestrator-대신-고정-그래프))과 정면으로 맞물린다 |
+| **웹 검색 도구** | 골든셋·재현성·출처 추적이 고정 코퍼스(`ALLOWED_SOURCES`, ADR-004)에 기대고 있다. 붙이려면 **고정 코퍼스와 경로를 분리**해 측정이 섞이지 않게 해야 한다. 질의가 외부로 나가는 경로라 데이터 경계(ADR-004·009) 검토도 다시 필요하다 |
+| **영어 e2e 평가** | 골든셋 v2.0 **30건이 전부 한국어 질의**다. `golden-set-en.json`은 검색 프로브용이고 파이프라인은 읽지 않는다. Writer 프롬프트도 한국어 보고서를 고정한다. 영어 e2e는 로더·프롬프트 변경을 함께 요구한다 |
+| **기본 임베딩 교체 · ADR-012 진단 검증(E1)** | 임베딩 변별력 부족은 실측됐다(층 A 앵커 최난도 간격 −0.0052). 교체하면 재인덱싱이 필요하고 v1.1·v1.2 비교선이 끊긴다. E1은 하지 않았다 |
+| **Outliner 승인 HITL(H1)** | 하지 않았다. 중단·재개에는 체크포인터가 필요한데 백엔드를 아직 고르지 않았다(ADR-002) |
+| **필터 배선 A안(불리언 키 + `where`, 재인덱싱)** | 37건에서는 전수 조회 후처리(B안)로 충분하고, 재인덱싱 없이 `p1-on` 기준을 유지할 수 있었다. **문서 수가 수천 단위가 될 때 재검토한다**(ADR-027). `where` 경로의 HNSW 완전성은 측정하지 않았다 |
+
+#### 측정·운영에서 확인하지 못한 것
+
+- **시간 간 변동은 같은 날 1시간 이내만 쟀다**(2026-09-30 13:47 · 13:53 · 14:14, 30건 × 3회). 다른 날·다른 서버 부하 조건은 측정하지 않았다.
+- **배포 이미지:** 코드 기준으로는 동시 실행이 기본 켜짐이다(`ecs.tf`에 `RESEARCH_PARALLEL`이 없어 빈 값 = 켬). ECR에 올라간 이미지가 그 커밋(`668b207`) 이후 빌드인지는 확인하지 않았다. **재빌드 시 반영된다.**
+- **타이밍 민감 테스트의 간헐 실패 1건**(session-22). 테스트 이름이 남지 않았고 이후 재현되지 않았다. 그 뒤로는 `-rf`로 돌려 실패 이름을 남긴다. v1.2 마감 실행은 340 passed, 실패 0이다.
+- **리랭커 · 질의 재작성 재측정:** 리랭커는 ADR-005가 후보로만 적었고 측정한 적이 없다. 질의 재작성은 §5.1의 허들(토큰 36%·지연 27%를 더 쓰고도 근거를 늘려야 한다)을 v1.1 조건에서 다시 재야 한다.
+- **Langfuse 이중 기록:** v1.2에서 다루지 않았다. 관련해 열려 있는 사실은 두 가지다. 동시 실행에서 `_LangfuseTrace` 스레드 안전성을 검증하지 않았고(ADR-026, v1.2 측정은 전부 로컬 JSONL), SDK `No active span` 경고(§5.5)도 남아 있다.
+- **`LITELLM_LOCAL_MODEL_COST_MAP` 미설정:** litellm이 임포트 시 원격 가격표를 받아올 수 있다. LLM 벤더 호출은 아니지만 끄는 게 맞는지 확인하지 않았다.
+- **엔드포인트 동시 수용량:** 상한 4에서 오류 0을 한 시점에만 확인했다. 내부 재시도로 흡수된 429는 계측되지 않는다.
+
+#### 프로젝트 범위 밖으로 남긴 것
+
+- **2026년 말 서빙 경로** — KT Cloud 무상 할당이 끝나면 현 엔드포인트가 죽는다. 전환 *비용*은 프로바이더 계층으로 낮췄지만 대체 경로(자체 GPU / 다른 할당 / 유료 전환)는 아직 없다(ADR-003).
+- **서비스화(UI · 인증)** — 오케스트레이터는 포트를 열지 않는 작업 컨테이너다(ADR-010·013). 사용자 인증을 붙일 HTTP 표면 자체가 없다.
+- **데모 URL** — URL을 만들려면 상시 실행 서비스와 인그레스가 필요하다(월 ~$100). 그래서 session-07에 기각했다(ADR-013 Amendment §5). 데모는 "명령 한 줄 + 로그"다.
+
 
 ---
 
@@ -761,7 +925,7 @@ session-06에서 `docker compose --profile langfuse`로 self-host 서버를 띄�
 cp .env.example .env      # VLLM_BASE / VLLM_MODEL 값을 채운다
 pip install -r requirements-dev.txt
 python scripts/healthcheck.py     # 엔드포인트 + 프로바이더 계층 동작 확인
-python -m pytest tests/ -q        # 201개
+python -m pytest tests/ -q -rf    # 340개 (-rf: 실패 시 이름을 남긴다)
 ```
 
 리서치를 실제로 돌리려면 코퍼스와 인덱스가 필요하다:
@@ -772,6 +936,22 @@ python scripts/build_index.py     # → var/chroma/ (임베딩 모델 첫 로딩
 python scripts/run_research.py "리서치 질의"
 ```
 
+실행 동작을 바꾸는 환경변수는 둘이다(`.env`, 오타 값은 `ConfigError`로 거부된다).
+
+| 변수 | 기본 | 의미 |
+| --- | --- | --- |
+| `RESEARCH_PARALLEL` | 비움 = **켬**(상한 4) | 노드 안 LLM 호출 동시 실행. `off`로 끄면 순차다(ADR-026) |
+| `RESEARCH_TECH_DOMAIN_TOOL` | 비움 = **끔** | Researcher가 항목마다 `tech_domain` 필터 값을 고르는 도구. **판정 해악이라 끈다**(ADR-029·030). 실험용이다 |
+
+> ⚠️ **`tech_domain` 필터를 직접 걸 때 — 메타 없는 문서 14건은 strict로 탈락한다.**
+> ADR-029의 결론은 "필터는 사용자가 명시할 때만 건다"이다. 지금 사용자가 값을 직접 넣는 경로는 검색 API
+> `ChromaRetriever.search(query, tech_domain="Agent")`뿐이다(`run_research.py`에는 필터 인자가 없다).
+> 이 경로의 기본 정책도 **strict**다. 코퍼스 37건 중 **온톨로지 메타가 없는 14건(전부 스냅샷 arXiv)은
+> 어떤 값을 넣어도 결과에서 빠진다.** 정답이 그 14건 안에 있으면 필터를 건 순간 검색에서 사라진다.
+> 골든셋 층 B 9케이스의 정답이 전부 여기에 있다(T3a에서 층 B 5/9 → 0/9, n=9). 걸러진 문서가 있었다는 표시는
+> 결과에 나오지 않는다. 생존자 수는 `trace`를 넘겼을 때 `retrieval_filter` span에만 남는다.
+> `filter_policy="null_pass"`는 대안이 아니다. 메타 없는 무관 문서를 끌어올리는 다른 해악이 있다(ADR-030).
+
 **뉴스 13건은 이 스크립트가 받아오지 않는다.** `ingest_corpus.py`가 다루는 것은 arXiv뿐이고,
 공개 뉴스 발췌는 생산자 레포의 출력 계약 export(JSONL + manifest)로 들어와
 **`data/corpus/news/`에 커밋돼 있다** (ADR-018 / ADR-019). 즉 위 명령을 돌리지 않아도
@@ -780,9 +960,13 @@ python scripts/run_research.py "리서치 질의"
 측정은 상주 프로세스로 돈다 (임베딩 로딩 분리):
 
 ```bash
-python scripts/bench_golden.py --label no-cache --clear-cache   # 기준선
-python scripts/bench_golden.py --label cached --cache           # 캐시 조건
+python scripts/bench_golden.py --label <새 라벨> --require-trace          # 기본 경로(캐시 끔, 동시 실행 켬)
+python scripts/bench_golden.py --label <새 라벨> --parallel off --require-trace
+python scripts/bench_golden.py --label <새 라벨> --tech-domain-tool on --require-trace   # 실험용
 ```
+
+`--label`은 필수이고, 같은 라벨의 결과가 이미 있으면 LLM 호출 전에 거부한다(exit 3). 결과는 `docs/eval/bench-<라벨>.json`이다.
+같은 인덱스를 두 프로세스가 동시에 열지 않도록 잠금 파일(`var/.chroma.bench.lock`)이 막는다(§5.7).
 
 실행이 끝나면 `var/traces/<run_id>.jsonl`에 단계별 입력·출력·토큰·지연이 남는다.
 
@@ -1208,7 +1392,8 @@ JSON으로** 쌓인다 (ADR-008). `var/`는 `.gitignore` 대상이라 커밋되�
 | `docs/problem-statement.md` | 문제·제약·목표·성공 기준 |
 | `docs/architecture.md` | 개념도, 구성 요소, 그래프 배선 |
 | `docs/governance.md` | 승인 게이트·ADR·시크릿 취급·측정 방법론 규칙 (에이전트 세션에 자동 로드) |
-| `docs/adr/` | 아키텍처 결정 기록 **ADR-001 ~ ADR-028** (아래 §8.1) |
+| `docs/adr/` | 아키텍처 결정 기록 **ADR-001 ~ ADR-030** (아래 §8.1) |
+| `docs/plans/v1.2-preregistration.md` · `v1.2-n1-preregistration.md` | **v1.2 판정 기준 사전 등록** — 측정 전에 커밋한 정의·임계값(D1~D7) |
 | `docs/contracts/ai-news-ontology-export-v1.md` | **온톨로지 코퍼스 출력 계약 v1** — 생산자 레포와의 인터페이스 (ADR-018) |
 | `docs/security/owasp-notes.md` | **OWASP LLM Top 10 정리 + 인프라 수준 리스크** |
 | `docs/security/injection-results-session-05.md` | **인젝션 10건 방어 전/후 실측 원자료** |
@@ -1217,6 +1402,7 @@ JSON으로** 쌓인다 (ADR-008). `var/`는 `.gitignore` 대상이라 커밋되�
 | `docs/eval/run-log-session-08.md` | **파이프라인 수치의 조건·해석 + 방어 전/후 비교** (`2026-09-16.1`) |
 | `docs/eval/bench-*.json` | 벤치마크 원자료 (케이스별 지연·토큰·채점) |
 | `docs/eval/probe-retrieval-*.json` | **검색 프로브 원자료** — 층별 재현율·순위·점수 간격·필터 arm |
+| `docs/eval/{p1,t1,t2,t3,n1}-*.json` | **v1.2 판정·재생 원자료** — 동시 실행 대조 · 검색 재생 · 스키마 강제 판별 · 선택 판정 |
 | `docs/eval/ann-completeness-*.json` | **인덱스 완결성 프로브 원자료** (545 프로세스, session-15) |
 | `docs/eval/citation-format-session-16.md` | **인용 형식 전/후 대조** (ADR-024, LLM 호출 0건) |
 | `docs/handoff/` | 세션별 핸드오프 (막힌 것·결정 대기 항목 포함) |
@@ -1229,43 +1415,50 @@ JSON으로** 쌓인다 (ADR-008). `var/`는 `.gitignore` 대상이라 커밋되�
 **Amendment**를 붙이고 Review Trigger를 갱신한다 — 그래야 "무엇을 알고 그렇게 정했는지"와
 "나중에 무엇이 달라졌는지"가 둘 다 남는다.
 
-| # | 결정 | 세션 |
-| --- | --- | ---: |
-| [001](docs/adr/ADR-001-adr-location-and-naming.md) | ADR 기록 위치·명명 규칙 | 1 |
-| [002](docs/adr/ADR-002-langgraph-orchestration-vllm-serving.md) | LangGraph 오케스트레이션 + vLLM 서빙, **모델 고정 원칙** · *Amendment ×2* | 1 |
-| [003](docs/adr/ADR-003-model-selection-and-serving-topology.md) | 기존 KT Cloud vLLM 엔드포인트 재사용 (`gemma-4-31B-it`) · *Amendment* | 2 |
-| [004](docs/adr/ADR-004-sample-corpus-scope-public-only.md) | 코퍼스는 **공개 자료로만** — 사내 문서 투입은 범위 밖 | 3 |
-| [005](docs/adr/ADR-005-vectordb-chroma-local-embeddings.md) | Chroma 임베디드 + 로컬 `multilingual-e5-small` · ***Amendment ×5*** — 크로스링구얼 가설 기각 / **간격 기준선 정정 + 표기 규칙** / 인덱스 유실 관측 / **원인 = 중복 upsert** / **방어 구현** | 3 |
-| [006](docs/adr/ADR-006-verification-loop-retry-condition.md) | 검증 되돌림 = **기계 판정 + 모델 판정 2단계** · *Amendment ×2(재검색 루프 실효성 없음 → `max_revisions=0` 대조 측정)* | 3 |
-| [007](docs/adr/ADR-007-tracing-facade-local-jsonl-langfuse.md) | 계측은 Tracer 파사드 뒤 — 로컬 JSONL 기본 + Langfuse 옵션 | 3 |
-| [008](docs/adr/ADR-008-llm-response-cache.md) | LLM 응답 캐시는 데코레이터, **기본은 끈다** | 4 |
-| [009](docs/adr/ADR-009-tool-scope-and-injection-defense.md) | 툴 스코프 화이트리스트 + 인젝션 방어 계층 | 5 |
-| [010](docs/adr/ADR-010-local-container-stack.md) | 로컬 컨테이너 스택 (작업 컨테이너 + named volume) | 6 |
-| [011](docs/adr/ADR-011-pin-embedding-weights-revision.md) | 임베딩 가중치 리비전 + sha256 고정 | 6 |
-| [012](docs/adr/ADR-012-keep-chroma-embedded-for-now.md) | Qdrant로 옮기지 않는다 — Chroma 유지 · *Amendment(언어 효과)* | 6 |
-| [013](docs/adr/ADR-013-deployment-target-ecs-fargate.md) | 배포 대상 **ECS Fargate 온디맨드** · *Amendment(리전·비용·URL 데모 기각)* | 6 |
-| [014](docs/adr/ADR-014-iac-tool-terraform-over-cdk.md) | IaC 도구는 Terraform (CDK 아님) | 6 |
-| [015](docs/adr/ADR-015-var-persistence-efs-over-s3.md) | `var/` 영속화는 **EFS** — 코드를 고치지 않아도 된다 | 7 |
-| [016](docs/adr/ADR-016-langfuse-stays-local-only.md) | Langfuse는 클라우드에 올리지 않는다 (월 ~$170) | 7 |
-| [017](docs/adr/ADR-017-deployer-least-privilege.md) | **배포자 IAM 권한을 최소 권한으로 교체** | 8 |
-| [018](docs/adr/ADR-018-ai-news-ontology-output-contract.md) | 온톨로지 코퍼스를 **파일 기반 출력 계약(JSONL)** 으로 받는다 · *Amendment* | 9 |
-| [019](docs/adr/ADR-019-commit-ontology-corpus-snapshot.md) | export 스냅샷(JSONL + manifest)을 **레포에 커밋한다** — manifest가 어휘 이력이다 | 10 |
-| [020](docs/adr/ADR-020-ontology-metadata-loading-boundary.md) | 온톨로지 필드는 **싣기만 하고** 검색 경로는 건드리지 않는다 (Session 3까지) | 10 |
-| [021](docs/adr/ADR-021-external-llm-vendor-call-violation-and-gate.md) | **외부 LLM 벤더 비의존 전제 위반 기록** — 게이트 1번 항목 신설 + 훅·코드 계층 집행 | 11 |
-| [022](docs/adr/ADR-022-golden-set-v2-missing-ontology-strata.md) | 골든셋 v2.0을 **메타 유무로 층화**하고 결측층을 분리 집계한다 (합산 금지) | 13 |
-| [023](docs/adr/ADR-023-ontology-filter-arms-postprocess.md) | 온톨로지 필터는 **프로브 후처리 arm**, 필터 값은 골든셋 선언에서만 (= 오라클) | 14 |
-| [024](docs/adr/ADR-024-citation-ontology-metadata-rendered-by-code.md) | **인용의 온톨로지 메타는 코드가 렌더링한다** — LLM 입력에 넣지 않는다 | 16 |
-| [025](docs/adr/ADR-025-researcher-candidate-score-exposure.md) | **Researcher 후보에서 유사도 점수를 뺀다** — 순위만 남긴다. S0c 판정 무해 확인 | 17–19 |
-| [026](docs/adr/ADR-026-node-internal-concurrent-calls.md) | **Researcher·Verifier 노드 안 LLM 호출 동시 실행** (그래프 불변, 검색 직렬, 상한 4, **기본 켜짐** — `--parallel off`로 끔) — 동시간 대조 wall p95 20.83 → 14.40s, 로직 동일(입력 해시 99/99), 인용·pass/fail 차이 0 | 20 |
-| [027](docs/adr/ADR-027-tech-domain-filter-retrieval-postprocess.md) | **`tech_domains` 필터를 검색 계층에 배선** — 전수 조회 + strict 후처리, 재인덱싱 없음(불리언 키 + `where` 기각). v1.1 오라클 프로브와 바이트 동일, p1 검색어 340/340 재생 일치 | 21 |
-| [028](docs/adr/ADR-028-tech-domain-selection-json-schema.md) | **`tech_domain` 선택은 json_schema 강제 출력** — 유효 파라미터 `response_format`, 네이티브 tool calling 미사용. 강제 판별 3건("JSON 쓰지 마라" 프롬프트에서도 enum대로 출력). 위반 시 정지 | 22 |
+**상태 정리 (session-25, v1.2 마감).** 구현돼 쓰이고 있는데 `Proposed`로 남아 있던 20건을 실제 결정과 대조했다.
+**19건은 Accepted**로 올렸다(소급 일괄 승인, 구현 확인). 그중 근거 일부가 미검증이거나 실측으로 반박된 5건에는 주석을 달았다.
+**ADR-023은 Superseded**(ADR-027)다. ADR-009는 Review Trigger를 검토하고 닫는 Amendment를 남겼다.
+아래 표의 "상태"는 각 파일의 Status다.
+
+| # | 결정 | 상태 | 세션 |
+| --- | --- | --- | ---: |
+| [001](docs/adr/ADR-001-adr-location-and-naming.md) | ADR 기록 위치·명명 규칙 | Accepted | 1 |
+| [002](docs/adr/ADR-002-langgraph-orchestration-vllm-serving.md) | LangGraph 오케스트레이션 + **모델 고정 원칙** · *Amendment ×2* | Accepted — 주석: 서빙 부분은 ADR-003으로 대체 | 1 |
+| [003](docs/adr/ADR-003-model-selection-and-serving-topology.md) | 기존 KT Cloud vLLM 엔드포인트 재사용 (`gemma-4-31B-it`) · *Amendment* | Accepted | 2 |
+| [004](docs/adr/ADR-004-sample-corpus-scope-public-only.md) | 코퍼스는 **공개 자료로만** — 사내 문서 투입은 범위 밖 | Accepted | 3 |
+| [005](docs/adr/ADR-005-vectordb-chroma-local-embeddings.md) | Chroma 임베디드 + 로컬 `multilingual-e5-small` · ***Amendment ×5*** — 크로스링구얼 가설 기각 / **간격 기준선 정정 + 표기 규칙** / 인덱스 유실 관측 / **원인 = 중복 upsert** / **방어 구현** | Accepted — 주석: 임베딩 변별력 부족 실측, 교체 미착수 | 3 |
+| [006](docs/adr/ADR-006-verification-loop-retry-condition.md) | 검증 되돌림 = **기계 판정 + 모델 판정 2단계** · *Amendment ×2(재검색 루프 실효성 없음 → `max_revisions=0` 대조 측정)* | Accepted — 주석: 재검색 새 근거 v1.2 전 조건 0건 | 3 |
+| [007](docs/adr/ADR-007-tracing-facade-local-jsonl-langfuse.md) | 계측은 Tracer 파사드 뒤 — 로컬 JSONL 기본 + Langfuse 옵션 | Accepted | 3 |
+| [008](docs/adr/ADR-008-llm-response-cache.md) | LLM 응답 캐시는 데코레이터, **기본은 끈다** | Accepted | 4 |
+| [009](docs/adr/ADR-009-tool-scope-and-injection-defense.md) | 툴 스코프 화이트리스트 + 인젝션 방어 계층 · *Amendment(모델의 검색 인자 선택 검토 — 재설계 불필요, 도구 기본값을 켤 때 재검토)* | Accepted | 5 |
+| [010](docs/adr/ADR-010-local-container-stack.md) | 로컬 컨테이너 스택 (작업 컨테이너 + named volume) | Accepted | 6 |
+| [011](docs/adr/ADR-011-pin-embedding-weights-revision.md) | 임베딩 가중치 리비전 + sha256 고정 | Accepted | 6 |
+| [012](docs/adr/ADR-012-keep-chroma-embedded-for-now.md) | Qdrant로 옮기지 않는다 — Chroma 유지 · *Amendment(언어 효과)* | Accepted — 주석: E1(임베딩 진단 검증) 미실시 | 6 |
+| [013](docs/adr/ADR-013-deployment-target-ecs-fargate.md) | 배포 대상 **ECS Fargate 온디맨드** · *Amendment(리전·비용·URL 데모 기각)* | Accepted | 6 |
+| [014](docs/adr/ADR-014-iac-tool-terraform-over-cdk.md) | IaC 도구는 Terraform (CDK 아님) | Accepted | 6 |
+| [015](docs/adr/ADR-015-var-persistence-efs-over-s3.md) | `var/` 영속화는 **EFS** — 코드를 고치지 않아도 된다 | Accepted | 7 |
+| [016](docs/adr/ADR-016-langfuse-stays-local-only.md) | Langfuse는 클라우드에 올리지 않는다 (월 ~$170) | Accepted | 7 |
+| [017](docs/adr/ADR-017-deployer-least-privilege.md) | **배포자 IAM 권한을 최소 권한으로 교체** | Accepted — 주석: `apply`/`destroy` 경로 권한 미검증 | 8 |
+| [018](docs/adr/ADR-018-ai-news-ontology-output-contract.md) | 온톨로지 코퍼스를 **파일 기반 출력 계약(JSONL)** 으로 받는다 · *Amendment* | Accepted | 9 |
+| [019](docs/adr/ADR-019-commit-ontology-corpus-snapshot.md) | export 스냅샷(JSONL + manifest)을 **레포에 커밋한다** — manifest가 어휘 이력이다 | Accepted | 10 |
+| [020](docs/adr/ADR-020-ontology-metadata-loading-boundary.md) | 온톨로지 필드는 **싣기만 한다** · *Amendment(검색 경로 경계가 ADR-027·028·029로 대체)* | Accepted | 10 |
+| [021](docs/adr/ADR-021-external-llm-vendor-call-violation-and-gate.md) | **외부 LLM 벤더 비의존 전제 위반 기록** — 게이트 1번 항목 신설 + 훅·코드 계층 집행 | Accepted | 11 |
+| [022](docs/adr/ADR-022-golden-set-v2-missing-ontology-strata.md) | 골든셋 v2.0을 **메타 유무로 층화**하고 결측층을 분리 집계한다 (합산 금지) | Accepted | 13 |
+| [023](docs/adr/ADR-023-ontology-filter-arms-postprocess.md) | 온톨로지 필터는 **프로브 후처리 arm**, 필터 값은 골든셋 선언에서만 (= 오라클) · *Amendment ×2* | **Superseded** by 027 (값 선택: 028·029·030). 프로브 결과는 기준값으로 유효 | 14 |
+| [024](docs/adr/ADR-024-citation-ontology-metadata-rendered-by-code.md) | **인용의 온톨로지 메타는 코드가 렌더링한다** — LLM 입력에 넣지 않는다 | Accepted | 16 |
+| [025](docs/adr/ADR-025-researcher-candidate-score-exposure.md) | **Researcher 후보에서 유사도 점수를 뺀다** — 순위만 남긴다 · *Amendment(판정 규칙, 측정 전)* | Accepted — S0c 판정 무해 확인 | 17–19 |
+| [026](docs/adr/ADR-026-node-internal-concurrent-calls.md) | **Researcher·Verifier 노드 안 LLM 호출 동시 실행** (그래프 불변, 검색 직렬, 상한 4, **기본 켜짐**) — wall p95 20.83 → 14.40s(n=30), 입력 해시 297/297 · *Amendment(기본값)* | Accepted | 20 |
+| [027](docs/adr/ADR-027-tech-domain-filter-retrieval-postprocess.md) | **`tech_domains` 필터를 검색 계층에 배선** — 전수 조회 + strict 후처리, 재인덱싱 없음. v1.1 오라클 프로브와 바이트 동일, 검색어 340/340 재생 일치 · *Amendment(`filter_policy`, 기본 strict)* | Accepted | 21 |
+| [028](docs/adr/ADR-028-tech-domain-selection-json-schema.md) | **`tech_domain` 선택은 json_schema 강제 출력** — 네이티브 tool calling 미사용. 강제 판별 3/3. 위반 시 정지 | Accepted | 22 |
+| [029](docs/adr/ADR-029-t3-tech-domain-selection-verdict-harm.md) | **T3a 판정 해악(D4)** — 층 B 5/9 → 0/9(n=9). 도구 기본 off, **필터는 사용자가 명시할 때만** | Accepted | 23 |
+| [030](docs/adr/ADR-030-n1-null-pass-filter-policy-verdict-harm.md) | **N1 판정 해악(D5)** — null-통과에서 층 C 7/7 → 6/7(n=7). 도구 기본 off · 필터 기본 strict | Accepted | 24 |
 
 ADR 작성은 별도 스킬로 분리해 두었다 — **[clickshn/adr-skill](https://github.com/clickshn/adr-skill)**.
 결정 발화(`"~쓰기로 했다"`)나 의존성 파일 변경에 반응해 템플릿을 채우고, **대화에 없는
-근거는 추측해서 채우지 않는다.** 이 레포의 ADR 28건(+ Amendment 16건)이 그 스킬의 산출물이자
+근거는 추측해서 채우지 않는다.** 이 레포의 ADR 30건(+ Amendment 20건)이 그 스킬의 산출물이자
 실사용 사례다.
 
-> **Amendment가 13건이라는 사실 자체가 기록이다.** ADR-005 하나에만 5건이 붙어 있는데,
+> **Amendment가 20건이라는 사실 자체가 기록이다.** ADR-005 하나에만 5건이 붙어 있는데,
 > 그 다섯은 전부 **"전에 적어둔 것이 틀렸거나 조건이 붙는다"**는 내용이다 — 덮어쓰지 않고
 > 덧붙였기 때문에 *무엇을 알고 그렇게 정했는지*와 *나중에 무엇이 달라졌는지*가 둘 다 남는다.
 
