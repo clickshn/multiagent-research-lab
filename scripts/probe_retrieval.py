@@ -244,7 +244,18 @@ def main() -> int:
         default="strict",
         help="메타 결측 문서의 처리 (ADR-022). strict=탈락(주 arm) / pass=통과(2차 arm)",
     )
+    parser.add_argument(
+        "--filter-impl",
+        choices=("postprocess", "retrieval"),
+        default="postprocess",
+        help="필터를 어디서 거나 (ADR-027). postprocess=이 스크립트 안(v1.1) / "
+        "retrieval=`ChromaRetriever.search(tech_domain=...)`. retrieval은 tech_domain strict만",
+    )
     args = parser.parse_args()
+    if args.filter_impl == "retrieval" and (
+        args.arm != "tech_domain" or args.null_policy != "strict"
+    ):
+        parser.error("--filter-impl retrieval은 --arm tech_domain --null-policy strict에서만 쓴다")
 
     golden = json.loads(GOLDEN_SET.read_text(encoding="utf-8"))
     en_queries = json.loads(GOLDEN_SET_EN.read_text(encoding="utf-8"))["queries"]
@@ -350,7 +361,18 @@ def main() -> int:
         for lang, query in (("ko", case["query"]), ("en", en_queries[case_id])):
             ranking, latency = _probe_one(retriever, query, corpus_size)
             unfiltered_rank = {r["doc_id"]: r["rank"] for r in ranking}
-            kept = [r for r in ranking if r["doc_id"] in survivors]
+            if args.filter_impl == "retrieval" and apply_filter:
+                # 검색 계층 필터 (ADR-027). 필터 값이 선언되지 않은 케이스(층 B)는 검색
+                # 인자로 표현할 수 없다(None = 무필터) — strict의 정의대로 생존자 0이다.
+                chunks = (
+                    retriever.search(query, k=corpus_size, tech_domain=filter_value)
+                    if filter_value is not None
+                    else []
+                )
+                by_id = {r["doc_id"]: r for r in ranking}
+                kept = [by_id[c.doc_id] for c in chunks]
+            else:
+                kept = [r for r in ranking if r["doc_id"] in survivors]
             # 필터 후 순위를 1부터 다시 매긴다. 원래 순위도 남긴다 — 얼마나 올라왔는지가
             # 이번 측정의 관측치다.
             ranked = [
@@ -417,6 +439,10 @@ def main() -> int:
             if not positive and arm != "none":
                 per_value: dict[str, float | None] = {}
                 for value in arm_filter_values:
+                    if args.filter_impl == "retrieval":
+                        top = retriever.search(query, k=1, tech_domain=value)
+                        per_value[value] = top[0].score if top else None
+                        continue
                     survived = [
                         r["score"]
                         for r in ranking
@@ -478,6 +504,7 @@ def main() -> int:
         "measured_at": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
         "arm": arm,
         "null_policy": null_policy,
+        "filter_impl": args.filter_impl,
         "corpus_size": corpus_size,
         "top_k": TOP_K,
         "golden_set_version": golden_version,
