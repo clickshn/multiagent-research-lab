@@ -1,6 +1,7 @@
 # ADR-001: 아키텍처 결정 기록을 docs/adr/ 개별 파일로 관리
 
-- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
+- **Status:** Accepted (2026-10-02)
+- **승인 메모:** session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인
 - **Date:** 2026-09-15
 - **Decision:** 결정 기록은 `docs/adr/` 아래 `ADR-NNN-slug.md` 형식의 개별 파일로 남긴다.
 - **Scope:** multiagent-research-lab (레포 전체 / 문서 규약)

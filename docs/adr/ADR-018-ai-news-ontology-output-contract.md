@@ -1,6 +1,7 @@
 # ADR-018: ai-news-ontology 코퍼스를 파일 기반 출력 계약(JSONL)으로 받는다
 
-- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
+- **Status:** Accepted (2026-10-02)
+- **승인 메모:** session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인
 - **Date:** 2026-09-17
 - **Decision:** `ai-news-ontology`와 MARA는 코드를 공유하지 않고, 버전이 붙은 JSONL 파일 형식 하나(`docs/contracts/ai-news-ontology-export-v1.md`, `contract_version=1.0`)만 공유한다. 온톨로지 통제어휘는 생산자 쪽 Enum을 정본으로 따르고, 색인·인용 단위는 원문 텍스트로 한정한다.
 - **Scope:** multiagent-research-lab (코퍼스 반입 경로 / 레포 간 인터페이스)

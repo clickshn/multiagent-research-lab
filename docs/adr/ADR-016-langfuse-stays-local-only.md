@@ -1,6 +1,7 @@
 # ADR-016: Langfuse는 클라우드에 올리지 않는다 (로컬 전용 관측 도구로 유지)
 
-- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
+- **Status:** Accepted (2026-10-02)
+- **승인 메모:** session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인
 - **Date:** 2026-09-16
 - **Decision:** 세션 6에서 self-host로 검증한 Langfuse 스택을 **클라우드 배포 범위에서 제외**한다. 배포되는 것은 오케스트레이터 태스크뿐이고, 클라우드 실행의 계측은 **로컬 JSONL(EFS) + CloudWatch Logs**로 한다. Langfuse는 로컬 개발·분석 도구로만 쓴다.
 - **Scope:** multiagent-research-lab (배포 범위 / 관측 / 세션 7)

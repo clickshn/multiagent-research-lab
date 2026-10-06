@@ -1,6 +1,7 @@
 # ADR-026: Researcher·Verifier 노드 안 LLM 호출 동시 실행 — 그래프 팬아웃 대신
 
-- **Status:** Accepted (2026-09-30, session-20 — 기본값 켜짐으로 결정, 아래 Amendment)
+- **Status:** Accepted (2026-09-30)
+- **승인 메모:** session-20 — 기본값 켜짐으로 결정, 아래 Amendment
 - **Date:** 2026-09-30
 - **Decision:** Researcher(`nodes.py` 항목 루프)와 Verifier(outline 루프)의 항목별 LLM 호출을 **노드 안에서**
   스레드 풀로 동시에 보낸다. 그래프 구조·프롬프트(`PROMPT_VERSION 2026-09-30.1`)·판정 로직은 바꾸지 않는다.

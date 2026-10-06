@@ -1,6 +1,7 @@
 # ADR-013: 배포 대상은 ECS Fargate (온디맨드 태스크)로 한다
 
-- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
+- **Status:** Accepted (2026-10-02)
+- **승인 메모:** session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인
 - **Date:** 2026-09-16
 - **Decision:** ADR-010의 컨테이너 이미지를 AWS ECS Fargate에서 **온디맨드 태스크(`RunTask`)** 로 돌린다. App Runner와 EKS는 기각한다. 판단 기준은 비용(특히 안 쓸 때의 고정비), 운영 부담, 포트폴리오 가치다.
 - **Scope:** multiagent-research-lab (배포 대상 / 세션 7)

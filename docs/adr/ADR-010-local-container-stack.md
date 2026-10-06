@@ -1,6 +1,7 @@
 # ADR-010: 로컬 스택을 컨테이너화하고 시크릿·평문 산출물을 이미지 밖에 둔다
 
-- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
+- **Status:** Accepted (2026-10-02)
+- **승인 메모:** session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인
 - **Date:** 2026-09-16
 - **Decision:** 오케스트레이터를 멀티스테이지 Dockerfile로 이미지화하고, `VLLM_BASE`는 런타임 주입으로만, `var/`(traces·llm_cache·chroma)는 named volume으로만 다룬다. Langfuse self-host는 `--profile langfuse` 옵션으로 붙인다.
 - **Scope:** multiagent-research-lab (런타임 패키징 / 로컬 스택)

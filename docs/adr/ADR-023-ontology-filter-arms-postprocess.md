@@ -1,6 +1,7 @@
 # ADR-023: 온톨로지 필터는 프로브 후처리 arm으로 배선하고, 필터 값은 골든셋 선언에서만 끌어온다
 
-- **Status:** Superseded by ADR-027 (2026-10-02, session-25 — v1.2 마감 시 소급 정리. 필터 배선 위치는 ADR-027, 값 선택은 ADR-028·029·030으로 대체. v1.1 프로브 결과는 기준값으로 유효)
+- **Status:** Superseded (2026-10-02, [ADR-027](ADR-027-tech-domain-filter-retrieval-postprocess.md))
+- **승인 메모:** session-25 — v1.2 마감 시 소급 정리. 필터 배선 위치는 ADR-027, 값 선택은 ADR-028·029·030으로 대체. v1.1 프로브 결과는 기준값으로 유효
 - **Date:** 2026-09-21
 - **Amended:** 2026-10-02 (session-25) — 전제가 ADR-027·028·029로 대체됐다. Status를 Superseded로 정리했다. 아래 Amendment 참조.
 - **Decision:** `release_type` / `tech_domain` 필터를 `scripts/probe_retrieval.py`의

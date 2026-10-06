@@ -1,6 +1,7 @@
 # ADR-008: LLM 응답 캐시는 프로바이더 계층 데코레이터로 두고 기본은 끈다
 
-- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
+- **Status:** Accepted (2026-10-02)
+- **승인 메모:** session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인
 - **Date:** 2026-09-15
 - **Decision:** 동일 입력에 대한 LLM 응답을 디스크에 캐시하는 `CachingLLMProvider`를 `LLMProvider` 데코레이터로 추가한다. 캐시는 **기본 꺼짐**이며 `LLM_CACHE` 환경변수나 `get_provider(cache=True)`로 명시적으로 켠다.
 - **Scope:** multiagent-research-lab (프로바이더 계층)

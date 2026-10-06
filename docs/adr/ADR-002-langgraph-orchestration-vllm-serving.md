@@ -1,7 +1,8 @@
 # ADR-002: 오케스트레이션은 LangGraph, 로컬 서빙은 vLLM
 
-- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
-  - **주석 (session-25):** 서빙 부분("로컬에서 vLLM을 기동한다")은 session-02 Amendment로 원격 엔드포인트 재사용(ADR-003)으로 대체됐다. LangGraph 오케스트레이션과 모델 고정 원칙은 유지된다.
+- **Status:** Accepted (2026-10-02)
+- **승인 메모:** session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인
+- **주석 (session-25):** 서빙 부분("로컬에서 vLLM을 기동한다")은 session-02 Amendment로 원격 엔드포인트 재사용(ADR-003)으로 대체됐다. LangGraph 오케스트레이션과 모델 고정 원칙은 유지된다.
 - **Date:** 2026-09-15
 - **Decision:** 에이전트 오케스트레이션 프레임워크로 LangGraph를, 로컬 모델 서빙 계층으로 vLLM을 채택한다.
 - **Scope:** multiagent-research-lab (오케스트레이터 + 모델 서빙 계층)

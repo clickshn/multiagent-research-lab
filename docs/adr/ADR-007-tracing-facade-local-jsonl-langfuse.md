@@ -1,6 +1,7 @@
 # ADR-007: 계측은 Tracer 파사드 뒤에 두고, 로컬 JSONL을 기본으로 Langfuse를 옵션으로 얹는다
 
-- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
+- **Status:** Accepted (2026-10-02)
+- **승인 메모:** session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인
 - **Date:** 2026-09-15
 - **Decision:** 노드는 `src/obs`의 `Tracer` 파사드만 호출한다. 로컬 JSONL 기록은 항상 켜져 있고, Langfuse는 `.env`에 self-host 주소와 키가 모두 있을 때만 추가로 전송한다.
 - **Scope:** multiagent-research-lab (계측 / 관측)

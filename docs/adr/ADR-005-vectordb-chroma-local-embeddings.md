@@ -1,7 +1,8 @@
 # ADR-005: VectorDB는 Chroma로 시작하고 임베딩은 로컬 모델로 내린다
 
-- **Status:** Accepted (2026-10-02, session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인)
-  - **주석 (session-25):** 임베딩 변별력 부족이 실측됐다(최난도 간격 −0.0052, Amendment 2). 임베딩 모델 교체 검토는 착수하지 않았다.
+- **Status:** Accepted (2026-10-02)
+- **승인 메모:** session-25 — v1.2 마감 시 소급 일괄 승인, 구현 확인
+- **주석 (session-25):** 임베딩 변별력 부족이 실측됐다(최난도 간격 −0.0052, Amendment 2). 임베딩 모델 교체 검토는 착수하지 않았다.
 - **Date:** 2026-09-15
 - **Decision:** 벡터 저장소는 Chroma 임베디드 모드로 시작하고, 임베딩은 서빙 엔드포인트가 제공하지 않으므로 로컬 sentence-transformers(`intfloat/multilingual-e5-small`)로 계산한다.
 - **Scope:** multiagent-research-lab (검색 계층 — 벡터 저장소 + 임베딩)
