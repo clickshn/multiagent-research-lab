@@ -10,6 +10,17 @@
 - **Scope:** multiagent-research-lab (`docs/eval/golden-set.json` v2.0 / `scripts/probe_retrieval.py` / Session 3 필터 판정 설계)
 - **Decision Source:** Human
 
+## Amendment — 2026-10-16 (session-27, v1.2.1): 메타 결측이 0건이 됐다 — 층 B는 **케이스 집합을 유지하고 뜻만 다시 선언한다**
+
+- **전제가 바뀌었다.** 생산자가 코퍼스 37건 전부를 `gemma-4-31B-it`로 재추출했다(생산자 ADR-026). Decision의 "스냅샷 14건 backfill을 하지 않는다"는
+  vLLM 이전 뒤 Review Trigger 첫 항목대로 다시 열렸고, 37건 전수 재추출로 (가)의 공선성 문제(일부만 다른 모델)는 생기지 않았다.
+  지금 인덱스에서 메타 없는 문서는 **0건**이다.
+- **층 B를 없애지 않는다.** A 14 · B 9 · C 7의 케이스 집합은 그대로 둔다 — p1-on·T3a·N1과 케이스 단위로 비교하려면 같아야 한다.
+  층 B의 뜻은 **"v1.2까지 메타가 없었고 v1.2.1에서 gemma 메타가 처음 붙은 앵커"**다. 이 재선언은 측정 전 사전 등록(`9454c23` §2.1)에 적었다.
+- `golden-set.json`의 `stratum`·`anchor_meta`는 **고치지 않았다**. 같은 골든셋 버전(2.0)에서 층의 뜻이 파일마다 갈리는 것을 피했다. 골든셋 개정은 별도 결정이다.
+- "strict에서 층 B 재현율 0이 정상"은 v1.2.1부터 맞지 않는다. v1.2.1 strict에서 층 B 검색 해악은 0/12, e2e 7/9였다(ADR-031).
+- Review Trigger 첫 항목("37건 전수 재추출 시 층 B를 없앨지 재검토") → **[검토 — session-27: 유지, 뜻만 재선언]**
+
 ---
 
 ## Context

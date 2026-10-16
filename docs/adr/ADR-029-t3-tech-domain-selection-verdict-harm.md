@@ -9,6 +9,12 @@
 - **Scope:** multiagent-research-lab (`src/orchestrator/nodes.py` 선택 도구 · `src/providers/config.py` 도구 설정 · v1.2-T3)
 - **Decision Source:** Human (판정 규칙은 사전 등록 `ce86b04` + Amendment 1 `49d0b66`. "해악이면 off 유지, 결론은 '필터는 사용자가 명시할 때만 건다'"는 사용자가 측정 전에 지시)
 
+## Amendment — 2026-10-16 (session-27, v1.2.1): D4의 원인은 확인됐다, 결론은 유지한다
+
+- 메타를 37건 전부 채운 코퍼스에서 같은 조건(strict + 도구 on)을 다시 쟀다(ADR-031). 층 B e2e는 **0/9 → 7/9**, 층 B 검색 해악은 12/12 → **0/12**다.
+  이 ADR의 원인 진술 "strict × 층 B 정답 문서의 메타 부재"가 **맞았다**는 확인이다.
+- 그러나 v1.2.1의 종합 판정도 해악(D5, GS-027)이라 **도구 기본 off 결론은 유지된다.** GS-027의 원인은 메타 부재가 아니다(ADR-031 Rationale 3).
+
 ---
 
 ## Context

@@ -10,6 +10,16 @@
 - **Scope:** multiagent-research-lab (`src/tools/retrieval.py` 필터 정책 · `src/orchestrator/nodes.py` 배선 · v1.2-N1)
 - **Decision Source:** Human. 판정 규칙은 사전 등록 `5122e97`이다(정의·임계값은 T3a `ce86b04` + Amendment 1 그대로). "해악이면 off 유지"는 사용자가 측정 전에 지시했다.
 
+## Amendment — 2026-10-16 (session-27, v1.2.1): Review Trigger 발동 — 메타를 채운 뒤 다시 쟀고, **D5의 원인 진술을 고친다**
+
+- Review Trigger("메타를 보강하면 strict·null-통과를 다시 잰다")가 발동했다. 37건 전부 gemma 메타가 붙었다(ADR-031).
+  **strict만 쟀다.** 메타 없는 문서가 0건이면 null-통과는 strict와 같은 생존 집합을 만든다(`tech_domains`가 빈 문서가 없다) — 따로 잴 변수가 없다.
+- **결과:** strict + 도구도 **D5 해악**(GS-027 7/7 → 6/7). 같은 문서 `arXiv:2405.16887v2`가 같은 항목(#0, `Agent`)에서 끌어올려져 인용됐다.
+  N1에서는 메타가 없어서 통과했고, v1.2.1에서는 감사상 **맞는** `Agent` 라벨로 통과했다.
+- **정정:** Rationale 2의 "해악의 경로는 null 희석"과, v1.2 마감 README(§0.2·§4.9)의 "근본 원인은 메타 없는 14건"은 **D5에 대해서는 충분한 설명이 아니었다.**
+  GS-027의 해악은 **필터가 다른 도메인의 문서를 지워 근접 유인 문서를 top-4로 올리는 재배열**에서 나오고, 메타 유무와 무관하게 재현된다(ADR-031).
+- Review Trigger → **[발동·측정 완료 — session-27, ADR-031]**
+
 ---
 
 ## Context
