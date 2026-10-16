@@ -34,6 +34,9 @@ var/
 .gitignore
 .github/
 
+# 교체된 옛 export JSONL (ADR-019 Amendment, session-27). 로더가 읽지 않는 이력 보관용이다.
+data/corpus-archive/
+
 # 로컬 전용 에이전트 설정. CLAUDE.md는 개인 메모라 배포물에 들어갈 이유가 없다.
 CLAUDE.md
 .claude/

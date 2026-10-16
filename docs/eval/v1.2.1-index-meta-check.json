@@ -1,0 +1,24 @@
+{
+  "preregistration": "9454c23",
+  "I2": {
+    "geeknews_in_corpus": 10,
+    "lang_ko_query": 10,
+    "geeknews_all_indexed_as_ko": true,
+    "ko_ids_equal_geeknews": true,
+    "passed": true
+  },
+  "I3": {
+    "indexed_docs": 37,
+    "rows": 37,
+    "without_ontology": [],
+    "empty_tech_domains": [],
+    "extraction_model": {
+      "gemma-4-31B-it": 37
+    },
+    "prompt_sha256": {
+      "25b17f445bec91a2fa4336b20dbac214b09c87fcb1c8493c17fcdd5b65e57bc8": 37
+    },
+    "passed": true
+  },
+  "passed": true
+}

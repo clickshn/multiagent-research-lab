@@ -1,0 +1,73 @@
+{
+  "contract_version": "1.0",
+  "export_id": "ontology-20261002-114500",
+  "exported_at": "2026-10-02T11:45:00+09:00",
+  "exporter": "ai-news-ontology@ef1aaaf",
+  "license_note": "공개 RSS/Atom 피드가 제공한 메타데이터와 발췌만 저장한다. 기사·논문 전문은 보관하지 않는다.",
+  "counts": {
+    "total": 37,
+    "indexable": 37,
+    "excluded_empty_text": 0,
+    "by_source": {
+      "arxiv": 24,
+      "news": 13
+    },
+    "by_source_name": {
+      "GeekNews": 10,
+      "OpenAI News": 3,
+      "arXiv (MARA snapshot seed)": 16,
+      "arXiv cs.CL (Atom API)": 8
+    },
+    "by_release_type": {
+      "Benchmark/Report": 10,
+      "Community/Discussion": 4,
+      "OpenSource": 2,
+      "Paper": 18,
+      "ProductLaunch": 3
+    },
+    "by_tech_domain": {
+      "Agent": 19,
+      "Application/Product": 12,
+      "Data/Synthetic": 1,
+      "Embodied/Robotics": 1,
+      "Eval/Governance": 18,
+      "Hardware/Chip": 1,
+      "Inference/Serving": 3,
+      "LLM": 13,
+      "Multimodal": 2,
+      "Reasoning": 5,
+      "Safety/Alignment": 7,
+      "Training/Finetuning": 4
+    },
+    "companies_unresolved": 22
+  },
+  "vocab": {
+    "vocab_version": "config=1;schema_sha256=2b42e09be94dae352eea92b10735f8fda62b0953eae69b3cb3baeb825096ba24",
+    "tech_domain": [
+      "LLM",
+      "Multimodal",
+      "RAG",
+      "Agent",
+      "Reasoning",
+      "Training/Finetuning",
+      "Inference/Serving",
+      "Infra/MLOps",
+      "Eval/Governance",
+      "Safety/Alignment",
+      "Data/Synthetic",
+      "Embodied/Robotics",
+      "Hardware/Chip",
+      "Application/Product"
+    ],
+    "release_type": [
+      "Paper",
+      "ProductLaunch",
+      "OpenSource",
+      "Policy/Regulation",
+      "Funding/M&A",
+      "Benchmark/Report",
+      "Community/Discussion",
+      "Partnership/Contract"
+    ]
+  }
+}

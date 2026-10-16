@@ -6,6 +6,18 @@
 - **Scope:** multiagent-research-lab (코퍼스 스냅샷 보관 / 측정 재현성)
 - **Decision Source:** Human
 
+## Amendment — 2026-10-16 (session-27, v1.2.1): 옛 JSONL은 지우지 않고 **코퍼스 밖으로 옮겨 보존한다**
+
+- **첫 교체가 일어났다.** 2026-10-02 export(`ontology-20261002-114500`, 37건 전부 `gemma-4-31B-it` 재추출, 생산자 ADR-026)가 들어오면서
+  `ontology-20260917-120733.jsonl` 2개를 교체했다. 이 export는 "2단계 250건"이 아니라 **기존 37건 코퍼스의 메타 재추출**이다.
+- **절차 변경(사용자 지시):** Decision 2·Rationale의 "**지운다**" 대신 `git mv`로 `data/corpus-archive/ontology-20260917-120733/{arxiv,news}/`에 옮겼다.
+  - 로더는 `data/corpus/<출처>/` 아래만 읽고, 그 밖의 하위 디렉터리는 출처 화이트리스트(ADR-004)로 거부한다. 그래서 보관 위치는 **`data/corpus/` 밖**이어야 한다.
+    안에 두면 `doc_id` 중복(계약 §7-2)이나 화이트리스트 위반으로 import가 멈춘다.
+  - 이유: v1.2(T3a·N1)의 측정이 옛 라벨 위에서 나왔다. git 이력만으로도 복원은 되지만, 판정 ADR(029·030)과 v1.2.1을 대조할 때 **옛 라벨을 파일로 바로 읽을 수 있어야** 한다.
+- **manifest 규칙은 그대로다.** 옛 manifest는 `data/corpus/`에 남았고, 어휘 대조는 두 manifest로 돈다(이번에는 어휘 변화 0).
+- Review Trigger "export 5회 초과 시 JSONL 보관 정책"은 `data/corpus-archive/`도 센다. 지금 1개.
+- Implementation의 "2단계 export 도착 시" 항목은 이번 교체로 절차가 한 번 실행됐으므로 체크한다(대상은 2단계가 아니라 재추출 export).
+
 ---
 
 ## Context
@@ -93,7 +105,7 @@ Session 1(baseline 재측정), Session 2(크로스링구얼), Session 3(`release
 - [x] `data/corpus/news/ontology-20260917-120733.jsonl` (20줄)
 - [x] `data/corpus/ontology-20260917-120733.manifest.json`
 - [x] `discover_manifests()` — JSONL 없는 manifest도 읽어 어휘 이력을 보존
-- [ ] 2단계 export 도착 시: 위 JSONL 2개 교체, manifest는 추가(삭제 금지)
+- [x] 2단계 export 도착 시: 위 JSONL 2개 교체, manifest는 추가(삭제 금지) — session-27에 재추출 export(`ontology-20261002-114500`)로 실행. 옛 JSONL은 `data/corpus-archive/`로 이동(Amendment)
 
 ## Reversibility
 
