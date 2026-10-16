@@ -1,0 +1,763 @@
+{
+  "preregistration": "9454c23",
+  "analysis_file": "v1.2.1-analysis-strict-relabel.json",
+  "auditor": "Claude (Claude Code, claude-opus-5-5) — 사람이 아니다. 라벨러(gemma)와 다른 모델이지만 역시 LLM이며, 사람 감사를 대신하지 않는다",
+  "classes": {
+    "A": {
+      "L-": {
+        "items": 0,
+        "cases": []
+      },
+      "S": {
+        "items": 0,
+        "cases": []
+      },
+      "U": {
+        "items": 0,
+        "cases": []
+      },
+      "L+": {
+        "items": 0,
+        "cases": []
+      }
+    },
+    "B": {
+      "L-": {
+        "items": 0,
+        "cases": []
+      },
+      "S": {
+        "items": 0,
+        "cases": []
+      },
+      "U": {
+        "items": 0,
+        "cases": []
+      },
+      "L+": {
+        "items": 0,
+        "cases": []
+      }
+    }
+  },
+  "harm_items": {
+    "A": 0,
+    "B": 0
+  },
+  "conclusion": {
+    "A": "해악 항목 0 — L+ 0항목만 적는다",
+    "B": "해악 항목 0 — L+ 0항목만 적는다"
+  },
+  "compatibility_first_pass": {
+    "A": {
+      "new": {
+        "k": 45,
+        "n": 45
+      },
+      "old_labels": {
+        "k": 45,
+        "n": 45
+      }
+    },
+    "B": {
+      "new": {
+        "k": 32,
+        "n": 32
+      },
+      "old_labels": {
+        "k": 0,
+        "n": 0
+      }
+    }
+  },
+  "detail": [],
+  "case_comparison": [
+    {
+      "case_id": "GS-001",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Eval/Governance"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Eval/Governance",
+        "Agent",
+        "Eval/Governance"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Eval/Governance",
+        "Agent",
+        "Eval/Governance"
+      ]
+    },
+    {
+      "case_id": "GS-002",
+      "stratum": "B",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": false,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ]
+    },
+    {
+      "case_id": "GS-003",
+      "stratum": "B",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": false,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ]
+    },
+    {
+      "case_id": "GS-004",
+      "stratum": "B",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": false,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Safety/Alignment",
+        "Agent",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Safety/Alignment",
+        "Agent",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Safety/Alignment",
+        "Agent",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ]
+    },
+    {
+      "case_id": "GS-005",
+      "stratum": "B",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": false,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ]
+    },
+    {
+      "case_id": "GS-006",
+      "stratum": "B",
+      "v1.2.1": false,
+      "v1.2-t3-tool-on": false,
+      "v1.2-n1-null-pass": false,
+      "values_v1.2.1": [
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance"
+      ]
+    },
+    {
+      "case_id": "GS-007",
+      "stratum": "B",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": false,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ]
+    },
+    {
+      "case_id": "GS-008",
+      "stratum": "C",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        null,
+        "Eval/Governance",
+        null,
+        null
+      ],
+      "values_v1.2-t3-tool-on": [
+        null,
+        "Eval/Governance",
+        null,
+        null
+      ],
+      "values_v1.2-n1-null-pass": [
+        null,
+        "Eval/Governance",
+        null,
+        null
+      ]
+    },
+    {
+      "case_id": "GS-009",
+      "stratum": "C",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ]
+    },
+    {
+      "case_id": "GS-010",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": false,
+      "values_v1.2.1": [
+        "Reasoning",
+        "Reasoning",
+        "Reasoning"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Reasoning",
+        "Reasoning",
+        "Reasoning"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Reasoning",
+        "Reasoning",
+        "Reasoning"
+      ]
+    },
+    {
+      "case_id": "GS-011",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ]
+    },
+    {
+      "case_id": "GS-012",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "LLM",
+        "LLM",
+        "LLM"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "LLM",
+        "LLM",
+        "LLM"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "LLM",
+        "LLM",
+        "LLM"
+      ]
+    },
+    {
+      "case_id": "GS-013",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Multimodal",
+        "Eval/Governance",
+        "Multimodal"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Multimodal",
+        "Eval/Governance",
+        "Multimodal"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Multimodal",
+        "Eval/Governance",
+        "Multimodal"
+      ]
+    },
+    {
+      "case_id": "GS-014",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Hardware/Chip",
+        "Hardware/Chip",
+        "Hardware/Chip"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Hardware/Chip",
+        "Hardware/Chip",
+        "Hardware/Chip"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Hardware/Chip",
+        "Hardware/Chip",
+        "Hardware/Chip"
+      ]
+    },
+    {
+      "case_id": "GS-015",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance"
+      ]
+    },
+    {
+      "case_id": "GS-016",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Agent",
+        "Agent",
+        "Agent"
+      ]
+    },
+    {
+      "case_id": "GS-017",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ]
+    },
+    {
+      "case_id": "GS-018",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Eval/Governance",
+        "Eval/Governance",
+        "Eval/Governance"
+      ]
+    },
+    {
+      "case_id": "GS-019",
+      "stratum": "B",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": false,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ]
+    },
+    {
+      "case_id": "GS-020",
+      "stratum": "B",
+      "v1.2.1": false,
+      "v1.2-t3-tool-on": false,
+      "v1.2-n1-null-pass": false,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ]
+    },
+    {
+      "case_id": "GS-021",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Multimodal",
+        "Multimodal",
+        "Multimodal"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Multimodal",
+        "Multimodal",
+        "Multimodal"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Multimodal",
+        "Multimodal",
+        "Multimodal"
+      ]
+    },
+    {
+      "case_id": "GS-022",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ]
+    },
+    {
+      "case_id": "GS-023",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Safety/Alignment",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ]
+    },
+    {
+      "case_id": "GS-024",
+      "stratum": "A",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ]
+    },
+    {
+      "case_id": "GS-025",
+      "stratum": "B",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": false,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Safety/Alignment",
+        "Agent",
+        "Eval/Governance"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Safety/Alignment",
+        "Agent",
+        "Eval/Governance"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Safety/Alignment",
+        "Agent",
+        "Eval/Governance"
+      ]
+    },
+    {
+      "case_id": "GS-026",
+      "stratum": "C",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Training/Finetuning",
+        "Training/Finetuning",
+        "Eval/Governance"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Training/Finetuning",
+        "Training/Finetuning",
+        "Eval/Governance"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Training/Finetuning",
+        "Training/Finetuning",
+        "Eval/Governance"
+      ]
+    },
+    {
+      "case_id": "GS-027",
+      "stratum": "C",
+      "v1.2.1": false,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": false,
+      "values_v1.2.1": [
+        "Agent",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Safety/Alignment",
+        "Safety/Alignment"
+      ]
+    },
+    {
+      "case_id": "GS-028",
+      "stratum": "C",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Inference/Serving",
+        "Inference/Serving",
+        "Inference/Serving"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Inference/Serving",
+        "Inference/Serving",
+        "Inference/Serving"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Inference/Serving",
+        "Inference/Serving",
+        "Inference/Serving"
+      ]
+    },
+    {
+      "case_id": "GS-029",
+      "stratum": "C",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Eval/Governance",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Eval/Governance",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Eval/Governance",
+        "Agent"
+      ]
+    },
+    {
+      "case_id": "GS-030",
+      "stratum": "C",
+      "v1.2.1": true,
+      "v1.2-t3-tool-on": true,
+      "v1.2-n1-null-pass": true,
+      "values_v1.2.1": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-t3-tool-on": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ],
+      "values_v1.2-n1-null-pass": [
+        "Agent",
+        "Agent",
+        "Agent"
+      ]
+    }
+  ]
+}
