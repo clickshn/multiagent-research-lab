@@ -1,0 +1,288 @@
+{
+  "title": "v1.2.1 층 A 오라클 — 새 라벨(export ontology-20261002-114500)로 다시 계산",
+  "rule": "v1.2.1 오라클 — T1 프로브(_resolve_filter_value)와 같은 규칙, 입력만 새 라벨로.\n\nfilter_axis에 tech_domains=X가 있으면 X(질의 쪽 선언, 라벨과 무관). 없으면 앵커의 **새 라벨** 중\n코퍼스(37건) 빈도가 가장 낮은 값, 동률이면 라벨 순서가 앞선 것. 앵커가 여럿이면 첫 앵커.",
+  "corpus_domain_counts": {
+    "Agent": 19,
+    "Application/Product": 12,
+    "Data/Synthetic": 1,
+    "Embodied/Robotics": 1,
+    "Eval/Governance": 18,
+    "Hardware/Chip": 1,
+    "Inference/Serving": 3,
+    "LLM": 13,
+    "Multimodal": 2,
+    "Reasoning": 5,
+    "Safety/Alignment": 7,
+    "Training/Finetuning": 4
+  },
+  "summary": {
+    "n": 14,
+    "changed_from_v12": [
+      "GS-001",
+      "GS-016",
+      "GS-018"
+    ],
+    "oracle_not_in_anchor_labels": [
+      "GS-012"
+    ]
+  },
+  "cases": [
+    {
+      "id": "GS-001",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2412.05449v1"
+      ],
+      "filter": {
+        "value": "LLM",
+        "value_source": "most-selective-of new export tech_domains (v1.2.1)"
+      },
+      "anchor_tech_domains_v121": [
+        "Agent",
+        "LLM",
+        "Eval/Governance"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Agent",
+      "changed_from_v12": true
+    },
+    {
+      "id": "GS-010",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19113v1"
+      ],
+      "filter": {
+        "value": "Reasoning",
+        "value_source": "targets_ontology.filter_axis"
+      },
+      "anchor_tech_domains_v121": [
+        "LLM",
+        "Reasoning",
+        "Eval/Governance"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Reasoning",
+      "changed_from_v12": false
+    },
+    {
+      "id": "GS-011",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19101v1"
+      ],
+      "filter": {
+        "value": "Safety/Alignment",
+        "value_source": "targets_ontology.filter_axis"
+      },
+      "anchor_tech_domains_v121": [
+        "Eval/Governance",
+        "Safety/Alignment",
+        "Inference/Serving"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Safety/Alignment",
+      "changed_from_v12": false
+    },
+    {
+      "id": "GS-012",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19145v1"
+      ],
+      "filter": {
+        "value": "Training/Finetuning",
+        "value_source": "targets_ontology.filter_axis"
+      },
+      "anchor_tech_domains_v121": [
+        "LLM",
+        "Data/Synthetic"
+      ],
+      "oracle_in_anchor_labels": false,
+      "oracle_v12": "Training/Finetuning",
+      "changed_from_v12": false
+    },
+    {
+      "id": "GS-013",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19088v1"
+      ],
+      "filter": {
+        "value": "Multimodal",
+        "value_source": "targets_ontology.filter_axis"
+      },
+      "anchor_tech_domains_v121": [
+        "Eval/Governance",
+        "Multimodal"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Multimodal",
+      "changed_from_v12": false
+    },
+    {
+      "id": "GS-014",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "news:42f467857601213c"
+      ],
+      "filter": {
+        "value": "Inference/Serving",
+        "value_source": "targets_ontology.filter_axis"
+      },
+      "anchor_tech_domains_v121": [
+        "Hardware/Chip",
+        "Inference/Serving"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Inference/Serving",
+      "changed_from_v12": false
+    },
+    {
+      "id": "GS-015",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2605.21404v1"
+      ],
+      "filter": {
+        "value": "Eval/Governance",
+        "value_source": "targets_ontology.filter_axis"
+      },
+      "anchor_tech_domains_v121": [
+        "Eval/Governance",
+        "Agent"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Eval/Governance",
+      "changed_from_v12": false
+    },
+    {
+      "id": "GS-016",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19134v1"
+      ],
+      "filter": {
+        "value": "Training/Finetuning",
+        "value_source": "most-selective-of new export tech_domains (v1.2.1)"
+      },
+      "anchor_tech_domains_v121": [
+        "Agent",
+        "Training/Finetuning",
+        "Reasoning"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Infra/MLOps",
+      "changed_from_v12": true
+    },
+    {
+      "id": "GS-017",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19144v1"
+      ],
+      "filter": {
+        "value": "Training/Finetuning",
+        "value_source": "most-selective-of new export tech_domains (v1.2.1)"
+      },
+      "anchor_tech_domains_v121": [
+        "Safety/Alignment",
+        "Training/Finetuning",
+        "LLM"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Training/Finetuning",
+      "changed_from_v12": false
+    },
+    {
+      "id": "GS-018",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19093v1"
+      ],
+      "filter": {
+        "value": "Application/Product",
+        "value_source": "most-selective-of new export tech_domains (v1.2.1)"
+      },
+      "anchor_tech_domains_v121": [
+        "Eval/Governance",
+        "Application/Product"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Data/Synthetic",
+      "changed_from_v12": true
+    },
+    {
+      "id": "GS-021",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "arXiv:2609.19143v1"
+      ],
+      "filter": {
+        "value": "Multimodal",
+        "value_source": "most-selective-of new export tech_domains (v1.2.1)"
+      },
+      "anchor_tech_domains_v121": [
+        "Multimodal",
+        "Eval/Governance"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Multimodal",
+      "changed_from_v12": false
+    },
+    {
+      "id": "GS-022",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "news:3dd7208e3f2a1dde"
+      ],
+      "filter": {
+        "value": "Reasoning",
+        "value_source": "most-selective-of new export tech_domains (v1.2.1)"
+      },
+      "anchor_tech_domains_v121": [
+        "Agent",
+        "Reasoning"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Reasoning",
+      "changed_from_v12": false
+    },
+    {
+      "id": "GS-023",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "news:f3899afd4d6a0a2d"
+      ],
+      "filter": {
+        "value": "Safety/Alignment",
+        "value_source": "most-selective-of new export tech_domains (v1.2.1)"
+      },
+      "anchor_tech_domains_v121": [
+        "Safety/Alignment",
+        "Eval/Governance"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Safety/Alignment",
+      "changed_from_v12": false
+    },
+    {
+      "id": "GS-024",
+      "stratum": "A",
+      "expected_doc_ids": [
+        "news:14d2c76967ca2b60"
+      ],
+      "filter": {
+        "value": "Application/Product",
+        "value_source": "most-selective-of new export tech_domains (v1.2.1)"
+      },
+      "anchor_tech_domains_v121": [
+        "Agent",
+        "Application/Product"
+      ],
+      "oracle_in_anchor_labels": true,
+      "oracle_v12": "Application/Product",
+      "changed_from_v12": false
+    }
+  ]
+}
