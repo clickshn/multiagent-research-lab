@@ -88,7 +88,7 @@ data/corpus/<export_id>.manifest.json       # 실행 단위 메타 + 어휘 스�
 | `text_chars` | int | O | 생산자 | `len(text)`. 임계값을 **측정으로** 정하기 위한 필드 (§6) |
 | `text_truncated` | bool | O | 생산자 | 피드가 말줄임으로 잘라 보냈거나 **계약 상한 4,000자**에 걸린 경우 true (§6.1) |
 | `locator` | string | O | 생산자 | `"abstract"`(arXiv) \| `"feed_excerpt"`(그 외). MARA의 인용 표기 `[doc_id / locator]`에 그대로 실린다 |
-| `published_at` | date\|null | O | 생산자 | ISO `YYYY-MM-DD`. 피드에 없으면 `null` — **누락은 빈 문자열이 아니라 null이다** |
+| `published_at` | date\|null | O | 생산자 | ISO `YYYY-MM-DD`, **UTC 기준 날짜**(생산자 수집기가 전 소스를 UTC 날짜로 통일한다 — 생산자 ADR-023). 시각·시간대는 싣지 않는다. 피드에 없으면 `null` — **누락은 빈 문자열이 아니라 null이다** |
 | `collected_at` | date | O | 생산자 | ISO `YYYY-MM-DD` |
 | `ontology` | object | O | 생산자 | §3.2 |
 | `provenance` | object | O | 생산자 | §3.3 |
@@ -124,25 +124,37 @@ frontmatter용이므로 계약에는 싣지 않는다 — 기계가 읽는 쪽�
 
 ### 3.3 `provenance` — **선택 필드가 아니다**
 
-온톨로지 5필드는 외부 벤더 모델(`claude-opus-5`)과 특정 프롬프트 버전의 **출력**이다.
+온톨로지 5필드는 특정 추출 모델과 특정 프롬프트 버전의 **출력**이다(2026-09-17 export는
+외부 벤더 모델 `claude-opus-5`, 2026-10-02 export부터는 `gemma-4-31B-it` — 생산자 ADR-026).
 이 값들이 없으면 코퍼스가 "언제 어느 모델로 만들어졌는지 모르는 것"이 되고,
 **하네스 효과를 재려는 이 프로젝트의 전제(ADR-002 모델 고정)가 코퍼스 쪽에서
 조용히 깨진다.** 그래서 누락은 경고가 아니라 실패다.
 
 | 필드 | 타입 | 예시 |
 |---|---|---|
-| `extraction_model` | string | `"claude-opus-5"` |
+| `extraction_model` | string | `"gemma-4-31B-it"` |
 | `prompt_version` | string | `"extract_ontology.v4.md"` |
-| `prompt_sha256` | string | `"9ff5a9d39156b3d35a7b3ffa805261c78dfa262f390d051419cfaaa1711c5976"` |
-| `extracted_at` | datetime | `"2026-09-17T14:03:11+09:00"` |
+| `prompt_sha256` | string | `"25b17f445bec91a2fa4336b20dbac214b09c87fcb1c8493c17fcdd5b65e57bc8"` — 정의는 아래 |
+| `extracted_at` | datetime | `"2026-10-02T11:33:39+09:00"` |
 | `gate_model` | string\|null | `"claude-haiku-4-5-20251001"`. 게이트를 거치지 않았으면 null |
 | `gate_prompt_version` | string\|null | `"relevance_gate.v1.md"` |
 | `vocab_version` | string | `config.yaml: version` + `schema.py`의 Enum 해시 (§5) |
 
+**`prompt_sha256`의 정의 — 줄바꿈을 LF로 정규화한 프롬프트 파일 바이트의 sha256** (64자, 생산자 ADR-027).
+입력은 `파일 바이트.replace(b"\r\n", b"\n")`이고, 이 값은 git에 커밋된 내용의 해시와 같아 어느 클론에서도 재현된다.
+"디스크 파일의 원시 바이트"가 아니다 — 원시 바이트는 체크아웃 줄바꿈 설정에 따라 같은 프롬프트에서 다른 값을 낸다.
+
+- **2026-09-17 export(`ontology-20260917-120733`)의 값은 옛 정의(CRLF 원시 바이트)로 찍혔다.** 같은 v4 프롬프트가 두 해시로 보인다.
+  대응: `extract_ontology.v4.md` 옛 `9ff5a9d3…` ↔ 새 `25b17f44…`, `relevance_gate.v1.md` 옛 `d9b80e55…` ↔ 새 `18890c1a…`
+  (전체 대응표는 생산자 ADR-027). 2026-10-02 export부터는 37건 전부 새 정의다 — 한 코퍼스 안에 두 정의가 섞이지 않는다.
+- MARA 로더는 이 값을 재계산하지 않는다(프롬프트 파일이 이 레포에 없다). 대조는 생산자 자체검사(§12.2-3)의 몫이다.
+
 ### 3.4 `lang`은 판정값이 아니다
 
-`lang`은 `config.yaml`의 소스별 태그에서 온 **선언값**이다 (GeekNews는 `ko`, 나머지는
-`en`). 항목 단위 언어 판정을 하지 않는 이유는 "하면 좋은데 안 한 것"이 아니라, 판정기를
+`lang`은 `config.yaml`의 소스별 태그에서 온 **선언값**이다. 한국어 소스(현재 AI타임스, 2026-09-29 수집 중단 전에는
+GeekNews)는 `ko`, 나머지(arXiv·OpenAI News 등)는 `en`이다. 소스가 바뀌면 이 목록은 생산자 `config.yaml`을 따르고,
+계약은 "소스 선언값"이라는 성격만 정한다. MARA 코퍼스에 들어 있는 `ko` 레코드는 지금 GeekNews 10건뿐이다(2026-10-02 export).
+항목 단위 언어 판정을 하지 않는 이유는 "하면 좋은데 안 한 것"이 아니라, 판정기를
 넣는 순간 **그 판정기가 크로스링구얼 실험의 숨은 변수**가 되기 때문이다.
 
 한국어 소스에 섞인 항목(한글 제목 + 영어 본문 등)이 `ko`로 선언되는 오차가 남는다.
@@ -363,8 +375,19 @@ MARA는 major가 다르면 거부하고, minor가 높으면 **모르는 필드�
   경로가 없다.
 - **`MIN_TEXT_CHARS`의 값.** 측정 대상이다 (§6).
 - **값 분포.** 미측정이다 (§8).
+- **`companies[].role`의 "역할 없음" 표기.** §3.2는 `string|null`만 정하고, "누락은 빈 문자열이 아니라 null" 규칙은
+  `published_at`(§3.1)에만 있다. 2026-10-02 export에서는 기업 29개 중 **11개가 `role: ""`**(4건), `null` 0개다.
+  옛 export(Opus)는 `null` 2 · 문자열 14 · `""` 0이었다. 같은 "역할 없음"이 코퍼스 안에서 두 표기로 갈린다.
+  **한계로 기록만 한다** — MARA 로더는 `role`을 읽지 않고(기업은 `canonical`/`raw`만), 소비 등급도 "배선 보류"다(§3.2).
+  배선하게 되면 그 전에 이 표기를 정한다(`""`→`null`로 통일하면 형식 변경이라 계약을 먼저 고친다).
+- **`companies`에 기업이 아닌 값.** 2026-10-02 export에 모델·제품명(GPT-4, Claude 3.5 Sonnet, Google Bard 등)과
+  `ai-safety-institute` 같은 식별자가 들어 있다(생산자 session-20 §6.2). 열린 어휘(§3.2)라 계약 위반은 아니다.
+  **한계로 기록만 한다** — 위와 같은 이유로 MARA 동작에는 영향이 없다. 기업 필터를 배선하려면 먼저 해결해야 한다.
 
 ## 11. 예시
+
+> 아래 예시는 2026-09-17 export(`claude-opus-5`, `prompt_sha256` **옛 정의**)의 형태를 보존한 것이다. 형식은 지금도 같고,
+> 2026-10-02 export부터 `extraction_model`·`prompt_sha256` 값만 §3.3처럼 바뀌었다.
 
 ### 11.1 arXiv (`data/corpus/arxiv/ontology-20260917-140311.jsonl`)
 
@@ -464,3 +487,4 @@ LLM을 다시 부르게 된다.
 | 2026-09-17 | 1.0 (버전 유지) | §4.3에 ADR-018 Amendment 참조 추가 — 동기 문장만 정정, 규칙 서술·형식 변경 없음 (§9의 "문구·설명 수정") |
 | 2026-09-17 | 1.0 (버전 유지) | session-10: §2 manifest 위치 정정(생산자 실제 출력에 맞춤, 로더는 두 위치 모두 탐색) + manifest 보존 규칙 명시. 형식·필드·`doc_id` 규칙 변경 없음 (§9의 "문구·설명 수정") |
 | 2026-09-17 | — | session-10: §12.2 판정을 **MARA 로더로** 다시 내렸다 — **12 PASS / 0 FAIL / 1 PENDING**(3번 `prompt_sha256` 실측은 생산자 레포에서만 가능). 계약 문서 자체는 바뀌지 않았다 |
+| 2026-10-16 | **1.0 (버전 유지)** | session-27(v1.2.1 반입): §3.1 `published_at` = UTC 날짜 명시(S3) · §3.4 `lang` 선언 서술을 소스 일반으로(S4) · §3.3 `prompt_sha256` 정의 = **LF 정규화**(생산자 ADR-027, 옛 값 대응) · §3.3 추출 모델 서술·예시 갱신 · §10에 `role` `""`/`null` 갈림과 기업 칸의 비기업 값을 한계로 추가 · §11 예시가 옛 정의임을 표시. **버전 판단(§9):** 필드·타입·필수 여부·`doc_id` 규칙·어휘·`text` 상한이 바뀌지 않았으므로 major·minor 어느 행에도 해당하지 않는다 → "문구·설명 수정" = **1.0 유지**. 단 `prompt_sha256`은 **값의 정의**가 바뀐 것이고 §9 표에는 이 경우의 행이 없다(`text_origin` 의미 변경만 major로 적혀 있다). MARA 로더가 이 값을 재계산하지 않고 형식(64자 hex)도 같아 1.0 유지로 판단했다. 같은 정의 변경이 MARA가 재계산하는 필드에서 일어나면 그때는 major로 다뤄야 한다 |
