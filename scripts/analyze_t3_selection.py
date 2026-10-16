@@ -20,6 +20,9 @@ span에서 실제 검색어(`search_text`)를 꺼내 **무필터로 재생**하�
     python scripts/analyze_t3_selection.py --positive-control \\
         --baseline docs/eval/bench-v1.2-p1-on.json --out <결과 JSON>
 
+`--oracle <파일>` (v1.2.1): 층 A 오라클 값을 읽을 파일(`cases[].filter.value` 형식). 기본은 v1.2 T1 프로브 — 지금까지와 같다.
+v1.2.1은 새 라벨로 다시 계산한 `docs/eval/v1.2.1-oracle.json`을 쓴다(사전 등록 `9454c23` §4). 정확 일치(D6, 기록만)에만 들어간다.
+
 `--filter-policy {strict,null-pass}` (v1.2-N1): 필터 항목의 **재생 무결성 대조**에 쓸 정책이다. 기본 strict(T3a).
 대상 회차에 기록된 `filter_policy`(없으면 strict)와 다르면 측정 무효다. **지표 정의와 임계값은 정책과 무관하게
 같다** — 해악·이득은 여전히 "무필터 재생 top-k 대 기록된 후보"다. `--preregistration`은 출력에 적을 사전 등록 해시다.
@@ -664,6 +667,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, default=None)
     parser.add_argument("--filter-policy", choices=("strict", "null-pass"), default="strict",
                         help="필터 재생 무결성 대조에 쓸 정책 (v1.2-N1). 지표 정의는 바뀌지 않는다")
+    parser.add_argument("--oracle", type=Path, default=ORACLE_FILE,
+                        help="층 A 오라클 파일 (기본 v1.2 T1 프로브, v1.2.1은 docs/eval/v1.2.1-oracle.json)")
     parser.add_argument("--preregistration", default=PREREGISTRATION,
                         help=f"출력에 적을 사전 등록 커밋 (기본 {PREREGISTRATION} = T3a)")
     args = parser.parse_args(argv)
@@ -678,7 +683,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     retriever = ChromaRetriever()
     searcher = make_searcher(retriever, filter_policy)
     doc_domains = load_doc_domains(retriever)
-    oracle = load_oracle()
+    oracle = load_oracle(args.oracle)
     baseline = json.loads(args.baseline.read_text(encoding="utf-8"))
     started = time.perf_counter()
 
@@ -698,6 +703,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         return EXIT_UNCHECKABLE
 
     report["run_file"] = args.run.name if args.run else None
+    report["oracle_file"] = args.oracle.name
     report["baseline_file"] = args.baseline.name
     report["elapsed_s"] = round(time.perf_counter() - started, 1)
     exit_code = EXIT_OK

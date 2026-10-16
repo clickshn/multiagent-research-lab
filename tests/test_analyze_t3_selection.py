@@ -188,3 +188,14 @@ def test_cache_on_invalidates(tmp_path):
     report = t3.evaluate(run, _bench(rows, "base"), trace_dir=tmp_path, searcher=searcher,
                          doc_domains=DOC_DOMAINS, oracle={})
     assert report["judgment"]["verdict"] == "측정 무효"
+
+
+def test_v121_oracle_file_loads_and_differs_only_where_preregistered():
+    """v1.2.1 사전 등록 §4 — 같은 형식으로 읽히고, v1.2 대비 바뀐 값은 GS-001·016·018뿐이다."""
+    old = t3.load_oracle()
+    new = t3.load_oracle(REPO_ROOT / "docs/eval/v1.2.1-oracle.json")
+    assert set(new) == set(old) and len(new) == 14
+    changed = {case for case in new if new[case] != old[case]}
+    assert changed == {"GS-001", "GS-016", "GS-018"}
+    assert (new["GS-001"], new["GS-016"], new["GS-018"]) == (
+        "LLM", "Training/Finetuning", "Application/Product")
