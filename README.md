@@ -1,6 +1,6 @@
 # multiagent-research-lab
 
-> **상태: 종료 (2026-10-19)** — 개발·운영 모두 종료. 근거와 다시 열 조건은 [ADR-032](docs/adr/ADR-032-project-closed.md).
+> **상태: 종료 (2026-10-19)** — 개발·운영 종료. 단, 면접 데모용 AWS 스택은 유지 중(철거 조건: [ADR-032](docs/adr/ADR-032-project-closed.md))
 
 외부 LLM 벤더에 의존하지 않는 멀티에이전트 리서치 시스템의 **아키텍처 실습**.
 오케스트레이터가 Outliner / Researcher / Verifier / Writer를 조율해 리서치 결과를
