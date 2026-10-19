@@ -4,6 +4,7 @@
 - **승인 메모:** 개발 종료는 session-27(2026-10-16)의 사용자 결정이다(`docs/handoff/session-27.md` §4, `bda6c4c`). 운영 종료와 이 ADR 작성은 2026-10-19 사용자 지시다
 - **Date:** 2026-10-19
 - **Decision:** multiagent-research-lab(MARA)의 **상태는 closed다.** 개발과 운영을 모두 끝낸다. 새 기능·새 측정·새 하네스 변수는 착수하지 않는다.
+  예외는 하나다. **ECS·EFS 스택은 면접 데모용으로 의도적으로 유지한다.** 이직 지원이 끝나거나 2026년 말 서빙이 만료되는 때 중 먼저 오는 때에 철거한다(아래 Selected).
   마지막 기준점은 태그 `v1.2.1`(`bda6c4c`)이다. 아래 "다시 열 조건" 중 하나가 성립하면 이 ADR에 Amendment를 붙이고 다시 연다.
 - **Scope:** multiagent-research-lab (레포 전체 · 프로젝트 상태)
 - **Decision Source:** Human
@@ -28,8 +29,8 @@ v1.0(session-08) · v1.1(session-16) · v1.2(session-25) · v1.2.1(session-27)�
 ### Constraints
 
 - **사용자가 종료를 결정한 동기는 기록에 없다.** 아래 Rationale에는 기록으로 확인되는 사정만 적었다. 결정 동기를 추정해서 채우지 않았다.
-- **이 ADR은 클라우드 리소스를 철거하지 않았다.** session-07에 ECS Fargate 스택을 배포했다(`fdab1bb`, 리소스 27개).
-  그 뒤로 레포와 핸드오프에 철거 기록이 없다. 철거는 상태 변경 명령이라 사전 승인과 `.claude/deploy-approved`가 필요하다(`docs/governance.md` 승인 게이트).
+- session-07에 ECS Fargate 스택을 배포했다(`fdab1bb`, 리소스 27개). 그 뒤로 레포와 핸드오프에 철거 기록이 없다. 이 ADR은 스택을 유지하기로 정한다(Selected).
+  철거는 상태 변경 명령이라 사전 승인과 `.claude/deploy-approved`가 필요하다(`docs/governance.md` 승인 게이트).
 - 수치는 전부 기존 README·ADR·핸드오프에 이미 적힌 값이다. 이 ADR을 쓰면서 새로 잰 것은 없다(LLM 호출 0건).
 - 공통 측정 조건: 모델 `gemma-4-31B-it`(`VLLM_BASE`, fp `1897f0ecc081`), temperature 0, 캐시 끔, 코퍼스 37건, 골든셋 v2.0 30건(층 A 14 · B 9 · C 7), 조건당 1회다. **층은 합산하지 않는다**(ADR-022).
 
@@ -44,6 +45,14 @@ v1.0(session-08) · v1.1(session-16) · v1.2(session-25) · v1.2.1(session-27)�
   - 이 ADR을 추가한다. README 맨 위에 상태 한 줄(`상태: 종료 (2026-10-19)`)을 넣는다.
   - 코드·골든셋·코퍼스·인덱스는 바꾸지 않는다.
   - push하지 않는다. push는 사용자가 한다.
+  - **클라우드 스택(ECS·EFS)은 면접 데모용으로 의도적으로 유지한다.**
+    - 비용은 유휴 약 $0.14/월이다(README §6.2, ADR-013 Amendment §3).
+    - EFS에는 공개·합성 데이터만 둔다(ADR-004). 이 전제가 깨지면 유지 근거도 사라진다.
+    - **철거 조건**: 이직 지원이 끝나거나 2026년 말 서빙이 만료되는 때, 둘 중 먼저 오는 때다.
+    - 철거는 승인 게이트를 거쳐 사람이 실행한다(`docs/governance.md`, `.claude/deploy-approved`). 절차는 `infra/terraform/README.md`를 따른다.
+      철거하면 EFS의 데이터도 함께 지워진다(ADR-015).
+    - **철거할 때 먼저 확인할 것**: 배포자 권한의 `apply`/`destroy` 경로는 검증되지 않았다. `plan`만 확인했다(ADR-017).
+      부족한 액션이 드러나면 루트 콘솔에서 고쳐야 한다. 남아 있는 관리형 정책(`AWSBudgetsActionsWithAWSResourceControlAccess`)도 그때 함께 정리한다(ADR-017).
 
 ## Rationale
 
@@ -77,7 +86,7 @@ v1.0(session-08) · v1.1(session-16) · v1.2(session-25) · v1.2.1(session-27)�
   - 결정 기록은 이 ADR 전까지 ADR **31건**과 Amendment **24건**이다 — README §8.1
 - **Cost:**
   - LLM: 무료 할당 자원이라 **0원**이다(ADR-003). v1.2.1 본측정은 논리 호출 410건이었다(ADR-031).
-  - 클라우드 유휴: 약 **$0.14/월**(README §6.2, ADR-013 Amendment §3). 철거하지 않으면 계속 든다(Risks).
+  - 클라우드 유휴: 약 **$0.14/월**(README §6.2, ADR-013 Amendment §3). 데모용으로 유지하는 동안 계속 든다(Selected).
   - 외부 LLM 벤더: Session 0.5a에서 전제 위반이 1회 있었다(관련성 게이트 49건 + 구조화 추출 30건). 그 뒤로는 0건이다 — ADR-021
 
 ## Alternatives
@@ -112,14 +121,10 @@ v1.0(session-08) · v1.1(session-16) · v1.2(session-25) · v1.2.1(session-27)�
   - 체크포인터 백엔드를 고르지 않았다. 그래서 중단·재개와 Outliner 승인 HITL은 하지 않았다(ADR-002).
   - 공급망: Python 의존성 해시를 고정하지 않았다. 엔드포인트의 모델 지문을 확인할 수단도 없다(README §5.10).
   - `src/orchestrator/citations.py` 독스트링의 층 B `미확인` 서술은 v1.2 기준 그대로다. 코드 동작은 맞다(session-27 §5).
+- **데모용으로 스택을 유지하는 동안 노출 지점도 남는다.** SSM Parameter Store에 무인증 엔드포인트 URL이 있다(README §5.10). CloudWatch Logs에는 질의 원문과 초안이 14일간 남는다(`docs/governance.md` (나)).
 
 ### Risks
 
-- **클라우드 리소스와 데이터가 남아 있을 수 있다.** 철거 기록이 없다(Constraints).
-  - EFS는 자동 만료가 없어 아무도 지우지 않으면 영구히 남는다(`docs/governance.md` "로컬 산출물 취급" (나)).
-  - CloudWatch Logs에는 질의 원문과 초안이 14일간 남는다.
-  - SSM Parameter Store에는 무인증 엔드포인트 URL이 있다(README §5.10).
-  - 철거 경로의 배포자 권한(`destroy`)은 검증하지 않았다. 관리형 정책 1개(`AWSBudgetsActionsWithAWSResourceControlAccess`)도 루트 콘솔에서 떼야 한다(ADR-017).
 - **로컬 산출물도 남아 있다.** `var/traces/`와 `var/llm_cache/`에는 프롬프트와 응답 본문이 평문으로 있다. 삭제 책임자는 정해지지 않았다(README §5.10). 지금 데이터는 공개 자료뿐이라 실질 위험은 낮다(ADR-004).
 - 무인증 엔드포인트를 사내 보안 정책이 허용하는지는 끝내 확인하지 못했다(README §5.10).
 - 2026년 말 할당이 끝나면 레포를 그대로 받아도 파이프라인이 돌지 않는다. `.env`의 `VLLM_BASE`를 바꿔야 한다(ADR-003).
@@ -128,8 +133,9 @@ v1.0(session-08) · v1.1(session-16) · v1.2(session-25) · v1.2.1(session-27)�
 
 - [x] 이 ADR 작성 (`docs/adr/ADR-032-project-closed.md`)
 - [x] README 맨 위에 상태 한 줄 추가
-- [ ] README §0의 ADR 건수와 §8.1 ADR 목록에 ADR-032 반영 — 이번 작업 범위 밖이라 하지 않았다
-- [ ] 클라우드 스택 철거 — 사전 승인이 필요하다. `infra/terraform/README.md`의 삭제 절차를 따른다
+- [x] README §0의 ADR 건수와 §8.1 ADR 목록에 ADR-032 반영
+- [ ] 클라우드 스택 철거 — 이직 지원 종료와 2026년 말 서빙 만료 중 먼저 오는 때에 한다. 승인 게이트를 거쳐 사람이 실행한다
+- [ ] 철거 전 확인 — 배포자 권한의 `apply`/`destroy` 경로(ADR-017, 미검증)
 - [ ] 로컬 `var/traces/` · `var/llm_cache/` 정리 — 사용자 판단
 - [ ] push — 사용자가 한다
 

@@ -1,5 +1,7 @@
 # multiagent-research-lab
 
+> **상태: 종료 (2026-10-19)** — 개발·운영 모두 종료. 근거와 다시 열 조건은 [ADR-032](docs/adr/ADR-032-project-closed.md).
+
 외부 LLM 벤더에 의존하지 않는 멀티에이전트 리서치 시스템의 **아키텍처 실습**.
 오케스트레이터가 Outliner / Researcher / Verifier / Writer를 조율해 리서치 결과를
 **출처와 함께** 생성하고, 근거를 찾지 못한 항목은 문장을 만들지 않고 "근거 없음"으로 남긴다.
@@ -79,7 +81,7 @@
 | **보안** | 인젝션 10건 방어 전/후 실측 — 구조적 성립 **4 → 0**, 모델 의존 **1 → 0** | [§7](#7-보안--운영) |
 | **테스트** | **346건** — 호스트에서 통과 (컨테이너 재실행은 201건 시점) | `python -m pytest tests/ -q -rf` |
 | **배포** | ECS Fargate 온디맨드, **27/27**, drift 0, 유휴 **~$0.14/월**, EFS 영속화·배포자 최소 권한 실측 확인 | [§6.2](#62-배포-아키텍처) |
-| **결정 기록** | **ADR 31건** (+ Amendment 24건) — [adr-skill](https://github.com/clickshn/adr-skill)로 작성 | [§8.1](#81-adr-목록) |
+| **결정 기록** | **ADR 32건** (+ Amendment 24건) — [adr-skill](https://github.com/clickshn/adr-skill)로 작성 | [§8.1](#81-adr-목록) |
 | **하네스** | `CLAUDE.md` / `docs/governance.md` / `.claude/rules/` / SessionStart 훅 | [§9](#9-하네스--컨텍스트-엔지니어링) |
 
 **측정값은 전부 실측이고 표본 수를 함께 적는다. 안 해본 것은 안 했다고 적는다** —
@@ -1444,7 +1446,7 @@ JSON으로** 쌓인다 (ADR-008). `var/`는 `.gitignore` 대상이라 커밋되�
 | `docs/problem-statement.md` | 문제·제약·목표·성공 기준 |
 | `docs/architecture.md` | 개념도, 구성 요소, 그래프 배선 |
 | `docs/governance.md` | 승인 게이트·ADR·시크릿 취급·측정 방법론 규칙 (에이전트 세션에 자동 로드) |
-| `docs/adr/` | 아키텍처 결정 기록 **ADR-001 ~ ADR-031** (아래 §8.1) |
+| `docs/adr/` | 아키텍처 결정 기록 **ADR-001 ~ ADR-032** (아래 §8.1) |
 | `docs/plans/v1.2-preregistration.md` · `v1.2-n1-preregistration.md` | **v1.2 판정 기준 사전 등록** — 측정 전에 커밋한 정의·임계값(D1~D7) |
 | `docs/contracts/ai-news-ontology-export-v1.md` | **온톨로지 코퍼스 출력 계약 v1** — 생산자 레포와의 인터페이스 (ADR-018) |
 | `docs/security/owasp-notes.md` | **OWASP LLM Top 10 정리 + 인프라 수준 리스크** |
@@ -1505,10 +1507,11 @@ JSON으로** 쌓인다 (ADR-008). `var/`는 `.gitignore` 대상이라 커밋되�
 | [029](docs/adr/ADR-029-t3-tech-domain-selection-verdict-harm.md) | **T3a 판정 해악(D4)** — 층 B 5/9 → 0/9(n=9). 도구 기본 off, **필터는 사용자가 명시할 때만** · *Amendment(D4 원인 확인)* | Accepted | 23 |
 | [030](docs/adr/ADR-030-n1-null-pass-filter-policy-verdict-harm.md) | **N1 판정 해악(D5)** — null-통과에서 층 C 7/7 → 6/7(n=7). 도구 기본 off · 필터 기본 strict · *Amendment(Review Trigger 발동, D5 원인 진술 정정)* | Accepted | 24 |
 | [031](docs/adr/ADR-031-v121-strict-relabel-verdict-harm.md) | **v1.2.1 판정 해악(D5)** — 메타 37건 전부 채운 strict에서 층 B 7/9 회복, 층 C 7/7 → 6/7(n=7, GS-027 재현). 도구 기본 off 유지 | Accepted | 27 |
+| [032](docs/adr/ADR-032-project-closed.md) | **프로젝트 종료** — 개발·운영 종료. ECS·EFS 스택은 면접 데모용으로 유지(이직 지원 종료와 2026년 말 서빙 만료 중 먼저 오는 때 철거). 달성 수치·남은 문제·다시 열 조건 | Accepted | 28 |
 
 ADR 작성은 별도 스킬로 분리해 두었다 — **[clickshn/adr-skill](https://github.com/clickshn/adr-skill)**.
 결정 발화(`"~쓰기로 했다"`)나 의존성 파일 변경에 반응해 템플릿을 채우고, **대화에 없는
-근거는 추측해서 채우지 않는다.** 이 레포의 ADR 31건(+ Amendment 24건)이 그 스킬의 산출물이자
+근거는 추측해서 채우지 않는다.** 이 레포의 ADR 32건(+ Amendment 24건)이 그 스킬의 산출물이자
 실사용 사례다.
 
 > **Amendment가 20건이라는 사실 자체가 기록이다.** ADR-005 하나에만 5건이 붙어 있는데,
